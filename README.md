@@ -1,4 +1,5 @@
-# Pluralsight MEAN app tutorial
+# Dilemme website
 
-Pluralsight tutorial to create a MEAN (Mongo, Express, Angular, Node) stack based application.
-This app also use Jade, Stylus, Bootstrap css and more.
+My future website, "Dilemme", French website based on [either.io](http://either.io) concept.
+
+Work in progress.
