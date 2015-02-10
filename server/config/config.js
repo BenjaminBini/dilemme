@@ -5,11 +5,11 @@ module.exports = {
     development: {
         db: 'mongodb://localhost/dilemme',
         rootPath: rootPath,
-        port: 3030
+        port: 3131
     },
     production: {
         db: 'mongodb://localhost/dilemme',
         rootPath: rootPath,
-        port: 3030
+        port: 3131
     }
 };
