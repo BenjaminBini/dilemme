@@ -1,0 +1,15 @@
+doctype
+html
+	head
+		title Dilemme
+		base(href="/")
+		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
+		link(rel="stylesheet", href="/vendor/bootstrap/dist/css/bootstrap.min.css")
+		link(rel="stylesheet", href="/vendor/flat-ui/dist/css/flat-ui.min.css")
+		link(rel="stylesheet", href="/vendor/angular-ui-select/dist/select.css")
+		link(rel="stylesheet", href="/vendor/toastr/toastr.css")
+		link(rel="stylesheet", href="/css/site.css")
+	body(ng-app="app")
+		include current-user
+		block main-content
+		include scripts

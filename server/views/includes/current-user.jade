@@ -1,0 +1,4 @@
+// Set a global variable containing the current user if a user is connected
+if !!bootstrappedUser
+	script.
+		window.bootstrappedUserObject = !{JSON.stringify(bootstrappedUser)}

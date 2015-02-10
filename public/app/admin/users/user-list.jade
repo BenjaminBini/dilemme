@@ -1,0 +1,29 @@
+.container
+	form.form-inline.filters
+		.form-group.col-md-3.col-md-offset-6
+			input.form-control(ng-model="searchText", placeHolder="Filter")
+		.form-group.col-md-3
+			ui-select.select.form-control.select-primary.select2(ng-model="sortOrder.selected", theme="select2")
+				ui-select-match(placeholder="Order") {{$select.selected.text}}
+				ui-select-choices(repeat="item.value as item in sortOptions")
+					div {{item.text}}
+	table.table.table-hover
+		thead
+			tr
+				th Username
+				th First Name
+				th Last Name
+				th Roles
+				th Registration
+		tbody
+			tr(ng-repeat="user in users | filter: searchText | orderBy: sortOrder.selected")
+				td
+					a(href="/admin/users/{{user._id}}") {{user.username}}
+				td
+					{{user.firstName}}
+				td
+					{{user.lastName}}
+				td
+					span(ng-repeat="role in user.roles") {{role}} 
+				td
+					{{user.registrationDate | date}}

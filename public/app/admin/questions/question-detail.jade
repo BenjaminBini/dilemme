@@ -1,0 +1,28 @@
+.container.well
+	form.form-horizontal(name="questionForm")
+		fieldset
+			legend Question
+			.form-group
+				label.col-md-2.control-label(for="text") Text
+				.col-md-10
+					input.form-control(name="text", type="text", placeholder="Text", ng-model="question.text", required)
+			.form-group
+				label.col-md-2.control-label(for="answer1") First choice
+				.col-md-10
+					input.form-control(name="answer1", type="text", placeholder="First choice", ng-model="question.answers[0].text", required)
+			.form-group
+				label.col-md-2.control-label(for="answer2") Second choice
+				.col-md-10
+					input.form-control(name="answer2", type="text", placeholder="Second choice", ng-model="question.answers[1].text", required)
+			.form-group
+				label.col-md-2.control-label(for="tags") Tags
+				.col-md-10
+					input.form-control(name="tags", type="text", ng-model="tags")
+			.form-group
+				.col-md-10.col-md-offset-2
+					.pull-right
+						button.btn.btn-primary(ng-click="save()", ng-disabled="questionForm.$invalid") Submit
+						| &nbsp;
+						a.btn.btn-default(href="/admin/questions") Back
+
+			
