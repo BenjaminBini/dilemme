@@ -18,6 +18,7 @@ module.exports = function(app) {
 	app.get('/api/questions/:id', questions.getQuestionById);
 	app.post('/api/questions', auth.requiresRole('admin'), questions.createQuestion);
 	app.put('/api/questions', auth.requiresRole('admin'), questions.updateQuestion);
+	app.delete('/api/questions', auth.requiresRole('admin'), questions.deleteQuestion);
 
 	// Render partials
 	app.get('/partials/*', function (req, res) {

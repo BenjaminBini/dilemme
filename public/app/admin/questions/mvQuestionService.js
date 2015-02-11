@@ -22,6 +22,17 @@ angular.module('app').factory('mvQuestionService', function($http, mvIdentity, $
 			});
 
 			return dfd.promise;
+		},
+		deleteQuestion: function (question) {
+			var dfd = $q.defer();
+
+			question.$delete().then(function () {
+				dfd.resolve();
+			}, function (response) {
+				dfd.reject(response.data.reason);
+			});
+
+			return dfd.promise;
 		}
 	}
 });

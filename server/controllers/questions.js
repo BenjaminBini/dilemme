@@ -77,3 +77,24 @@ exports.updateQuestion = function(req, res) {
 		});
 	});
 };
+
+/**
+ * Delete a question
+ * @param  {[type]} req 	Request
+ * @param  {[type]} resp 	Response
+ * @return {[type]}         Deleted id
+ */
+exports.deleteQuestion = function(req, res) {
+	console.log('DELETE QUESTION : ' + JSON.stringify(req.body));
+	var question = req.body;
+	Question.remove({ _id: question._id}, function (err) {
+		if (err) {
+			res.status(400);
+			return res.send({
+				reason: err.toString()
+			});
+		}
+		res.send(question._id);
+		return question._id;
+	});
+}

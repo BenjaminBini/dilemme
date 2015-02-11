@@ -3,11 +3,13 @@ angular.module('app').controller('mvQuestionDetailController', function ($scope,
 	question.answers = [];
 	$scope.question = question;
 	$scope.isLoaded = false;
+	$scope.editionMode = false;
 
 	if ($routeParams.id != 'add') {
 		question = mvQuestion.get({_id: $routeParams.id}, function() {
 			$scope.question = question;
 			$scope.isLoaded = true;
+			$scope.editionMode = true;
 		});
 	} else {
 		$scope.isLoaded = true;
@@ -20,22 +22,32 @@ angular.module('app').controller('mvQuestionDetailController', function ($scope,
 		if (question._id) {
 			mvQuestionService.updateQuestion(question).then(function () {
 				mvNotifier.notify('Question has been updated');
-				$location.path('/admin/questions/');
+				$location.path('/admin/questions');
 			}, function (response) {
 				mvNotifier.error(response.data.reason);
 			});
 		} else {
 			mvQuestionService.createQuestion(question).then(function () {
 				mvNotifier.notify('Question created');
-				$location.path('/admin/questions/');
+				$location.path('/admin/questions');
 			}, function (reason) {
 				mvNotifier.error(reason);
 			});
 		}
 	};
 
-	$scope.confirmDelete = function () {
+	$scope.delete = function () {
 		$scope.itemType = 'question';
-		mvDialog.confirmDelete($scope);
+		mvDialog.confirmDelete($scope).then(function (data) {
+			if (data.value === 'confirm') {
+				mvQuestionService.updateQuestion(question).then(function () {
+					mvNotifier.notify('Question deleted');
+					$location.path('/admin/questions');
+				}, function (reason) {
+					mvNotifier.error(reason);
+				});
+			}
+		});
 	};
+
 });
