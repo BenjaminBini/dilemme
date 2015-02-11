@@ -36,8 +36,14 @@ footer p {
 .filters .select {
   cursor: pointer;
 }
-.actions a {
+.actions a,
+.actions button {
   margin-right: 20px;
+}
+.actions .pull-right a,
+.actions button {
+  margin-right: 0;
+  margin-left: 20px;
 }
 .select2-drop .select2-result-single li:first-child .select2-result-label {
   border-top-left-radius: 4px;
