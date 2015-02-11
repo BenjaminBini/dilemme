@@ -41,7 +41,7 @@ footer p {
   margin-right: 20px;
 }
 .actions .pull-right a,
-.actions button {
+.actions .pull-right button {
   margin-right: 0;
   margin-left: 20px;
 }
@@ -52,4 +52,14 @@ footer p {
 .select2-drop .select2-result-single li:last-child .select2-result-label {
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
+}
+.ngdialog.ngdialog-theme-default .ngdialog-content {
+  background: rgba(255,255,255,0.9);
+  padding: 1.8em 2em;
+  width: 440px;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+}
+.ngdialog.ngdialog-theme-default .ngdialog-content .modal-title {
+  margin-top: 0;
 }

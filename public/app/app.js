@@ -1,4 +1,4 @@
-angular.module('app', ['ngResource', 'ngRoute', 'ui.select']);
+angular.module('app', ['ngResource', 'ngRoute', 'ui.select', 'ngDialog']);
 
 angular.module('app').config(function ($routeProvider, $locationProvider) {
 	
