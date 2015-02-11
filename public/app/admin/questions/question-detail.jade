@@ -18,11 +18,10 @@
 				label.col-md-2.control-label(for="tags") Tags
 				.col-md-10
 					input.form-control(name="tags", type="text", ng-model="tags")
-			.form-group
+			.form-group.actions
 				.col-md-10.col-md-offset-2
 					.pull-right
 						button.btn.btn-primary(ng-click="save()", ng-disabled="questionForm.$invalid") Submit
-						| &nbsp;
 						a.btn.btn-default(href="/admin/questions") Back
 
 			
