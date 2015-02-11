@@ -1,4 +1,4 @@
-angular.module('app').controller('mvQuestionDetailController', function ($scope, mvQuestion, $routeParams, mvNotifier, mvQuestionService) {
+angular.module('app').controller('mvQuestionDetailController', function ($scope, mvQuestion, $routeParams, mvNotifier, mvQuestionService, $location) {
 	var question = {};
 	question.answers = [];
 	$scope.question = question;
@@ -13,12 +13,14 @@ angular.module('app').controller('mvQuestionDetailController', function ($scope,
 		if (question._id) {
 			mvQuestionService.updateQuestion(question).then(function () {
 				mvNotifier.notify('Question has been updated');
+				$location.path('/admin/questions/');
 			}, function (response) {
 				mvNotifier.error(response.data.reason);
 			});
 		} else {
 			mvQuestionService.createQuestion(question).then(function () {
 				mvNotifier.notify('Question created');
+				$location.path('/admin/questions/');
 			}, function (reason) {
 				mvNotifier.error(reason);
 			});
