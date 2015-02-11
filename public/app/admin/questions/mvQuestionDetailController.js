@@ -2,14 +2,21 @@ angular.module('app').controller('mvQuestionDetailController', function ($scope,
 	var question = {};
 	question.answers = [];
 	$scope.question = question;
+	$scope.isLoaded = false;
 
 	if ($routeParams.id != 'add') {
 		question = mvQuestion.get({_id: $routeParams.id}, function() {
 			$scope.question = question;
+			$scope.isLoaded = true;
 		});
+	} else {
+		$scope.isLoaded = true;
 	}
 
 	$scope.save = function () {
+		if (!Array.isArray(question.tags)) {
+			question.tags = question.tags.split(',');
+		}
 		if (question._id) {
 			mvQuestionService.updateQuestion(question).then(function () {
 				mvNotifier.notify('Question has been updated');

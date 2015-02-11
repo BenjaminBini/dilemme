@@ -62,6 +62,7 @@ exports.updateQuestion = function(req, res) {
 		question.text = updatedQuestion.text;
 		question.answers[0].text = updatedQuestion.answers[0].text;
 		question.answers[1].text = updatedQuestion.answers[1].text;
+		question.tags = updatedQuestion.tags;
 		question.save(function(err) {
 			if (err) {
 				// If an error occure, return error 400 with the error
