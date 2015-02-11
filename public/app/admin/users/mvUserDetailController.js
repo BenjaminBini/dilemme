@@ -1,4 +1,4 @@
-angular.module('app').controller('mvUserDetailController', function($scope, $routeParams, mvUser, mvNotifier) {
+angular.module('app').controller('mvUserDetailController', function($scope, $routeParams, mvUser, mvNotifier, $location) {
 
 	// Pass the edited user to the scope
 	var user = mvUser.get({_id: $routeParams.id}, function() {
@@ -17,6 +17,7 @@ angular.module('app').controller('mvUserDetailController', function($scope, $rou
 		}
 		user.$update().then(function () {
 			mvNotifier.notify('User has been updated');
+			$location.path('/admin/users');
 		}, function (response) {
 			mvNotifier.error(response.data.reason);
 		});

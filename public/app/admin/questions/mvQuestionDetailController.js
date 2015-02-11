@@ -1,4 +1,4 @@
-angular.module('app').controller('mvQuestionDetailController', function ($scope, mvQuestion, $routeParams, mvNotifier, mvQuestionService, $location) {
+angular.module('app').controller('mvQuestionDetailController', function ($scope, mvQuestion, $routeParams, mvNotifier, mvQuestionService, $location, mvDialog) {
 	var question = {};
 	question.answers = [];
 	$scope.question = question;
@@ -9,7 +9,7 @@ angular.module('app').controller('mvQuestionDetailController', function ($scope,
 		});
 	}
 
-	$scope.save = function() {
+	$scope.save = function () {
 		if (question._id) {
 			mvQuestionService.updateQuestion(question).then(function () {
 				mvNotifier.notify('Question has been updated');
@@ -25,5 +25,10 @@ angular.module('app').controller('mvQuestionDetailController', function ($scope,
 				mvNotifier.error(reason);
 			});
 		}
+	};
+
+	$scope.confirmDelete = function () {
+		$scope.itemType = 'question';
+		mvDialog.confirmDelete($scope);
 	};
 });
