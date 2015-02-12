@@ -40,7 +40,7 @@ angular.module('app').controller('mvQuestionDetailController', function ($scope,
 		$scope.itemType = 'question';
 		mvDialog.confirmDelete($scope).then(function (data) {
 			if (data.value === 'confirm') {
-				mvQuestionService.updateQuestion(question).then(function () {
+				mvQuestionService.deleteQuestion(question).then(function () {
 					mvNotifier.notify('Question deleted');
 					$location.path('/admin/questions');
 				}, function (reason) {

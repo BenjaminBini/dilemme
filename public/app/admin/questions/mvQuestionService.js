@@ -26,7 +26,7 @@ angular.module('app').factory('mvQuestionService', function($http, mvIdentity, $
 		deleteQuestion: function (question) {
 			var dfd = $q.defer();
 
-			question.$delete().then(function () {
+			question.$delete({_id: question._id}).then(function () {
 				dfd.resolve();
 			}, function (response) {
 				dfd.reject(response.data.reason);
