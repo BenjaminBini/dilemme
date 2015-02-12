@@ -23,13 +23,11 @@ angular.module('app').config(function ($routeProvider, $locationProvider) {
 		})
 		.when('/questions/random', {
 			template: '',
-			controller: 'mvQuestionRandomController',
-			resolve: routeRolesCheck.user
+			controller: 'mvQuestionRandomController'
 		})
 		.when('/questions/:id', {
 			templateUrl: '/partials/questions/question.jade',
-			controller: 'mvQuestionController',
-			resolve: routeRolesCheck.user
+			controller: 'mvQuestionController'
 		})
 		.when('/admin/users', { 
 			templateUrl: '/partials/admin/users/user-list', 
