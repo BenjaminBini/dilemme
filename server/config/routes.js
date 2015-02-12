@@ -9,15 +9,19 @@ var questions = require('../controllers/questions');
 
 module.exports = function(app) {
 
+	// REST API
+	// Users
 	app.get('/api/users', auth.requiresRole('admin'), users.getUsers);
 	app.get('/api/users/:id', auth.requiresRole('admin'), users.getUserById);
 	app.post('/api/users', users.createUser);
-	app.put('/api/users', users.updateUser);
+	app.put('/api/users/:id', users.updateUser);
+	app.delete('/api/users/:id', auth.requiresRole('admin'), users.deleteUser);
 
+	// Questions
 	app.get('/api/questions', questions.getQuestions);
 	app.get('/api/questions/:id', questions.getQuestionById);
 	app.post('/api/questions', auth.requiresRole('admin'), questions.createQuestion);
-	app.put('/api/questions', auth.requiresRole('admin'), questions.updateQuestion);
+	app.put('/api/questions/:id', auth.requiresRole('admin'), questions.updateQuestion);
 	app.delete('/api/questions/:id', auth.requiresRole('admin'), questions.deleteQuestion);
 
 	// Render partials

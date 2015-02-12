@@ -1,4 +1,4 @@
-angular.module('app').controller('mvUserDetailController', function($scope, $routeParams, mvUser, mvNotifier, $location) {
+angular.module('app').controller('mvUserDetailController', function($scope, $routeParams, mvUser, mvNotifier, $location, mvUserService, mvDialog) {
 
 	// Pass the edited user to the scope
 	var user = mvUser.get({_id: $routeParams.id}, function() {
@@ -15,11 +15,26 @@ angular.module('app').controller('mvUserDetailController', function($scope, $rou
 		if ($scope.password && $scope.password.length > 0) {
 			user.password = $scope.password;
 		}
-		user.$update().then(function () {
+		user.$update({_id: user._id}).then(function () {
 			mvNotifier.notify('User has been updated');
 			$location.path('/admin/users');
 		}, function (response) {
 			mvNotifier.error(response.data.reason);
+		});
+	};
+
+	// Delete the user
+	$scope.delete = function () {
+		$scope.itemType = 'user';
+		mvDialog.confirmDelete($scope).then(function (data) {
+			if (data.value === 'confirm') {
+				mvUserService.deleteUser(user).then(function () {
+					mvNotifier.notify('User deleted');
+					$location.path('/admin/users');
+				}, function (reason) {
+					mvNotifier.error(reason);
+				});
+			}
 		});
 	};
 

@@ -1,7 +1,7 @@
-angular.module('app').factory('mvQuestionService', function($http, mvIdentity, $q, mvQuestion) {
+angular.module('app').factory('mvQuestionService', function($http, $q, mvQuestion) {
 	return {
-		createQuestion: function (newQuestionData) {
-			var newQuestion = new mvQuestion(newQuestionData);
+		createQuestion: function (question) {
+			var newQuestion = new mvQuestion(question);
 			var dfd = $q.defer();
 
 			newQuestion.$save().then(function () {
@@ -12,10 +12,10 @@ angular.module('app').factory('mvQuestionService', function($http, mvIdentity, $
 
 			return dfd.promise;
 		},
-		updateQuestion: function (newQuestionData) {
+		updateQuestion: function (question) {
 			var dfd = $q.defer();
 
-			newQuestionData.$update().then(function () {
+			question.$update({_id: question._id}).then(function () {
 				dfd.resolve();
 			}, function (response) {
 				dfd.reject(response.data.reason);

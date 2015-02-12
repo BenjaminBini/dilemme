@@ -58,7 +58,7 @@ exports.createQuestion = function(req, res, next) {
 exports.updateQuestion = function(req, res) {
 
 	var updatedQuestion = req.body;
-	Question.findOne({_id: updatedQuestion._id}).exec(function (err, question) {
+	Question.findOne({_id: req.params.id}).exec(function (err, question) {
 		question.text = updatedQuestion.text;
 		question.answers[0].text = updatedQuestion.answers[0].text;
 		question.answers[1].text = updatedQuestion.answers[1].text;

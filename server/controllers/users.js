@@ -81,13 +81,13 @@ exports.updateUser = function(req, res) {
 	var userUpdates = req.body;
 
 	// Check if the user is authorized (admin or current user)
-	if (req.user._id != userUpdates._id && !req.user.hasRole('admin')) {
+	if (req.user._id != req.params.id && !req.user.hasRole('admin')) {
 		res.status(403);
 		return res.end();
 	}
 
 	// Get the user we have to modify
-	User.findOne({_id: userUpdates._id}).exec(function(err, user) {
+	User.findOne({_id: req.params.id}).exec(function(err, user) {
 		user.firstName = userUpdates.firstName;
 		user.lastName = userUpdates.lastName;
 		user.username = userUpdates.username;
@@ -97,12 +97,16 @@ exports.updateUser = function(req, res) {
 			user.hashedPassword = encrypt.hashPassword(user.salt, userUpdates.password);
 		}
 		// If the modified user is the logged in user, let's reset it
-		if (req.user._id == userUpdates._id) {
+		if (req.user._id == req.params.id) {
 			req.user = user;
 		}
 		// Save the user
 		user.save(function(err) {
-			if (err) {
+			if (err) {	
+				// If the error is E11000, the reason is a duplicate username
+				if (err.toString().indexOf('E11000') > -1) {
+					err = new Error('This username already exists');
+				}
 				// If an error occure, return error 400 with the error
 				res.status(400);
 				return res.send({
@@ -115,3 +119,22 @@ exports.updateUser = function(req, res) {
 		});
 	});
 };
+
+/**
+ * Delete a question
+ * @param  {[type]} req 	Request
+ * @param  {[type]} resp 	Response
+ * @return {[type]}         Deleted id
+ */
+exports.deleteUser = function(req, res) {
+	User.remove({ _id: req.params.id}, function (err) {
+		if (err) {
+			res.status(400);
+			return res.send({
+				reason: err.toString()
+			});
+		}
+		res.send(req.params.id);
+		return req.params.id;
+	});
+}
