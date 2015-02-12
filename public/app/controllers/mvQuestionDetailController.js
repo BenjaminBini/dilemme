@@ -16,7 +16,7 @@ angular.module('app').controller('mvQuestionDetailController', function ($scope,
 	}
 
 	$scope.save = function () {
-		if (!Array.isArray(question.tags)) {
+		if (question.tags !== undefined && !Array.isArray(question.tags)) {
 			question.tags = question.tags.split(',');
 		}
 		if (question._id) {

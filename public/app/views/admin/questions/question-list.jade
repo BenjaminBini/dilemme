@@ -18,10 +18,8 @@
 			tr(ng-repeat="question in questions | filter: searchText | orderBy: sortOrder.selected")
 				td
 					a(href="/admin/questions/{{question._id}}") {{question.text}} : {{question.answers[0].text}} - {{question.answers[1].text}}
-				td
-					{{question.answers[0].votes}}
-				td
-					{{question.answers[1].votes}}
+				td {{question.answers[0].votes}}
+				td {{question.answers[1].votes}}
 				td {{question.published | date }}
 	div.actions
 		a.btn.btn-info.btn-embossed(href="/admin/questions/add") Add a question

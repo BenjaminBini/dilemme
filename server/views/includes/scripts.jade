@@ -12,25 +12,30 @@ script(type="text/javascript", src="/vendor/ngDialog/js/ngDialog.min.js")
 script(type="text/javascript", src="/app/app.js")
 
 // Controllers
-script(type="text/javascript", src="/app/main/mvMainController.js")
-script(type="text/javascript", src="/app/account/mvNavBarLoginController.js")
-script(type="text/javascript", src="/app/account/mvSignupController.js")
-script(type="text/javascript", src="/app/account/mvProfileController.js")
-script(type="text/javascript", src="/app/admin/users/mvUserListController.js")
-script(type="text/javascript", src="/app/admin/users/mvUserDetailController.js")
-script(type="text/javascript", src="/app/admin/questions/mvQuestionListController.js")
-script(type="text/javascript", src="/app/admin/questions/mvQuestionDetailController.js")
+script(type="text/javascript", src="/app/controllers/mvMainController.js")
+script(type="text/javascript", src="/app/controllers/mvNavBarLoginController.js")
+script(type="text/javascript", src="/app/controllers/mvSignupController.js")
+script(type="text/javascript", src="/app/controllers/mvProfileController.js")
+script(type="text/javascript", src="/app/controllers/mvUserListController.js")
+script(type="text/javascript", src="/app/controllers/mvUserDetailController.js")
+script(type="text/javascript", src="/app/controllers/mvQuestionController.js")
+script(type="text/javascript", src="/app/controllers/mvQuestionRandomController.js")
+script(type="text/javascript", src="/app/controllers/mvQuestionListController.js")
+script(type="text/javascript", src="/app/controllers/mvQuestionDetailController.js")
 
 // Services
-script(type="text/javascript", src="/app/account/mvAuth.js")
-script(type="text/javascript", src="/app/account/mvIdentity.js")
-script(type="text/javascript", src="/app/common/mvNotifier.js")
-script(type="text/javascript", src="/app/common/mvDialog.js")
-script(type="text/javascript", src="/app/admin/questions/mvQuestionService.js")
+script(type="text/javascript", src="/app/services/mvAuthService.js")
+script(type="text/javascript", src="/app/services/mvNotifier.js")
+script(type="text/javascript", src="/app/services/mvDialog.js")
+script(type="text/javascript", src="/app/services/mvQuestionService.js")
+script(type="text/javascript", src="/app/services/mvUserService.js")
 
 // Resources
-script(type="text/javascript", src="/app/account/mvUser.js")
-script(type="text/javascript", src="/app/admin/questions/mvQuestion.js")
+script(type="text/javascript", src="/app/resources/mvUser.js")
+script(type="text/javascript", src="/app/resources/mvQuestion.js")
+
+// Models
+script(type="text/javascript", src="/app/models/mvIdentity.js")
 
 // Directives
-script(type="text/javascript", src="/app/common/directives/tags-input/tagsInput.js")
+script(type="text/javascript", src="/app/directives/tags-input/tagsInput.js")

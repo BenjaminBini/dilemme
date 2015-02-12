@@ -63,3 +63,28 @@ footer p {
 .ngdialog.ngdialog-theme-default .ngdialog-content .modal-title {
   margin-top: 0;
 }
+.question .question-text {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.question .answers .answer,
+.question .answers .separation {
+  text-align: center;
+  padding: 150px 20px;
+  color: #fff;
+  font-size: 2em;
+}
+.question .answers .separation {
+  font-size: 90px;
+  padding: 88px 20px;
+  color: inherit;
+}
+.question .answers .first-answer {
+  background: #e74c3c;
+}
+.question .answers .second-answer {
+  background: #3498db;
+}
+.question .actions {
+  margin-top: 40px;
+}

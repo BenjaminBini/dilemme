@@ -1,7 +1,7 @@
 angular.module('app').directive('tagsInput', function () {
 	return {
 		restrict: 'E',
-		templateUrl: '/partials/common/directives/tags-input/tags-input.jade',
+		templateUrl: '/directives-templates/tags-input/tags-input.jade',
 		scope: {
 			tags: '=?',
 			primary: '=?',

@@ -1,0 +1,9 @@
+.container.question
+	h2.question-text {{question.text}}
+	.row.answers
+		.col-md-5.answer.first-answer {{question.answers[0].text}}
+		.col-md-2.separation ? 
+		.col-md-5.answer.second-answer {{question.answers[1].text}}
+	.row.actions
+		.pull-right 
+			a.btn.btn-embossed.btn-inverse(href="/questions/random") Next question

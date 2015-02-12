@@ -19,15 +19,22 @@ module.exports = function(app) {
 
 	// Questions
 	app.get('/api/questions', questions.getQuestions);
+	app.get('/api/questions/random', questions.getRandomQuestion);
 	app.get('/api/questions/:id', questions.getQuestionById);
 	app.post('/api/questions', auth.requiresRole('admin'), questions.createQuestion);
 	app.put('/api/questions/:id', auth.requiresRole('admin'), questions.updateQuestion);
 	app.delete('/api/questions/:id', auth.requiresRole('admin'), questions.deleteQuestion);
 
+
 	// Render partials
 	app.get('/partials/*', function (req, res) {
-		res.render('../../public/app/' + req.params[0]);
+		res.render('../../public/app/views/' + req.params[0]);
 	});
+
+	// Render directive templates
+	app.get('/directives-templates/*', function (req, res) {
+		res.render('../../public/app/directives/' + req.params[0]);
+	})
 	
 	// Auth routes
 	app.post('/login', auth.authenticate);

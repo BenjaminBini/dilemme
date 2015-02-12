@@ -6,6 +6,10 @@ Work in progress.
 
 # Install and run
 
+Mongodb required.
+
+Admin credentials are 'joe'/'joe'.
+
 Classic stuff : 
 
 ```

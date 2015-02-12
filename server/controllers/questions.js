@@ -18,10 +18,29 @@ exports.getQuestions = function(req, res) {
 	});
 };
 
-
+/**
+ * Return a question by its id
+ * @param  {[type]}   req  Request
+ * @param  {[type]}   res  Response
+ * @return {[type]}		   The question with the given id
+ */
 exports.getQuestionById = function (req, res) {
-	Question.findOne({_id: req.params.id}).exec(function (err, course) {
-		res.send(course);
+	Question.findOne({_id: req.params.id}).exec(function (err, question) {
+		res.send(question);
+		return question;
+	});
+}
+
+/**
+ * Return a random question
+ * @param  {[type]}   req  Request
+ * @param  {[type]}   res  Response
+ * @return {[type]}		   The question with the given id
+ */
+exports.getRandomQuestion = function (req, res) {
+	Question.random(function (err, question) {
+		res.send(question);
+		return question;
 	});
 }
 

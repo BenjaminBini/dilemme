@@ -4,13 +4,13 @@ angular.module('app').config(function ($routeProvider, $locationProvider) {
 	
 	var routeRolesCheck = {
 		admin: {
-			auth: function (mvAuth) {
-				return mvAuth.authorizeCurrentUserForRoute('admin');
+			auth: function (mvAuthService) {
+				return mvAuthService.authorizeCurrentUserForRoute('admin');
 			}
 		},
 		user: {
-			auth: function (mvAuth) {
-				return mvAuth.authorizeAuthenticatedUserForRoute();
+			auth: function (mvAuthService) {
+				return mvAuthService.authorizeAuthenticatedUserForRoute();
 			}
 		}
 	}
@@ -20,6 +20,16 @@ angular.module('app').config(function ($routeProvider, $locationProvider) {
 		.when('/', { 
 			templateUrl: '/partials/main/main',
 			controller: 'mvMainController' 
+		})
+		.when('/questions/random', {
+			template: '',
+			controller: 'mvQuestionRandomController',
+			resolve: routeRolesCheck.user
+		})
+		.when('/questions/:id', {
+			templateUrl: '/partials/questions/question.jade',
+			controller: 'mvQuestionController',
+			resolve: routeRolesCheck.user
 		})
 		.when('/admin/users', { 
 			templateUrl: '/partials/admin/users/user-list', 
@@ -31,15 +41,6 @@ angular.module('app').config(function ($routeProvider, $locationProvider) {
 			controller: 'mvUserDetailController',
 			resolve: routeRolesCheck.admin
 		})
-		.when('/signup', {
-			templateUrl: '/partials/account/signup',
-			controller: 'mvUserSignupController'
-		})
-		.when('/profile', {
-			templateUrl: '/partials/account/profile',
-			controller: 'mvProfileController',
-			resolve: routeRolesCheck.user
-		})
 		.when('/admin/questions', {
 			templateUrl: '/partials/admin/questions/question-list',
 			controller: 'mvQuestionListController',
@@ -49,6 +50,15 @@ angular.module('app').config(function ($routeProvider, $locationProvider) {
 			templateUrl: '/partials/admin/questions/question-detail',
 			controller: 'mvQuestionDetailController',
 			resolve: routeRolesCheck.admin
+		})
+		.when('/signup', {
+			templateUrl: '/partials/account/signup',
+			controller: 'mvUserSignupController'
+		})
+		.when('/profile', {
+			templateUrl: '/partials/account/profile',
+			controller: 'mvProfileController',
+			resolve: routeRolesCheck.user
 		});
 });
 

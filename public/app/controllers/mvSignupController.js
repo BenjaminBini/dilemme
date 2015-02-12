@@ -1,4 +1,4 @@
-angular.module('app').controller('mvUserSignupController', function($scope, mvUser, mvNotifier, mvAuth, $location) {
+angular.module('app').controller('mvUserSignupController', function($scope, mvUser, mvNotifier, mvAuthService, $location) {
 	
 	$scope.signup = function() {
 		var newUserData = {
@@ -8,7 +8,7 @@ angular.module('app').controller('mvUserSignupController', function($scope, mvUs
 			lastName: $scope.lname,
 		}
 		
-		mvAuth.createUser(newUserData).then(function () {
+		mvAuthService.registerUser(newUserData).then(function () {
 			mvNotifier.notify('User account created');
 			$location.path('/');
 		}, function (reason) {

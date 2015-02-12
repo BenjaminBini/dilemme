@@ -3,6 +3,10 @@ angular.module('app').factory('mvQuestion', function ($resource) {
 		update: {
 			method: 'PUT',
 			isArray: false
+		},
+		random: {
+			method: 'GET',
+			url: '/api/questions/random'
 		}
 	});
 
