@@ -61,7 +61,7 @@ footer
 	border-radius 0
 	.modal-title
 		margin-top 0
-  
+
 // Question view
 .question
 	.question-text
@@ -70,26 +70,62 @@ footer
 	.answers
 		.answer, .separation
 			text-align center
-			padding 150px 20px
 			color white
 			font-size 2em
+			padding 0
+		.answer 
+			span.answer-text,
+			.circle
+				display block
+				user-select none
+				-webkit-user-select none
+				-moz-user-select none
+				position relative
+				overflow hidden
+				padding 20px
+				padding 150px 20px
+				cursor pointer
+				border-bottom 12px solid rgba(0, 0, 0, .15)
+			.circle
+				display	block
+				position absolute
+				background rgba(0,0,0,.075)
+				border-radius 50%
+				transform scale(0)
+				-ms-transform scale(0)
+				-wekbit-transform scale(0)
+				border-bottom none
+				&.animate
+					-webkit-animation effect 0.65s linear
+					animation effect 0.65s linear
+					animation-fill-mode forwards
+					-webkit-animation-fill-mode forwards
+			.result
+				transition all 0.65s ease-in-out
+				transition-delay: 0.65s
+				height 0
+				overflow hidden
+				.percentage,
+				.votes
+					margin-left 20px
 		.separation
 			font-size 90px
 			padding 88px 20px
 			color inherit
-		.first-answer
+		answer-button:first-child .answer
 			background #e74c3c
-		.second-answer
+		answer-button:last-child .answer
 			background #3498db
-		/*
-		.answer:before
-			content " "
-			display block
-			position absolute
-			height 43%
-			width 100%
-			bottom 0
-			left 0
-		*/
+	.answers.answered
+		.result
+			height: 60px;
+				
 	.actions
 		margin-top 40px
+		
+
+@keyframes effect
+	100%
+		transform scale(3)
+		-ms-transform scale(3)
+		-wekbit-transform scale(3)

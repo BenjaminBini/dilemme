@@ -33,6 +33,20 @@ angular.module('app').factory('mvQuestionService', function($http, $q, mvQuestio
 			});
 
 			return dfd.promise;
+		},
+		getProportions: function (question) {
+			var firstAnswerVotes = question.answers[0].votes;
+			var secondAnswerVotes = question.answers[1].votes;
+			var totalVotes = firstAnswerVotes + secondAnswerVotes;
+
+			var firstAnswerProportion, secondAnswerProportion;
+			if (totalVotes == 0) {
+				firstAnswerProportion = 50;
+			} else {
+				firstAnswerProportion = firstAnswerVotes / totalVotes * 100;
+			}
+			secondAnswerProportion = 100 - firstAnswerProportion;
+			return [firstAnswerProportion, secondAnswerProportion];
 		}
 	}
 });

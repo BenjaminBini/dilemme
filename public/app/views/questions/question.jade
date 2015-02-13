@@ -1,9 +1,9 @@
 .container.question(ng-controller="mvAnswerController")
 	h2.question-text {{question.text}}
 	.row.answers
-		.col-md-5.answer.first-answer(ng-click="answer(0)") {{question.answers[0].text}}
+		answer-button(answer="question.answers[0]", on-click="answer(0)", result="results[0]")
 		.col-md-2.separation ? 
-		.col-md-5.answer.second-answer(ng-click="answer(1)") {{question.answers[1].text}}
+		answer-button(answer="question.answers[1]", on-click="answer(1)", result="results[1]")
 	.row.actions
 		.pull-right 
-			a.btn.btn-embossed.btn-inverse(href="/questions/random") Next question
+			a.btn.btn-embossed.btn-info(href="/questions/random") Next question

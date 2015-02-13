@@ -70,21 +70,91 @@ footer p {
 .question .answers .answer,
 .question .answers .separation {
   text-align: center;
-  padding: 150px 20px;
   color: #fff;
   font-size: 2em;
+  padding: 0;
+}
+.question .answers .answer span.answer-text,
+.question .answers .answer .circle {
+  display: block;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+  padding: 150px 20px;
+  cursor: pointer;
+  border-bottom: 12px solid rgba(0,0,0,0.15);
+}
+.question .answers .answer .circle {
+  display: block;
+  position: absolute;
+  background: rgba(0,0,0,0.075);
+  border-radius: 50%;
+  transform: scale(0);
+  -ms-transform: scale(0);
+  -wekbit-transform: scale(0);
+  border-bottom: none;
+}
+.question .answers .answer .circle.animate {
+  -webkit-animation: effect 0.65s linear;
+  animation: effect 0.65s linear;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
+}
+.question .answers .answer .result {
+  transition: all 0.65s ease-in-out;
+  transition-delay: 0.65s;
+  height: 0;
+  overflow: hidden;
+}
+.question .answers .answer .result .percentage,
+.question .answers .answer .result .votes {
+  margin-left: 20px;
 }
 .question .answers .separation {
   font-size: 90px;
   padding: 88px 20px;
   color: inherit;
 }
-.question .answers .first-answer {
+.question .answers answer-button:first-child .answer {
   background: #e74c3c;
 }
-.question .answers .second-answer {
+.question .answers answer-button:last-child .answer {
   background: #3498db;
+}
+.question .answers.answered .result {
+  height: 60px;
 }
 .question .actions {
   margin-top: 40px;
+}
+@-moz-keyframes effect {
+  100% {
+    transform: scale(3);
+    -ms-transform: scale(3);
+    -wekbit-transform: scale(3);
+  }
+}
+@-webkit-keyframes effect {
+  100% {
+    transform: scale(3);
+    -ms-transform: scale(3);
+    -wekbit-transform: scale(3);
+  }
+}
+@-o-keyframes effect {
+  100% {
+    transform: scale(3);
+    -ms-transform: scale(3);
+    -wekbit-transform: scale(3);
+  }
+}
+@keyframes effect {
+  100% {
+    transform: scale(3);
+    -ms-transform: scale(3);
+    -wekbit-transform: scale(3);
+  }
 }
