@@ -39,7 +39,9 @@ exports.authenticate =  function (req, res, next) {
 exports.requiresApiLogin = function(req, res, next) {
 	if (!req.isAuthenticated()) {
 		res.status(403);
-		res.end();
+		res.send({
+			reason: 'Authentication required'
+		}).end();
 	} else {
 		next();
 	}
@@ -54,7 +56,9 @@ exports.requiresRole = function (role) {
 	return function(req, res, next) {
 		if (!req.isAuthenticated() || req.user.roles.indexOf(role) === -1) {
 			res.status(403);
-			res.end();
+			res.send({
+				reason: 'Special permission required'
+			}).end();
 		} else {
 			next();
 		}
