@@ -1,5 +1,6 @@
 body
 	padding-top 61px
+	overflow-x hidden
 
 footer
 	padding-left 0 15px
@@ -74,6 +75,7 @@ footer
 			font-size 2em
 			padding 0
 		.answer 
+			cursor pointer
 			span.answer-text,
 			.circle
 				display block
@@ -84,7 +86,6 @@ footer
 				overflow hidden
 				padding 20px
 				padding 150px 20px
-				cursor pointer
 				border-bottom 12px solid rgba(0, 0, 0, .15)
 			.circle
 				display	block
@@ -98,11 +99,9 @@ footer
 				&.animate
 					-webkit-animation effect 0.65s linear
 					animation effect 0.65s linear
-					animation-fill-mode forwards
-					-webkit-animation-fill-mode forwards
 			.result
-				transition all 0.65s ease-in-out
-				transition-delay: 0.65s
+				transition height 0.65s ease-in-out
+				transition-delay: 0.3s
 				height 0
 				overflow hidden
 				.percentage,
@@ -117,6 +116,8 @@ footer
 		answer-button:last-child .answer
 			background #3498db
 	.answers.answered
+		.answer
+			cursor auto
 		.result
 			height: 60px;
 				
@@ -126,6 +127,18 @@ footer
 
 @keyframes effect
 	100%
+		opacity 0
 		transform scale(3)
 		-ms-transform scale(3)
 		-wekbit-transform scale(3)
+.view-transition
+	.view
+		transition 800ms
+		position relative
+		&.ng-enter
+			opacity 0
+		&.ng-enter-active
+			opacity 1
+		&.ng-leave
+			display none
+			

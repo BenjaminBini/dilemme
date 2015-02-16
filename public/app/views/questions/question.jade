@@ -1,9 +1,10 @@
-.container.question(ng-controller="mvAnswerController")
-	h2.question-text {{question.text}}
-	.row.answers
-		answer-button(answer="question.answers[0]", on-click="answer(0)", result="results[0]")
-		.col-md-2.separation ? 
-		answer-button(answer="question.answers[1]", on-click="answer(1)", result="results[1]")
-	.row.actions
-		.pull-right 
-			a.btn.btn-embossed.btn-info(href="/questions/random") Next question
+.container
+	.question(ng-controller="mvAnswerController")
+		h2.question-text {{question.text}}
+		.row.answers
+			answer-button(answer="question.answers[0]", on-click="answer(0)", result="results[0]")
+			.col-md-2.separation ? 
+			answer-button(answer="question.answers[1]", on-click="answer(1)", result="results[1]")
+		.row.actions
+			.pull-right 
+				a.btn.btn-embossed.btn-info(ng-click="nextQuestion()") Next question
