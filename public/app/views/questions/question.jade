@@ -6,6 +6,7 @@
 			.col-md-2.separation ? 
 			answer-button(answer="question.answers[1]", on-click="answer(1)", result="results[1]")
 		.row.actions
+			a.btn.btn-embossed.btn-info(ng-href="/admin/questions/{{question._id}}" ng-show="identity.currentUser.isAdmin()") Edit this question
 			.pull-right 
 				a.btn.btn-embossed.btn-info(ng-click="nextQuestion()") Next question
 		.row
