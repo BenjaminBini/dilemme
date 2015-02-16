@@ -154,7 +154,7 @@ exports.answerQuestion = function (req, res) {
 		if (!req.user.answers) {
 			req.user.answers = [];
 		}
-		if (question.hasBeenAnswered()) {
+		if (question.hasBeenAnswered(req.user)) {
 			return res.status(400).send({
 				reason: 'This question has already been answered by the current user'
 			});

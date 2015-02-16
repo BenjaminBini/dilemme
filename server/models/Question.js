@@ -32,16 +32,16 @@ var questionSchema = mongoose.Schema({
  */
 questionSchema.methods = {
 	hasBeenAnswered: function (user) {
-		if (!user || !user.isAuthenticated()) {
+		if (!user) {
 			return true;
 		}
-		if (!req.user.answers) {
+		if (!user.answers) {
 			return false;
 		}
 		var alreadyAnswered = false;
-		for (var i = 0; i < req.user.answers.length; i++) {
-			if (req.user.answers[i].question == this._id) {
-				alreadyAnsweredQuestion = true;
+		for (var i = 0; i < user.answers.length; i++) {
+			if (user.answers[i].question.equals(this._id)) {
+				alreadyAnswered = true;
 				break;
 			}
 		}
