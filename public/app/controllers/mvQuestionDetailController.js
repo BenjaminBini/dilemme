@@ -19,6 +19,11 @@ angular.module('app').controller('mvQuestionDetailController', function ($scope,
 		if (question.tags !== undefined && !Array.isArray(question.tags)) {
 			question.tags = question.tags.split(',');
 		}
+		if (question.tags !== undefined) {
+			for (var i = 0; i < question.tags.length; i++) {
+				question.tags[i] = $.trim(question.tags[i]);
+			}
+		}
 		if (question._id) {
 			mvQuestionService.updateQuestion(question).then(function () {
 				mvNotifier.notify('Question has been updated');
