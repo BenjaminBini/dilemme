@@ -129,6 +129,24 @@ footer p {
 }
 .question .actions {
   margin-top: 40px;
+  margin-bottom: 40px;
+}
+.question .question-details .detail-label {
+  margin-right: 20px;
+}
+.question .question-details .tags .tag {
+  display: inline-block;
+  height: 27px;
+  padding: 6px 21px;
+  margin: 0 5px 5px 0;
+  overflow: hidden;
+  font-size: 13px;
+  line-height: 15px;
+  color: #fff;
+  background-color: #1abc9c;
+  vertical-align: middle;
+  border-radius: 4px;
+  font-weight: 700;
 }
 @-moz-keyframes effect {
   100% {
