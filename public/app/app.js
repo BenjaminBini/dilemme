@@ -74,7 +74,7 @@ angular.module('app').config(function ($routeProvider, $locationProvider) {
 		});
 });
 
-angular.module('app').run(function ($rootScope, $location) {
+angular.module('app').run(function ($rootScope, $location, mvIdentity) {
 	$rootScope.$on('$routeChangeError', function (evt, current, previous, rejection) {
 		if (rejection === 'not authorized') {
 			$location.path('/');
@@ -83,4 +83,5 @@ angular.module('app').run(function ($rootScope, $location) {
 	$rootScope.$on('$routeChangeStart', function(event, currentRoute, previousRoute){
 		$rootScope.animation = currentRoute.animation;
 	});
+	$rootScope.identity = mvIdentity;
 });
