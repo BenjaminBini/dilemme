@@ -19,6 +19,7 @@ module.exports = function(app) {
 
 	// Questions
 	app.get('/api/questions', questions.getQuestions);
+	app.get('/api/questions/tag/:tag', questions.getQuestionsByTag);
 	app.get('/api/questions/random', questions.getRandomQuestion);
 	app.get('/api/questions/:id', questions.getQuestionById);
 	app.post('/api/questions', auth.requiresRole('admin'), questions.createQuestion);
@@ -45,12 +46,12 @@ module.exports = function(app) {
 
 	// Return 404 for undefined api queries
 	app.all('/api/*', function(req, res) {
-		res.send(404);
+		res.sendStatus(404);
 	});
 
 	// Same for Jade files
 	app.all('*.jade', function(req, res) {
-		res.send(404);
+		res.sendStatus(404);
 	})
 
 	// Catch all requests

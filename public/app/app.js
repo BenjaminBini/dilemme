@@ -32,6 +32,11 @@ angular.module('app').config(function ($routeProvider, $locationProvider) {
 			controller: 'mvQuestionController',
 			animation: 'view-transition'
 		})
+		.when('/questions/tag/:tag', {
+			templateUrl: '/partials/questions/tag/tag.jade',
+			controller: 'mvTagViewController',
+			animation: 'view-transition'
+		})
 		.when('/admin/users', { 
 			templateUrl: '/partials/admin/users/user-list', 
 			controller: 'mvUserListController',

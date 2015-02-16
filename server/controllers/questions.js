@@ -11,8 +11,21 @@ var Question = require('mongoose').model('Question');
  * @param   res Response
  * @return      Array of all questions
  */
-exports.getQuestions = function(req, res) {
-	Question.find({}).exec(function(err, collection) {
+exports.getQuestions = function (req, res) {
+	Question.find({}).exec(function (err, collection) {
+		res.send(collection);
+		return collection;
+	});
+};
+
+/**
+ * Return array of question with the given tag
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
+exports.getQuestionsByTag = function (req, res) {
+	Question.find({tags: req.params.tag}).exec(function (err, collection) {
 		res.send(collection);
 		return collection;
 	});
@@ -51,7 +64,7 @@ exports.getRandomQuestion = function (req, res) {
  * @param  {Function} next Next
  * @return {[type]}        Created question
  */
-exports.createQuestion = function(req, res, next) {
+exports.createQuestion = function (req, res, next) {
 	// Get the question data from the request
 	var questionData = req.body;
 
@@ -74,7 +87,7 @@ exports.createQuestion = function(req, res, next) {
  * @param  {[type]}   res  Response
  * @return {[type]}        Updated question
  */
-exports.updateQuestion = function(req, res) {
+exports.updateQuestion = function (req, res) {
 
 	var updatedQuestion = req.body;
 	Question.findOne({_id: req.params.id}).exec(function (err, question) {
@@ -103,7 +116,7 @@ exports.updateQuestion = function(req, res) {
  * @param  {[type]} resp 	Response
  * @return {[type]}         Deleted id
  */
-exports.deleteQuestion = function(req, res) {
+exports.deleteQuestion = function (req, res) {
 	Question.remove({ _id: req.params.id}, function (err) {
 		if (err) {
 			res.status(400);

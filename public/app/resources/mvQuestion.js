@@ -6,7 +6,13 @@ angular.module('app').factory('mvQuestion', function ($resource) {
 		},
 		random: {
 			method: 'GET',
-			url: '/api/questions/random'
+			url: '/api/questions/random',
+			isArray: false
+		},
+		queryForTag: {
+			method: 'GET',
+			url: '/api/questions/tag/:tag',
+			isArray: true
 		}
 	});
 

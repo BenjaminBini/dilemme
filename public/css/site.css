@@ -101,8 +101,8 @@ footer p {
   border-bottom: none;
 }
 .question .answers .answer .circle.animate {
-  -webkit-animation: effect 0.65s linear;
-  animation: effect 0.65s linear;
+  -webkit-animation: effect 0.85s linear;
+  animation: effect 0.85s linear;
 }
 .question .answers .answer .result {
   transition: height 0.65s ease-in-out;
@@ -137,6 +137,7 @@ footer p {
 }
 .question .question-details .detail-label {
   margin-right: 20px;
+  font-size: 15px;
 }
 .question .question-details .tags .tag {
   display: inline-block;
@@ -151,6 +152,9 @@ footer p {
   vertical-align: middle;
   border-radius: 4px;
   font-weight: 700;
+}
+.question .question-details .tags a {
+  color: #fff;
 }
 .view-transition .view {
   transition: 800ms;
