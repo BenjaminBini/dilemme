@@ -1,5 +1,6 @@
 body {
   padding-top: 61px;
+  overflow-x: hidden;
 }
 footer {
   padding-left: 0 15px;
@@ -74,6 +75,9 @@ footer p {
   font-size: 2em;
   padding: 0;
 }
+.question .answers .answer {
+  cursor: pointer;
+}
 .question .answers .answer span.answer-text,
 .question .answers .answer .circle {
   display: block;
@@ -84,7 +88,6 @@ footer p {
   overflow: hidden;
   padding: 20px;
   padding: 150px 20px;
-  cursor: pointer;
   border-bottom: 12px solid rgba(0,0,0,0.15);
 }
 .question .answers .answer .circle {
@@ -100,12 +103,10 @@ footer p {
 .question .answers .answer .circle.animate {
   -webkit-animation: effect 0.65s linear;
   animation: effect 0.65s linear;
-  animation-fill-mode: forwards;
-  -webkit-animation-fill-mode: forwards;
 }
 .question .answers .answer .result {
-  transition: all 0.65s ease-in-out;
-  transition-delay: 0.65s;
+  transition: height 0.65s ease-in-out;
+  transition-delay: 0.3s;
   height: 0;
   overflow: hidden;
 }
@@ -123,6 +124,9 @@ footer p {
 }
 .question .answers answer-button:last-child .answer {
   background: #3498db;
+}
+.question .answers.answered .answer {
+  cursor: auto;
 }
 .question .answers.answered .result {
   height: 60px;
@@ -148,8 +152,22 @@ footer p {
   border-radius: 4px;
   font-weight: 700;
 }
+.view-transition .view {
+  transition: 800ms;
+  position: relative;
+}
+.view-transition .view.ng-enter {
+  opacity: 0;
+}
+.view-transition .view.ng-enter-active {
+  opacity: 1;
+}
+.view-transition .view.ng-leave {
+  display: none;
+}
 @-moz-keyframes effect {
   100% {
+    opacity: 0;
     transform: scale(3);
     -ms-transform: scale(3);
     -wekbit-transform: scale(3);
@@ -157,6 +175,7 @@ footer p {
 }
 @-webkit-keyframes effect {
   100% {
+    opacity: 0;
     transform: scale(3);
     -ms-transform: scale(3);
     -wekbit-transform: scale(3);
@@ -164,6 +183,7 @@ footer p {
 }
 @-o-keyframes effect {
   100% {
+    opacity: 0;
     transform: scale(3);
     -ms-transform: scale(3);
     -wekbit-transform: scale(3);
@@ -171,6 +191,7 @@ footer p {
 }
 @keyframes effect {
   100% {
+    opacity: 0;
     transform: scale(3);
     -ms-transform: scale(3);
     -wekbit-transform: scale(3);
