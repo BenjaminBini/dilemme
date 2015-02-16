@@ -14,6 +14,11 @@ require('./server/config/passport')();
 
 require('./server/config/routes')(app);
 
+// Log uncaught errors
+process.on('uncaughtException', function(err) {
+  console.log('UNCAUGHT EXCEPTION : ' + err);
+});
+
 // Start app
 http.listen(config.port);
 console.log('Application started and listening to ' + config.port + '...');
