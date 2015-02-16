@@ -25,7 +25,6 @@ exports.getUsers = function(req, res) {
  * @return {[type]}     [description]
  */
 exports.getUserById = function (req, res) {
-	console.log("TESSST");
 	User.findOne({_id: req.params.id}).exec(function (err, user) {
 		res.send(user);
 	});
@@ -36,7 +35,7 @@ exports.getUserById = function (req, res) {
  * @param  {[type]}   req  Request
  * @param  {[type]}   res  Response
  * @param  {Function} next Next
- * @return {[type]}        Created user
+ * @return {[type]}        Created username
  */
 exports.createUser = function(req, res, next) {
 	// Get the user data from the request
@@ -88,6 +87,9 @@ exports.updateUser = function(req, res) {
 
 	// Get the user we have to modify
 	User.findOne({_id: req.params.id}).exec(function(err, user) {
+		if (err) {
+			res.sendStatus(400);
+		}
 		user.firstName = userUpdates.firstName;
 		user.lastName = userUpdates.lastName;
 		user.username = userUpdates.username;
@@ -121,7 +123,7 @@ exports.updateUser = function(req, res) {
 };
 
 /**
- * Delete a question
+ * Delete a user
  * @param  {[type]} req 	Request
  * @param  {[type]} resp 	Response
  * @return {[type]}         Deleted id
