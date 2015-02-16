@@ -31,6 +31,22 @@ var questionSchema = mongoose.Schema({
  * Question schema methods
  */
 questionSchema.methods = {
+	hasBeenAnswered: function (user) {
+		if (!user || !user.isAuthenticated()) {
+			return true;
+		}
+		if (!req.user.answers) {
+			return false;
+		}
+		var alreadyAnswered = false;
+		for (var i = 0; i < req.user.answers.length; i++) {
+			if (req.user.answers[i].question == this._id) {
+				alreadyAnsweredQuestion = true;
+				break;
+			}
+		}
+		return alreadyAnswered;
+	}
 }
 
 /**

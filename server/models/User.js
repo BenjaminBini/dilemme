@@ -28,7 +28,14 @@ var userSchema = mongoose.Schema({
 	registrationDate: {
 		type: Date,
 		default: Date.now
-	}
+	},
+	answers : [{
+		question: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Question'
+		},
+		answer: Number
+	}]
 });
 
 /**

@@ -128,3 +128,56 @@ exports.deleteQuestion = function (req, res) {
 		return req.params.id;
 	});
 }
+
+/**
+ * Answer a question
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
+exports.answerQuestion = function (req, res) {
+	var questionId = req.params.id;
+	var answerNumber = parseInt(req.params.answer);
+
+	// TODO : anonymous answer
+	if (answerNumber !== 0 && answerNumber !== 1) {
+		return res.status(400).send({
+			reason: 'This answer number is not allowed'
+		});
+	}
+	Question.findOne({_id: questionId}).exec(function(err, question) {
+		if (err) {
+			return res.status(400).send({
+				reason: 'Question with id "' + questionId + '" does not exist'
+			});
+		}
+		if (!req.user.answers) {
+			req.user.answers = [];
+		}
+		if (question.hasBeenAnswered()) {
+			return res.status(400).send({
+				reason: 'This question has already been answered by the current user'
+			});
+		}
+		req.user.answers.push({
+			question: questionId,
+			answer: answerNumber
+		});
+		req.user.save(function (err) {
+			if (err) {
+				return res.status(400).send({
+					reason: err.toString()
+				});
+			}
+			question.answers[answerNumber].votes = question.answers[answerNumber].votes + 1;
+			question.save(function (err) {
+				if (err) {
+					return res.status(400).send({
+						reason: err.toString()
+					});
+				}
+				return res.send(question);
+			});
+		});
+	});
+};

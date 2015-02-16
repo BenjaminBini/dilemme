@@ -13,6 +13,11 @@ angular.module('app').factory('mvQuestion', function ($resource) {
 			method: 'GET',
 			url: '/api/questions/tag/:tag',
 			isArray: true
+		},
+		answerQuestion: {
+			method: 'POST',
+			isArray: false,
+			url: '/api/questions/:_id/answer/:answer'
 		}
 	});
 

@@ -21,10 +21,14 @@ module.exports = function(app) {
 	app.get('/api/questions', questions.getQuestions);
 	app.get('/api/questions/tag/:tag', questions.getQuestionsByTag);
 	app.get('/api/questions/random', questions.getRandomQuestion);
+
 	app.get('/api/questions/:id', questions.getQuestionById);
 	app.post('/api/questions', auth.requiresRole('admin'), questions.createQuestion);
 	app.put('/api/questions/:id', auth.requiresRole('admin'), questions.updateQuestion);
 	app.delete('/api/questions/:id', auth.requiresRole('admin'), questions.deleteQuestion);
+
+	// Answers
+	app.post('/api/questions/:id/answer/:answer', auth.requiresApiLogin, questions.answerQuestion);
 
 
 	// Render partials

@@ -43,10 +43,21 @@ angular.module('app').factory('mvQuestionService', function($http, $q, mvQuestio
 			if (totalVotes == 0) {
 				firstAnswerProportion = 50;
 			} else {
-				firstAnswerProportion = firstAnswerVotes / totalVotes * 100;
+				firstAnswerProportion = Math.round(firstAnswerVotes / totalVotes * 100);
 			}
 			secondAnswerProportion = 100 - firstAnswerProportion;
 			return [firstAnswerProportion, secondAnswerProportion];
+		},
+		answerQuestion: function(question, answerNumber) {
+			var dfd = $q.defer();
+
+			question.$answerQuestion({_id: question._id, answer: answerNumber}).then(function () {
+				dfd.resolve();
+			}, function (response) {
+				dfd.reject(response.data.reason);
+			});
+
+			return dfd.promise;
 		}
 	}
 });
