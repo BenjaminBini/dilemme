@@ -52,6 +52,12 @@ questionSchema.methods = {
 /**
  * Question schema statics methods
  */
+
+/**
+ * Get a random question
+ * @param  {Function} callback [description]
+ * @return {[type]}            [description]
+ */
 questionSchema.statics.random = function(callback) {
 	this.count(function(err, count) {
 		if (err) {
