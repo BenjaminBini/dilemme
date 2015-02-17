@@ -33,7 +33,7 @@ var questionSchema = mongoose.Schema({
 questionSchema.methods = {
 	hasBeenAnswered: function (user) {
 		if (!user) {
-			return true;
+			return false;
 		}
 		if (!user.answers) {
 			return false;
