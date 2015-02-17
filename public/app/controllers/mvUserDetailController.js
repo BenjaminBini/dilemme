@@ -15,7 +15,7 @@ angular.module('app').controller('mvUserDetailController', function($scope, $rou
 		if ($scope.password && $scope.password.length > 0) {
 			user.password = $scope.password;
 		}
-		user.$update({_id: user._id}).then(function () {
+		mvUserService.updateUser(user).then(function () {
 			mvNotifier.notify('User has been updated');
 			$location.path('/admin/users');
 		}, function (response) {
