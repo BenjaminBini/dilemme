@@ -21,6 +21,7 @@ module.exports = function(app) {
 	app.get('/api/questions', questions.getQuestions);
 	app.get('/api/questions/tag/:tag', questions.getQuestionsByTag);
 	app.get('/api/questions/random', questions.getRandomQuestion);
+	app.get('/api/questions/random/unanswered', questions.getUnansweredRandomQuestion);
 
 	app.get('/api/questions/:id', questions.getQuestionById);
 	app.post('/api/questions', auth.requiresRole('admin'), questions.createQuestion);

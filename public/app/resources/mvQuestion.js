@@ -9,6 +9,11 @@ angular.module('app').factory('mvQuestion', function ($resource) {
 			url: '/api/questions/random',
 			isArray: false
 		},
+		unansweredRandom: {
+			method: 'GET',
+			url: '/api/questions/random/unanswered',
+			isArray: false
+		},
 		queryForTag: {
 			method: 'GET',
 			url: '/api/questions/tag/:tag',

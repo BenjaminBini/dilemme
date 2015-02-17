@@ -4,8 +4,8 @@ angular.module('app').factory('mvUserService', function($http, $q, mvUser) {
 			var newUser = new mvUser(user);
 			var dfd = $q.defer();
 
-			newUser.$save().then(function () {
-				dfd.resolve();
+			newUser.$save().then(function (user) {
+				dfd.resolve(user);
 			}, function (response) {
 				dfd.reject(response.data.reason);
 			});
