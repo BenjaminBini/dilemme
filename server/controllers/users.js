@@ -63,8 +63,7 @@ exports.createUser = function(req, res, next) {
 			}
 
 			// Send and return the user
-			res.send(user);
-			return user;
+			return res.send(user);
 		});
 	});
 };
