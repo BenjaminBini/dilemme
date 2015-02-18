@@ -27,6 +27,11 @@ angular.module('app').config(function ($routeProvider, $locationProvider) {
 			controller: 'mvQuestionRandomController',
 			animation: 'view-transition'
 		})
+		.when('/questions/random/unanswered', {
+			template: '',
+			controller: 'mvUnansweredQuestionRandomController',
+			animation: 'view-transition'
+		})
 		.when('/questions/:id', {
 			templateUrl: '/partials/questions/question.jade',
 			controller: 'mvQuestionController',
