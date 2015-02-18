@@ -39,9 +39,7 @@ angular.module('app').directive('answerButton', function () {
 
 			// If the question has already been answered
 			scope.$watch(attrs.userAnswer, function (userAnswer) {
-				console.log ('userAnswer : ' + userAnswer + ', scope.answerNumber : ' + scope.answerNumber);
 				if (userAnswer !== undefined && userAnswer == scope.answerNumber) {
-					console.log('TRIGGER CLICK');
 					scope.clicked = true;
 					$('.answers').addClass('answered');
 					$('.answer span').off('click');

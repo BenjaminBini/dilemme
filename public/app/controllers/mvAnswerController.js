@@ -29,7 +29,6 @@ angular.module('app').controller('mvAnswerController', function($scope, mvQuesti
 			var answers = mvIdentity.currentUser.answers;
 			for (var i = 0; i < answers.length; i++) {
 				if (answers[i].question == question._id) {
-					console.log('ANSWERED');
 					$scope.userAnswer = answers[i].answer;
 					$scope.results = mvQuestionService.getProportions($scope.question);
 					$scope.answer = function () {};
