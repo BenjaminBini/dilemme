@@ -3,7 +3,6 @@ angular.module('app').directive('answerButton', function () {
 		restrict: 'E',
 		templateUrl: '/directives-templates/answer-button/answer-button.jade',
 		scope: {
-			'text': '=?',
 			'answerNumber': '=?',
 			'answer': '=?',
 			'result': '=?',
