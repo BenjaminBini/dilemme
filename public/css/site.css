@@ -105,8 +105,6 @@ footer p {
   animation: effect 0.85s linear;
 }
 .question .answers .answer .result {
-  transition: height 0.65s ease-in-out;
-  transition-delay: 0.3s;
   height: 0;
   overflow: hidden;
 }
@@ -130,6 +128,8 @@ footer p {
 }
 .question .answers.answered .result {
   height: 60px;
+  transition: height 0.65s ease-in-out;
+  transition-delay: 0.3s;
 }
 .question .actions {
   margin-top: 40px;

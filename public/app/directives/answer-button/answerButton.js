@@ -3,13 +3,15 @@ angular.module('app').directive('answerButton', function () {
 		restrict: 'E',
 		templateUrl: '/directives-templates/answer-button/answer-button.jade',
 		scope: {
-			'answerNumber': '=?',
 			'answer': '=?',
 			'result': '=?',
+			'userAnswer': '=?',
+			'answerNumber': '=?',
 			'sendAnswer': '&onClick'
 		},
 		link: function link(scope, element, attrs) {
 			
+			// Animate on click
 			var button, circle, d, x, y;
 			$('.answer span', element).on('click', function (e) {
 				scope.clicked = true;
@@ -33,6 +35,17 @@ angular.module('app').directive('answerButton', function () {
 				}).addClass('animate');
 				$('.answer span').off('click');
 				$('.answers').addClass('answered');
+			});
+
+			// If the question has already been answered
+			scope.$watch(attrs.userAnswer, function (userAnswer) {
+				console.log ('userAnswer : ' + userAnswer + ', scope.answerNumber : ' + scope.answerNumber);
+				if (userAnswer !== undefined && userAnswer == scope.answerNumber) {
+					console.log('TRIGGER CLICK');
+					scope.clicked = true;
+					$('.answers').addClass('answered');
+					$('.answer span').off('click');
+				}
 			});
 		}
 	}

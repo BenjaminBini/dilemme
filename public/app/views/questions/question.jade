@@ -2,9 +2,9 @@
 	.question(ng-controller="mvAnswerController")
 		h2.question-text {{question.text}}
 		.row.answers
-			answer-button(answer="question.answers[0]", on-click="answer(0)", result="results[0]")
+			answer-button(answer="question.answers[0]", on-click="answer(0)", result="results[0]", user-answer="userAnswer", answer-number="0")
 			.col-md-2.separation ? 
-			answer-button(answer="question.answers[1]", on-click="answer(1)", result="results[1]")
+			answer-button(answer="question.answers[1]", on-click="answer(1)", result="results[1]", user-answer="userAnswer", answer-number="1")
 		.row.actions
 			a.btn.btn-embossed.btn-info(ng-href="/admin/questions/{{question._id}}" ng-show="identity.currentUser.isAdmin()") Edit this question
 			.pull-right 
