@@ -74,14 +74,31 @@ angular.module('app').config(function ($routeProvider, $locationProvider) {
 		});
 });
 
-angular.module('app').run(function ($rootScope, $location, mvIdentity) {
+angular.module('app').run(function ($route, $rootScope, $location, mvIdentity) {
+	// Redirect to homepage if not authorized
 	$rootScope.$on('$routeChangeError', function (evt, current, previous, rejection) {
 		if (rejection === 'not authorized') {
 			$location.path('/');
 		}
 	});
+	// Set identity in rootScope
+	$rootScope.identity = mvIdentity;
+	// Set animation in rootScope
 	$rootScope.$on('$routeChangeStart', function(event, currentRoute, previousRoute){
 		$rootScope.animation = currentRoute.animation;
 	});
-	$rootScope.identity = mvIdentity;
+
+	// Custom $location.path method
+	// Add a parameter that allows not to run controller on location change
+ 	var original = $location.path;
+    $location.path = function (path, reload) {
+        if (reload === false) {
+            var lastRoute = $route.current;
+            var un = $rootScope.$on('$locationChangeSuccess', function () {
+                $route.current = lastRoute;
+                un();
+            });
+        }
+        return original.apply($location, [path]);
+    };
 });
