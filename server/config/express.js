@@ -23,10 +23,15 @@ module.exports = function(app, config) {
 
 	// Parsers
 	app.use(cookieParser());
-	app.use(bodyParser());
+	app.use(bodyParser.urlencoded({extended: true}));
+	app.use(bodyParser.json());
 
 	// Sessions
-	app.use(session({secret: 'multi vision unicorn'})); 
+	app.use(session({
+		secret: 'multi vision unicorn',
+		resave:false,
+		saveUninitialized:false
+	})); 
 
 	// Passport middlewares
 	app.use(passport.initialize());
