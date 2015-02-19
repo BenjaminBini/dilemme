@@ -18,6 +18,8 @@
     "morgan": "^1.5.1",
     "passport": "^0.2.1",
     "passport-local": "^1.0.0",
+    "promised-io": "^0.3.4",
+    "request-ip": "0.0.4",
     "stylus": "^0.49.3"
   },
   "devDependencies": {

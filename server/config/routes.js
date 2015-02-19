@@ -29,7 +29,7 @@ module.exports = function(app) {
 	app.delete('/api/questions/:id', auth.requiresRole('admin'), questions.deleteQuestion);
 
 	// Answers
-	app.post('/api/questions/:id/answer/:answer', auth.requiresApiLogin, questions.answerQuestion);
+	app.post('/api/questions/:id/answer/:answer', questions.answerQuestion);
 
 
 	// Render partials

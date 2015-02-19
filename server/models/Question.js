@@ -1,4 +1,6 @@
 var mongoose = require('mongoose');
+var ipAnswersModel = require('../models/IpAnswers');
+var Deffered = require("promised-io/promise").Deferred;
 
 /**
  * Question schema
@@ -27,32 +29,49 @@ var questionSchema = mongoose.Schema({
 	}
 });
 
+var IpAnswers = mongoose.model('IpAnswers');
+
 /**
  * Question schema methods
  */
 questionSchema.methods = {
-	hasBeenAnswered: function (user) {
-		if (!user) {
-			return false;
-		}
-		if (!user.answers) {
-			return false;
-		}
-		var alreadyAnswered = false;
-		for (var i = 0; i < user.answers.length; i++) {
-			if (user.answers[i].question.equals(this._id)) {
-				alreadyAnswered = true;
-				break;
+	hasBeenAnswered: function (user, ip) {
+		var self = this;
+		var q = new Deffered();
+		if (!user) { // Anonymous mode
+			IpAnswers.find({ip: ip}, function (err, ipAnswers) {
+				if (err) { // Error case : resolve with true
+					q.resolve(true);
+				}
+				if (ipAnswers.length === 0) { // New user, we save it and initialize its IpAnswers entry
+					IpAnswers.create({
+						ip: ip,
+						answers: []
+					});
+					q.resolve(false);
+				} else if (ipAnswers.length === 1) { // Known user, we will work with his/her answers
+					answers = ipAnswers[0].answers;
+					for (var i = 0; i < answers.length; i++) {
+						if (answers[i].question.equals(self._id)) {
+							q.resolve(true);
+							return;
+						}
+					}
+					q.resolve(false);
+				}
+			});
+		} else { // Authenticated mode
+			for (var i = 0; i < user.answers.length; i++) {
+				if (user.answers[i].question.equals(self._id)) {
+					q.resolve(true);
+					return;
+				}
 			}
+			q.resolve(false);
 		}
-		return alreadyAnswered;
+		return q.promise;
 	}
 }
-
-/**
- * Question schema statics methods
- */
-
 /**
  * Get a random question
  * @param  {Function} callback [description]
@@ -68,12 +87,13 @@ questionSchema.statics.random = function(callback) {
 	}.bind(this));
 };
 
+
 var Question = mongoose.model('Question', questionSchema);
 
 /**
  * Create default questions in the db
  */
-exports.createDefaultQuestions = function() {
+exports.createDefaultEntries = function() {
 	Question.find({}).exec(function (err, collection) {
 		if (collection.length === 0) {
 			Question.create({ 
@@ -167,5 +187,6 @@ exports.createDefaultQuestions = function() {
 				}]
 			});
 		}
+		console.log ('Questions collection has ' + collection.length + ' entries');
 	});
 };

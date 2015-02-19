@@ -32,11 +32,16 @@ var userSchema = mongoose.Schema({
 	answers : [{
 		question: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Question'
+			ref: 'Question',
+			required:'{PATH} is required'
 		},
-		answer: Number
+		answer: {
+			type: Number,
+			required:'{PATH} is required'
+		}
 	}]
 });
+
 
 /**
  * User schema methods
@@ -65,7 +70,7 @@ var User = mongoose.model('User', userSchema);
 /**
  * Create default users in the db
  */
-exports.createDefaultUsers = function() {
+exports.createDefaultEntries = function() {
 	User.find({}).exec(function (err, collection) {
 		if (collection.length === 0) {
 			var salt, hash;
@@ -79,5 +84,6 @@ exports.createDefaultUsers = function() {
 			hash = encrypt.hashPassword(salt, 'leo');
 			User.create({firstName: 'Léonie', lastName: 'Gros', username: 'leo', salt: salt, hashedPassword: hash, registrationDate: new Date('10/02/2013')});
 		}
+		console.log ('Users collection has ' + collection.length + ' entries');
 	});
 };

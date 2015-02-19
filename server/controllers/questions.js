@@ -1,9 +1,10 @@
 /**
- * Courses controller
+ * Questions controller
  */
-
-var encrypt = require('../utils/encryption');
-var Question = require('mongoose').model('Question');
+var requestIp = require('request-ip');
+var mongoose = require('mongoose');
+var Question = mongoose.model('Question');
+var IpAnswers = mongoose.model('IpAnswers');
 
 /**
  * Return array of all questions
@@ -174,6 +175,7 @@ exports.deleteQuestion = function (req, res) {
 exports.answerQuestion = function (req, res) {
 	var questionId = req.params.id;
 	var answerNumber = parseInt(req.params.answer);
+	var ip = requestIp.getClientIp(req);
 
 	// TODO : anonymous answer
 
@@ -192,43 +194,71 @@ exports.answerQuestion = function (req, res) {
 				reason: 'Question with id "' + questionId + '" does not exist'
 			});
 		}
-
-		// If the user has no answer object yet (it should not happen, but let's try not to take any risk)
-		if (!req.user.answers) {
-			req.user.answers = [];
-		}
-
-		// If the user has already answered the question, send a 400
-		if (question.hasBeenAnswered(req.user)) {
-			return res.status(400).send({
-				reason: 'This question has already been answered by the current user'
-			});
-		}
-
-		// Add push the new answer to user answers list
-		req.user.answers.push({
-			question: questionId,
-			answer: answerNumber
-		});
-
-		// Save the user
-		req.user.save(function (err) {
-			if (err) {
+		
+		question.hasBeenAnswered(req.user, ip).then(function (hasBeenAnswered) {
+			if (hasBeenAnswered) { // If the user has already answered the question, send a 400
 				return res.status(400).send({
-					reason: err.toString()
+					reason: 'This question has already been answered by the current user'
 				});
-			}
+			} else {
+				if (req.isAuthenticated()) { // Authenticated mode, push the new answer to user answers list 
+					// If the user has no answer object yet (it should not happen, but let's try not to take any risk)
+					if (!req.user.answers) {
+						req.user.answers = [];
+					}
+					req.user.answers.push({
+						question: questionId,
+						answer: answerNumber
+					});	
 
-			// Increase the vote number and save the question
-			question.answers[answerNumber].votes = question.answers[answerNumber].votes + 1;
-			question.save(function (err) {
-				if (err) {
-					return res.status(400).send({
-						reason: err.toString()
+					// Save the user
+					req.user.save(function (err) {
+						if (err) {
+							return res.status(400).send({
+								reason: err.toString()
+							});
+						}
+					});
+
+				} else { // Anonymous mode
+
+					IpAnswers.findOne({ip: ip}, function (err, ipAnswers) {
+						if (err || !ipAnswers) {
+							var reason;
+							if (err) {
+								reason = err.toString();
+							} else {
+								reason = 'An unknown error occured';
+							}
+							return res.status(400).send({
+								reason: reason
+							});
+						}
+						ipAnswers.answers.push({
+							question: questionId,
+							answer: answerNumber
+						});
+						ipAnswers.save(function (err) {
+							if (err) {
+								return res.status(400).send({
+									reason: err.toString()
+								});
+							}
+						});
 					});
 				}
-				return res.send(question);
-			});
+				
+				// Increase the vote number and save the question
+				question.answers[answerNumber].votes = question.answers[answerNumber].votes + 1;
+				question.save(function (err) {
+					if (err) {
+						return res.status(400).send({
+							reason: err.toString()
+						});
+					}
+					return res.send(question);
+				});
+			}
 		});
 	});
 };
