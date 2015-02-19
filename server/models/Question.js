@@ -54,20 +54,20 @@ questionSchema.methods = {
 					for (var i = 0; i < answers.length; i++) {
 						if (answers[i].question.equals(self._id)) {
 							q.resolve(true);
-							return;
+						} else if (i === answers.length - 1)  {
+							q.resolve(false);
 						}
 					}
-					q.resolve(false);
 				}
 			});
 		} else { // Authenticated mode
 			for (var i = 0; i < user.answers.length; i++) {
 				if (user.answers[i].question.equals(self._id)) {
 					q.resolve(true);
-					return;
+				} else if (i === user.answers.length - 1)  {
+					q.resolve(false);
 				}
 			}
-			q.resolve(false);
 		}
 		return q.promise;
 	}
