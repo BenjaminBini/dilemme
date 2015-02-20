@@ -51,6 +51,9 @@ questionSchema.methods = {
 					q.resolve(false);
 				} else if (ipAnswers.length === 1) { // Known user, we will work with his/her answers
 					answers = ipAnswers[0].answers;
+					if (answers.length === 0) {
+						q.resolve(false);
+					}
 					for (var i = 0; i < answers.length; i++) {
 						if (answers[i].question.equals(self._id)) {
 							q.resolve(true);
@@ -61,6 +64,9 @@ questionSchema.methods = {
 				}
 			});
 		} else { // Authenticated mode
+			if (user.answers.length === 0) {
+				q.resolve(false);
+			}
 			for (var i = 0; i < user.answers.length; i++) {
 				if (user.answers[i].question.equals(self._id)) {
 					q.resolve(true);
