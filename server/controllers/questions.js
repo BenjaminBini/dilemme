@@ -197,8 +197,14 @@ exports.answerQuestion = function (req, res) {
 		
 		question.hasBeenAnswered(req.user, ip).then(function (hasBeenAnswered) {
 			if (hasBeenAnswered) { // If the user has already answered the question, send a 400
+				var reason;
+				if (req.isAuthenticated()) {
+					reason = 'This question has already been answered by the current user';
+				} else {
+					reason = 'This question has already been answered with this IP address, try again later (15 minutes)'
+				}
 				return res.status(400).send({
-					reason: 'This question has already been answered by the current user'
+					reason: reason
 				});
 			} else {
 				if (req.isAuthenticated()) { // Authenticated mode, push the new answer to user answers list 
