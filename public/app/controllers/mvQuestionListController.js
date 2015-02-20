@@ -8,6 +8,9 @@ angular.module('app').controller('mvQuestionListController', function($scope, mv
 	}, {
 		value: "published",
 		text: "Sort by publication date"	
+	}, {
+		value: "upvotes",
+		text: "Sort by upvotes"
 	}]
 
 	$scope.sortOrder = {
