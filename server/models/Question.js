@@ -47,8 +47,13 @@ questionSchema.methods = {
 					IpAnswers.create({
 						ip: ip,
 						answers: []
+					}, function (err) {
+						if (err) {
+							q.resolve(true);
+						} else {
+							q.resolve(false);
+						}
 					});
-					q.resolve(false);
 				} else if (ipAnswers.length === 1) { // Known user, we will work with his/her answers
 					answers = ipAnswers[0].answers;
 					if (answers.length === 0) {
