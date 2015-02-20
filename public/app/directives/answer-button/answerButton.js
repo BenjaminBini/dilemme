@@ -41,7 +41,7 @@ angular.module('app').directive('answerButton', function () {
 			scope.$watch(attrs.userAnswer, function (userAnswer) {
 				if (userAnswer !== undefined && userAnswer == scope.answerNumber) {
 					scope.clicked = true;
-					$('.answers').addClass('answered');
+					$('.answers').addClass('answered no-transition');
 					$('.answer span').off('click');
 				}
 			});

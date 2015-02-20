@@ -169,6 +169,13 @@ footer p {
 .view-transition .view.ng-leave {
   display: none;
 }
+.no-transition,
+.no-transition * {
+  -moz-transition: none !important;
+  -webkit-transition: none !important;
+  -o-transition: color 0 ease-in !important;
+  transition: none !important;
+}
 @-moz-keyframes effect {
   100% {
     opacity: 0;
