@@ -48,7 +48,7 @@ angular.module('app').factory('mvQuestionService', function($http, $q, mvQuestio
 			secondAnswerProportion = 100 - firstAnswerProportion;
 			return [firstAnswerProportion, secondAnswerProportion];
 		},
-		answerQuestion: function(question, answerNumber) {
+		answerQuestion: function (question, answerNumber) {
 			var dfd = $q.defer();
 
 			question.$answerQuestion({_id: question._id, answer: answerNumber}).then(function () {
@@ -59,7 +59,18 @@ angular.module('app').factory('mvQuestionService', function($http, $q, mvQuestio
 
 			return dfd.promise;
 		},
-		saveAnswerLocally: function(question, answer) {
+		upvoteQuestion: function (question) {
+			var dfd = $q.defer();
+
+			question.$upvoteQuestion({_id: question._id}).then(function () {
+				dfd.resolve();
+			}, function (response) {
+				dfd.reject(response.data.reason);
+			});
+
+			return dfd.promise;
+		},
+		saveAnswerLocally: function (question, answer) {
 			var dfd = $q.defer();
 
 			var anonymousAnswer = {

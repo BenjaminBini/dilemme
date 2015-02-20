@@ -135,9 +135,17 @@ footer p {
   margin-top: 40px;
   margin-bottom: 40px;
 }
+.question .question-details .question-detail-field {
+  margin-bottom: 10px;
+}
 .question .question-details .detail-label {
   margin-right: 20px;
   font-size: 15px;
+  display: inline-block;
+  width: 60px;
+}
+.question .question-details .votes a {
+  cursor: pointer;
 }
 .question .question-details .tags .tag {
   display: inline-block;

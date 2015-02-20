@@ -28,9 +28,8 @@ module.exports = function(app) {
 	app.put('/api/questions/:id', auth.requiresRole('admin'), questions.updateQuestion);
 	app.delete('/api/questions/:id', auth.requiresRole('admin'), questions.deleteQuestion);
 
-	// Answers
 	app.post('/api/questions/:id/answer/:answer', questions.answerQuestion);
-
+	app.post('/api/questions/:id/upvote', auth.requiresApiLogin, questions.upvoteQuestion);
 
 	// Render partials
 	app.get('/partials/*', function (req, res) {

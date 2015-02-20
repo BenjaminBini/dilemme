@@ -20,6 +20,13 @@ angular.module('app').controller('mvAnswerController', function($scope, mvQuesti
 		$scope.answer = function() {};
 	};
 
+	$scope.upvote = function () {
+		mvQuestionService.upvoteQuestion($scope.question).then(function() {
+		}, function (reason) {
+			mvNotifier.error(reason);
+		});
+	}
+
 	$scope.nextQuestion = function () {
 		$location.path('/questions/random/unanswered');
 	}

@@ -23,6 +23,11 @@ angular.module('app').factory('mvQuestion', function ($resource) {
 			method: 'POST',
 			isArray: false,
 			url: '/api/questions/:_id/answer/:answer'
+		},
+		upvoteQuestion: {
+			method: 'POST',
+			isArray: false,
+			url: '/api/questions/:_id/upvote'
 		}
 	});
 

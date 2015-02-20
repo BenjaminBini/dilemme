@@ -128,13 +128,20 @@ exports.updateQuestion = function (req, res) {
 
 	var updatedQuestion = req.body;
 	Question.findOne({_id: req.params.id}).exec(function (err, question) {
+		if (!question) {
+			// If an error occur, return error 400 with the error
+			res.status(400);
+			return res.send({
+				reason: err.toString()
+			});
+		}
 		question.text = updatedQuestion.text;
 		question.answers[0].text = updatedQuestion.answers[0].text;
 		question.answers[1].text = updatedQuestion.answers[1].text;
 		question.tags = updatedQuestion.tags;
 		question.save(function(err) {
 			if (err) {
-				// If an error occure, return error 400 with the error
+				// If an error occur, return error 400 with the error
 				res.status(400);
 				return res.send({
 					reason: err.toString()
@@ -234,7 +241,7 @@ exports.answerQuestion = function (req, res) {
 							if (err) {
 								reason = err.toString();
 							} else {
-								reason = 'An unknown error occured';
+								reason = 'An unknown error occurd';
 							}
 							return res.status(400).send({
 								reason: reason
@@ -265,6 +272,48 @@ exports.answerQuestion = function (req, res) {
 					return res.send(question);
 				});
 			}
+		});
+	});
+};
+
+exports.upvoteQuestion = function (req, res) {
+	var questionId = req.params.id;
+	Question.findOne({_id: questionId}).exec(function (err, question) {
+		if (!question) {
+			// If an error occur, return error 400 with the error
+			res.status(400);
+			return res.send({
+				reason: err.toString()
+			});
+		}
+		for (var i = 0; i < req.user.upvotes.length; i++) {
+			if (req.user.upvotes[i].equals(questionId)) {
+				res.status(400);
+				return res.send({
+					reason: 'You already voted for this question'
+				});
+			}
+		}
+		req.user.upvotes.push(question._id);
+		// Save the user
+		req.user.save(function (err) {
+			if (err) {
+				return res.status(400).send({
+					reason: err.toString()
+				});
+			}
+			question.upvotes = question.upvotes + 1;
+			question.save(function(err) {
+				if (err) {
+					// If an error occur, return error 400 with the error
+					res.status(400);
+					return res.send({
+						reason: err.toString()
+					});
+				}
+				// Send and return the user
+				return res.send(question);
+			});
 		});
 	});
 };

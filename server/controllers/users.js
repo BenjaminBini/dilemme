@@ -86,7 +86,7 @@ exports.updateUser = function(req, res) {
 
 	// Get the user we have to modify
 	User.findOne({_id: req.params.id}).exec(function(err, user) {
-		if (err) {
+		if (err || !user) {
 			res.sendStatus(400);
 		}
 		user.firstName = userUpdates.firstName;

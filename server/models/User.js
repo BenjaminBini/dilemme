@@ -29,16 +29,20 @@ var userSchema = mongoose.Schema({
 		type: Date,
 		default: Date.now
 	},
-	answers : [{
+	answers: [{
 		question: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Question',
-			required:'{PATH} is required'
+			required: '{PATH} is required'
 		},
 		answer: {
 			type: Number,
 			required:'{PATH} is required'
 		}
+	}],
+	upvotes: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Question'
 	}]
 });
 
