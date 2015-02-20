@@ -1,7 +1,8 @@
-angular.module('app', ['ngResource', 'ngRoute', 'ui.select', 'ngDialog', 'ngAnimate']);
+angular.module('app', ['ngResource', 'ngRoute', 'ui.select', 'ngDialog', 'ngAnimate', 'LocalStorageModule']);
 
-angular.module('app').config(function ($routeProvider, $locationProvider) {
+angular.module('app').config(function ($routeProvider, $locationProvider, localStorageServiceProvider) {
 	
+	// Roles config
 	var routeRolesCheck = {
 		admin: {
 			auth: function (mvAuthService) {
@@ -15,7 +16,10 @@ angular.module('app').config(function ($routeProvider, $locationProvider) {
 		}
 	}
 
+	// Use HTML5 mode (no # in route)
 	$locationProvider.html5Mode(true);
+
+	// Routes config
 	$routeProvider
 		.when('/', { 
 			templateUrl: '/partials/main/main',
@@ -77,6 +81,9 @@ angular.module('app').config(function ($routeProvider, $locationProvider) {
 			resolve: routeRolesCheck.user,
 			animation: 'view-transition'
 		});
+
+	// Local storage config
+	localStorageServiceProvider.setPrefix('dilemme');
 });
 
 angular.module('app').run(function ($route, $rootScope, $location, mvIdentity) {

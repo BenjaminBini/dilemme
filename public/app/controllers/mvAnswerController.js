@@ -1,15 +1,26 @@
-angular.module('app').controller('mvAnswerController', function($scope, mvQuestion, mvQuestionService, $location, mvNotifier, mvIdentity) {	
+angular.module('app').controller('mvAnswerController', function($scope, mvQuestion, mvQuestionService, $location, mvNotifier, mvIdentity, localStorageService) {	
 	$scope.answer = function (answer) {
 		$scope.results = mvQuestionService.getProportions($scope.question);
 		mvQuestionService.answerQuestion($scope.question, answer).then(function () {
 			$scope.results = mvQuestionService.getProportions($scope.question);
 			
-			// Push the answer to current user answer list
+			// Push the answer to current user answer list if authenticated
 			if (mvIdentity.isAuthenticated()) {
 				mvIdentity.currentUser.answers.push({
 					question: $scope.question._id,
 					answer: answer
 				});
+			} else { // Push it in the local storage/cookie
+				var anonymousAnswer = {
+					question: $scope.question._id,
+					answer: answer
+				}
+				var anonymousAnswers = localStorageService.get('answers');
+				if (!anonymousAnswers) {
+					anonymousAnswers = [];
+				}
+				anonymousAnswers.push(anonymousAnswer);
+				localStorageService.set('answers', anonymousAnswers);
 			}
 		}, function (reason) {
 			mvNotifier.error(reason);
@@ -25,14 +36,21 @@ angular.module('app').controller('mvAnswerController', function($scope, mvQuesti
 	// Check if the user has already answered the question (TODO : anonymous answer)
 	// If yes, show the answer
 	$scope.$watch('question', function (question) {
-		if (!!question && mvIdentity.isAuthenticated()) {
-			var answers = mvIdentity.currentUser.answers;
-			for (var i = 0; i < answers.length; i++) {
-				if (answers[i].question == question._id) {
-					$scope.userAnswer = answers[i].answer;
-					$scope.results = mvQuestionService.getProportions($scope.question);
-					$scope.answer = function () {};
-					break;
+		if (!!question) {
+			var answers;
+			if (mvIdentity.isAuthenticated()) {
+				answers = mvIdentity.currentUser.answers;
+			} else {
+				answers = localStorageService.get('answers');
+			}
+			if (answers) {
+				for (var i = 0; i < answers.length; i++) {
+					if (answers[i].question == question._id) {
+						$scope.userAnswer = answers[i].answer;
+						$scope.results = mvQuestionService.getProportions($scope.question);
+						$scope.answer = function () {};
+						break;
+					}
 				}
 			}
 		}
