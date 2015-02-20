@@ -11,16 +11,7 @@ angular.module('app').controller('mvAnswerController', function($scope, mvQuesti
 					answer: answer
 				});
 			} else { // Push it in the local storage/cookie
-				var anonymousAnswer = {
-					question: $scope.question._id,
-					answer: answer
-				}
-				var anonymousAnswers = localStorageService.get('answers');
-				if (!anonymousAnswers) {
-					anonymousAnswers = [];
-				}
-				anonymousAnswers.push(anonymousAnswer);
-				localStorageService.set('answers', anonymousAnswers);
+				mvQuestionService.saveAnswerLocally($scope.question, answer);
 			}
 		}, function (reason) {
 			mvNotifier.error(reason);

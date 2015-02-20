@@ -1,4 +1,4 @@
-angular.module('app').factory('mvQuestionService', function($http, $q, mvQuestion) {
+angular.module('app').factory('mvQuestionService', function($http, $q, mvQuestion, localStorageService) {
 	return {
 		createQuestion: function (question) {
 			var newQuestion = new mvQuestion(question);
@@ -56,6 +56,23 @@ angular.module('app').factory('mvQuestionService', function($http, $q, mvQuestio
 			}, function (response) {
 				dfd.reject(response.data.reason);
 			});
+
+			return dfd.promise;
+		},
+		saveAnswerLocally: function(question, answer) {
+			var dfd = $q.defer();
+
+			var anonymousAnswer = {
+				question: question._id,
+				answer: answer
+			}
+			var anonymousAnswers = localStorageService.get('answers');
+			if (!anonymousAnswers) {
+				anonymousAnswers = [];
+			}
+			anonymousAnswers.push(anonymousAnswer);
+			localStorageService.set('answers', anonymousAnswers);
+			dfd.resolve();
 
 			return dfd.promise;
 		}
