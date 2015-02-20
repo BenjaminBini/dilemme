@@ -18,7 +18,12 @@ var ipAnswersSchema = mongoose.Schema({
 			type: Number,
 			required:'{PATH} is required'
 		}
-	}]
+	}],
+	createdAt: {
+		type: Date,
+		expires: 50,
+		default: Date.now
+	}
 });
 
 var IpAnswers = mongoose.model('IpAnswers', ipAnswersSchema);
