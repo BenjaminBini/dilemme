@@ -16,7 +16,8 @@
 					.actions
 						.pull-right
 							button.btn.btn-embossed.btn-primary(ng-click="comment(newComment)") Add Comment
-				h4 {{question.comments.length}} comments
+				h4 
+					ng-pluralize(count="question.comments.length" when="{'0': 'No comment yet', '1': '1 comment', 'other': '{} comments'}")
 				.row.comment.panel.panel-default(ng-repeat="comment in question.comments | orderBy: 'date':true")
 					.panel-heading {{comment.author.username}} - {{comment.date | date}}
 					.panel-body {{comment.text}}
