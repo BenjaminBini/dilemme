@@ -6,6 +6,12 @@ var Deffered = require("promised-io/promise").Deferred;
  * Question schema
  */
 var questionSchema = mongoose.Schema({
+	title: {
+		type: String
+	},
+	description: {
+		type: String
+	},
 	text: {
 		type: String, 
 		required: '{PATH} is required'

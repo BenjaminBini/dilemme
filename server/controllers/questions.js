@@ -135,6 +135,8 @@ exports.updateQuestion = function (req, res) {
 				reason: err.toString()
 			});
 		}
+		question.title = updatedQuestion.title;
+		question.description = updatedQuestion.description;
 		question.text = updatedQuestion.text;
 		question.answers[0].text = updatedQuestion.answers[0].text;
 		question.answers[1].text = updatedQuestion.answers[1].text;

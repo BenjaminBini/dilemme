@@ -3,6 +3,14 @@
 		fieldset
 			legend Question
 			.form-group
+				label.col-md-2.control-label(for="text") Title
+				.col-md-10
+					input.form-control(name="text", type="text", placeholder="Title", ng-model="question.title", autofocus)
+			.form-group
+				label.col-md-2.control-label(for="text") Description
+				.col-md-10
+					input.form-control(name="text", type="text", placeholder="Description", ng-model="question.description", autofocus)
+			.form-group
 				label.col-md-2.control-label(for="text") Text
 				.col-md-10
 					input.form-control(name="text", type="text", placeholder="Text", ng-model="question.text", required, autofocus)
