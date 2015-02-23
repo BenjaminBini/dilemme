@@ -6,9 +6,9 @@
 			.col-md-2.separation ? 
 			answer-button(answer="question.answers[1]", on-click="answer(1)", result="results[1]", user-answer="userAnswer", answer-number="1")
 		.row.actions
-			a.btn.btn-embossed.btn-info(ng-href="/admin/questions/{{question._id}}" ng-show="identity.currentUser.isAdmin()") Edit this question
+			a.btn.btn-embossed.btn-primary(ng-href="/admin/questions/{{question._id}}" ng-show="identity.currentUser.isAdmin()") Edit this question
 			.pull-right 
-				a.btn.btn-embossed.btn-info(ng-click="nextQuestion()") Next question
+				a.btn.btn-embossed.btn-primary(ng-click="nextQuestion()") Next question
 		.row
 			.col-md-6
 				h4 Comments
@@ -16,17 +16,17 @@
 			.col-md-6
 				.panel.panel-default.question-details
 					.panel-heading
-						h2.panel-title Details
+						h2.panel-title
+							span(ng-show="!question.title") Details
+							span(ng-show="!!question.title") {{question.title}}
 					.panel-body
+						.question-detail-field.description(ng-show="!!question.description")
+							span.description {{question.description}}
+						.question-detail-field.votes
+							a(ng-click="upvote()", title="Upvote this question")
+								span.icon.glyphicon.glyphicon-arrow-up
+							span &nbsp;{{question.upvotes}}
 						.question-detail-field.tags(ng-show="question.tags.length > 0")
-							span.detail-label Tags
+							span.icon.glyphicon.glyphicon-tag
 							span.tag(ng-repeat="tag in question.tags") 
 								a(ng-href="/questions/tag/{{tag}}")  {{tag}}
-						.question-detail-field.votes
-							span.detail-label Votes
-							a(ng-click="upvote()", title="Upvote this question")
-								span.glyphicon.glyphicon-arrow-up
-							span &nbsp;{{question.upvotes}}
-						.question-detail-field
-							span.detail-label Date
-							span {{question.published | date:'dd/MM/yyyy'}}
