@@ -10,11 +10,20 @@
 			.pull-right 
 				a.btn.btn-embossed.btn-primary(ng-click="nextQuestion()") Next question
 		.row
-			.col-md-6
-				h4 Comments
+			.col-md-6.comments
+				.row(ng-show="identity.isAuthenticated()")
+					textarea.col-md-12(ng-model="newComment")
+					.actions
+						.pull-right
+							button.btn.btn-embossed.btn-primary(ng-click="comment(newComment)") Add Comment
+				h4 {{question.comments.length}} comments
+				.row.comment.panel.panel-default(ng-repeat="comment in question.comments | orderBy: 'date':true")
+					.panel-heading {{comment.author.username}} - {{comment.date | date}}
+					.panel-body {{comment.text}}
 
-			.col-md-6
-				.panel.panel-default.question-details
+
+			.col-md-5.col-md-offset-1
+				.panel.panel-default.question-details.row
 					.panel-heading
 						h2.panel-title
 							span(ng-show="!question.title") Details

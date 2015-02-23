@@ -70,6 +70,19 @@ angular.module('app').factory('mvQuestionService', function($http, $q, mvQuestio
 
 			return dfd.promise;
 		},
+		commentQuestion: function (question, comment) {
+			var dfd = $q.defer();
+			var newComment = {
+				text: comment
+			}
+			mvQuestion.commentQuestion({_id: question._id}, newComment, function (result) {
+				dfd.resolve(result);
+			}, function (response) {
+				dfd.reject(response.data.reason);
+			});
+
+			return dfd.promise;
+		},
 		saveAnswerLocally: function (question, answer) {
 			var dfd = $q.defer();
 

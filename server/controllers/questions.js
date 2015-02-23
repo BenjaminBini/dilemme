@@ -39,9 +39,8 @@ exports.getQuestionsByTag = function (req, res) {
  * @return {[type]}		   The question with the given id
  */
 exports.getQuestionById = function (req, res) {
-	Question.findOne({_id: req.params.id}).exec(function (err, question) {
-		res.send(question);
-		return question;
+	Question.findOne({_id: req.params.id}).populate('comments.author', 'username', 'User').exec(function (err, question) {
+		return res.send(question);
 	});
 }
 
@@ -278,6 +277,12 @@ exports.answerQuestion = function (req, res) {
 	});
 };
 
+/**
+ * Upvote a question
+ * @param  {[type]} req Request
+ * @param  {[type]} res Response
+ * @return {[type]}     
+ */
 exports.upvoteQuestion = function (req, res) {
 	var questionId = req.params.id;
 	Question.findOne({_id: questionId}).exec(function (err, question) {
@@ -305,7 +310,7 @@ exports.upvoteQuestion = function (req, res) {
 				});
 			}
 			question.upvotes = question.upvotes + 1;
-			question.save(function(err) {
+			question.save(function (err) {
 				if (err) {
 					// If an error occur, return error 400 with the error
 					res.status(400);
@@ -313,7 +318,43 @@ exports.upvoteQuestion = function (req, res) {
 						reason: err.toString()
 					});
 				}
-				// Send and return the user
+				// Send and return the question
+				return res.send(question);
+			});
+		});
+	});
+};
+
+/**
+ * Add a comment to a question
+ * @param  {[type]} req Request
+ * @param  {[type]} res Response
+ * @return {[type]}     
+ */
+exports.commentQuestion = function (req, res) {
+	var questionId = req.params.id;
+	var user = req.user;
+	var comment = req.body
+	Question.findOne({_id: questionId}).exec(function (err, question) {
+		if (!question) {
+			res.status(400);
+			return res.send({
+				reason: err.toString()
+			});
+		}
+		if (!question.comments) {
+			question.comments = [];
+		}
+		comment.author = req.user._id;
+		question.comments.push(comment);
+		question.save(function (err) {
+			if (err) {
+				res.status(400);
+				return res.send({
+					reason: err.toString()
+				});
+			}
+			Question.populate(question, {path: 'comments.author', select: 'username', model: 'User'}, function (err) {
 				return res.send(question);
 			});
 		});

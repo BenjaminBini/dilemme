@@ -30,6 +30,7 @@ module.exports = function(app) {
 
 	app.post('/api/questions/:id/answer/:answer', questions.answerQuestion);
 	app.post('/api/questions/:id/upvote', auth.requiresApiLogin, questions.upvoteQuestion);
+	app.post('/api/questions/:id/comment/', auth.requiresApiLogin, questions.commentQuestion);
 
 	// Render partials
 	app.get('/partials/*', function (req, res) {

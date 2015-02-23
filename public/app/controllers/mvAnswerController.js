@@ -21,7 +21,16 @@ angular.module('app').controller('mvAnswerController', function($scope, mvQuesti
 	};
 
 	$scope.upvote = function () {
-		mvQuestionService.upvoteQuestion($scope.question).then(function() {
+		mvQuestionService.upvoteQuestion($scope.question).then(function () {
+		}, function (reason) {
+			mvNotifier.error(reason);
+		});
+	}
+
+	$scope.comment = function (comment) {
+		mvQuestionService.commentQuestion($scope.question, comment).then(function (question) {
+			mvNotifier.notify('Your comment has been successfully posted');
+			$scope.question = question;
 		}, function (reason) {
 			mvNotifier.error(reason);
 		});

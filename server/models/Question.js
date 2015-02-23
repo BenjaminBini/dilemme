@@ -19,7 +19,7 @@ var questionSchema = mongoose.Schema({
 	answers: [{
 		text: {
 			type: String,
-			required: '{PATH} is requred'
+			required: '{PATH} is required'
 		},
 		votes: {
 			type: Number,
@@ -36,7 +36,45 @@ var questionSchema = mongoose.Schema({
 	},
 	tags: {
 		type: [String]
-	}
+	},
+	comments: [{
+		text: {
+			type: String,
+			required: '{PATH} is required'
+		},
+		author: {
+			type: mongoose.Schema.Types.ObjectId,
+			reference: 'User',
+			required: '{PATH} is required'
+		},
+		upvotes: {
+			type: Number,
+			defaut: 0
+		},
+		date: {
+			type: Date,
+			default: Date.now
+		},
+		answers: [{
+			text: {
+			type: String,
+			required: '{PATH} is required'
+			},
+			author: {
+				type: mongoose.Schema.Types.ObjectId,
+				reference: 'User',
+				required: '{PATH} is required'
+			},
+			upvotes: {
+				type: Number,
+				defaut: 0
+			},
+			date: {
+				type: Date,
+				default: Date.now
+			}
+		}]
+	}]
 });
 
 var IpAnswers = mongoose.model('IpAnswers');
