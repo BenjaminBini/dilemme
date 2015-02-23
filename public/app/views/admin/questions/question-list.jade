@@ -18,7 +18,7 @@
 		tbody
 			tr(ng-repeat="question in questions | filter: searchText | orderBy: sortOrder.selected")
 				td
-					a(href="/admin/questions/{{question._id}}") {{question.text}} : {{question.answers[0].text}} - {{question.answers[1].text}}
+					a(href="/admin/questions/{{question._id}}") {{question.text}} {{question.answers[0].text}} or {{question.answers[1].text}} ?
 				td {{question.upvotes}}
 				td {{question.answers[0].votes}}
 				td {{question.answers[1].votes}}
