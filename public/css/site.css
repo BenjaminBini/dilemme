@@ -179,13 +179,13 @@ footer p {
   font-size: 16px;
   border-color: #ddd;
 }
-.question .comments .comment .panel-title {
+.question .comments .comment .panel-heading {
   color: #fff;
 }
-.question .comments .comment .panel-title.red {
+.question .comments .comment .panel-heading.red {
   background-color: #e74c3c;
 }
-.question .comments .comment .panel-title.blue {
+.question .comments .comment .panel-heading.blue {
   background-color: #3498db;
 }
 .question .comments .comment .delete-comment {

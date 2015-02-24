@@ -133,7 +133,7 @@ questionSchema.methods = {
 	populateComments: function () {
 		var question = this;
 		var q = new Deffered();
-		Question.populate(question, {path: 'comments.author', select: 'username', model: 'User'}, function (err) {
+		Question.populate(question, {path: 'comments.author', select: 'username answers', model: 'User'}, function (err) {
 			if (err) {
 				q.reject();
 			} else {
