@@ -136,7 +136,7 @@ footer
 		.question-detail-field
 			margin-bottom 10px
 		.icon
-			margin-right 5px
+			margin-right 10px
 		.votes a
 			cursor pointer
 		.tags
@@ -162,9 +162,21 @@ footer
 			border-radius 3px
 			font-size 16px
 			border-color #ddd
-		.delete-comment
-			cursor pointer
-		
+		.comment
+			.panel-title
+				color white
+				&.red
+					background-color #e74c3c
+				&.blue
+					background-color #3498db
+			.delete-comment
+				cursor pointer
+			.date
+				position absolute
+				right 5px
+				bottom 20px
+				font-size 14px
+				color #777
 	
 		
 // View transition animation
