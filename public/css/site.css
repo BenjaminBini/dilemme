@@ -181,6 +181,8 @@ footer p {
 }
 .question .comments .comment .panel-heading {
   color: #fff;
+  padding-top: 5px;
+  padding-right: 5px;
 }
 .question .comments .comment .panel-heading.red {
   background-color: #e74c3c;
@@ -188,13 +190,16 @@ footer p {
 .question .comments .comment .panel-heading.blue {
   background-color: #3498db;
 }
+.question .comments .comment .panel-body {
+  position: relative;
+}
 .question .comments .comment .delete-comment {
   cursor: pointer;
 }
 .question .comments .comment .date {
   position: absolute;
   right: 5px;
-  bottom: 20px;
+  bottom: 0;
   font-size: 14px;
   color: #777;
 }
