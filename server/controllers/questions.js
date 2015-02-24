@@ -55,7 +55,9 @@ exports.getQuestionById = function (req, res) {
  */
 exports.getRandomQuestion = function (req, res) {
 	Question.random(function (err, question) {
-		res.send(question);
+		question.populateComments().then(function () {
+			return res.send(question);
+		});
 		return question;
 	});
 }
@@ -119,7 +121,7 @@ exports.createQuestion = function (req, res, next) {
 			res.status(400);
 			return res.send({reason: err.toString()});
 		}
-		// If no error, return the user
+		// If no error, return the question
 		res.send(question);
 		return question;
 	});
@@ -278,7 +280,10 @@ exports.answerQuestion = function (req, res) {
 							reason: err.toString()
 						});
 					}
-					return res.send(question);
+
+					question.populateComments().then(function () {
+						return res.send(question);
+					});
 				});
 			}
 		});
@@ -327,7 +332,9 @@ exports.upvoteQuestion = function (req, res) {
 					});
 				}
 				// Send and return the question
-				return res.send(question);
+				question.populateComments().then(function () {
+					return res.send(question);
+				});
 			});
 		});
 	});
