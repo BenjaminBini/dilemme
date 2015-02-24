@@ -19,7 +19,10 @@
 				h4 
 					ng-pluralize(count="question.comments.length" when="{'0': 'No comment yet', '1': '1 comment', 'other': '{} comments'}")
 				.row.comment.panel.panel-default(ng-repeat="comment in question.comments | orderBy: 'date':true")
-					.panel-heading {{comment.author.username}} - {{comment.date | date}}
+					.panel-heading 
+						.panel-title
+							span {{comment.author.username}} - {{comment.date | date}}
+							span.delete-comment.pull-right.glyphicon.glyphicon-remove(ng-show="identity.currentUser.isAdmin()", ng-click="deleteComment(comment._id)", title="Delete this comment")
 					.panel-body {{comment.text}}
 
 

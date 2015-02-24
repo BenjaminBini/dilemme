@@ -39,8 +39,11 @@ exports.getQuestionsByTag = function (req, res) {
  * @return {[type]}		   The question with the given id
  */
 exports.getQuestionById = function (req, res) {
-	Question.findOne({_id: req.params.id}).populate('comments.author', 'username', 'User').exec(function (err, question) {
-		return res.send(question);
+	//Question.findOne({_id: req.params.id}).populate('comments.author', 'username', 'User').exec(function (err, question) {
+	Question.findOne({_id: req.params.id}).exec(function (err, question) {
+		question.populateComments().then(function () {
+			return res.send(question);
+		});
 	});
 }
 
@@ -66,8 +69,9 @@ exports.getRandomQuestion = function (req, res) {
 exports.getUnansweredRandomQuestion = function (req, res) {
 	if (!req.isAuthenticated()) {
 		Question.random(function (err, question) {
-			res.send(question);
-			return question;
+			question.populateComments().then(function () {
+				return res.send(question);
+			});
 		});
 	} else {
 		// We get already answered questions
@@ -82,14 +86,18 @@ exports.getUnansweredRandomQuestion = function (req, res) {
 			}
 			if (collection.length === 0) { // If all questions have been answered we return a random one
 				return Question.random(function (err, question) {
-					return res.send(question);
+					question.populateComments().then(function () {
+						return res.send(question);
+					});
 				});
 			}
 			// We return a random question from this collection
 			var rand = Math.floor(Math.random() * collection.length);
-			return res.send(collection[rand]);
+			var question = collection[rand];
+			question.populateComments().then(function () {
+				return res.send(question);
+			});
 		});
-
 	}
 }
 
@@ -354,7 +362,45 @@ exports.commentQuestion = function (req, res) {
 					reason: err.toString()
 				});
 			}
-			Question.populate(question, {path: 'comments.author', select: 'username', model: 'User'}, function (err) {
+			question.populateComments().then(function () {
+				return res.send(question);
+			});
+		});
+	});
+};
+
+exports.deleteComment = function (req, res) {
+	var questionId = req.params.id;
+	var commentId = req.params.commentId;
+	Question.findOne({_id: questionId}).exec(function (err, question) {
+		if (!question) {
+			res.status(400);
+			return res.send({
+				reason: 'This question does not exist'
+			});
+		}
+		var comment;;
+		for (var i = 0; i < question.comments.length; i++) {
+			if (question.comments[i]._id == commentId) {
+				comment = question.comments[i];
+				break;
+			}
+		}
+		if (!comment) {
+			res.status(400);
+			return res.send({
+				reason: 'This comment does not exist'
+			});
+		}
+		comment.remove();
+		question.save(function (err) {
+			if (err) {
+				res.status(400);
+				return res.send({
+					reason: err.toString()
+				});
+			}
+			question.populateComments().then(function () {
 				return res.send(question);
 			});
 		});

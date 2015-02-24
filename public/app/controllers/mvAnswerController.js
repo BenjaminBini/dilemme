@@ -1,4 +1,4 @@
-angular.module('app').controller('mvAnswerController', function($scope, mvQuestion, mvQuestionService, $location, mvNotifier, mvIdentity, localStorageService) {	
+angular.module('app').controller('mvAnswerController', function($scope, mvQuestion, mvQuestionService, $location, mvNotifier, mvIdentity, localStorageService, mvDialog) {	
 	$scope.answer = function (answer) {
 		$scope.results = mvQuestionService.getProportions($scope.question);
 		mvQuestionService.answerQuestion($scope.question, answer).then(function () {
@@ -33,6 +33,19 @@ angular.module('app').controller('mvAnswerController', function($scope, mvQuesti
 			$scope.question = question;
 		}, function (reason) {
 			mvNotifier.error(reason);
+		});
+	}
+
+	$scope.deleteComment = function (commentId) {
+		$scope.itemType = 'comment';
+		mvDialog.confirmDelete($scope).then(function (data) {
+			if (data.value === 'confirm') {
+				mvQuestionService.deleteComment($scope.question, commentId).then(function (question) {
+					mvNotifier.notify('The comment has been removed');
+				}, function (reason) {
+					mvNotifier.error(reason);
+				});
+			}
 		});
 	}
 

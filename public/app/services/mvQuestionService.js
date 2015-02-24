@@ -72,11 +72,22 @@ angular.module('app').factory('mvQuestionService', function($http, $q, mvQuestio
 		},
 		commentQuestion: function (question, comment) {
 			var dfd = $q.defer();
-			var newComment = {
+				var newComment = {
 				text: comment
 			}
 			mvQuestion.commentQuestion({_id: question._id}, newComment, function (result) {
 				dfd.resolve(result);
+			}, function (response) {
+				dfd.reject(response.data.reason);
+			});
+
+			return dfd.promise;
+		},
+		deleteComment: function (question, commentId) {
+			var dfd = $q.defer();
+
+			question.$deleteComment({_id: question._id, _commentId: commentId}, function () {
+				dfd.resolve();
 			}, function (response) {
 				dfd.reject(response.data.reason);
 			});

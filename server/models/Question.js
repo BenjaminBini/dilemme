@@ -129,6 +129,18 @@ questionSchema.methods = {
 			}
 		}
 		return q.promise;
+	},
+	populateComments: function () {
+		var question = this;
+		var q = new Deffered();
+		Question.populate(question, {path: 'comments.author', select: 'username', model: 'User'}, function (err) {
+			if (err) {
+				q.reject();
+			} else {
+				q.resolve(question);
+			}
+		});
+		return q.promise;
 	}
 }
 /**
