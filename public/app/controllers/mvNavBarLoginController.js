@@ -1,4 +1,4 @@
-angular.module('app').controller('mvNavBarLoginController', function($scope, $http, $location, mvNotifier, mvAuthService) {
+angular.module('app').controller('mvNavBarLoginController', function($scope, $http, $location, mvNotifier, mvAuthService, mvDialog) {
 	$scope.signin = function(username, password) {
 		mvAuthService.authenticateUser(username, password).then(function(success) {
 			if (success) {
@@ -15,5 +15,8 @@ angular.module('app').controller('mvNavBarLoginController', function($scope, $ht
 			mvNotifier.notify('You have successfully signed out.');
 			$location.path('/');
 		});
-	}
+	};
+	$scope.openRegisterModal = function () {
+		mvDialog.register();
+	};
 });

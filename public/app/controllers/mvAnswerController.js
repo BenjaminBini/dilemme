@@ -53,6 +53,14 @@ angular.module('app').controller('mvAnswerController', function($scope, mvQuesti
 		$location.path('/questions/random/unanswered');
 	}
 
+	$scope.openRegisterModal = function () {
+		mvDialog.register();
+	};
+
+	$scope.openLoginModal = function () {
+		mvDialog.login();
+	};
+
 	// Check if the user has already answered the question (TODO : anonymous answer)
 	// If yes, show the answer
 	$scope.$watch('question', function (question) {

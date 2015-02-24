@@ -6,6 +6,20 @@ angular.module('app').factory('mvDialog', function(ngDialog) {
 				template: '/partials/modals/confirm-delete.jade'
 			}).closePromise;
 		},
+		login: function (scope) {
+			return ngDialog.open({
+				scope: scope,
+				template: '/partials/modals/login.jade',
+				controller: 'mvModalLoginController'
+			}).closePromise;
+		},
+		register: function (scope) {
+			return ngDialog.open({
+				scope: scope,
+				template: '/partials/modals/register.jade',
+				controller: 'mvRegisterController'
+			}).closePromise;
+		},
 		example: function (scope) {
 			ngDialog.open({
 				scope: scope,

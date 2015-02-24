@@ -12,8 +12,10 @@
 		.row
 			.col-md-6.comments
 				.row(ng-show="!identity.isAuthenticated()")
-					p.text-muted Please sign in or 
-						a(href="/signup") register
+					p.text-muted Please 
+						a(role="button", ng-click="openLoginModal()") sign in
+						|  or 
+						a(role="button", ng-click="openRegisterModal()") register
 						|  to comment
 				.row(ng-show="identity.isAuthenticated()")
 					textarea.col-md-12(ng-model="newComment")

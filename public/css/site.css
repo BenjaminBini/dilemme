@@ -2,6 +2,9 @@ body {
   padding-top: 61px;
   overflow-x: hidden;
 }
+a[role="button"] {
+  cursor: pointer;
+}
 footer {
   padding-left: 0 15px;
   background: none;
@@ -16,8 +19,9 @@ footer p {
 .navbar-form button {
   margin-left: 10px;
 }
-.navbar-form .sign-up {
+.navbar-form .register {
   margin-top: -8px;
+  cursor: pointer;
 }
 .navbar-collapse .navbar-nav.navbar-right:last-child>.dropdown:last-child>a {
   border-radius: 0;
@@ -63,6 +67,13 @@ footer p {
 }
 .ngdialog.ngdialog-theme-default .ngdialog-content .modal-title {
   margin-top: 0;
+}
+.ngdialog.ngdialog-theme-default .ngdialog-content .register {
+  margin-top: 20px;
+}
+.ngdialog.ngdialog-theme-default .ngdialog-content .register label {
+  padding-left: 0;
+  padding-right: 0;
 }
 .question .question-text {
   text-align: center;

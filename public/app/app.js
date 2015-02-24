@@ -70,9 +70,9 @@ angular.module('app').config(function ($routeProvider, $locationProvider, localS
 			resolve: routeRolesCheck.admin,
 			animation: 'view-transition'
 		})
-		.when('/signup', {
-			templateUrl: '/partials/account/signup',
-			controller: 'mvUserSignupController',
+		.when('/register', {
+			templateUrl: '/partials/account/register',
+			controller: 'mvRegisterController',
 			animation: 'view-transition'
 		})
 		.when('/profile', {
