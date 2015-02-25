@@ -28,6 +28,8 @@
 					.panel-heading(ng-class="comment | authorCssClass:question")
 						.panel-title
 							span {{comment.author.username}}
+							span.text-muted(ng-show="!comment.author.username")
+								i Account deleted
 							a.pull-right(role="button", ng-show="identity.currentUser.isAdmin()", ng-click="deleteComment(comment._id)", title="Delete this comment")
 								span.delete-comment.glyphicon.glyphicon-remove 
 							a.pull-right(role="button", ng-show="identity.isAuthenticated()", ng-click="upvoteComment(comment._id)", title="Upvote this comment")
