@@ -41,7 +41,7 @@ exports.getQuestionsByTag = function (req, res) {
 exports.getQuestionById = function (req, res) {
 	//Question.findOne({_id: req.params.id}).populate('comments.author', 'username', 'User').exec(function (err, question) {
 	Question.findOne({_id: req.params.id}).exec(function (err, question) {
-		question.populateComments().then(function () {
+		question.populateQuestion().then(function () {
 			return res.send(question);
 		});
 	});
@@ -55,7 +55,7 @@ exports.getQuestionById = function (req, res) {
  */
 exports.getRandomQuestion = function (req, res) {
 	Question.random(function (err, question) {
-		question.populateComments().then(function () {
+		question.populateQuestion().then(function () {
 			return res.send(question);
 		});
 		return question;
@@ -71,7 +71,7 @@ exports.getRandomQuestion = function (req, res) {
 exports.getUnansweredRandomQuestion = function (req, res) {
 	if (!req.isAuthenticated()) {
 		Question.random(function (err, question) {
-			question.populateComments().then(function () {
+			question.populateQuestion().then(function () {
 				return res.send(question);
 			});
 		});
@@ -88,7 +88,7 @@ exports.getUnansweredRandomQuestion = function (req, res) {
 			}
 			if (collection.length === 0) { // If all questions have been answered we return a random one
 				return Question.random(function (err, question) {
-					question.populateComments().then(function () {
+					question.populateQuestion().then(function () {
 						return res.send(question);
 					});
 				});
@@ -96,7 +96,7 @@ exports.getUnansweredRandomQuestion = function (req, res) {
 			// We return a random question from this collection
 			var rand = Math.floor(Math.random() * collection.length);
 			var question = collection[rand];
-			question.populateComments().then(function () {
+			question.populateQuestion().then(function () {
 				return res.send(question);
 			});
 		});
@@ -113,6 +113,7 @@ exports.getUnansweredRandomQuestion = function (req, res) {
 exports.createQuestion = function (req, res, next) {
 	// Get the question data from the request
 	var questionData = req.body;
+	questionData.author = req.user;
 
 	// Create question
 	Question.create(questionData, function (err, question) {
@@ -281,7 +282,7 @@ exports.answerQuestion = function (req, res) {
 						});
 					}
 
-					question.populateComments().then(function () {
+					question.populateQuestion().then(function () {
 						return res.send(question);
 					});
 				});
@@ -332,7 +333,7 @@ exports.upvoteQuestion = function (req, res) {
 					});
 				}
 				// Send and return the question
-				question.populateComments().then(function () {
+				question.populateQuestion().then(function () {
 					return res.send(question);
 				});
 			});

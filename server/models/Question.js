@@ -60,7 +60,11 @@ var questionSchema = mongoose.Schema({
 	tags: {
 		type: [String]
 	},
-	comments: [commentSchema]
+	comments: [commentSchema],
+	author: {
+		type: mongoose.Schema.Types.ObjectId,
+		reference: 'User'
+	}
 });
 
 var IpAnswers = mongoose.model('IpAnswers');
@@ -116,10 +120,18 @@ questionSchema.methods = {
 		}
 		return q.promise;
 	},
-	populateComments: function () {
+	populateQuestion: function () {
 		var question = this;
 		var q = new Deffered();
-		Question.populate(question, {path: 'comments.author', select: 'username answers', model: 'User'}, function (err) {
+		Question.populate(question, [{
+			path: 'comments.author',
+			select: 'username answers', 
+			model: 'User'
+		}, {
+			path: 'author',
+			select: 'username',
+			model: 'User'
+		}], function (err) {
 			if (err) {
 				q.reject();
 			} else {
