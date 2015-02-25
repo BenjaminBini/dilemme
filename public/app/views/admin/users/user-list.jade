@@ -11,18 +11,12 @@
 		thead
 			tr
 				th Username
-				th First Name
-				th Last Name
 				th Roles
 				th Registration
 		tbody
 			tr(ng-repeat="user in users | filter: searchText | orderBy: sortOrder.selected")
 				td
 					a(href="/admin/users/{{user._id}}") {{user.username}}
-				td
-					{{user.firstName}}
-				td
-					{{user.lastName}}
 				td
 					span(ng-repeat="role in user.roles") {{role}} 
 				td

@@ -5,17 +5,15 @@ var encrypt = require('../utils/encryption');
  * User schema
  */
 var userSchema = mongoose.Schema({
-	firstName: {
-		type:String, 
-		required:'{PATH} is required'
-	},
-	lastName: {
-		type:String, 
-		required:'{PATH} is required'
-	},
 	username: {
 		type: String,
 		required: '{PATH} is required',
+		unique: true,
+		lowercase: true
+	},
+	email: {
+		type: String,
+		requred: '{PATH} is requred',
 		unique: true,
 		lowercase: true
 	},
@@ -84,13 +82,13 @@ exports.createDefaultEntries = function() {
 			var salt, hash;
 			salt = encrypt.createSalt();
 			hash = encrypt.hashPassword(salt, 'joe');
-			User.create({firstName: 'Joe', lastName: 'Doe', username: 'joe', salt: salt, hashedPassword: hash, roles: ["admin"], registrationDate: new Date('10/02/2015') });
+			User.create({username: 'joe', email: 'joe@joe.joe', salt: salt, hashedPassword: hash, roles: ["admin"], registrationDate: new Date('10/02/2015') });
 			salt = encrypt.createSalt();
 			hash = encrypt.hashPassword(salt, 'ben');
-			User.create({firstName: 'Benjamin', lastName: 'Bini', username: 'ben', salt: salt, hashedPassword: hash, roles: [], registrationDate: new Date('10/02/2014')});
+			User.create({username: 'ben', email: 'ben@ben.ben', salt: salt, hashedPassword: hash, roles: [], registrationDate: new Date('10/02/2014')});
 			salt = encrypt.createSalt();
 			hash = encrypt.hashPassword(salt, 'leo');
-			User.create({firstName: 'Léonie', lastName: 'Gros', username: 'leo', salt: salt, hashedPassword: hash, registrationDate: new Date('10/02/2013')});
+			User.create({username: 'leo', email: 'leo@leo.leo', salt: salt, hashedPassword: hash, registrationDate: new Date('10/02/2013')});
 		}
 		console.log ('Users collection has ' + collection.length + ' entries');
 	});
