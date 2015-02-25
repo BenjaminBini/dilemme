@@ -6,6 +6,7 @@ var auth = require('./auth');
 var mongoose = require('mongoose');
 var users = require('../controllers/users');
 var questions = require('../controllers/questions');
+var comments = require('../controllers/comments');
 
 module.exports = function(app) {
 
@@ -30,9 +31,9 @@ module.exports = function(app) {
 
 	app.post('/api/questions/:id/answer/:answer', questions.answerQuestion);
 	app.post('/api/questions/:id/upvote', auth.requiresApiLogin, questions.upvoteQuestion);
-	app.post('/api/questions/:id/comment/', auth.requiresApiLogin, questions.commentQuestion);
-	app.post('/api/questions/:id/comment/:commentId/upvote', auth.requiresApiLogin, questions.upvoteComment);
-	app.delete('/api/questions/:id/comment/:commentId', auth.requiresRole('admin'), questions.deleteComment);
+	app.post('/api/questions/:id/comment/', auth.requiresApiLogin, comments.commentQuestion);
+	app.post('/api/questions/:id/comment/:commentId/upvote', auth.requiresApiLogin, comments.upvoteComment);
+	app.delete('/api/questions/:id/comment/:commentId', auth.requiresRole('admin'), comments.deleteComment);
 
 	// Render partials
 	app.get('/partials/*', function (req, res) {
