@@ -16,8 +16,8 @@ angular.module('app').controller('mvUserDetailController', function($scope, $rou
 		mvUserService.updateUser(user).then(function () {
 			mvNotifier.notify('User has been updated');
 			$location.path('/admin/users');
-		}, function (response) {
-			mvNotifier.error(response.data.reason);
+		}, function (reason) {
+			mvNotifier.error(reason);
 		});
 	};
 
