@@ -4,6 +4,7 @@
 
 var mongoose = require('mongoose');
 var passport = require('passport');
+var validator = require('validator');
 var LocalStrategy = require('passport-local').Strategy;
 var User = mongoose.model('User');
 
@@ -39,8 +40,9 @@ module.exports = function() {
 		usernameField: 'email',
 		passwordField: 'password'
 	}, function (email, password, done) {
-			// Get a user by its email and check the password
-			User.findOne({email:email}).exec(function (err, user) {
+			// Get a user by its email or username and check the password
+			var criteria = validator.isEmail(email) ? { email: email } : { username: email };
+			User.findOne(criteria).exec(function (err, user) {
 				if (user && user.authenticate(password)) {
 					return done(null, user);
 				} else {
