@@ -44,6 +44,14 @@ exports.createUser = function(req, res, next) {
 	userData.salt = encrypt.createSalt();
 	userData.hashedPassword = encrypt.hashPassword(userData.salt, userData.password);
 
+	// Validate data
+	var err = User.validate(userData);
+	if (err) {
+		return res.status(400).send({
+			reason: err
+		});
+	}
+
 	// Create user
 	User.create(userData, function (err, user) {
 		if (err) {
@@ -88,10 +96,18 @@ exports.updateUser = function(req, res) {
 		return res.end();
 	}
 
+	// Validate data
+	var err = User.validate(userUpdates);
+	if (err) {
+		return res.status(400).send({
+			reason: err
+		});
+	}	
+
 	// Get the user we have to modify
 	User.findOne({_id: req.params.id}).exec(function(err, user) {
 		if (err || !user) {
-			res.sendStatus(400);
+			return res.sendStatus(400);
 		}
 		user.username = userUpdates.username;
 		user.email = userUpdates.email;

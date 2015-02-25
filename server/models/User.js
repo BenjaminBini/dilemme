@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var validator = require('validator');
 var encrypt = require('../utils/encryption');
 
 /**
@@ -70,6 +71,23 @@ userSchema.methods = {
 		return this.roles.indexOf(role) > -1;
 	}
 };
+
+/**
+ * User static methods
+ */
+userSchema.statics = {
+	validate: function (user) {
+		var err;
+		if (validator.isEmail(user.username)) {
+			err = 'Username must not be an email address';
+		} else if (!validator.isEmail(user.email)) {
+			err = 'Email address is not valid';
+		} else if (!validator.isLength(user.username, 1, 70)) {
+			err = 'Username is too long'
+		}
+		return err;
+	}
+}
 
 var User = mongoose.model('User', userSchema);
 
