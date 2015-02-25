@@ -43,6 +43,10 @@ var userSchema = mongoose.Schema({
 	upvotes: [{
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Question'
+	}],
+	commentUpvotes: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Comment'
 	}]
 });
 

@@ -49,6 +49,13 @@ angular.module('app').controller('mvAnswerController', function($scope, mvQuesti
 		});
 	}
 
+	$scope.upvoteComment = function (commentId) {
+		mvQuestionService.upvoteComment($scope.question, commentId).then(function (question) {
+		}, function (reason) {
+			mvNotifier.error(reason);
+		});
+	}
+
 	$scope.nextQuestion = function () {
 		$location.path('/questions/random/unanswered');
 	}

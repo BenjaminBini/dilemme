@@ -180,15 +180,19 @@ footer p {
   border-color: #ddd;
 }
 .question .comments .comment .panel-heading {
-  color: #fff;
   padding-top: 5px;
   padding-right: 5px;
 }
 .question .comments .comment .panel-heading.red {
   background-color: #e74c3c;
+  color: #fff;
 }
 .question .comments .comment .panel-heading.blue {
   background-color: #3498db;
+  color: #fff;
+}
+.question .comments .comment .panel-heading a {
+  margin-left: 5px;
 }
 .question .comments .comment .panel-body {
   position: relative;

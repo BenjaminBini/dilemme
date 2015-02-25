@@ -38,6 +38,11 @@ angular.module('app').factory('mvQuestion', function ($resource) {
 			method: 'DELETE',
 			isArray: false,
 			url: '/api/questions/:_id/comment/:_commentId'
+		},
+		upvoteComment: {
+			method: 'POST',
+			isArray: false,
+			url: '/api/questions/:_id/comment/:_commentId/upvote'
 		}
 	});
 

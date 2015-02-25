@@ -2,6 +2,29 @@ var mongoose = require('mongoose');
 var ipAnswersModel = require('../models/IpAnswers');
 var Deffered = require("promised-io/promise").Deferred;
 
+/** 
+ * Comment schema
+ */
+var commentSchema = mongoose.Schema({
+	text: {
+		type: String,
+		required: '{PATH} is required'
+	},
+	author: {
+		type: mongoose.Schema.Types.ObjectId,
+		reference: 'User',
+		required: '{PATH} is required'
+	},
+	upvotes: {
+		type: Number,
+		default: 0
+	},
+	date: {
+		type: Date,
+		default: Date.now
+	}
+});
+
 /**
  * Question schema
  */
@@ -37,44 +60,7 @@ var questionSchema = mongoose.Schema({
 	tags: {
 		type: [String]
 	},
-	comments: [{
-		text: {
-			type: String,
-			required: '{PATH} is required'
-		},
-		author: {
-			type: mongoose.Schema.Types.ObjectId,
-			reference: 'User',
-			required: '{PATH} is required'
-		},
-		upvotes: {
-			type: Number,
-			defaut: 0
-		},
-		date: {
-			type: Date,
-			default: Date.now
-		},
-		answers: [{
-			text: {
-			type: String,
-			required: '{PATH} is required'
-			},
-			author: {
-				type: mongoose.Schema.Types.ObjectId,
-				reference: 'User',
-				required: '{PATH} is required'
-			},
-			upvotes: {
-				type: Number,
-				defaut: 0
-			},
-			date: {
-				type: Date,
-				default: Date.now
-			}
-		}]
-	}]
+	comments: [commentSchema]
 });
 
 var IpAnswers = mongoose.model('IpAnswers');

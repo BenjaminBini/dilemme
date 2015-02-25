@@ -94,6 +94,17 @@ angular.module('app').factory('mvQuestionService', function($http, $q, mvQuestio
 
 			return dfd.promise;
 		},
+		upvoteComment: function (question, commentId) {
+			var dfd = $q.defer();
+
+			question.$upvoteComment({_id: question._id, _commentId: commentId}, function () {
+				dfd.resolve();
+			}, function (response) {
+				dfd.reject(response.data.reason);
+			});
+
+			return dfd.promise;
+		},
 		saveAnswerLocally: function (question, answer) {
 			var dfd = $q.defer();
 

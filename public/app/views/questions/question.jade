@@ -28,7 +28,11 @@
 					.panel-heading(ng-class="comment | authorCssClass:question")
 						.panel-title
 							span {{comment.author.username}}
-							span.delete-comment.pull-right.glyphicon.glyphicon-remove(ng-show="identity.currentUser.isAdmin()", ng-click="deleteComment(comment._id)", title="Delete this comment")
+							a.pull-right(role="button", ng-show="identity.currentUser.isAdmin()", ng-click="deleteComment(comment._id)", title="Delete this comment")
+								span.delete-comment.glyphicon.glyphicon-remove 
+							a.pull-right(role="button", ng-show="identity.isAuthenticated()", ng-click="upvoteComment(comment._id)", title="Upvote this comment")
+								{{comment.upvotes}}
+								span.upvote-comment.glyphicon.glyphicon-arrow-up
 					.panel-body {{comment.text}}
 						span.date {{comment.date | date : 'dd/MM/yyyy hh:mm'}}
 
