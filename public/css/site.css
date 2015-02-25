@@ -150,7 +150,7 @@ footer p {
   margin-bottom: 10px;
 }
 .question .question-details .icon {
-  margin-right: 10px;
+  margin-right: 5px;
 }
 .question .question-details .votes a {
   cursor: pointer;
@@ -193,6 +193,9 @@ footer p {
 }
 .question .comments .comment .panel-heading a {
   margin-left: 5px;
+}
+.question .comments .comment .panel-heading .comment-upvotes {
+  padding: 5px;
 }
 .question .comments .comment .panel-body {
   position: relative;

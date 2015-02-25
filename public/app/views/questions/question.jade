@@ -32,9 +32,9 @@
 								i Account deleted
 							a.pull-right(role="button", ng-show="identity.currentUser.isAdmin()", ng-click="deleteComment(comment._id)", title="Delete this comment")
 								span.delete-comment.glyphicon.glyphicon-remove 
-							a.pull-right(role="button", ng-show="identity.isAuthenticated()", ng-click="upvoteComment(comment._id)", title="Upvote this comment")
-								{{comment.upvotes}}
+							a.pull-right(role="button", ng-click="upvoteComment(comment._id)", title="Upvote this comment")
 								span.upvote-comment.glyphicon.glyphicon-arrow-up
+								span.comment-upvotes {{comment.upvotes}}
 					.panel-body {{comment.text}}
 						span.date {{comment.date | date : 'dd/MM/yyyy hh:mm'}}
 
@@ -51,7 +51,10 @@
 						.question-detail-field.votes
 							a(ng-click="upvote()", title="Upvote this question")
 								span.icon.glyphicon.glyphicon-arrow-up
-							span &nbsp;{{question.upvotes}}
+							span {{question.upvotes}} upvotes
+						.question-detail-field.answers
+							span.icon.glyphicon.glyphicon-ok
+							span {{ question.answers[0].votes + question.answers[1].votes }} answers
 						.question-detail-field.tags(ng-show="question.tags.length > 0")
 							span.icon.glyphicon.glyphicon-tag
 							span.tag(ng-repeat="tag in question.tags") 
