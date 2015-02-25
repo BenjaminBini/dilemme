@@ -47,9 +47,13 @@ exports.createUser = function(req, res, next) {
 	// Create user
 	User.create(userData, function (err, user) {
 		if (err) {
-			// If the error is E11000, the reason is a duplicate username
+			// If the error is E11000, the reason is a duplicate username or email
 			if (err.toString().indexOf('E11000') > -1) {
-				err = new Error('This username already exists');
+				if (err.toString().indexOf('username') > -1) {
+					err = new Error('This username already exists');
+				} else if (err.toString().indexOf('email') > -1) {
+					err = new Error('This email address already exists');
+				}
 			}
 			// Return 400 code with the error
 			res.status(400);
@@ -89,9 +93,8 @@ exports.updateUser = function(req, res) {
 		if (err || !user) {
 			res.sendStatus(400);
 		}
-		user.firstName = userUpdates.firstName;
-		user.lastName = userUpdates.lastName;
 		user.username = userUpdates.username;
+		user.email = userUpdates.email;
 		// If needed, generate new hashed password
 		if (userUpdates.password && userUpdates.password.length > 0) {
 			user.salt = encrypt.createSalt();

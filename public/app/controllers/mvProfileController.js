@@ -1,13 +1,11 @@
 angular.module('app').controller('mvProfileController', function($scope, mvAuthService, mvIdentity, mvNotifier) {
-	$scope.email = mvIdentity.currentUser.username;
-	$scope.fname = mvIdentity.currentUser.firstName;
-	$scope.lname = mvIdentity.currentUser.lastName;
+	$scope.username = mvIdentity.currentUser.username;
+	$scope.email = mvIdentity.currentUser.email;
 
 	$scope.update = function() {
 		var newUserData = {
-			username: $scope.email,
-			firstName: $scope.fname,
-			lastName: $scope.lname,
+			username: $scope.username,
+			email: $scope.email,
 		};
 		if ($scope.password && $scope.password.length > 0) {
 			newUserData.password = $scope.password;

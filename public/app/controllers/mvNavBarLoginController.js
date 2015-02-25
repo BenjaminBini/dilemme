@@ -1,10 +1,10 @@
 angular.module('app').controller('mvNavBarLoginController', function($scope, $http, $location, mvNotifier, mvAuthService, mvDialog) {
-	$scope.signin = function(username, password) {
-		mvAuthService.authenticateUser(username, password).then(function(success) {
+	$scope.signin = function(email, password) {
+		mvAuthService.authenticateUser(email, password).then(function(success) {
 			if (success) {
 				mvNotifier.notify('You have successfully signed in.');
 			} else {
-				mvNotifier.warn('Username/Password combination incorrect');
+				mvNotifier.warn('Email/Password combination incorrect');
 			}
 		})
 	};

@@ -2,10 +2,9 @@ angular.module('app').controller('mvRegisterController', function($scope, mvNoti
 	
 	$scope.registerFromPage = function() {
 		var newUserData = {
-			username: $scope.email,
-			password: $scope.password,
-			firstName: $scope.fname,
-			lastName: $scope.lname,
+			email: $scope.email,
+			username: $scope.username,
+			password: $scope.password
 		}
 		
 		mvAuthService.registerUser(newUserData).then(function () {
@@ -18,10 +17,9 @@ angular.module('app').controller('mvRegisterController', function($scope, mvNoti
 
 	$scope.registerFromModal = function() {
 		var newUserData = {
-			username: $scope.email,
-			password: $scope.password,
-			firstName: $scope.fname,
-			lastName: $scope.lname,
+			email: $scope.email,
+			username: $scope.username,
+			password: $scope.password
 		}
 		mvAuthService.registerUser(newUserData).then(function () {
 			mvNotifier.notify('You registered successfully');

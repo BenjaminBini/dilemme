@@ -2,16 +2,14 @@ angular.module('app').controller('mvUserDetailController', function($scope, $rou
 
 	// Pass the edited user to the scope
 	var user = mvUser.get({_id: $routeParams.id}, function() {
-		$scope.email = user.username;
-		$scope.fname = user.firstName;
-		$scope.lname = user.lastName;
+		$scope.email = user.email;
+		$scope.username = user.username;
 	});
 
 	// Update the user
 	$scope.update = function() {
-		user.username = $scope.email;
-		user.firstName = $scope.fname;
-		user.lastName = $scope.lname;
+		user.username = $scope.username;
+		user.email = $scope.email;
 		if ($scope.password && $scope.password.length > 0) {
 			user.password = $scope.password;
 		}

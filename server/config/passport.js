@@ -35,10 +35,12 @@ module.exports = function() {
 	/**
 	 * Use local strategy
 	 */
-	passport.use(new LocalStrategy(
-		function (username, password, done) {
-			// Get a user by its username and check the password
-			User.findOne({username:username}).exec(function (err, user) {
+	passport.use(new LocalStrategy({
+		usernameField: 'email',
+		passwordField: 'password'
+	}, function (email, password, done) {
+			// Get a user by its email and check the password
+			User.findOne({email:email}).exec(function (err, user) {
 				if (user && user.authenticate(password)) {
 					return done(null, user);
 				} else {

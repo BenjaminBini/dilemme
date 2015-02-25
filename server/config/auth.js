@@ -11,7 +11,7 @@ var passport = require('passport');
  * @param  	  next Next
  */
 exports.authenticate =  function (req, res, next) {
-	req.body.username = req.body.username.toLowerCase();
+	req.body.email = req.body.email.toLowerCase();
 	var auth = passport.authenticate('local', function (err, user) {
 		if (err) {
 			return next(err);

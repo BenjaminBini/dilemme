@@ -3,8 +3,8 @@ angular.module('app').controller('mvUserListController', function($scope, mvUser
 
 	$scope.sortOptions = [
 	{
-		value: "username + firstName + lastName",
-		text: "Sort by text"
+		value: "username",
+		text: "Sort by username"
 	}, {
 		value: "registrationDate",
 		text: "Sort by registration date"	
