@@ -34,7 +34,7 @@ exports.commentQuestion = function (req, res) {
 					reason: err.toString()
 				});
 			}
-			question.populateComments().then(function () {
+			question.populateQuestion().then(function () {
 				return res.send(question);
 			});
 		});
@@ -72,7 +72,7 @@ exports.deleteComment = function (req, res) {
 					reason: err.toString()
 				});
 			}
-			question.populateComments().then(function () {
+			question.populateQuestion().then(function () {
 				return res.send(question);
 			});
 		});
@@ -126,7 +126,7 @@ exports.upvoteComment = function (req, res) {
 						reason: err.toString()
 					});
 				}
-				question.populateComments().then(function () {
+				question.populateQuestion().then(function () {
 					return res.send(question);
 				});
 			});
