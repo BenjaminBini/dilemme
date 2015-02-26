@@ -56,6 +56,18 @@ angular.module('app').controller('mvAnswerController', function($scope, mvQuesti
 		});
 	}
 
+	$scope.sortOptions = [{
+		value: "date",
+		text: "Sort by date"
+	}, {
+		value: "upvotes",
+		text: "Sort by upvotes"	
+	}];
+
+	$scope.sortOrder = {
+		selected: $scope.sortOptions[0].value
+	};
+
 	$scope.nextQuestion = function () {
 		$location.path('/questions/random/unanswered');
 	}

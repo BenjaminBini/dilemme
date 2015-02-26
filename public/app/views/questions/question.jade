@@ -20,11 +20,16 @@
 				.row(ng-show="identity.isAuthenticated()")
 					textarea.col-md-12(ng-model="newComment")
 					.actions
+						.pull-left
+							ui-select.select.form-control.select-primary.select2(ng-model="sortOrder.selected", theme="select2", role="button")
+								ui-select-match(placeholder="Order") {{$select.selected.text}}
+								ui-select-choices(repeat="item.value as item in sortOptions")
+									div {{item.text}}
 						.pull-right
 							button.btn.btn-embossed.btn-primary(ng-click="comment(newComment)") Add Comment
 				h4 
 					ng-pluralize(count="question.comments.length" when="{'0': 'No comment yet', '1': '1 comment', 'other': '{} comments'}")
-				.row.comment.panel.panel-default(ng-repeat="comment in question.comments | orderBy: 'date':true")
+				.row.comment.panel.panel-default(ng-repeat="comment in question.comments |  orderBy: sortOrder.selected: true")
 					.panel-heading(ng-class="comment | authorCssClass:question")
 						.panel-title
 							span {{comment.author.username}}

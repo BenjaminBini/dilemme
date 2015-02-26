@@ -2,7 +2,7 @@ body {
   padding-top: 61px;
   overflow-x: hidden;
 }
-a[role="button"] {
+[role="button"] {
   cursor: pointer;
 }
 footer {
