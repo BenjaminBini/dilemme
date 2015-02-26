@@ -11,10 +11,10 @@ angular.module('app').controller('mvQuestionListController', function($scope, mv
 	}, {
 		value: "upvotes",
 		text: "Sort by upvotes"
-	}]
+	}];
 
 	$scope.sortOrder = {
 		selected: $scope.sortOptions[0].value
-	}
+	};
 
 });
