@@ -15,6 +15,12 @@ exports.commentQuestion = function (req, res) {
 	var questionId = req.params.id;
 	var user = req.user;
 	var comment = req.body
+	if (comment.text && comment.text.length > 1000) {
+		res.status(400);
+		return res.send({
+			reason: 'Your comment is too long (1000 characters maximum)'
+		});
+	}
 	Question.findOne({_id: questionId}).exec(function (err, question) {
 		if (!question) {
 			res.status(400);
