@@ -212,6 +212,7 @@ footer p {
 }
 .view-transition .view {
   transition: 800ms;
+  transition-delay: 200ms;
   position: relative;
 }
 .view-transition .view.ng-enter {
