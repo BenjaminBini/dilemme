@@ -1,0 +1,31 @@
+h4.modal-title Suggest a question
+form.register.form-horizontal(name="suggestForm")
+	.form-group
+		label.col-md-3.control-label(for="text") Title
+		.col-md-9
+			input.form-control(name="text", type="text", placeholder="Title", ng-model="question.title", autofocus)
+	.form-group
+		label.col-md-3.control-label(for="text") Description
+		.col-md-9
+			input.form-control(name="text", type="text", placeholder="Description", ng-model="question.description", autofocus)
+	.form-group
+		label.col-md-3.control-label(for="text") Text
+		.col-md-9
+			input.form-control(name="text", type="text", placeholder="Text", ng-model="question.text", required, autofocus)
+	.form-group
+		label.col-md-3.control-label(for="answer1") First choice
+		.col-md-9
+			input.form-control(name="answer1", type="text", placeholder="First choice", ng-model="question.answers[0].text", required)
+	.form-group
+		label.col-md-3.control-label(for="answer2") Second choice
+		.col-md-9
+			input.form-control(name="answer2", type="text", placeholder="Second choice", ng-model="question.answers[1].text", required)
+	.form-group
+		label.col-md-3.control-label(for="tags") Tags
+		.col-md-9
+			tags-input(tags="question.tags", is-loaded="true")
+	.form-group
+		.actions.col-md-10.col-md-offset-2
+			.pull-right
+				button.btn.btn-primary(ng-click="suggestQuestion()", ng-disabled="suggestForm.$invalid") Submit
+				button.btn.btn-default(ng-click="closeThisDialog('cancel')") Cancel

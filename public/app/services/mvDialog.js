@@ -20,6 +20,14 @@ angular.module('app').factory('mvDialog', function(ngDialog) {
 				controller: 'mvRegisterController'
 			}).closePromise;
 		},
+		suggestQuestion: function (scope) {
+			return ngDialog.open({
+				scope: scope,
+				template: '/partials/modals/suggest-question.jade',
+				controller: 'mvSuggestQuestionController',
+				className: 'ngdialog-theme-default ngdialog-large'
+			}).closePromise;
+		},
 		example: function (scope) {
 			ngDialog.open({
 				scope: scope,

@@ -75,6 +75,9 @@ footer p {
   padding-left: 0;
   padding-right: 0;
 }
+.ngdialog.ngdialog-theme-default.ngdialog-large .ngdialog-content {
+  width: 650px;
+}
 .question .question-text {
   text-align: center;
   margin-bottom: 40px;

@@ -19,4 +19,7 @@ angular.module('app').controller('mvNavBarLoginController', function($scope, $ht
 	$scope.openRegisterModal = function () {
 		mvDialog.register();
 	};
+	$scope.openSuggestModal = function () {
+		mvDialog.suggestQuestion();
+	};
 });
