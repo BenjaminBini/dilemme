@@ -80,28 +80,30 @@ questionSchema.methods = {
 			IpAnswers.find({ip: ip}, function (err, ipAnswers) {
 				if (err) { // Error case : resolve with true
 					q.resolve(true);
-				}
-				if (ipAnswers.length === 0) { // New user, we save it and initialize its IpAnswers entry
-					IpAnswers.create({
-						ip: ip,
-						answers: []
-					}, function (err) {
-						if (err) {
-							q.resolve(true);
-						} else {
+				} else {
+					if (ipAnswers.length === 0) { // New user, we save it and initialize its IpAnswers entry
+						IpAnswers.create({
+							ip: ip,
+							answers: []
+						}, function (err) {
+							if (err) {
+								q.resolve(true);
+							} else {
+								q.resolve(false);
+							}
+						});
+					} else if (ipAnswers.length === 1) { // Known user, we will work with his/her answers
+						answers = ipAnswers[0].answers;
+						if (answers.length === 0) {
 							q.resolve(false);
 						}
-					});
-				} else if (ipAnswers.length === 1) { // Known user, we will work with his/her answers
-					answers = ipAnswers[0].answers;
-					if (answers.length === 0) {
-						q.resolve(false);
-					}
-					for (var i = 0; i < answers.length; i++) {
-						if (answers[i].question.equals(self._id)) {
-							q.resolve(true);
-						} else if (i === answers.length - 1)  {
-							q.resolve(false);
+						for (var i = 0; i < answers.length; i++) {
+							if (answers[i].question.equals(self._id)) {
+								q.resolve(true);
+								break;
+							} else if (i === answers.length - 1)  {
+								q.resolve(false);
+							}
 						}
 					}
 				}
@@ -113,10 +115,12 @@ questionSchema.methods = {
 			for (var i = 0; i < user.answers.length; i++) {
 				if (user.answers[i].question.equals(self._id)) {
 					q.resolve(true);
+					break;
 				} else if (i === user.answers.length - 1)  {
 					q.resolve(false);
 				}
 			}
+			
 		}
 		return q.promise;
 	},
