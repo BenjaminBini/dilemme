@@ -25,14 +25,22 @@ footer {
 footer p {
   padding: 10px;
 }
+footer a {
+  color: #fff;
+}
 footer span.cc {
   font-family: 'CC-ICONS';
   font-size: 24px;
+  font-weight: normal;
 }
-footer span.me {
+footer span.footer-text {
   vertical-align: top;
-  padding-left: 10px;
+  padding: 0 10px;
   font-weight: bold;
+}
+footer .github {
+  font-size: 20px;
+  vertical-align: top;
 }
 .navbar-form .form-group {
   margin-left: 10px;

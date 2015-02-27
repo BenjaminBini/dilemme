@@ -19,6 +19,7 @@
     "angular-ui-select": "~0.9.6",
     "ngDialog": "~0.3.10",
     "angular-animate": "~1.3.13",
-    "angular-local-storage": "~0.1.5"
+    "angular-local-storage": "~0.1.5",
+    "octicons": "~2.2.0"
   }
 }
