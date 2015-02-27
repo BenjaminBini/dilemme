@@ -182,7 +182,7 @@ footer .github {
   margin-bottom: 10px;
 }
 .question .question-details .icon {
-  margin-right: 5px;
+  margin-right: 10px;
 }
 .question .question-details .votes a {
   cursor: pointer;
@@ -203,6 +203,15 @@ footer .github {
 }
 .question .question-details .tags a {
   color: #fff;
+}
+.question .question-details .share-buttons {
+  padding-left: 0;
+  display: inline-block;
+}
+.question .question-details .share-buttons li {
+  list-style: none;
+  display: inline-block;
+  margin-right: 10px;
 }
 .question .comments textarea {
   height: 100px;
