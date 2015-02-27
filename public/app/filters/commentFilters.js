@@ -1,4 +1,4 @@
-angular.module('commentFilters', []).filter('authorCssClass', function () {
+angular.module('app').filter('authorCssClass', function () {
 	return function (comment, question) {
 		if (!comment.author || !comment.author.answers) {
 			return;

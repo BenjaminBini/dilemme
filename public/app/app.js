@@ -1,4 +1,4 @@
-angular.module('app', ['ngResource', 'ngRoute', 'ui.select', 'ngDialog', 'ngAnimate', 'LocalStorageModule', 'commentFilters']);
+angular.module('app', ['ngResource', 'ngRoute', 'ui.select', 'ngDialog', 'ngAnimate', 'LocalStorageModule']);
 
 angular.module('app').config(function ($routeProvider, $locationProvider, localStorageServiceProvider) {
 	
