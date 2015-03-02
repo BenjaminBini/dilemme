@@ -1,7 +1,7 @@
 // Karma configuration
 // Generated on Wed Feb 04 2015 12:09:36 GMT+0100 (Paris, Madrid)
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
