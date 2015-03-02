@@ -1,4 +1,4 @@
-angular.module('app').controller('mvAnswerController', function($scope, mvQuestion, mvQuestionService, $location, mvNotifier, mvIdentity, localStorageService, mvDialog) {	
+angular.module('app').controller('mvAnswerController', function($scope, mvQuestion, mvQuestionService, $location, mvNotifier, mvIdentity, localStorageService, mvDialog, $window) {	
 	$scope.answer = function (answer) {
 		$scope.results = mvQuestionService.getProportions($scope.question);
 		mvQuestionService.answerQuestion($scope.question, answer).then(function () {
@@ -79,6 +79,27 @@ angular.module('app').controller('mvAnswerController', function($scope, mvQuesti
 	$scope.openLoginModal = function () {
 		mvDialog.login();
 	};
+
+	$scope.facebookShare = function () {
+		FB.ui({
+			method: 'feed',
+			name: 'Dilemme : ' + $scope.question.text + ' ' + $scope.question.answers[0].text + ' or ' + $scope.question.answers[1].text + ' ?',
+			link: 'http://dilemme.io/questions/' + $scope.question._id,
+			description: $scope.question.description
+		});
+	}
+
+	$scope.twitterShare = function() {
+		var link = 'https://twitter.com/share?';
+		link += 'url=http://dilemme.io/questions/' + $scope.question._id;
+		link += '&text=Dilemme : ' + $scope.question.text + ' ' + $scope.question.answers[0].text + ' or ' + $scope.question.answers[1].text + ' ?';
+
+		var width = 555;
+		var height = 255;
+		var left = $window.innerWidth / 2 - width / 2;
+		var top = $window.innerHeight / 2 - height / 2;
+		return $window.open(link, '', 'width=' + width + ', height=' + height +', top=' + top + ', left=' + left);
+	}
 
 	// Check if the user has already answered the question (TODO : anonymous answer)
 	// If yes, show the answer

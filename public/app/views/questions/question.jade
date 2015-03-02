@@ -71,11 +71,25 @@
 							span.icon.glyphicon.glyphicon-share-alt
 							ul.share-buttons
 								li
-									a(href='https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fdilemme.io%2Fquestions%2F{{question._id}}&t=', target='_blank', onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent(document.URL)); return false;")
+									a(ng-click="facebookShare()", role="button")
 										span.socicon.socicon-facebook
 								li
-									a(href='https://twitter.com/intent/tweet?source=http%3A%2F%2Fdilemme.io%2F&text=:%20http%3A%2F%2Fdilemme.io%2Fquestions%2F{{question._id}}&via=BenjaminBini', target='_blank', title='Tweet', onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20'  + encodeURIComponent(document.URL)); return false;")
+									a(ng-click="twitterShare()", role="button")
 										span.socicon.socicon-twitter
-								li
-									a(href='https://plus.google.com/share?url=http%3A%2F%2Fdilemme.io%2Fquestions%2F{{question._id}}', target='_blank', title='Share on Google+', onclick="window.open('https://plus.google.com/share?url=' + encodeURIComponent(document.URL)); return false;")
-										span.socicon.socicon-google
+
+
+script.
+	window.fbAsyncInit = function() {
+			FB.init({
+				appId      : '526260170850257',
+				xfbml      : true,
+				version    : 'v2.2'
+			});
+		};
+		(function(d, s, id){
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) {return;}
+			js = d.createElement(s); js.id = id;
+			js.src = "//connect.facebook.net/en_US/sdk.js";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
