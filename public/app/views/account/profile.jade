@@ -19,5 +19,28 @@
 					.pull-right
 						button.btn.btn-primary(ng-click="update()", ng-disabled="profileForm.$invalid") Submit
 						a.btn.btn-default(href="/") Back
-
-			
+.container
+	.row
+		.col-md-12
+			table.table.table-hover
+				thead
+					tr
+						th Your pending suggestions
+						th Date
+				tbody
+					tr(ng-repeat="suggestion in suggestions")
+						td
+							{{suggestion.text}} : {{suggestion.answers[0].text}} or {{suggestion.answers[1].text}}
+						td {{suggestion.published | date }}
+	.row
+		.col-md-12
+			table.table.table-hover
+				thead
+					tr
+						th Your questions
+						th Date
+				tbody
+					tr(ng-repeat="question in questions")
+						td
+							{{question.text}} : {{question.answers[0].text}} or {{question.answers[1].text}}
+						td {{question.published | date }}

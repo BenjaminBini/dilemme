@@ -1,5 +1,16 @@
 angular.module('app').factory('mvQuestionService', function ($q, mvQuestion, localStorageService) {
   return {
+    getQuestionsByAuthor: function (user) {
+      var dfd = $q.defer();
+
+      mvQuestion.getByAuthor({_id: user._id}, function (questions) {
+        dfd.resolve(questions);
+      }, function (response) {
+        dfd.reject(response.data.reason);
+      });
+
+      return dfd.promise;
+    },
     createQuestion: function (question) {
       var newQuestion = new mvQuestion(question);
       var dfd = $q.defer();

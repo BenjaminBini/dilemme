@@ -1,4 +1,4 @@
-angular.module('app').controller('mvProfileController', function ($scope, mvAuthService, mvIdentity, mvNotifier) {
+angular.module('app').controller('mvProfileController', function ($scope, mvAuthService, mvSuggestionService, mvQuestionService, mvIdentity, mvNotifier) {
   $scope.username = mvIdentity.currentUser.username;
   $scope.email = mvIdentity.currentUser.email;
 
@@ -16,5 +16,13 @@ angular.module('app').controller('mvProfileController', function ($scope, mvAuth
       mvNotifier.error(reason);
     });
   };
+
+  mvSuggestionService.getSuggestionsByUser(mvIdentity.currentUser).then(function (suggestions) {
+    $scope.suggestions = suggestions;
+  });
+
+  mvQuestionService.getQuestionsByAuthor(mvIdentity.currentUser).then(function (questions) {
+    $scope.questions = questions;
+  });
 
 });

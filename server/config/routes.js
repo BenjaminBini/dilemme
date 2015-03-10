@@ -6,6 +6,7 @@ var auth = require('./auth');
 var mongoose = require('mongoose');
 var users = require('../controllers/users');
 var questions = require('../controllers/questions');
+var suggestions = require('../controllers/suggestions');
 var comments = require('../controllers/comments');
 
 module.exports = function (app) {
@@ -17,6 +18,8 @@ module.exports = function (app) {
   app.post('/api/users', users.createUser);
   app.put('/api/users/:id', users.updateUser);
   app.delete('/api/users/:id', auth.requiresRole('admin'), users.deleteUser);
+  app.get('/api/users/:id/suggestions', auth.requiresApiLogin, suggestions.getSuggestionsByUser);
+  app.get('/api/users/:id/questions', auth.requiresApiLogin, questions.getQuestionsByAuthor);
 
   // Questions
   app.get('/api/questions', questions.getQuestions);
@@ -34,6 +37,11 @@ module.exports = function (app) {
   app.post('/api/questions/:id/comment/', auth.requiresApiLogin, comments.commentQuestion);
   app.post('/api/questions/:id/comment/:commentId/upvote', auth.requiresApiLogin, comments.upvoteComment);
   app.delete('/api/questions/:id/comment/:commentId', auth.requiresRole('admin'), comments.deleteComment);
+
+  // Suggestions
+  app.get('/api/suggestions', auth.requiresRole('admin'), suggestions.getSuggestions);
+  app.get('/api/suggestions/:id', auth.requiresRole('admin'), suggestions.getSuggestionById);
+  app.post('/api/suggestions/', auth.requiresApiLogin, suggestions.createSuggestion);
 
   // Render partials
   app.get('/partials/*', function (req, res) {

@@ -1,6 +1,6 @@
-angular.module('app').controller('mvSuggestQuestionController', function ($scope, mvNotifier, mvAuthService) {
+angular.module('app').controller('mvSuggestQuestionController', function ($scope, $location, mvNotifier, mvSuggestionService) {
   var question = {};
-  question.tags = [];
+  question.answers = [];
   $scope.question = question;
 
   $scope.suggestQuestion = function () {
@@ -13,17 +13,12 @@ angular.module('app').controller('mvSuggestQuestionController', function ($scope
         question.tags[i] = $.trim(question.tags[i]);
       }
     }
-    console.dir($scope.question);
-  };
-
-  $scope.signin = function (email, password) {
-    mvAuthService.authenticateUser(email, password).then(function (success) {
-      if (success) {
-        mvNotifier.notify('You have successfully signed in.');
-        $scope.closeThisDialog();
-      } else {
-        mvNotifier.warn('Email/Password combination incorrect');
-      }
+    mvSuggestionService.createSuggestion(question).then(function () {
+      mvNotifier.notify('Your suggestion has been submitted.');
+      $scope.closeThisDialog();
+      $location.path('/profile');
+    }, function (reason) {
+      mvNotifier.error(reason);
     });
   };
 });

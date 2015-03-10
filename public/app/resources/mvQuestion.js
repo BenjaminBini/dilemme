@@ -43,6 +43,11 @@ angular.module('app').factory('mvQuestion', function ($resource) {
       method: 'POST',
       isArray: false,
       url: '/api/questions/:_id/comment/:_commentId/upvote'
+    },
+    getByAuthor: {
+      method: 'GET',
+      isArray: true,
+      url: '/api/users/:_id/questions'
     }
   });
 

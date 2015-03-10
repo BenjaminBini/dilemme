@@ -5,6 +5,7 @@
 var mongoose = require('mongoose');
 var userModel = require('../models/User');
 var questionModel = require('../models/Question');
+var suggestionModel = require('../models/Suggestion');
 var ipAnswersModel = require('../models/IpAnswers');
 
 module.exports = function (config) {
@@ -19,5 +20,6 @@ module.exports = function (config) {
     userModel.createDefaultEntries();
     ipAnswersModel.createDefaultEntries();
     questionModel.createDefaultEntries();
+    suggestionModel.createDefaultEntries();
   });
 };
