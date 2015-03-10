@@ -79,6 +79,9 @@ footer .github {
   margin-right: 0;
   margin-left: 20px;
 }
+.bootstrap-tagsinput {
+  margin-bottom: 0;
+}
 .select2-drop .select2-result-single li:first-child .select2-result-label {
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;

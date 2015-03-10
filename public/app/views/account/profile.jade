@@ -37,10 +37,16 @@
 			table.table.table-hover
 				thead
 					tr
-						th Your questions
-						th Date
+						th Question
+						th Upvotes
+						th Answer 1
+						th Answer 2
+						th Publish Date
 				tbody
 					tr(ng-repeat="question in questions")
 						td
-							{{question.text}} : {{question.answers[0].text}} or {{question.answers[1].text}}
+							a(href="/admin/questions/{{question._id}}") {{question.text}} : {{question.answers[0].text}} or {{question.answers[1].text}} ?
+						td {{question.upvotes}}
+						td {{question.answers[0].votes}}
+						td {{question.answers[1].votes}}
 						td {{question.published | date }}
