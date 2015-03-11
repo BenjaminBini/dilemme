@@ -20,14 +20,18 @@ angular.module('app').controller('mvQuestionDetailController', function ($scope,
 
   $scope.save = function () {
     var i;
-    if (question.tags !== undefined && !Array.isArray(question.tags)) {
-      question.tags = question.tags.split(',');
-    }
+    var tags = [];
     if (question.tags !== undefined) {
+      if (!Array.isArray(question.tags)) {
+        question.tags = question.tags.split(',');
+      }
       for (i = 0; i < question.tags.length; i++) {
-        question.tags[i] = $.trim(question.tags[i]);
+        if (question.tags[i].length > 0) {
+          tags.push($.trim(question.tags[i]));
+        }
       }
     }
+    question.tags = tags;
     if (question._id) {
       mvQuestionService.updateQuestion(question).then(function () {
         mvNotifier.notify('Question has been updated');
