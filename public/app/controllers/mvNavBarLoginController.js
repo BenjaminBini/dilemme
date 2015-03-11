@@ -4,13 +4,13 @@ angular.module('app').controller('mvNavBarLoginController', function ($scope, $l
       if (success) {
         mvNotifier.notify('You have successfully signed in.');
       } else {
-        mvNotifier.warn('Email/Password combination incorrect');
+        mvNotifier.warn('Username/Password combination incorrect');
       }
     });
   };
   $scope.signout = function () {
     mvAuthService.logoutUser().then(function () {
-      $scope.username = '';
+      $scope.email = '';
       $scope.password = '';
       mvNotifier.notify('You have successfully signed out.');
       $location.path('/');
