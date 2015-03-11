@@ -52,8 +52,14 @@ footer .github {
   margin-top: -8px;
   cursor: pointer;
 }
+.navbar-form .form-control {
+  background-color: #fff !important;
+}
 .navbar-collapse .navbar-nav.navbar-right:last-child>.dropdown:last-child>a {
   border-radius: 0;
+}
+.navbar-inverse .navbar-nav>.dropdown>a .caret {
+  border-top-color: #fff;
 }
 .toast-top-right {
   top: 70px;

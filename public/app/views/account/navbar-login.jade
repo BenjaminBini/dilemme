@@ -10,7 +10,7 @@
 		button.btn.btn-primary(ng-click="signin(email, password)") Sign in
 	ul.nav.navbar-nav.navbar-right(ng-show="identity.isAuthenticated()")
 		li
-			a.suggest(role="button", ng-click="openSuggestModal()") Suggest
+			a.suggest(role="button", ng-click="openSuggestModal()") Suggest a question
 		li.dropdown
 			a.dropdown-toggle(href="", data-toggle="dropdown")
 				| {{identity.currentUser.username}}
