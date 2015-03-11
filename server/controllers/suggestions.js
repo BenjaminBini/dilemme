@@ -11,7 +11,12 @@ var Question = require('mongoose').model('Question');
  * @return {[type]}     
  */
 exports.getSuggestions = function (req, res) {
-  Suggestion.find({}).exec(function (err, collection) {
+  Suggestion.find({}).populate([{
+      path: 'author',
+      select: 'username',
+      model: 'User'
+    }]).exec(function (err, collection) {
+    var i;
     if (err) {
       return;
     }
@@ -98,6 +103,8 @@ exports.validateSuggestion = function (req, res) {
     return res.send({reason: 'The suggestion does not exists'});
   }
 
+  suggestion.date = Date.now;
+
   Question.create(suggestion, function (err, question) {
     if (!question || err) {
       if (err) {
@@ -115,4 +122,4 @@ exports.validateSuggestion = function (req, res) {
       return res.send(question);
     });
   });
- };
+};

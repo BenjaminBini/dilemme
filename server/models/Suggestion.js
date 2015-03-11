@@ -29,6 +29,7 @@ suggestionSchema.methods = {
   }
 };
 
+var Suggestion = mongoose.model('Suggestion', suggestionSchema);
 
 /**
  * Create default suggestions in the db
@@ -65,5 +66,3 @@ exports.createDefaultEntries = function () {
     console.log('Suggestions collection has ' + collection.length + ' entries');
   });
 };
-
-var Suggestion = mongoose.model('Suggestion', suggestionSchema);

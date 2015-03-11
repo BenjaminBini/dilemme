@@ -11,16 +11,14 @@
 	table.table.table-hover(ng-show="questions.length > 0")
 		thead
 			tr
+				th Title
 				th Question
-				th Upvotes
-				th Answer 1
-				th Answer 2
+				th Author
 				th Suggestion Date
 		tbody
 			tr(ng-repeat="question in questions | filter: searchText | orderBy: sortOrder.selected")
+				td {{question.title}}
 				td
 					a(href="/admin/suggestions/{{question._id}}") {{question.text}} : {{question.answers[0].text}} or {{question.answers[1].text}} ?
-				td {{question.upvotes}}
-				td {{question.answers[0].votes}}
-				td {{question.answers[1].votes}}
+				td {{question.author.username}}
 				td {{question.published | date }}
