@@ -56,7 +56,7 @@
 						.question-detail-field.votes
 							a(ng-click="upvote()", title="Upvote this question")
 								span.icon.glyphicon.glyphicon-arrow-up
-								span {{question.upvotes}} upvotes
+								span {{ question.upvotes }} upvotes
 						.question-detail-field.answers
 							span.icon.glyphicon.glyphicon-ok
 							span {{ question.answers[0].votes + question.answers[1].votes }} answers
@@ -66,7 +66,8 @@
 								a(ng-href="/questions/tag/{{tag}}")  {{tag}}
 						.question-detail-field.author(ng-show="!!question.author")
 							span.icon.glyphicon.glyphicon-pencil
-							span {{ question.author.username }}
+							a(ng-show="identity.currentUser.isAdmin()", href="/admin/users/{{ question.author._id }}") {{ question.author.username }}
+							span(ng-show="!identity.currentUser.isAdmin()") {{ question.author.username }}
 						.question-detail-field.permalink
 							span.icon.glyphicon.glyphicon-link
 							a(href="/questions/{{question._id}}") Permalink

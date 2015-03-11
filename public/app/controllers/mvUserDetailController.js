@@ -1,10 +1,22 @@
-angular.module('app').controller('mvUserDetailController', function ($scope, $routeParams, mvUser, mvNotifier, $location, mvUserService, mvDialog) {
+angular.module('app').controller('mvUserDetailController', function ($scope, $routeParams, mvUser, mvNotifier, $location, mvUserService, mvDialog, mvSuggestionService, mvQuestionService) {
 
   // Pass the edited user to the scope
   var user = mvUser.get({_id: $routeParams.id}, function () {
     $scope.email = user.email;
     $scope.username = user.username;
+
+    // Add user's suggestions to scope
+    mvSuggestionService.getSuggestionsByUser(user).then(function (suggestions) {
+      $scope.suggestions = suggestions;
+    });
+
+    // Add user's questions to scope
+    mvQuestionService.getQuestionsByAuthor(user).then(function (questions) {
+      $scope.questions = questions;
+    });
   });
+
+
 
   // Update the user
   $scope.update = function () {

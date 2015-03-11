@@ -33,7 +33,7 @@
 						a(href="/admin/users/{{suggestion.author._id}}") {{suggestion.author.username}}
 			.form-group.actions
 				.col-md-10.col-md-offset-2
-					a.btn.btn-default(ng-href="/admin/suggestions") Back
+					a.btn.btn-default(ng-href="/admin/suggestions") Back to suggestions list
 					.pull-right
 						button.btn.btn-primary(ng-click="validate()", ng-disabled="suggestionForm.$invalid") Validate
 						button.btn.btn-danger(ng-click="delete()") Delete
