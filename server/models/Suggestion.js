@@ -6,7 +6,6 @@ var Deffered = require("promised-io/promise").Deferred;
  */
 var suggestionSchema = mongoose.model('Question').schema;
 
-var Suggestion = mongoose.model('Suggestion', suggestionSchema);
 
 /**
  * Suggestion schema methods
@@ -66,3 +65,5 @@ exports.createDefaultEntries = function () {
     console.log('Suggestions collection has ' + collection.length + ' entries');
   });
 };
+
+var Suggestion = mongoose.model('Suggestion', suggestionSchema);

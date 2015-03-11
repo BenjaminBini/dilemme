@@ -20,20 +20,25 @@
 						button.btn.btn-primary(ng-click="update()", ng-disabled="profileForm.$invalid") Submit
 						a.btn.btn-default(href="/") Back
 .container
-	.row
+	.row(ng-show="suggestions.length > 0")
 		.col-md-12
+			h4 Your pending suggestions
 			table.table.table-hover
 				thead
 					tr
-						th Your pending suggestions
+						th Title
+						th Question
 						th Date
 				tbody
 					tr(ng-repeat="suggestion in suggestions")
 						td
+							{{suggestion.title}}
+						td
 							{{suggestion.text}} : {{suggestion.answers[0].text}} or {{suggestion.answers[1].text}}
 						td {{suggestion.published | date }}
-	.row
+	.row(ng-show="questions.length > 0")
 		.col-md-12
+			h4 Your questions
 			table.table.table-hover
 				thead
 					tr
@@ -45,7 +50,7 @@
 				tbody
 					tr(ng-repeat="question in questions")
 						td
-							a(href="/admin/questions/{{question._id}}") {{question.text}} : {{question.answers[0].text}} or {{question.answers[1].text}} ?
+							a(href="/questions/{{question._id}}") {{question.text}} : {{question.answers[0].text}} or {{question.answers[1].text}} ?
 						td {{question.upvotes}}
 						td {{question.answers[0].votes}}
 						td {{question.answers[1].votes}}

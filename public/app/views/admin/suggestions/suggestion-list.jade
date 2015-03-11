@@ -1,0 +1,25 @@
+.container
+	form.form-inline.filters
+		.form-group.col-md-3.col-md-offset-6
+			input.form-control(ng-model="searchText", placeHolder="Filter")
+		.form-group.col-md-3
+			ui-select.select.form-control.select-primary.select2(ng-model="sortOrder.selected", theme="select2")
+				ui-select-match(placeholder="Order") {{$select.selected.text}}
+				ui-select-choices(repeat="item.value as item in sortOptions")
+					div {{item.text}}
+	table.table.table-hover
+		thead
+			tr
+				th Question
+				th Upvotes
+				th Answer 1
+				th Answer 2
+				th Suggestion Date
+		tbody
+			tr(ng-repeat="question in questions | filter: searchText | orderBy: sortOrder.selected")
+				td
+					a(href="/admin/suggestions/{{question._id}}") {{question.text}} : {{question.answers[0].text}} or {{question.answers[1].text}} ?
+				td {{question.upvotes}}
+				td {{question.answers[0].votes}}
+				td {{question.answers[1].votes}}
+				td {{question.published | date }}

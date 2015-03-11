@@ -72,6 +72,10 @@ exports.getQuestionById = function (req, res) {
       res.status(400);
       return res.send({reason: err.toString()});
     }
+    if (!question) {
+      res.status(400);
+      return res.send({reason: 'This question does not exists'}); 
+    }
     question.populateQuestion().then(function () {
       return res.send(question);
     });
@@ -159,8 +163,7 @@ exports.createQuestion = function (req, res) {
       return res.send({reason: err.toString()});
     }
     // If no error, return the question
-    res.send(question);
-    return question;
+    return res.send(question);
   });
 };
 

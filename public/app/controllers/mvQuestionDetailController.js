@@ -1,4 +1,4 @@
-angular.module('app').controller('mvQuestionDetailController', function ($scope, mvQuestion, $routeParams, mvNotifier, mvQuestionService, $location, mvDialog) {
+angular.module('app').controller('mvQuestionDetailController', function ($scope, $routeParams, mvNotifier, mvQuestionService, $location, mvDialog) {
   var question = {};
   question.answers = [];
   $scope.question = question;
@@ -6,10 +6,13 @@ angular.module('app').controller('mvQuestionDetailController', function ($scope,
   $scope.editionMode = false;
 
   if ($routeParams.id !== 'add') {
-    question = mvQuestion.get({_id: $routeParams.id}, function () {
+    mvQuestionService.getQuestionById($routeParams.id).then(function (questionResponse) {
+      question = questionResponse;
       $scope.question = question;
       $scope.isLoaded = true;
       $scope.editionMode = true;
+    }, function (reason) {
+      mvNotifier.error(reason);
     });
   } else {
     $scope.isLoaded = true;
@@ -29,8 +32,8 @@ angular.module('app').controller('mvQuestionDetailController', function ($scope,
       mvQuestionService.updateQuestion(question).then(function () {
         mvNotifier.notify('Question has been updated');
         $location.path('/admin/questions');
-      }, function (response) {
-        mvNotifier.error(response.data.reason);
+      }, function (reason) {
+        mvNotifier.error(reason);
       });
     } else {
       mvQuestionService.createQuestion(question).then(function () {

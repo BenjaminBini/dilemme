@@ -2,6 +2,7 @@
  * Suggestions controller
  */
 var Suggestion = require('mongoose').model('Suggestion');
+var Question = require('mongoose').model('Question');
 
 /**
  * Return all suggestions
@@ -26,8 +27,12 @@ exports.getSuggestions = function (req, res) {
  */
 exports.getSuggestionById = function (req, res) {
   Suggestion.findOne({_id: req.params.id}).exec(function (err, suggestion) {
-    if (err) {
-      return res.sendStatus(400);
+    if (err || !suggestion) {
+      if (err) {
+        console.log(err.stack);
+      }
+      res.status(400);
+      return res.send({reason: 'This suggestion does not exist'});
     }
     suggestion.populateSuggestion().then(function () {
       return res.send(suggestion);
@@ -79,3 +84,35 @@ exports.getSuggestionsByUser = function (req, res) {
     return res.send(collection);
   });
 };
+
+/**
+ * Validate a suggestion and publish the question
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
+exports.validateSuggestion = function (req, res) {
+  var suggestion = req.body;
+  if (!suggestion) {
+    res.status(400);
+    return res.send({reason: 'The suggestion does not exists'});
+  }
+
+  Question.create(suggestion, function (err, question) {
+    if (!question || err) {
+      if (err) {
+        console.log(err.stack);
+      }
+      res.status(400);
+      return res.send('Error while publishing new question');
+    }
+    Suggestion.remove({_id: suggestion._id}, function (err) {
+      if (err) {
+        console.log(err.stack);
+        res.status(400);
+        return res.send('Error while deleting the suggestion');
+      }
+      return res.send(question);
+    });
+  });
+ };

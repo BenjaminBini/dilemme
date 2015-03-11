@@ -1,0 +1,41 @@
+.container.well
+	form.form-horizontal(name="suggestionForm")
+		fieldset
+			legend Suggestion
+			.form-group
+				label.col-md-2.control-label(for="text") Title
+				.col-md-10
+					input.form-control(name="text", type="text", placeholder="Title", ng-model="suggestion.title", autofocus)
+			.form-group
+				label.col-md-2.control-label(for="text") Description
+				.col-md-10
+					input.form-control(name="text", type="text", placeholder="Description", ng-model="suggestion.description", autofocus)
+			.form-group
+				label.col-md-2.control-label(for="text") Text
+				.col-md-10
+					input.form-control(name="text", type="text", placeholder="Text", ng-model="suggestion.text", required, autofocus)
+			.form-group
+				label.col-md-2.control-label(for="answer1") First choice
+				.col-md-10
+					input.form-control(name="answer1", type="text", placeholder="First choice", ng-model="suggestion.answers[0].text", required)
+			.form-group
+				label.col-md-2.control-label(for="answer2") Second choice
+				.col-md-10
+					input.form-control(name="answer2", type="text", placeholder="Second choice", ng-model="suggestion.answers[1].text", required)
+			.form-group
+				label.col-md-2.control-label(for="tags") Tags
+				.col-md-10
+					tags-input(tags="suggestion.tags", is-loaded="isLoaded")
+			.form-group(ng-show="!!suggestion.author")
+				label.col-md-2.control-label(for="tags") Author
+				.col-md-10
+					label.control-label
+						a(href="/admin/users/{{suggestion.author._id}}") {{suggestion.author.username}}
+			.form-group.actions
+				.col-md-10.col-md-offset-2
+					a.btn.btn-default(ng-href="/admin/suggestions") Back
+					.pull-right
+						button.btn.btn-primary(ng-click="validate()", ng-disabled="suggestionForm.$invalid") Validate
+						button.btn.btn-danger(ng-click="delete()") Delete
+
+			
