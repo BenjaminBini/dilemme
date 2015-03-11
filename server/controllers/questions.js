@@ -219,8 +219,7 @@ exports.deleteQuestion = function (req, res) {
         reason: err.toString()
       });
     }
-    res.send(req.params.id);
-    return req.params.id;
+    return res.send(req.params.id);
   });
 };
 

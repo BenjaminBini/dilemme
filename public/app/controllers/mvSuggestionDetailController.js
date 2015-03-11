@@ -1,4 +1,4 @@
-angular.module('app').controller('mvSuggestionDetailController', function ($scope, $routeParams, mvNotifier, mvSuggestionService, $location) {
+angular.module('app').controller('mvSuggestionDetailController', function ($scope, $routeParams, mvNotifier, mvSuggestionService, $location, mvDialog) {
 
   if (!!$routeParams.id) {
     mvSuggestionService.getSuggestionById($routeParams.id).then(function (suggestion) {
@@ -32,10 +32,16 @@ angular.module('app').controller('mvSuggestionDetailController', function ($scop
   };
 
   $scope.delete = function () {
-    mvSuggestionService.deleteSuggestion($scope.suggestion).then(function () {
-
-    }, function (reason) {
-      mvNotifier.error(reason);
+    $scope.itemType = 'suggestion';
+    mvDialog.confirmDelete($scope).then(function (data) {
+      if (data.value === 'confirm') {
+        mvSuggestionService.deleteSuggestion($scope.suggestion).then(function () {
+          mvNotifier.notify('The suggestion has been deleted');
+          $location.path('/admin/suggestions');
+        }, function (reason) {
+          mvNotifier.error(reason);
+        });
+      }
     });
   };
 

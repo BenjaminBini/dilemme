@@ -123,5 +123,17 @@ exports.validateSuggestion = function (req, res) {
       });
     });
   });
+};
 
+exports.deleteSuggestion = function (req, res) {
+  Suggestion.remove({_id: req.params.id}, function (err) {
+    if (err) {
+      console.log(err.stack);
+      res.status(400);
+      return res.send({
+        reason: 'Error while deleting the suggestion'
+      });
+    }
+    return res.send(req.params.id);
+  });
 };

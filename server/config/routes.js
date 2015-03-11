@@ -43,6 +43,7 @@ module.exports = function (app) {
   app.get('/api/suggestions/:id', auth.requiresRole('admin'), suggestions.getSuggestionById);
   app.post('/api/suggestions/', auth.requiresApiLogin, suggestions.createSuggestion);
   app.post('/api/suggestions/:id/validate', auth.requiresRole('admin'), suggestions.validateSuggestion);
+  app.delete('/api/suggestions/:id', auth.requiresRole('admin'), suggestions.deleteSuggestion);
 
   // Render partials
   app.get('/partials/*', function (req, res) {
