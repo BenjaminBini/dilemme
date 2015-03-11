@@ -21,7 +21,7 @@
 					textarea.col-md-12(ng-model="newComment")
 					.actions
 						.pull-left
-							ui-select.select.form-control.select-primary.select2(ng-model="sortOrder.selected", theme="select2", role="button")
+							ui-select.select.form-control.select-primary.select2(ng-model="sortOrder.selected", theme="select2", role="button", ng-show="question.comments.length > 0")
 								ui-select-match(placeholder="Order") {{$select.selected.text}}
 								ui-select-choices(repeat="item.value as item in sortOptions")
 									div {{item.text}}
@@ -67,6 +67,9 @@
 						.question-detail-field.author(ng-show="!!question.author")
 							span.icon.glyphicon.glyphicon-pencil
 							span {{ question.author.username }}
+						.question-detail-field.permalink
+							span.icon.glyphicon.glyphicon-link
+							a(href="/questions/{{question._id}}") Permalink
 						.question-detail-field
 							span.icon.glyphicon.glyphicon-share-alt
 							ul.share-buttons
