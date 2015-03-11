@@ -12,11 +12,10 @@ var Question = require('mongoose').model('Question');
  */
 exports.getSuggestions = function (req, res) {
   Suggestion.find({}).populate([{
-      path: 'author',
-      select: 'username',
-      model: 'User'
-    }]).exec(function (err, collection) {
-    var i;
+    path: 'author',
+    select: 'username',
+    model: 'User'
+  }]).exec(function (err, collection) {
     if (err) {
       return;
     }
@@ -104,22 +103,25 @@ exports.validateSuggestion = function (req, res) {
   }
 
   suggestion.date = Date.now;
-
-  Question.create(suggestion, function (err, question) {
-    if (!question || err) {
-      if (err) {
-        console.log(err.stack);
-      }
-      res.status(400);
-      return res.send('Error while publishing new question');
-    }
-    Suggestion.remove({_id: suggestion._id}, function (err) {
-      if (err) {
-        console.log(err.stack);
+  Suggestion.findOne({_id: suggestion._id}, function (err, savedSuggestion) {
+    suggestion.author = savedSuggestion.author;
+    Question.create(suggestion, function (err, question) {
+      if (!question || err) {
+        if (err) {
+          console.log(err.stack);
+        }
         res.status(400);
-        return res.send('Error while deleting the suggestion');
+        return res.send('Error while publishing new question');
       }
-      return res.send(question);
+      Suggestion.remove({_id: suggestion._id}, function (err) {
+        if (err) {
+          console.log(err.stack);
+          res.status(400);
+          return res.send('Error while deleting the suggestion');
+        }
+        return res.send(question);
+      });
     });
   });
+
 };
