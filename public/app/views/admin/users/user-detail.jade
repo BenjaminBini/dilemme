@@ -32,8 +32,7 @@
 						th Suggestion Date
 				tbody
 					tr(ng-repeat="suggestion in suggestions")
-						td
-							{{suggestion.title}}
+						td {{suggestion.title}}
 						td
 							a(href="/admin/suggestions/{{suggestion._id}}") {{suggestion.text}} : {{suggestion.answers[0].text}} or {{suggestion.answers[1].text}}
 						td {{suggestion.published | date }}

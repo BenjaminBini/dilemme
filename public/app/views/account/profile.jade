@@ -31,10 +31,8 @@
 						th Suggestion Date
 				tbody
 					tr(ng-repeat="suggestion in suggestions")
-						td
-							{{suggestion.title}}
-						td
-							{{suggestion.text}} : {{suggestion.answers[0].text}} or {{suggestion.answers[1].text}}
+						td {{suggestion.title}}
+						td {{suggestion.text}} : {{suggestion.answers[0].text}} or {{suggestion.answers[1].text}}
 						td {{suggestion.published | date }}
 	.row(ng-show="questions.length > 0")
 		.col-md-12
