@@ -260,6 +260,14 @@ footer .github {
   font-size: 14px;
   color: #777;
 }
+.red-background {
+  background-color: #e74c3c;
+  color: #fff;
+}
+.blue-background {
+  background-color: #3498db;
+  color: #fff;
+}
 .view-transition .view {
   transition: 800ms;
   position: relative;

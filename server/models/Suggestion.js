@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Deffered = require("promised-io/promise").Deferred;
+var Suggestion;
 
 /**
  * Suggestion schema (same as Question schema)
@@ -29,7 +30,7 @@ suggestionSchema.methods = {
   }
 };
 
-var Suggestion = mongoose.model('Suggestion', suggestionSchema);
+Suggestion = mongoose.model('Suggestion', suggestionSchema);
 
 /**
  * Create default suggestions in the db

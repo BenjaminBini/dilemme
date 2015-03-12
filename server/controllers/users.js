@@ -30,9 +30,11 @@ exports.getUsers = function (req, res) {
 exports.getUserById = function (req, res) {
   User.findOne({_id: req.params.id}).exec(function (err, user) {
     if (err) {
-      return;
+      return res.send(400);
     }
-    res.send(user);
+    user.populateUser().then(function () {
+      res.send(user);
+    });
   });
 };
 
@@ -140,8 +142,10 @@ exports.updateUser = function (req, res) {
         });
       }
       // Send and return the user
-      res.send(user);
-      return user;
+      user.populateUser().then(function () {
+        res.send(user);
+        return user;
+      });
     });
   });
 };

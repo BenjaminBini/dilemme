@@ -20,6 +20,7 @@
 						button.btn.btn-primary(ng-click="update()", ng-disabled="profileForm.$invalid") Submit
 						a.btn.btn-default(href="/") Back
 .container
+	.h4(ng-show="suggestions.length === 0") No pending suggestion yet
 	.row(ng-show="suggestions.length > 0")
 		.col-md-12
 			h4 Your pending suggestions
@@ -32,8 +33,9 @@
 				tbody
 					tr(ng-repeat="suggestion in suggestions")
 						td {{suggestion.title}}
-						td {{suggestion.text}} : {{suggestion.answers[0].text}} or {{suggestion.answers[1].text}}
+						td {{suggestion.text}} : {{suggestion.answers[0].text}} or {{suggestion.answers[1].text}} ?
 						td {{suggestion.published | date }}
+	.h4(ng-show="questions.length === 0") No published question yet
 	.row(ng-show="questions.length > 0")
 		.col-md-12
 			h4 Your questions
@@ -53,3 +55,18 @@
 						td {{question.answers[0].votes}}
 						td {{question.answers[1].votes}}
 						td {{question.published | date }}
+	.h4(ng-show="currentUser.answers.length === 0") No answered question yet
+	.row(ng-show="currentUser.answers.length > 0")
+		.col-md-12
+			h4 Your answers
+			table.table
+				thead
+					tr
+						th Title
+						th Question
+						th Your answer
+				tbody
+					tr(ng-repeat="answer in currentUser.answers")
+						td {{answer.question.title}}
+						td {{answer.question.text}} : {{answer.question.answers[0].text}} or {{answer.question.answers[1].text}} ?
+						td(ng-class="answer.answer == 0 ? 'red-background' : 'blue-background'") {{answer.question.answers[answer.answer].text}} (like {{answer.question | proportion:answer.answer}}% of the users)

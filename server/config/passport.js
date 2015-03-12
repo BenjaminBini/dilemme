@@ -28,7 +28,9 @@ module.exports = function () {
       }
       // If no user is found, deserialization fail
       if (user) {
-        return done(null, user);
+        return user.populateUser().then(function () {
+          return done(null, user);
+        });
       }
       return done(null, false);
     });
@@ -48,7 +50,9 @@ module.exports = function () {
         return done(null, false);
       }
       if (user && user.authenticate(password)) {
-        return done(null, user);
+        return user.populateUser().then(function () {
+          return done(null, user);
+        });
       }
       return done(null, false);
     });

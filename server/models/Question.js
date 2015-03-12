@@ -115,8 +115,8 @@ questionSchema.methods = {
       if (user.answers.length === 0) {
         q.resolve(false);
       }
-      for (i = 0; i < user.answers.length; i++) {
-        if (user.answers[i].question.equals(self._id)) {
+      for (i = 0; i <  user.answers.length; i++) {
+        if (user.answers[i].question._id.equals(self._id)) {
           q.resolve(true);
           break;
         }

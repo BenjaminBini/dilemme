@@ -4,6 +4,7 @@
 var requestIp = require('request-ip');
 var mongoose = require('mongoose');
 var Question = mongoose.model('Question');
+var User = mongoose.model('User');
 var IpAnswers = mongoose.model('IpAnswers');
 
 /**
@@ -219,7 +220,30 @@ exports.deleteQuestion = function (req, res) {
         reason: err.toString()
       });
     }
-    return res.send(req.params.id);
+    // On supprime les références à la question supprimée dans les réponses utilisateurs
+    // On ne s'occupe pas des réponses anonymes : elles sont automatiquement purgées
+    User.find({}).exec(function (err, users) {
+      var i, j, userModified;
+      if (err) {
+        console.log(err.stack);
+        res.status(400);
+        return res.send({
+          reason: 'Error with users'
+        });
+      }
+      for (i = 0; i < users.length; i++) {
+        for (j = users[i].answers.length - 1; j >= 0; j--) {
+          if (users[i].answers[j].question.equals(req.params.id)) {
+            users[i].answers.splice(j, 1);
+            userModified = true;
+          }
+        }
+        if (userModified) {
+          users[i].save();
+        }
+      }
+      return res.send(req.params.id);
+    });
   });
 };
 

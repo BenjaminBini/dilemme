@@ -16,7 +16,7 @@ require('./server/config/routes')(app);
 
 // Log uncaught errors
 process.on('uncaughtException', function (err) {
-  console.log('UNCAUGHT EXCEPTION : ' + err);
+  console.log('UNCAUGHT EXCEPTION : ' + err.stack);
 });
 
 // Start app

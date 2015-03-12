@@ -6,7 +6,7 @@ angular.module('app').controller('mvAnswerController', function ($scope, mvQuest
       // Push the answer to current user answer list if authenticated
       if (mvIdentity.isAuthenticated()) {
         mvIdentity.currentUser.answers.push({
-          question: $scope.question._id,
+          question: $scope.question,
           answer: answer
         });
       } else { // Push it in the local storage/cookie
@@ -113,7 +113,7 @@ angular.module('app').controller('mvAnswerController', function ($scope, mvQuest
       }
       if (answers) {
         for (i = 0; i < answers.length; i++) {
-          if (answers[i].question == question._id) {
+          if (answers[i].question._id == question._id) {
             $scope.userAnswer = answers[i].answer;
             $scope.results = mvQuestionService.getProportions($scope.question);
             $scope.answer = function () {};

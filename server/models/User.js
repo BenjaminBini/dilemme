@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 var validator = require('validator');
 var encrypt = require('../utils/encryption');
+var Deffered = require("promised-io/promise").Deferred;
+var User;
 
 /**
  * User schema
@@ -69,6 +71,21 @@ userSchema.methods = {
    */
   hasRole: function (role) {
     return this.roles.indexOf(role) > -1;
+  },
+  populateUser: function () {
+    var user = this;
+    var q = new Deffered();
+    User.populate(user, [{
+      path: 'answers.question',
+      model: 'Question'
+    }], function (err) {
+      if (err) {
+        q.reject();
+      } else {
+        q.resolve(user);
+      }
+    });
+    return q.promise;
   }
 };
 
@@ -89,7 +106,7 @@ userSchema.statics = {
   }
 };
 
-var User = mongoose.model('User', userSchema);
+User = mongoose.model('User', userSchema);
 
 /**
  * Create default users in the db

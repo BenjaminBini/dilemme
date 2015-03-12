@@ -1,6 +1,7 @@
 angular.module('app').controller('mvProfileController', function ($scope, mvAuthService, mvSuggestionService, mvQuestionService, mvIdentity, mvNotifier) {
   $scope.username = mvIdentity.currentUser.username;
   $scope.email = mvIdentity.currentUser.email;
+  $scope.currentUser = mvIdentity.currentUser;
 
   $scope.update = function () {
     var newUserData = {

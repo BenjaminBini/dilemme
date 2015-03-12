@@ -14,6 +14,9 @@ angular.module('app').controller('mvUserDetailController', function ($scope, $ro
     mvQuestionService.getQuestionsByAuthor(user).then(function (questions) {
       $scope.questions = questions;
     });
+
+    // Add user's answers to scope
+    $scope.answers = user.answers;
   });
 
 
