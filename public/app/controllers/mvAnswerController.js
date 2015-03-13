@@ -100,7 +100,7 @@ angular.module('app').controller('mvAnswerController', function ($scope, mvQuest
     return $window.open(link, '', 'width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
   };
 
-  // Check if the user has already answered the question (TODO : anonymous answer)
+  // Check if the user has already answered the question
   // If yes, show the answer
   $scope.$watch('question', function (question) {
     var i;

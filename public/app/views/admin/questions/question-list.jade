@@ -7,7 +7,7 @@
 				ui-select-match(placeholder="Order") {{$select.selected.text}}
 				ui-select-choices(repeat="item.value as item in sortOptions")
 					div {{item.text}}
-	h3(ng-show="questions.length === 0") No suggestion yet
+	h3(ng-show="questions.length === 0") No question yet
 	table.table.table-hover(ng-show="questions.length > 0")
 		thead
 			tr

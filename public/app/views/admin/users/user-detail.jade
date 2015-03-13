@@ -21,7 +21,7 @@
 						button.btn.btn-primary(ng-click="update()", ng-disabled="userForm.$invalid") Submit
 						button.btn.btn-danger(ng-click="delete()") Delete
 .container
-	.h4(ng-show="suggestions.length === 0") No pending suggestion
+	.h4(ng-show="suggestions.length === 0") No pending suggestion yet
 	.row(ng-show="suggestions.length > 0")
 		.col-md-12
 			h4 {{username}}'s pending suggestions
@@ -37,7 +37,7 @@
 						td
 							a(href="/admin/suggestions/{{suggestion._id}}") {{suggestion.text}} : {{suggestion.answers[0].text}} or {{suggestion.answers[1].text}}
 						td {{suggestion.published | date }}
-	.h4(ng-show="questions.length === 0") No published question 
+	.h4(ng-show="questions.length === 0") No published question yet
 	.row(ng-show="questions.length > 0")
 		.col-md-12
 			h4 {{username}}'s questions
@@ -57,7 +57,7 @@
 						td {{question.answers[0].votes}}
 						td {{question.answers[1].votes}}
 						td {{question.published | date }}
-	.h4(ng-show="answers.length === 0") No answered question 
+	.h4(ng-show="answers.length === 0") No answered question yet
 	.row(ng-show="answers.length > 0")
 		.col-md-12
 			h4 {{username}}'s answers
