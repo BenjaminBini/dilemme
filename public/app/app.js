@@ -36,6 +36,12 @@ angular.module('app').config(function ($routeProvider, $locationProvider, localS
       controller: 'mvUnansweredQuestionRandomController',
       animation: 'view-transition'
     })
+    .when('/questions/browse', {
+      templateUrl: '/partials/questions/browse.jade',
+      controller: 'mvBrowseController',
+      resolve: routeRolesCheck.user,
+      animation: 'view-transition'
+    })
     .when('/questions/:id', {
       templateUrl: '/partials/questions/question.jade',
       controller: 'mvQuestionController',
