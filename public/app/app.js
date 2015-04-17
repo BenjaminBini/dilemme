@@ -1,6 +1,6 @@
-angular.module('app', ['ngResource', 'ngRoute', 'ui.select', 'ngDialog', 'ngAnimate', 'LocalStorageModule']);
+angular.module('app', ['ngResource', 'ngRoute', 'ui.select', 'ngDialog', 'ngAnimate', 'LocalStorageModule', 'angularUtils.directives.dirPagination']);
 
-angular.module('app').config(function ($routeProvider, $locationProvider, localStorageServiceProvider) {
+angular.module('app').config(function ($routeProvider, $locationProvider, localStorageServiceProvider, paginationTemplateProvider) {
 
   // Roles config
   var routeRolesCheck = {
@@ -37,11 +37,19 @@ angular.module('app').config(function ($routeProvider, $locationProvider, localS
       animation: 'view-transition'
     })
     .when('/questions/browse', {
-      templateUrl: '/partials/questions/browse.jade',
+      templateUrl: '/partials/questions/browse',
       controller: 'mvBrowseController',
       resolve: routeRolesCheck.user,
       animation: 'view-transition'
     })
+    /*.when('/questions/most-answered', {
+      templateUrl: '/partials/questions/most-answered.jade',
+      controller: 'mvMostAnsweredController',
+    })
+    .when('/questions/most-voted', {
+      templateUrl: '/partials/questions/most-voted.jade',
+      controller: 'mvMostVotedController',
+    })*/
     .when('/questions/:id', {
       templateUrl: '/partials/questions/question.jade',
       controller: 'mvQuestionController',
@@ -102,6 +110,9 @@ angular.module('app').config(function ($routeProvider, $locationProvider, localS
 
   // Local storage config
   localStorageServiceProvider.setPrefix('dilemme');
+
+  // Pagination template
+  paginationTemplateProvider.setPath('/partials/templates/pagination');
 });
 
 angular.module('app').run(function ($route, $rootScope, $location, mvIdentity) {

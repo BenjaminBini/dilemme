@@ -1,0 +1,8 @@
+.pagination(ng-if="pages.length > 1")
+	ul
+		li(ng-if="directionLinks", ng-class="{disabled: pagination.current == 1}" class="previous")
+			a(href="", class="fui-arrow-left", ng-click="setCurrent(pagination.current - 1)")
+		li(ng-repeat="pageNumber in pages track by $index", ng-class="{ active : pagination.current == pageNumber, disabled : pageNumber == '...' }")
+			a(href="", ng-click="setCurrent(pageNumber)"){{ pageNumber }}
+		li(ng-if="directionLinks", ng-class="{ disabled : pagination.current == pagination.last }" class="next")
+			a(href="", class="fui-arrow-right", ng-click="setCurrent(pagination.current + 1)")

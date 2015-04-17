@@ -260,6 +260,13 @@ footer .github {
   font-size: 14px;
   color: #777;
 }
+.pagination {
+  width: 100%;
+  text-align: center;
+}
+.pagination li {
+  margin-right: 0;
+}
 .red-background {
   background-color: #e74c3c;
   color: #fff;

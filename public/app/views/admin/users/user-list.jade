@@ -16,10 +16,11 @@
 				th Roles
 				th Registration
 		tbody
-			tr(ng-repeat="user in users | filter: searchText | orderBy: sortOrder.selected")
+			tr(dir-paginate="user in users | filter: searchText | orderBy: sortOrder.selected | itemsPerPage: 10")
 				td
 					a(href="/admin/users/{{user._id}}") {{user.username}}
 				td
 					span(ng-repeat="role in user.roles") {{role}} 
 				td
 					| {{user.registrationDate | date}}
+	dir-pagination-controls
