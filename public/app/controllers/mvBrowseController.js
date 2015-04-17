@@ -1,5 +1,8 @@
-angular.module('app').controller('mvBrowseController', function ($scope, mvQuestion) {
-  $scope.questions = mvQuestion.query();
+angular.module('app').controller('mvBrowseController', function ($scope, mvQuestionService) {
+  
+  mvQuestionService.getAll().then(function (questions) {
+    $scope.questions = questions;
+  });
 
   $scope.sortOptions = [{
     value: 'text + answers[0].text + answers[1].text',
