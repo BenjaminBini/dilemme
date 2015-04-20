@@ -8,9 +8,11 @@ block main-content
 			.navbar-collapse.collapse
 				ul.nav.navbar-nav
 					li
-						a(href="/") Home
-					li(ng-show="identity.isAuthenticated()")
-						a(href="/questions/browse") Browse questions
+						a(href="/questions/browse") Browse
+					li
+						a(href="/questions/most-voted") Most upvoted
+					li
+						a(href="/questions/most-answered") Most answered
 				div(ng-include="'/partials/account/navbar-login'")
 	section.content
 		.view(ng-view)

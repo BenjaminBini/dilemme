@@ -62,11 +62,9 @@
 			table.table
 				thead
 					tr
-						th Title
 						th Question
 						th Your answer
 				tbody
 					tr(ng-repeat="answer in currentUser.answers")
-						td {{answer.question.title}}
 						td {{answer.question.text}} : {{answer.question.answers[0].text}} or {{answer.question.answers[1].text}} ?
 						td(ng-class="answer.answer == 0 ? 'red-background' : 'blue-background'") {{answer.question.answers[answer.answer].text}} (like {{answer.question | proportion:answer.answer}}% of the users)

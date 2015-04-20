@@ -1,0 +1,16 @@
+.container
+	h3 Most upvoted questions
+	h3(ng-show="questions.length === 0") No question yet
+	table.table.table-hover(ng-show="questions.length > 0")
+		thead
+			tr
+				th Question
+				th Upvotes
+				th Publish Date
+		tbody
+			tr(dir-paginate="question in questions | orderBy: '-upvotes' | itemsPerPage: 10")
+				td
+					a(href="/questions/{{question._id}}") {{question.text}} : {{question.answers[0].text}} or {{question.answers[1].text}} ?
+				td {{question.upvotes}}
+				td {{question.published | date }}
+	dir-pagination-controls

@@ -11,15 +11,15 @@
 	table.table.table-hover(ng-show="questions.length > 0")
 		thead
 			tr
-				th Title
 				th Question
+				th Answers
 				th Upvotes
 				th Publish Date
 		tbody
 			tr(dir-paginate="question in questions | filter: searchText | orderBy: sortOrder.selected | itemsPerPage: 10")
-				td {{question.title}}
 				td
 					a(href="/questions/{{question._id}}") {{question.text}} : {{question.answers[0].text}} or {{question.answers[1].text}} ?
+				td {{question.answers[0].votes + question.answers[1].votes}}
 				td {{question.upvotes}}
 				td {{question.published | date }}
 	dir-pagination-controls
