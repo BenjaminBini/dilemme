@@ -5,10 +5,10 @@ angular.module('app').controller('mvUserListController', function ($scope, mvUse
     value: "username",
     text: "Sort by username"
   }, {
-    value: "registrationDate",
+    value: "- registrationDate",
     text: "Sort by registration date"
   }, {
-    value: "role",
+    value: "- role",
     text: "Sort by role"
   }];
 
