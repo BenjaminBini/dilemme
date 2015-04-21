@@ -21,7 +21,8 @@
 						button.btn.btn-primary(ng-click="update()", ng-disabled="userForm.$invalid") Submit
 						button.btn.btn-danger(ng-click="delete()") Delete
 .container
-	.h4(ng-show="suggestions.length === 0") No pending suggestion yet
+	.row(ng-show="suggestions.length === 0")
+		h4.col-md-12 No pending suggestion yet
 	.row(ng-show="suggestions.length > 0")
 		.col-md-12
 			h4 {{username}}'s pending suggestions
@@ -32,12 +33,14 @@
 						th Question
 						th Suggestion Date
 				tbody
-					tr(ng-repeat="suggestion in suggestions")
+					tr(dir-paginate="suggestion in suggestions | itemsPerPage: 10", pagination-id="suggestions")
 						td {{suggestion.title}}
 						td
 							a(href="/admin/suggestions/{{suggestion._id}}") {{suggestion.text}} : {{suggestion.answers[0].text}} or {{suggestion.answers[1].text}}
 						td {{suggestion.published | date }}
-	.h4(ng-show="questions.length === 0") No published question yet
+			dir-pagination-controls(pagination-id="suggestions")
+	.row(ng-show="questions.length === 0")
+		h4.col-md-12 No published question yet
 	.row(ng-show="questions.length > 0")
 		.col-md-12
 			h4 {{username}}'s questions
@@ -50,14 +53,16 @@
 						th Answer 2
 						th Publication Date
 				tbody
-					tr(ng-repeat="question in questions")
+					tr(dir-paginate="question in questions | itemsPerPage: 10", pagination-id="questions")
 						td
 							a(href="/questions/{{question._id}}") {{question.text}} : {{question.answers[0].text}} or {{question.answers[1].text}} ?
 						td {{question.upvotes}}
 						td {{question.answers[0].votes}}
 						td {{question.answers[1].votes}}
 						td {{question.published | date }}
-	.h4(ng-show="answers.length === 0") No answered question yet
+			dir-pagination-controls(pagination-id="questions")
+	.row(ng-show="answers.length === 0")
+		h4.col-md-12 No answered question yet
 	.row(ng-show="answers.length > 0")
 		.col-md-12
 			h4 {{username}}'s answers
@@ -68,8 +73,9 @@
 						th Question
 						th Your answer
 				tbody
-					tr(ng-repeat="answer in answers")
+					tr(dir-paginate="answer in answers | itemsPerPage: 10", pagination-id="answers")
 						td {{answer.question.title}}
 						td 
 							a(href="/questions/{{answer.question._id}}") {{answer.question.text}} : {{answer.question.answers[0].text}} or {{answer.question.answers[1].text}} ?
 						td(ng-class="answer.answer == 0 ? 'red-background' : 'blue-background'") {{answer.question.answers[answer.answer].text}} (like {{answer.question | proportion:answer.answer}}% of the users)
+			dir-pagination-controls(pagination-id="answers")
