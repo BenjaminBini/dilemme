@@ -5,11 +5,14 @@ angular.module('app').controller('mvQuestionListController', function ($scope, m
     value: 'text + answers[0].text + answers[1].text',
     text: 'Sort by text'
   }, {
-    value: 'published',
+    value: '- published',
     text: 'Sort by publication date'
   }, {
-    value: 'upvotes',
+    value: '- upvotes',
     text: 'Sort by upvotes'
+  }, {
+    value: '- (answers[0].votes + answers[1].votes)',
+    text: 'Sort by answers'
   }];
 
   $scope.sortOrder = {

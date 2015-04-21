@@ -13,6 +13,9 @@ angular.module('app').controller('mvBrowseController', function ($scope, mvQuest
   }, {
     value: '-upvotes',
     text: 'Sort by upvotes'
+  }, {
+    value: '- (answers[0].votes + answers[1].votes)',
+    text: 'Sort by answers'
   }];
 
   $scope.sortOrder = {
