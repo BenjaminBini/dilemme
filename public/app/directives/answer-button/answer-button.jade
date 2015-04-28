@@ -1,6 +1,7 @@
 .col-md-5.answer(ng-click="sendAnswer()")
-	span.answer-text {{answer.text}}
-	.result
-		i.glyphicon.glyphicon-ok(aria-hidden="true", ng-show="clicked") 
-		span.percentage {{result}} % 
-		span.votes ({{answer.votes}} votes)
+	.answer-text {{answer.text}}
+		.result
+			i.glyphicon.glyphicon-ok(aria-hidden="true", ng-show="clicked") 
+			span.percentage(odometer="result")
+			span  %
+			.votes {{answer.votes}} votes

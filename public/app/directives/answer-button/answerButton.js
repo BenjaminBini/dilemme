@@ -12,7 +12,7 @@ angular.module('app').directive('answerButton', function () {
     link: function link(scope, element, attrs) {
       // Animate on click
       var button, circle, d, x, y;
-      $('.answer span', element).on('click', function (e) {
+      $('.answer .answer-text', element).on('click', function (e) {
         scope.clicked = true;
         button = $(this);
         if (button.find('.circle').length === 0) {
@@ -33,7 +33,7 @@ angular.module('app').directive('answerButton', function () {
           top: y + 'px',
           left: x + 'px'
         }).addClass('animate');
-        $('.answer span').off('click');
+        $('.answer .answer-text').off('click');
         $('.answers').addClass('answered');
       });
 

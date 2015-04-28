@@ -130,7 +130,7 @@ footer .github {
 .question .answers .answer {
   cursor: pointer;
 }
-.question .answers .answer span.answer-text,
+.question .answers .answer .answer-text,
 .question .answers .answer .circle {
   display: block;
   user-select: none;
@@ -139,7 +139,7 @@ footer .github {
   position: relative;
   overflow: hidden;
   padding: 20px;
-  padding: 150px 20px;
+  padding: 150px 20px 53px 20px;
   border-bottom: 12px solid rgba(0,0,0,0.15);
 }
 .question .answers .answer .circle {
@@ -157,12 +157,16 @@ footer .github {
   animation: effect 0.85s linear;
 }
 .question .answers .answer .result {
-  height: 0;
+  opacity: 0;
   overflow: hidden;
+  font-size: 5rem;
 }
-.question .answers .answer .result .percentage,
-.question .answers .answer .result .votes {
+.question .answers .answer .result .percentage {
   margin-left: 20px;
+}
+.question .answers .answer .result .votes {
+  opacity: 0;
+  font-size: 2.2rem;
 }
 .question .answers .separation {
   font-size: 90px;
@@ -179,9 +183,16 @@ footer .github {
   cursor: auto;
 }
 .question .answers.answered .result {
-  height: 60px;
-  transition: height 0.65s ease-in-out;
-  transition-delay: 0.3s;
+  opacity: 1;
+  transition: opacity 0.65s ease-in-out;
+}
+.question .answers.answered .result .odometer {
+  vertical-align: baseline !important;
+}
+.question .answers.answered .result .votes {
+  opacity: 1;
+  transition-delay: 2s !important;
+  transition: opacity 0.65s ease-in-out;
 }
 .question .actions {
   margin-top: 40px;
@@ -294,6 +305,14 @@ footer .github {
   -webkit-transition: none !important;
   -o-transition: color 0 ease-in !important;
   transition: none !important;
+}
+.odometer.odometer-animating-up,
+.odometer.odometer-animating-down.odometer-animating .odometer-ribbon-inner {
+  -webkit-transition-duration: 3s !important;
+  -moz-transition-duration: 3s !important;
+  -ms-transition-duration: 3s !important;
+  -o-transition-duration: 3s !important;
+  transition-duration: 3s !important;
 }
 @-moz-keyframes effect {
   100% {

@@ -21,6 +21,7 @@
     "angular-animate": "~1.3.13",
     "angular-local-storage": "~0.1.5",
     "octicons": "~2.2.0",
-    "angular-utils-pagination": "~0.6.1"
+    "angular-utils-pagination": "~0.6.1",
+    "angular-odometer-js": "~0.1.1"
   }
 }

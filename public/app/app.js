@@ -1,4 +1,4 @@
-angular.module('app', ['ngResource', 'ngRoute', 'ui.select', 'ngDialog', 'ngAnimate', 'LocalStorageModule', 'angularUtils.directives.dirPagination']);
+angular.module('app', ['ngResource', 'ngRoute', 'ui.select', 'ui.odometer', 'ngDialog', 'ngAnimate', 'LocalStorageModule', 'angularUtils.directives.dirPagination']);
 
 angular.module('app').config(function ($routeProvider, $locationProvider, localStorageServiceProvider, paginationTemplateProvider) {
 
@@ -144,3 +144,14 @@ angular.module('app').run(function ($route, $rootScope, $location, mvIdentity) {
     return original.apply($location, [path]);
   };
 });
+
+
+// Odometer configuration
+angular.module('ui.odometer').config([
+  'odometerOptionsProvider', function (odometerOptionsProvider) {
+    odometerOptionsProvider.defaults = {
+      duration : 5000,
+      theme    : 'minimal'
+    };
+  }
+]);
