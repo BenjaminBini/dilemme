@@ -129,18 +129,18 @@ footer .github {
 }
 .question .answers .answer {
   cursor: pointer;
+  border-bottom: 12px solid rgba(0,0,0,0.15);
+  height: 400px;
+  overflow: hidden;
 }
-.question .answers .answer .answer-text,
-.question .answers .answer .circle {
+.question .answers .answer .answer-text {
   display: block;
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   position: relative;
-  overflow: hidden;
   padding: 20px;
-  padding: 150px 20px 53px 20px;
-  border-bottom: 12px solid rgba(0,0,0,0.15);
+  top: 35%;
 }
 .question .answers .answer .circle {
   display: block;
@@ -151,6 +151,9 @@ footer .github {
   -ms-transform: scale(0);
   -wekbit-transform: scale(0);
   border-bottom: none;
+  height: 400px;
+  width: 400px;
+  overflow: hidden;
 }
 .question .answers .answer .circle.animate {
   -webkit-animation: effect 0.85s linear;
@@ -181,6 +184,10 @@ footer .github {
 }
 .question .answers.answered .answer {
   cursor: auto;
+}
+.question .answers.answered .answer-text {
+  top: 20%;
+  transition: top 1s 1s ease-in-out;
 }
 .question .answers.answered .result {
   opacity: 1;

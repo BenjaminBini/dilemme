@@ -12,7 +12,7 @@ angular.module('app').directive('answerButton', function () {
     link: function link(scope, element, attrs) {
       // Animate on click
       var button, circle, d, x, y;
-      $('.answer .answer-text', element).on('click', function (e) {
+      $('.answer', element).on('click', function (e) {
         scope.clicked = true;
         button = $(this);
         if (button.find('.circle').length === 0) {
