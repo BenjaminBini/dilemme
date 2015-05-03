@@ -3,6 +3,11 @@ angular.module('app').factory('mvUser', function ($resource) {
     update: {
       method: 'PUT',
       isArray: false
+    },
+    getStats: {
+      method: 'GET',
+      isArray: false,
+      url: '/api/users/:_id/stats'
     }
   });
 

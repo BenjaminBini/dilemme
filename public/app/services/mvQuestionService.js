@@ -3,10 +3,19 @@ angular.module('app').factory('mvQuestionService', function ($q, mvQuestion, loc
     getAll: function () {
       var dfd = $q.defer();
 
-      questions = mvQuestion.query(function (questions) {
-        dfd.resolve(questions), function (response) {
-          dfd.reject(response.data.reason);
-        }
+      mvQuestion.query(function (questions) {
+        dfd.resolve(questions);
+      }, function (response) {
+        dfd.reject(response.data.reason);
+      });
+
+      return dfd.promise;
+    },
+    count: function () {
+      var dfd = $q.defer();
+
+      mvQuestion.count(function (response) {
+        dfd.resolve(response.count);
       });
 
       return dfd.promise;
@@ -14,13 +23,13 @@ angular.module('app').factory('mvQuestionService', function ($q, mvQuestion, loc
     getQuestionById: function (id) {
       var dfd = $q.defer();
 
-       question = mvQuestion.get({_id: id}, function () {
+      mvQuestion.get({_id: id}, function (question) {
         dfd.resolve(question);
-       }, function (response) {
+      }, function (response) {
         dfd.reject(response.data.reason);
-       });
+      });
 
-       return dfd.promise;
+      return dfd.promise;
     },
     getQuestionsByAuthor: function (user) {
       var dfd = $q.defer();

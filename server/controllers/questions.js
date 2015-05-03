@@ -24,6 +24,22 @@ exports.getQuestions = function (req, res) {
 };
 
 /**
+ * Count number of questions
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
+exports.count = function (req, res) {
+  Question.count({}, function (err, count) {
+    if (err) {
+      res.status(400);
+      return res.send({reason: err.toString()});
+    }
+    res.send({count: count});
+  });
+}
+
+/**
  * Return array of questions with the given author
  * @param  {[type]} req [description]
  * @param  {[type]} res [description]

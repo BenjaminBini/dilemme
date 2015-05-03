@@ -1,4 +1,7 @@
-angular.module('app', ['ngResource', 'ngRoute', 'ui.select', 'ui.odometer', 'ngDialog', 'ngAnimate', 'LocalStorageModule', 'angularUtils.directives.dirPagination']);
+angular.module('app', ['ngResource', 'ngRoute', 'ui.select',
+                      'ui.odometer', 'ngDialog', 'ngAnimate',
+                      'LocalStorageModule', 'chart.js',
+                      'angularUtils.directives.dirPagination']);
 
 angular.module('app').config(function ($routeProvider, $locationProvider, localStorageServiceProvider, paginationTemplateProvider) {
 
@@ -100,6 +103,12 @@ angular.module('app').config(function ($routeProvider, $locationProvider, localS
     .when('/register', {
       templateUrl: '/partials/account/register',
       controller: 'mvRegisterController',
+      animation: 'view-transition'
+    })
+    .when('/stats', {
+      templateUrl: '/partials/account/stats',
+      controller: 'mvStatsController',
+      resolve: routeRolesCheck.user,
       animation: 'view-transition'
     })
     .when('/profile', {

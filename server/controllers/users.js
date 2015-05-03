@@ -168,3 +168,24 @@ exports.deleteUser = function (req, res) {
     return req.params.id;
   });
 };
+
+/**
+  * Return user with his stats
+  */
+exports.getUserStats = function (req, res) {
+  // Check if the user is authorized (admin or current user)
+  if (req.user._id != req.params.id && !req.user.hasRole('admin')) {
+    res.status(403);
+    return res.end();
+  }
+  User.findOne({_id: req.params.id}).exec(function (err, user) {
+    if (err) {
+      return res.status(400).send({
+        reason: 'This user does not exist'
+      });
+    }
+    user.populateUser().then(function () {
+      res.send(user.toJSON({virtuals: true}));
+    });
+  });
+};

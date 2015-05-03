@@ -4,6 +4,11 @@ angular.module('app').factory('mvQuestion', function ($resource) {
       method: 'PUT',
       isArray: false
     },
+    count: {
+      method: 'GET',
+      url: '/api/questions/count',
+      isArray: false
+    },
     random: {
       method: 'GET',
       url: '/api/questions/random',

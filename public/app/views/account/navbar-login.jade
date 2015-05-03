@@ -24,5 +24,7 @@
 					a(href="/admin/suggestions") Suggestions Admin
 				li
 					a(href="/profile") Profile
+				li(ng-show="identity.isAuthenticated()")
+					a(href="/stats") Stats
 				li
 					a(role="button", ng-click="signout()") Sign Out

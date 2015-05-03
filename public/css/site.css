@@ -293,6 +293,12 @@ footer .github {
   background-color: #3498db;
   color: #fff;
 }
+span.red {
+  color: #e74c3c;
+}
+span.blue {
+  color: #3498db;
+}
 .view-transition .view {
   transition: 800ms;
   position: relative;

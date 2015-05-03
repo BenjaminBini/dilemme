@@ -106,6 +106,42 @@ userSchema.statics = {
   }
 };
 
+userSchema.virtual('stats').get(function () {
+  var answers = this.answers;
+  var stats = {};
+
+  // Answered questions
+  stats.answered = this.answers.length;
+
+  // Color stats
+  var redAnswers = 0;
+  var blueAnswers = 0;
+  var i;
+  for (i = 0; i < answers.length; i++) {
+    if (answers[i].answer === 0) {
+      redAnswers++;
+    } else {
+      blueAnswers++;
+    }
+  }
+  stats.color = {
+    red: redAnswers,
+    blue: blueAnswers
+  };
+
+  // Agreement with majority
+  var agree = 0;
+  for (i = 0; i < answers.length; i++) {
+    var userAnswer = answers[i].answer;
+    if (answers[i].question.answers[userAnswer].votes >= answers[i].question.answers[1 - userAnswer].votes) {
+      agree = agree + 1;
+    }
+  }
+  stats.agree = agree;
+
+  return stats;
+});
+
 User = mongoose.model('User', userSchema);
 
 /**

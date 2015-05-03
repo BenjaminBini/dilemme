@@ -1,0 +1,19 @@
+.container
+	h3 Stats
+	.col-md-4
+		h4 Red or blue ?
+		span You voted for 
+		span.red {{stats.color.red}} red answers 
+		span and for 
+		span.blue {{stats.color.blue}} blue answers
+		span .
+		canvas(id="color", class="chart chart-pie", data="colourValues", labels="colourLabels", colours="colours", legend="true")
+	.col-md-4
+		h4(ng-if="isHipster") You are so hipster
+		h4(ng-if="!isHipster") You are so mainstream
+		span You agreed with people on {{stats.agree}} questions, you didn't on {{stats.answered - stats.agree}}.
+		canvas(id="agree", class="chart chart-pie", data="agreeValues", labels="agreeLabels", colours="colours", legend="true")
+	.col-md-4
+		h4 How many left ?
+		span Not THAT bad.
+		canvas(id="total", class="chart chart-pie", data="totalValues", labels="totalLabels", colours="colours", legend="true")

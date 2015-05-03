@@ -20,12 +20,14 @@ module.exports = function (app) {
   app.delete('/api/users/:id', auth.requiresRole('admin'), users.deleteUser);
   app.get('/api/users/:id/suggestions', auth.requiresApiLogin, suggestions.getSuggestionsByUser);
   app.get('/api/users/:id/questions', auth.requiresApiLogin, questions.getQuestionsByAuthor);
+  app.get('/api/users/:id/stats', auth.requiresApiLogin, users.getUserStats);
 
   // Questions
   app.get('/api/questions', questions.getQuestions);
   app.get('/api/questions/tag/:tag', questions.getQuestionsByTag);
   app.get('/api/questions/random', questions.getRandomQuestion);
   app.get('/api/questions/random/unanswered', questions.getUnansweredRandomQuestion);
+  app.get('/api/questions/count', questions.count);
 
   app.get('/api/questions/:id', questions.getQuestionById);
   app.post('/api/questions', auth.requiresRole('admin'), questions.createQuestion);

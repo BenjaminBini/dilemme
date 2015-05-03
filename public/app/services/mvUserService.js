@@ -33,6 +33,17 @@ angular.module('app').factory('mvUserService', function ($q, mvUser) {
       });
 
       return dfd.promise;
+    },
+    getStats: function (user) {
+      var dfd = $q.defer();
+
+      user.$getStats({_id: user._id}).then(function (stats) {
+        dfd.resolve(user.stats);
+      }, function (response) {
+        dfd.reject(response.data.reason);
+      });
+
+      return dfd.promise;
     }
   };
 });
