@@ -278,6 +278,9 @@ footer .github {
   font-size: 14px;
   color: #777;
 }
+.stats .description {
+  height: 50px;
+}
 .pagination {
   width: 100%;
   text-align: center;
