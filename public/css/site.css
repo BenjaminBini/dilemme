@@ -182,21 +182,21 @@ footer .github {
 .question .answers answer-button:last-child .answer {
   background: #3498db;
 }
-.question .answers.answered .answer {
+.question .answered.answered.answer {
   cursor: auto;
 }
-.question .answers.answered .answer-text {
+.question .answered.answered .answer-text {
   top: 20%;
   transition: top 1s 1s ease-in-out;
 }
-.question .answers.answered .result {
+.question .answered.answered .result {
   opacity: 1;
   transition: opacity 0.65s ease-in-out;
 }
-.question .answers.answered .result .odometer {
+.question .answered.answered .result .odometer {
   vertical-align: baseline !important;
 }
-.question .answers.answered .result .votes {
+.question .answered.answered .result .votes {
   opacity: 1;
   transition-delay: 2s !important;
   transition: opacity 0.65s ease-in-out;

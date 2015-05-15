@@ -5,23 +5,23 @@ angular.module('app').controller('mvAnswerController', function ($scope, mvQuest
    * @param  {Number} answer Answer of the question (0 or 1)
    */
   $scope.answer = function (answer) {
-    $scope.results = mvQuestionService.getProportions($scope.question);
-    mvQuestionService.answerQuestion($scope.question, answer).then(function () {
+    if (!$scope.answered) {
       $scope.results = mvQuestionService.getProportions($scope.question);
-      // Push the answer to current user answer list if authenticated
-      if (mvIdentity.isAuthenticated()) {
-        mvIdentity.currentUser.answers.push({
-          question: $scope.question,
-          answer: answer
-        });
-      } else { // Push it in the local storage/cookie
-        mvQuestionService.saveAnswerLocally($scope.question, answer);
-      }
-    }, function (reason) {
-      mvNotifier.error(reason);
-    });
-    // Of course we can do it only once
-    $scope.answer = function () {};
+      mvQuestionService.answerQuestion($scope.question, answer).then(function () {
+        $scope.results = mvQuestionService.getProportions($scope.question);
+        // Push the answer to current user answer list if authenticated
+        if (mvIdentity.isAuthenticated()) {
+          mvIdentity.currentUser.answers.push({
+            question: $scope.question,
+            answer: answer
+          });
+        } else { // Push it in the local storage/cookie
+          mvQuestionService.saveAnswerLocally($scope.question, answer);
+        }
+      }, function (reason) {
+        mvNotifier.error(reason);
+      });
+    }
   };
 
   /**
@@ -109,10 +109,10 @@ angular.module('app').controller('mvAnswerController', function ($scope, mvQuest
    * Bind the nextQuestion function to a shortcut
    */
   hotkeys.bindTo($scope).add({
-      combo: 'right',
-      description: 'Go to next question',
-      callback: $scope.nextQuestion
-    });
+    combo: 'right',
+    description: 'Go to next question',
+    callback: $scope.nextQuestion
+  });
 
   /**
    * Open the registration modal
@@ -162,6 +162,8 @@ angular.module('app').controller('mvAnswerController', function ($scope, mvQuest
   $scope.$watch('question', function (question) {
     var i;
     if (!!question) {
+      $scope.answered = false;
+      $scope.userAnswer = -1;
       var answers;
       if (mvIdentity.isAuthenticated()) {
         answers = mvIdentity.currentUser.answers;
@@ -173,6 +175,7 @@ angular.module('app').controller('mvAnswerController', function ($scope, mvQuest
           if (answers[i].question._id == question._id) {
             $scope.userAnswer = answers[i].answer;
             $scope.results = mvQuestionService.getProportions($scope.question);
+            $scope.answered = true;
             $scope.answer = function () {};
             break;
           }
