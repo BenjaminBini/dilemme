@@ -33,7 +33,7 @@ angular.module('app').directive('answerButton', function () {
           top: y + 'px',
           left: x + 'px'
         }).addClass('animate');
-        $('.answer .answer-text').off('click');
+        $('.answer').off('click');
         $('.answers').addClass('answered');
       });
 

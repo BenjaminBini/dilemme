@@ -31,6 +31,17 @@ angular.module('app').factory('mvQuestionService', function ($q, mvQuestion, loc
 
       return dfd.promise;
     },
+    getUnansweredQuestion: function () {
+      var dfd = $q.defer();
+
+      mvQuestion.unansweredRandom(function (question) {
+        dfd.resolve(question);
+      }, function (response) {
+        dfd.reject(response.data.reason);
+      });
+
+      return dfd.promise;
+    },
     getQuestionsByAuthor: function (user) {
       var dfd = $q.defer();
 

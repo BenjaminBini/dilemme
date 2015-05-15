@@ -1,7 +1,7 @@
 angular.module('app', ['ngResource', 'ngRoute', 'ui.select',
                       'ui.odometer', 'ngDialog', 'ngAnimate',
                       'LocalStorageModule', 'chart.js',
-                      'angularUtils.directives.dirPagination']);
+                      'angularUtils.directives.dirPagination', 'cfp.hotkeys']);
 
 angular.module('app').config(function ($routeProvider, $locationProvider, localStorageServiceProvider, paginationTemplateProvider) {
 

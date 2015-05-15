@@ -23,6 +23,7 @@
     "octicons": "~2.2.0",
     "angular-utils-pagination": "~0.6.1",
     "angular-odometer-js": "~0.1.1",
-    "angular-chart.js": "~0.7.0"
+    "angular-chart.js": "~0.7.0",
+    "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.4.5"
   }
 }
