@@ -1,31 +1,31 @@
-h4.modal-title Suggest a question
+h4.modal-title {{'SUGGEST_A_QUESTION' | translate}}
 form.register.form-horizontal(name="suggestForm")
 	.form-group
-		label.col-md-3.control-label(for="text") Title
+		label.col-md-3.control-label(for="text") {{'TITLE' | translate}}
 		.col-md-9
-			input.form-control(name="text", type="text", placeholder="Title", ng-model="question.title", autofocus)
+			input.form-control(name="text", type="text", placeholder="{{'TITLE' | translate}}", ng-model="question.title", autofocus)
 	.form-group
-		label.col-md-3.control-label(for="text") Description
+		label.col-md-3.control-label(for="text") {{'DESCRIPTION' | translate}}
 		.col-md-9
-			input.form-control(name="text", type="text", placeholder="Description", ng-model="question.description", autofocus)
+			input.form-control(name="text", type="text", placeholder="{{'DESCRIPTION' | translate}}", ng-model="question.description", autofocus)
 	.form-group
-		label.col-md-3.control-label(for="text") Text
+		label.col-md-3.control-label(for="text") {{'TEXT' | translate}}
 		.col-md-9
-			input.form-control(name="text", type="text", placeholder="Text", ng-model="question.text", required, autofocus)
+			input.form-control(name="text", type="text", placeholder="{{'TEXT' | translate}}", ng-model="question.text", required, autofocus)
 	.form-group
-		label.col-md-3.control-label(for="answer1") First choice
+		label.col-md-3.control-label(for="answer1") {{'FIRST_CHOICE' | translate}}
 		.col-md-9
-			input.form-control(name="answer1", type="text", placeholder="First choice", ng-model="question.answers[0].text", required)
+			input.form-control(name="answer1", type="text", placeholder="{{'FIRST_CHOICE' | translate}}", ng-model="question.answers[0].text", required)
 	.form-group
-		label.col-md-3.control-label(for="answer2") Second choice
+		label.col-md-3.control-label(for="answer2") {{'SECOND_CHOICE' | translate}}
 		.col-md-9
-			input.form-control(name="answer2", type="text", placeholder="Second choice", ng-model="question.answers[1].text", required)
+			input.form-control(name="answer2", type="text", placeholder="{{'SECOND_CHOICE' | translate}}", ng-model="question.answers[1].text", required)
 	.form-group
-		label.col-md-3.control-label(for="tags") Tags
+		label.col-md-3.control-label(for="tags") {{'TAGS' | translate}}
 		.col-md-9
 			tags-input(tags="question.tags", is-loaded="true")
 	.form-group
 		.actions.col-md-10.col-md-offset-2
 			.pull-right
-				button.btn.btn-primary(ng-click="suggestQuestion()", ng-disabled="suggestForm.$invalid") Submit
-				button.btn.btn-default(ng-click="closeThisDialog('cancel')") Cancel
+				button.btn.btn-primary(ng-click="suggestQuestion()", ng-disabled="suggestForm.$invalid") {{'SUBMIT' | translate}}
+				button.btn.btn-default(ng-click="closeThisDialog('cancel')") {{'CANCEL' | translate}}

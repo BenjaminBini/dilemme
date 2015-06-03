@@ -1,57 +1,57 @@
 .container.well
 	form.form-horizontal(name="userForm")
 		fieldset
-			legend User profile
+			legend {{'USER_PROFILE' | translate}}
 			.form-group
-				label.col-md-2.control-label(for="username") Username
+				label.col-md-2.control-label(for="username") {{'USERNAME' | translate}}
 				.col-md-10
-					input.form-control(name="username", type="text", placeholder="Username", ng-model="username", required)
+					input.form-control(name="username", type="text", placeholder="{{'USERNAME' | translate}}", ng-model="username", required)
 			.form-group
-				label.col-md-2.control-label(for="email") Email
+				label.col-md-2.control-label(for="email") {{'EMAIL' | translate}}
 				.col-md-10
-					input.form-control(name="email", type="email", placeholder="Email", ng-model="email", required)
+					input.form-control(name="email", type="email", placeholder="{{'EMAIL' | translate}}", ng-model="email", required)
 			.form-group
-				label.col-md-2.control-label(for="password") Password
+				label.col-md-2.control-label(for="password") {{'PASSWORD' | translate}}
 				.col-md-10
-					input.form-control(name="password", type="password", placeholder="Password", ng-model="password")
+					input.form-control(name="password", type="password", placeholder="{{'PASSWORD' | translate}}", ng-model="password")
 			.form-group.actions
 				.col-md-10.col-md-offset-2
-					a.btn.btn-default(href="/admin/users") Back to users list
+					a.btn.btn-default(href="/admin/users") {{'BACK_TO_USERS_LIST' | translate}}
 					.pull-right
-						button.btn.btn-primary(ng-click="update()", ng-disabled="userForm.$invalid") Submit
-						button.btn.btn-danger(ng-click="delete()") Delete
+						button.btn.btn-primary(ng-click="update()", ng-disabled="userForm.$invalid") {{'SUBMIT' | translate}}
+						button.btn.btn-danger(ng-click="delete()") {{'DELETE' | translate}}
 .container
 	.row(ng-show="suggestions.length === 0")
-		h4.col-md-12 No pending suggestion yet
+		h4.col-md-12 {{'NO_PENDING_SUGGESTION_YET' | translate}}
 	.row(ng-show="suggestions.length > 0")
 		.col-md-12
-			h4 {{username}}'s pending suggestions
+			h4 {{'PENDING_SUGGESTIONS' | translate}}
 			table.table.table-hover
 				thead
 					tr
-						th Title
-						th Question
-						th Suggestion Date
+						th {{'TITLE' | translate}}
+						th {{'QUESTION' | translate}}
+						th {{'SUGGESTION_DATE' | translate}}
 				tbody
 					tr(dir-paginate="suggestion in suggestions | itemsPerPage: 10", pagination-id="suggestions")
 						td {{suggestion.title}}
 						td
-							a(href="/admin/suggestions/{{suggestion._id}}") {{suggestion.text}} : {{suggestion.answers[0].text}} or {{suggestion.answers[1].text}}
+							a(href="/admin/suggestions/{{suggestion._id}}") {{suggestion.text}} : {{suggestion.answers[0].text}} {{'OR' | translate}} {{suggestion.answers[1].text}}
 						td {{suggestion.published | date }}
 			dir-pagination-controls(pagination-id="suggestions")
 	.row(ng-show="questions.length === 0")
-		h4.col-md-12 No published question yet
+		h4.col-md-12 {{'NO_PUBLISHED_QUESTION_YET' | translate}}
 	.row(ng-show="questions.length > 0")
 		.col-md-12
-			h4 {{username}}'s questions
+			h4 {{'PUBLISHED_QUESTIONS' | translate}}
 			table.table.table-hover
 				thead
 					tr
-						th Question
-						th Upvotes
-						th Answer 1
-						th Answer 2
-						th Publication Date
+						th {{'QUESTION' | translate}}
+						th {{'UPVOTES' | translate}}
+						th {{'ANSWER' | translate}} 1
+						th {{'ANSWER' | translate}} 2
+						th {{'PUBLICATION_DATE' | translate}}
 				tbody
 					tr(dir-paginate="question in questions | itemsPerPage: 10", pagination-id="questions")
 						td
@@ -62,18 +62,18 @@
 						td {{question.published | date }}
 			dir-pagination-controls(pagination-id="questions")
 	.row(ng-show="answers.length === 0")
-		h4.col-md-12 No answered question yet
+		h4.col-md-12 {{'NO_ANSWER_YET' | translate}}
 	.row(ng-show="answers.length > 0")
 		.col-md-12
-			h4 {{username}}'s answers
+			h4 {{'ANSWERS' | translate}}
 			table.table
 				thead
 					tr
-						th Question
-						th Your answer
+						th {{'QUESTION' | translate}}
+						th {{'ANSWER' | translate}}
 				tbody
 					tr(dir-paginate="answer in answers | itemsPerPage: 10", pagination-id="answers")
 						td 
 							a(href="/questions/{{answer.question._id}}") {{answer.question.text}} : {{answer.question.answers[0].text}} or {{answer.question.answers[1].text}} ?
-						td(ng-class="answer.answer == 0 ? 'red-background' : 'blue-background'") {{answer.question.answers[answer.answer].text}} (like {{answer.question | proportion:answer.answer}}% of the users)
+						td(ng-class="answer.answer == 0 ? 'red-background' : 'blue-background'") {{answer.question.answers[answer.answer].text}} ({{'LIKE' | translate | lowercase}} {{answer.question | proportion:answer.answer}}% {{'OF_THE_USERS' | translate | lowercase}})
 			dir-pagination-controls(pagination-id="answers")

@@ -6,17 +6,17 @@
 			.col-md-2.separation ? 
 			answer-button(answer="question.answers[1]", on-click="answer(1)", result="results[1]", user-answer="userAnswer", answer-number="1", answered="answered")
 		.row.actions
-			a.btn.btn-embossed.btn-primary(ng-href="/admin/questions/{{question._id}}" ng-show="identity.currentUser.isAdmin()") Edit this question
+			a.btn.btn-embossed.btn-primary(ng-href="/admin/questions/{{question._id}}" ng-show="identity.currentUser.isAdmin()") {{'EDIT_THIS_QUESTION' | translate}}
 			.pull-right 
-				a.btn.btn-embossed.btn-primary(ng-click="nextQuestion()") Next question
+				a.btn.btn-embossed.btn-primary(ng-click="nextQuestion()") {{'NEXT_QUESTION' | translate}}
 		.row
 			.col-md-6.comments
 				.row(ng-show="!identity.isAuthenticated()")
-					p.text-muted Please 
-						a(role="button", ng-click="openLoginModal()") sign in
-						|  or 
-						a(role="button", ng-click="openRegisterModal()") register
-						|  to comment
+					p.text-muted {{'PLEASE' | translate}} 
+						a(role="button", ng-click="openLoginModal()") {{'SIGN_IN' | translate | lowercase}}
+						|  {{'OR' | translate | lowercase}} 
+						a(role="button", ng-click="openRegisterModal()") {{'REGISTER' | translate | lowercase}}
+						|  {{'TO_COMMENT' | translate | lowercase}}
 				.row(ng-show="identity.isAuthenticated()")
 					textarea.col-md-12(ng-model="newComment")
 					.actions
@@ -26,18 +26,20 @@
 								ui-select-choices(repeat="item.value as item in sortOptions")
 									div {{item.text}}
 						.pull-right
-							button.btn.btn-embossed.btn-primary(ng-click="comment(newComment)") Add Comment
+							button.btn.btn-embossed.btn-primary(ng-click="comment(newComment)") {{'ADD_COMMENT' | translate}}
 				h4 
-					ng-pluralize(count="question.comments.length" when="{'0': 'No comment yet', '1': '1 comment', 'other': '{} comments'}")
+					span(ng-if="question.comments.length == 0") {{'NO_COMMENT_YET' | translate}}
+					span(ng-if="question.comments.length == 1") 1 {{'COMMENT' | translate | lowercase}}
+					span(ng-if="question.comments.length > 1") {{question.comments.length}} {{'COMMENTS' | translate | lowercase}}
 				.row.comment.panel.panel-default(ng-repeat="comment in question.comments |  orderBy: sortOrder.selected: true")
 					.panel-heading(ng-class="comment | authorCssClass:question")
 						.panel-title
 							span {{comment.author.username}}
 							span.text-muted(ng-show="!comment.author.username")
-								i Account deleted
-							a.pull-right(role="button", ng-show="identity.currentUser.isAdmin()", ng-click="deleteComment(comment._id)", title="Delete this comment")
+								i {{'ACCOUNT_DELETED' | translate}}
+							a.pull-right(role="button", ng-show="identity.currentUser.isAdmin()", ng-click="deleteComment(comment._id)", title="{{'DELETE_THIS_COMMENT' | translate}}")
 								span.delete-comment.glyphicon.glyphicon-remove 
-							a.pull-right(role="button", ng-click="upvoteComment(comment._id)", title="Upvote this comment")
+							a.pull-right(role="button", ng-click="upvoteComment(comment._id)", title="{{'UPVOTE_THIS_COMMENT' | translate}}")
 								span.upvote-comment.glyphicon.glyphicon-arrow-up
 								span.comment-upvotes {{comment.upvotes}}
 					.panel-body {{comment.text}}
@@ -48,7 +50,7 @@
 				.panel.panel-default.question-details.row
 					.panel-heading
 						h2.panel-title
-							span(ng-show="!question.title") Details
+							span(ng-show="!question.title") {{'DETAILS' | translate}}
 							span(ng-show="!!question.title") {{question.title}}
 					.panel-body
 						.question-detail-field.description(ng-show="!!question.description")
@@ -56,10 +58,10 @@
 						.question-detail-field.votes
 							a(ng-click="upvote()", title="Upvote this question")
 								span.icon.glyphicon.glyphicon-arrow-up
-								span {{ question.upvotes }} upvotes
+								span {{ question.upvotes }} {{'UPVOTES' | translate | lowercase}}
 						.question-detail-field.answers
 							span.icon.glyphicon.glyphicon-ok
-							span {{ question.answers[0].votes + question.answers[1].votes }} answers
+							span {{ question.answers[0].votes + question.answers[1].votes }} {{'ANSWERS' | translate | lowercase}}
 						.question-detail-field.tags(ng-show="question.tags.length > 0")
 							span.icon.glyphicon.glyphicon-tag
 							span.tag(ng-repeat="tag in question.tags") 
@@ -70,7 +72,7 @@
 							span(ng-show="!identity.currentUser.isAdmin()") {{ question.author.username }}
 						.question-detail-field.permalink
 							span.icon.glyphicon.glyphicon-link
-							a(href="/questions/{{question._id}}") Permalink
+							a(href="/questions/{{question._id}}") {{'PERMALINK' | translate}}
 						.question-detail-field
 							span.icon.glyphicon.glyphicon-share-alt
 							ul.share-buttons

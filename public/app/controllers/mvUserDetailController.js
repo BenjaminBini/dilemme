@@ -38,7 +38,7 @@ angular.module('app').controller('mvUserDetailController', function ($scope, $ro
 
   // Delete the user
   $scope.delete = function () {
-    $scope.itemType = 'user';
+    $scope.itemType = 'USER';
     mvDialog.confirmDelete($scope).then(function (data) {
       if (data.value === 'confirm') {
         mvUserService.deleteUser(user).then(function () {

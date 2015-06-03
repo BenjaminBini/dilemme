@@ -7,14 +7,14 @@
 				ui-select-match(placeholder="Order") {{$select.selected.text}}
 				ui-select-choices(repeat="item.value as item in sortOptions")
 					div {{item.text}}
-	h3(ng-show="users.length === 0") No suggestion yet
+	h3(ng-show="users.length === 0") {{'NO_SUGGESTION_YET' | translate}}
 	table.table.table-hover(ng-show="users.length > 0")
 	table.table.table-hover
 		thead
 			tr
-				th Username
-				th Roles
-				th Registration
+				th {{'USERNAME' | translate}}
+				th {{'ROLES' | translate}}
+				th {{'REGISTRATION_DATE' | translate}}
 		tbody
 			tr(dir-paginate="user in users | filter: searchText | orderBy: sortOrder.selected | itemsPerPage: 10")
 				td

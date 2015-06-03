@@ -1,9 +1,9 @@
 .container
-	h3 Tag : {{tag}}
+	h3 {{TAG | translate}} : {{tag}}
 	table.table.table-hover
 		thead
 			tr
-				th Question
+				th {{'QUESTION' | translate}}
 		tbody
 			tr(ng-repeat="question in questions")
 				td

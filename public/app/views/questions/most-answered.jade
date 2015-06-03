@@ -1,12 +1,12 @@
 .container
-	h3 Most answered questions
-	h3(ng-show="questions.length === 0") No question yet
+	h3 {{'MOST_ANSWERED_QUESTIONS' | translate}}
+	h3(ng-show="questions.length === 0") {{'NO_QUESTION_YET' | translate}}
 	table.table.table-hover(ng-show="questions.length > 0")
 		thead
 			tr
-				th Question
-				th Answers
-				th Publish Date
+				th {{'QUESTION' | translate}}
+				th {{'ANSWERS' | translate}}
+				th {{'PUBLICATION_DATE' | translate}}
 		tbody
 			tr(dir-paginate="question in questions | orderBy: '- (answers[0].votes + answers[1].votes)' | itemsPerPage: 10")
 				td

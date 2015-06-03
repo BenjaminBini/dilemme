@@ -1,15 +1,15 @@
-h4.modal-title Sign in
+h4.modal-title {{'SIGN_IN' | translate}}
 form.register.form-horizontal(name="signinForm")
 	.form-group
-		label.col-md-3.control-label(for="email") Email
+		label.col-md-3.control-label(for="email") {{'EMAIL' | translate}}
 		.col-md-9
-			input.form-control(placeholder="Email", ng-model="username" autofocus)
+			input.form-control(placeholder="{{'EMAIL' | translate}}", ng-model="username" autofocus)
 	.form-group
-		label.col-md-3.control-label(for="password") Password
+		label.col-md-3.control-label(for="password") {{'PASSWORD' | translate}}
 		.col-md-9
-			input.form-control(type="password", placeholder="Password", ng-model="password")
+			input.form-control(type="password", placeholder="{{'PASSWORD' | translate}}", ng-model="password")
 	.form-group
 		.actions.col-md-10.col-md-offset-2
 			.pull-right
-				button.btn.btn-primary(ng-click="signin(username, password)") Sign in
-				button.btn.btn-default(ng-click="closeThisDialog('cancel')") Cancel
+				button.btn.btn-primary(ng-click="signin(username, password)") {{'SIGN_IN' | translate}}
+				button.btn.btn-default(ng-click="closeThisDialog('cancel')") {{'CANCEL' | translate}}

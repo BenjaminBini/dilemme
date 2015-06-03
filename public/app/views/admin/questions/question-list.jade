@@ -7,16 +7,16 @@
 				ui-select-match(placeholder="Order") {{$select.selected.text}}
 				ui-select-choices(repeat="item.value as item in sortOptions")
 					div {{item.text}}
-	h3(ng-show="questions.length === 0") No question yet
+	h3(ng-show="questions.length === 0") {{'NO_QUESTION_YET' | translate}}
 	table.table.table-hover(ng-show="questions.length > 0")
 		thead
 			tr
-				th Title
-				th Question
-				th Upvotes
-				th Answer 1
-				th Answer 2
-				th Publish Date
+				th {{'TITLE' | translate}}
+				th {{'QUESTION' | translate}}
+				th {{'UPVOTES' | translate}}
+				th {{'ANSWER' | translate}} 1
+				th {{'ANSWER' | translate}} 2
+				th {{'PUBLICATION_DATE' | translate}}
 		tbody
 			tr(dir-paginate="question in questions | filter: searchText | orderBy: sortOrder.selected | itemsPerPage: 10")
 				td {{question.title}}
@@ -28,4 +28,4 @@
 				td {{question.published | date }}
 	dir-pagination-controls
 	div.actions
-		a.btn.btn-info.btn-embossed(href="/admin/questions/add") Add a question
+		a.btn.btn-info.btn-embossed(href="/admin/questions/add") {{'ADD_A_QUESTION' | translate}}

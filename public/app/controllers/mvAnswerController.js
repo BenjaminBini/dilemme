@@ -52,7 +52,7 @@ angular.module('app').controller('mvAnswerController', function ($scope, mvQuest
    * @param  {String} commentId Id of the comment to delete
    */
   $scope.deleteComment = function (commentId) {
-    $scope.itemType = 'comment';
+    $scope.itemType = 'COMMENT';
     mvDialog.confirmDelete($scope).then(function (data) {
       if (data.value === 'confirm') {
         mvQuestionService.deleteComment($scope.question, commentId).then(function () {

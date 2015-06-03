@@ -7,14 +7,14 @@
 				ui-select-match(placeholder="Order") {{$select.selected.text}}
 				ui-select-choices(repeat="item.value as item in sortOptions")
 					div {{item.text}}
-	h3(ng-show="questions.length === 0") No question yet
+	h3(ng-show="questions.length === 0") {{'NO_QUESTION_YET' | translate}}
 	table.table.table-hover(ng-show="questions.length > 0")
 		thead
 			tr
-				th Question
-				th Answers
-				th Upvotes
-				th Publish Date
+				th {{'QUESTION' | translate}}
+				th {{'ANSWERS' | translate}}
+				th {{'UPVOTES' | translate}}
+				th {{'PUBLICATION_DATE' | translate}}
 		tbody
 			tr(dir-paginate="question in questions | filter: searchText | orderBy: sortOrder.selected | itemsPerPage: 10")
 				td

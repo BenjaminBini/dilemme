@@ -1,37 +1,37 @@
 ul.nav.navbar-nav
 	li
-		a(href="/questions/browse") Browse
+		a(href="/questions/browse") {{'BROWSE' | translate}}
 	li
-		a(href="/questions/most-voted") Most upvoted
+		a(href="/questions/most-voted") {{'MOST_UPVOTED' | translate}}
 	li
-		a(href="/questions/most-answered") Most answered
+		a(href="/questions/most-answered") {{'MOST_ANSWERED' | translate}}
 .navbar-right(ng-controller="mvNavBarLoginController")
 	form.navbar-form(ng-hide="identity.isAuthenticated()")
 		ul.nav.navbar-nav
 			li
-				a.register(role="button", ng-click="openRegisterModal()") Register
+				a.register(role="button", ng-click="openRegisterModal()") {{'REGISTER' | translate}}
 		.form-group
 			input.form-control(placeholder="Username or Email", ng-model="email" autofocus)
 		.form-group
 			input.form-control(type="password", placeholder="Password", ng-model="password")
-		button.btn.btn-primary(ng-click="signin(email, password)") Sign in
+		button.btn.btn-primary(ng-click="signin(email, password)") {{'SIGN_IN' | translate}}
 	ul.nav.navbar-nav.navbar-right(ng-show="identity.isAuthenticated()")
 		li
-			a.suggest(role="button", ng-click="openSuggestModal()") Suggest a question
+			a.suggest(role="button", ng-click="openSuggestModal()") {{'SUGGEST_A_QUESTION' | translate}}
 		li.dropdown
 			a.dropdown-toggle(href="", data-toggle="dropdown")
 				| {{identity.currentUser.username}}
 				b.caret
 			ul.dropdown-menu
 				li(ng-show="identity.currentUser.isAdmin()")
-					a(href="/admin/users") Users Admin
+					a(href="/admin/users") {{'USERS_ADMIN' | translate}}
 				li(ng-show="identity.currentUser.isAdmin()")
-					a(href="/admin/questions") Questions Admin
+					a(href="/admin/questions") {{'QUESTIONS_ADMIN' | translate}}
 				li(ng-show="identity.currentUser.isAdmin()")
-					a(href="/admin/suggestions") Suggestions Admin
+					a(href="/admin/suggestions") {{'SUGGESTIONS_ADMIN' | translate}}
 				li
-					a(href="/profile") Profile
+					a(href="/profile") {{'PROFILE' | translate}}
 				li(ng-show="identity.isAuthenticated()")
-					a(href="/stats") Stats
+					a(href="/stats") {{'STATS' | translate}}
 				li
-					a(role="button", ng-click="signout()") Sign Out
+					a(role="button", ng-click="signout()") {{'SIGN_OUT' | translate}}

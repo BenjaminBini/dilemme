@@ -32,7 +32,7 @@ angular.module('app').controller('mvSuggestionDetailController', function ($scop
   };
 
   $scope.delete = function () {
-    $scope.itemType = 'suggestion';
+    $scope.itemType = 'SUGGESTION';
     mvDialog.confirmDelete($scope).then(function (data) {
       if (data.value === 'confirm') {
         mvSuggestionService.deleteSuggestion($scope.suggestion).then(function () {

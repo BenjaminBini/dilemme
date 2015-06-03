@@ -1,12 +1,12 @@
 .container
-	h3 Most upvoted questions
-	h3(ng-show="questions.length === 0") No question yet
+	h3 {{'MOST_UPVOTED_QUESTIONS' | translate}}
+	h3(ng-show="questions.length === 0") {{'NO_QUESTION_YET' | translate}}
 	table.table.table-hover(ng-show="questions.length > 0")
 		thead
 			tr
-				th Question
-				th Upvotes
-				th Publish Date
+				th {{'QUESTION' | translate}}
+				th {{'UPVOTES' | translate}}
+				th {{'PUBLICATION_DATE' | translate}}
 		tbody
 			tr(dir-paginate="question in questions | orderBy: '-upvotes' | itemsPerPage: 10")
 				td

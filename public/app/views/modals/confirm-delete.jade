@@ -1,5 +1,5 @@
-h4.modal-title Confirm
-p Are you sure you want to delete this {{itemType}} ?
+h4.modal-title {{'CONFIRM' | translate}}
+p {{'ARE_YOU_SURE' | translate}} {{'DELETE' | translate | lowercase}} {{'THIS' | translate | lowercase}} {{itemType | translate | lowercase}} ?
 .actions
-	button.btn.btn-danger(ng-click="closeThisDialog('confirm')") Yes, delete
-	button.btn.btn-default(ng-click="closeThisDialog('cancel')") Nope
+	button.btn.btn-danger(ng-click="closeThisDialog('confirm')") {{'YES' | translate}}
+	button.btn.btn-default(ng-click="closeThisDialog('cancel')") {{'NOPE' | translate}}
