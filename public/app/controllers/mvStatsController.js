@@ -19,5 +19,25 @@ angular.module('app').controller('mvStatsController', function ($scope, $rootSco
       $scope.totalValues = [count - stats.answered, stats.answered];
       $scope.totalLabels = ['Not answered', 'Answered'];
     });
+
+    // Tags
+    var tagsLabels = [];
+    var tagsValues = [];
+    var favoriteTag = {
+      name: '',
+      count: 0
+    };
+    var i;
+    for (i = 0; i < stats.tags.length; i++) {
+      if (stats.tags[i].count > favoriteTag.count) {
+        favoriteTag = stats.tags[i];
+      }
+      tagsLabels.push(stats.tags[i].name);
+      tagsValues.push(stats.tags[i].count);
+    }
+    $scope.favoriteTag = favoriteTag;
+    $scope.tagsLabels = tagsLabels;
+    $scope.tagsSeries = ['Tag'];
+    $scope.tagsValues = [tagsValues];
   });
 });
