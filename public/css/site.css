@@ -173,7 +173,7 @@ footer .github {
 }
 .question .answers .separation {
   font-size: 90px;
-  padding: 88px 20px;
+  line-height: 400px;
   color: inherit;
 }
 .question .answers answer-button:first-child .answer {

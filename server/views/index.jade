@@ -5,14 +5,7 @@ block main-content
 		.container
 			.navbar-header
 				a.navbar-brand(href="/") Dilemme
-			.navbar-collapse.collapse
-				ul.nav.navbar-nav
-					li
-						a(href="/questions/browse") Browse
-					li
-						a(href="/questions/most-voted") Most upvoted
-					li
-						a(href="/questions/most-answered") Most answered
+			.navbar-collapse.collapse.desktop-only
 				div(ng-include="'/partials/account/navbar-login'")
 	section.content
 		.view(ng-view)
