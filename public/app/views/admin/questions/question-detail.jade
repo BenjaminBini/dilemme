@@ -33,7 +33,7 @@
 						a(href="/admin/users/{{question.author._id}}") {{question.author.username}}
 			.form-group.actions
 				.col-md-10.col-md-offset-2
-					a.btn.btn-default(ng-href="/admin/questions") Back to questions list
+					a.btn.btn-default(ng-href="/admin/questions") {{'BACK_TO_QUESTIONS_LIST' | translate}}
 					a.btn.btn-info(ng-show="!!question._id" ng-href="/questions/{{question._id}}") View in context
 					.pull-right
 						button.btn.btn-primary(ng-click="save()", ng-disabled="questionForm.$invalid") Submit
