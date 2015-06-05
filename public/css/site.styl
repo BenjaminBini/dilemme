@@ -39,6 +39,10 @@ footer
 
 // Navbar	
 .navbar-form
+	float right
+	padding-left 0
+	padding-right 10px
+	padding-bottom 0
 	.form-group
 		margin-left 10px
 	button
@@ -47,12 +51,25 @@ footer
 		margin-top -8px
 		cursor pointer
 	.form-control
+		width 150px
 		background-color white !important
+		display inline
+	.select2-choice
+		line-height 1
+		padding: 9px 39px 6px 15px
 .navbar-collapse .navbar-nav.navbar-right:last-child>.dropdown:last-child>a
 	border-radius 0
 .navbar-inverse .navbar-nav>.dropdown>a .caret
 	border-top-color white
-
+.language-switcher
+	display inline-block
+	.dropdown-menu
+		padding 0 !important
+		overflow hidden
+	.languages img
+		margin-right 5px
+	.languages a
+		border-radius 0 !important
 // Notifications
 .toast-top-right
 	top 70px

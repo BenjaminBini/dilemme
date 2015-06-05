@@ -3,22 +3,13 @@ ul.nav.navbar-nav
 		a(href="/questions/browse") {{'BROWSE' | translate}}
 	li
 		a(href="/questions/most-voted") {{'MOST_UPVOTED' | translate}}
-	li
+	li(ng-if="identity.isAuthenticated()")
 		a(href="/questions/most-answered") {{'MOST_ANSWERED' | translate}}
 .navbar-right(ng-controller="mvNavBarLoginController")
-	form.navbar-form(ng-hide="identity.isAuthenticated()")
-		ul.nav.navbar-nav
-			li
-				a.register(role="button", ng-click="openRegisterModal()") {{'REGISTER' | translate}}
-		.form-group
-			input.form-control(placeholder="Username or Email", ng-model="email" autofocus)
-		.form-group
-			input.form-control(type="password", placeholder="Password", ng-model="password")
-		button.btn.btn-primary(ng-click="signin(email, password)") {{'SIGN_IN' | translate}}
-	ul.nav.navbar-nav.navbar-right(ng-show="identity.isAuthenticated()")
-		li
+	ul.nav.navbar-nav.navbar-right
+		li(ng-show="identity.isAuthenticated()")
 			a.suggest(role="button", ng-click="openSuggestModal()") {{'SUGGEST_A_QUESTION' | translate}}
-		li.dropdown
+		li.dropdown(ng-show="identity.isAuthenticated()")
 			a.dropdown-toggle(href="", data-toggle="dropdown")
 				| {{identity.currentUser.username}}
 				b.caret
@@ -35,3 +26,25 @@ ul.nav.navbar-nav
 					a(href="/stats") {{'STATS' | translate}}
 				li
 					a(role="button", ng-click="signout()") {{'SIGN_OUT' | translate}}
+		li.dropdown.language-switcher(ng-controller="mvLanguageSwitcherController")
+			a.dropdown-toggle(href="", data-toggle="dropdown")
+				img(src="/images/{{currentLanguage}}.png", width="30")
+				b.caret
+			ul.dropdown-menu.languages
+				li
+					a(href="", ng-click="setLanguage('fr_FR')")
+						img(src="/images/fr_FR.png", width="30") 
+						| FR
+				li 
+					a(href="", ng-click="setLanguage('en_US')")
+						img(src="/images/en_US.png", width="30") 
+						| EN
+	form.navbar-form(ng-if="!identity.isAuthenticated()")
+			ul.nav.navbar-nav
+				li
+					a.register(role="button", ng-click="openRegisterModal()") {{'REGISTER' | translate}}
+			.form-group
+				input.form-control(placeholder="{{'USERNAME_OR_EMAIL' | translate}}", ng-model="email" autofocus)
+			.form-group
+				input.form-control(type="password", placeholder="{{'PASSWORD' | translate}}", ng-model="password")
+			button.btn.btn-primary(ng-click="signin(email, password)") {{'SIGN_IN' | translate}}
