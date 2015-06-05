@@ -4,5 +4,7 @@ angular.module('app').config(function ($translateProvider) {
     suffix: '.json'
   });
 
-  $translateProvider.preferredLanguage('fr_FR');
+  $translateProvider.useSanitizeValueStrategy('escape');
+
+  $translateProvider.determinePreferredLanguage();
 });
