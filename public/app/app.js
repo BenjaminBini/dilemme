@@ -4,12 +4,17 @@ angular.module('app', ['ngResource', 'ngRoute', 'ui.select',
                       'angularUtils.directives.dirPagination',
                       'pascalprecht.translate', 'cfp.hotkeys']);
 
-angular.module('app').run(function ($route, $rootScope, $location, mvIdentity) {
+angular.module('app').run(function ($route, $rootScope, $location, mvIdentity, $translate, $window) {
   // Redirect to homepage if not authorized
   $rootScope.$on('$routeChangeError', function (event, current, previous, rejection) {
     if (rejection === 'not authorized') {
       $location.path('/');
     }
+  });
+
+  // Set title
+  $translate('SITE_NAME').then(function (siteName) {
+    $window.document.title = siteName;
   });
 
   // Set identity in rootScope
