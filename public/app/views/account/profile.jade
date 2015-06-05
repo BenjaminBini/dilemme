@@ -1,36 +1,36 @@
 .container.well
 	form.form-horizontal(name="profileForm")
 		fieldset
-			legend User profile
+			legend {{'USER_PROFILE' | translate}}
 			.form-group
-				label.col-md-2.control-label(for="username") Username
+				label.col-md-2.control-label(for="username") {{'USERNAME' | translate}}
 				.col-md-10
-					input.form-control(name="username", type="text", placeholder="Username", ng-model="username", required)
+					input.form-control(name="username", type="text", placeholder="{{'USERNAME' | translate}}", ng-model="username", required)
 			.form-group
-				label.col-md-2.control-label(for="email") Email
+				label.col-md-2.control-label(for="email") {{'EMAIL' | translate}}
 				.col-md-10
-					input.form-control(name="email", type="email", placeholder="Email", ng-model="email", required)
+					input.form-control(name="email", type="email", placeholder="{{'EMAIL' | translate}}", ng-model="email", required)
 			.form-group
-				label.col-md-2.control-label(for="password") Password
+				label.col-md-2.control-label(for="password") {{'PASSWORD' | translate}}
 				.col-md-10
-					input.form-control(name="password", type="password", placeholder="Password", ng-model="password")
+					input.form-control(name="password", type="password", placeholder="{{'PASSWORD' | translate}}", ng-model="password")
 			.form-group.actions
 				.col-md-10.col-md-offset-2
 					.pull-right
-						button.btn.btn-primary(ng-click="update()", ng-disabled="profileForm.$invalid") Submit
-						a.btn.btn-default(href="/") Back
+						button.btn.btn-primary(ng-click="update()", ng-disabled="profileForm.$invalid") {{'SUBMIT' | translate}}
+						a.btn.btn-default(href="/") {{'BACK' | translate}}
 .container
 	.row(ng-show="suggestions.length === 0")
-		h4.col-md-12 No pending suggestion yet
+		h4.col-md-12 {{'NO_PENDING_SUGGESTION_YET' | translate}}
 	.row(ng-show="suggestions.length > 0")
 		.col-md-12
-			h4 Your pending suggestions
+			h4 {{'YOUR_PENDING_SUGGESTION' | translate}}
 			table.table.table-hover
 				thead
 					tr
-						th Title
-						th Question
-						th Suggestion Date
+						th {{'TITLE' | translate}}
+						th {{'QUESTION' | translate}}
+						th {{'SUGGESTION_DATE' | translate}}
 				tbody
 					tr(dir-paginate="suggestion in suggestions | itemsPerPage: 10", pagination-id="suggestions")
 						td {{suggestion.title}}
@@ -38,18 +38,18 @@
 						td {{suggestion.published | date }}
 			dir-pagination-controls(pagination-id="suggestions")
 	.row(ng-show="questions.length === 0")
-		h4.col-md-12 No published question yet
+		h4.col-md-12 {{'NO_PUBLISHED_QUESTION_YET' | translate}}
 	.row(ng-show="questions.length > 0")
 		.col-md-12
-			h4 Your questions
+			h4 {{'YOUR_QUESTIONS' | translate}}
 			table.table.table-hover
 				thead
 					tr
-						th Question
-						th Upvotes
-						th Answer 1
-						th Answer 2
-						th Publication Date
+						th {{'QUESTION' | translate}}
+						th {{'UPVOTES' | translate}}
+						th {{'ANSWER' | translate}} 1
+						th {{'ANSWER' | translate}} 2
+						th {{'PUBLICATION_DATE' | translate}}
 				tbody
 					tr(dir-paginate="question in questions | itemsPerPage: 10", pagination-id="questions")
 						td
@@ -60,15 +60,15 @@
 						td {{question.published | date }}
 			dir-pagination-controls(pagination-id="questions")
 	.row(ng-show="currentUser.answers.length === 0")
-		h4.col-md-12 No answered question yet
+		h4.col-md-12 {{'NO_ANSWERS_YET' | translate}}
 	.row(ng-show="currentUser.answers.length > 0")
 		.col-md-12
-			h4 Your answers
+			h4 {{'YOUR_ANSWERS' | translate}}
 			table.table
 				thead
 					tr
-						th Question
-						th Your answer
+						th {{'QUESTION' | translate}}
+						th {{'YOUR_ANSWER' | translate}}
 				tbody
 					tr(dir-paginate="answer in currentUser.answers | itemsPerPage: 10", pagination-id="answers")
 						td 

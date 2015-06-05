@@ -1,22 +1,22 @@
 .container.well
 	form.form-horizontal(name="registerForm")
 		fieldset
-			legend New User Information
+			legend {{'REGISTER' | translate}}
 			.form-group
-				label.col-md-2.control-label(for="username") Username
+				label.col-md-2.control-label(for="username") {{'USERNAME' | translate}}
 				.col-md-10
-					input.form-control(name="username", type="text", placeholder="Username", ng-model="username", required)
+					input.form-control(name="username", type="text", placeholder="{{'USERNAME' | translate}}", ng-model="username", required)
 			.form-group
-				label.col-md-2.control-label(for="email") Email
+				label.col-md-2.control-label(for="email") {{'EMAIL' | translate}}
 				.col-md-10
-					input.form-control(name="email", type="email", placeholder="Email", ng-model="email", required)
+					input.form-control(name="email", type="email", placeholder="{{'EMAIL' | translate}}", ng-model="email", required)
 			.form-group
-				label.col-md-2.control-label(for="password") Password
+				label.col-md-2.control-label(for="password") {{'PASSWORD' | translate}}
 				.col-md-10
-					input.form-control(name="password", type="password", placeholder="Password", ng-model="password", required)
+					input.form-control(name="password", type="password", placeholder="{{'PASSWORD' | translate}}", ng-model="password", required)
 			.form-group
 				.col-md-10.col-md-offset-2
 					.pull-right
-						button.btn.btn-primary(ng-click="registerFromPage()", ng-disabled="registerForm.$invalid") Submit
+						button.btn.btn-primary(ng-click="registerFromPage()", ng-disabled="registerForm.$invalid") {{'SUBMIT' | translate}}
 						| &nbsp;
-						a.btn.btn-default(href="/") Cancel
+						a.btn.btn-default(href="/") {{'CANCEL' | translate}}
