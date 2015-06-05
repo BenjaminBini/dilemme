@@ -13,9 +13,9 @@
 			.col-md-6.comments
 				.row(ng-show="!identity.isAuthenticated()")
 					p.text-muted {{'PLEASE' | translate}} 
-						a(role="button", ng-click="openLoginModal()") {{'SIGN_IN' | translate | lowercase}}
+						a(role="button", ng-click="openLoginModal()") {{'SIGN_YOURSELF_IN' | translate | lowercase}}
 						|  {{'OR' | translate | lowercase}} 
-						a(role="button", ng-click="openRegisterModal()") {{'REGISTER' | translate | lowercase}}
+						a(role="button", ng-click="openRegisterModal()") {{'REGISTER_YOURSELF' | translate | lowercase}}
 						|  {{'TO_COMMENT' | translate | lowercase}}
 				.row(ng-show="identity.isAuthenticated()")
 					textarea.col-md-12(ng-model="newComment")
