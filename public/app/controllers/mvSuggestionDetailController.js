@@ -24,7 +24,7 @@ angular.module('app').controller('mvSuggestionDetailController', function ($scop
     }
     $scope.suggestion.tags = tags;
     mvSuggestionService.validateSuggestion($scope.suggestion).then(function (question) {
-      mvNotifier.notify('The suggestion has been successfully published');
+      mvNotifier.notify('SUGGESTION_PUBLISHED_SUCCESS');
       $location.path('/admin/questions/' + question._id);
     }, function (reason) {
       mvNotifier.error(reason);
@@ -36,7 +36,7 @@ angular.module('app').controller('mvSuggestionDetailController', function ($scop
     mvDialog.confirmDelete($scope).then(function (data) {
       if (data.value === 'confirm') {
         mvSuggestionService.deleteSuggestion($scope.suggestion).then(function () {
-          mvNotifier.notify('The suggestion has been deleted');
+          mvNotifier.notify('SUGGESTION_REMOVED_SUCCESS');
           $location.path('/admin/suggestions');
         }, function (reason) {
           mvNotifier.error(reason);

@@ -1,22 +1,28 @@
 angular.module('app').value('mvToastr', toastr);
 
-angular.module('app').factory('mvNotifier', function (mvToastr, $log) {
-  toastr.options.progressBar = true; 
+angular.module('app').factory('mvNotifier', function (mvToastr, $log, $translate) {
+  toastr.options.progressBar = true;
   return {
-    notify: function (msg) {
+    notify: function (message) {
       toastr.clear();
-      mvToastr.success(msg);
-      $log.log(msg);
+      $translate(message).then(function (translatedMessage) {
+        mvToastr.success(translatedMessage);
+      });
+      $log.log(message);
     },
-    warn: function (msg) {
+    warn: function (message) {
       toastr.clear();
-      mvToastr.warning(msg);
-      $log.error(msg);
+      $translate(message).then(function (translatedMessage) {
+        mvToastr.warning(translatedMessage);
+      });
+      $log.error(message);
     },
-    error: function (msg) {
+    error: function (message) {
       toastr.clear();
-      mvToastr.error(msg);
-      $log.error(msg);
+      $translate(message).then(function (translatedMessage) {
+        mvToastr.error(translatedMessage);
+      });
+      $log.error(message);
     }
   };
 });

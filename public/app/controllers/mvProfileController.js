@@ -12,7 +12,7 @@ angular.module('app').controller('mvProfileController', function ($scope, mvAuth
       newUserData.password = $scope.password;
     }
     mvAuthService.updateCurrentUser(newUserData).then(function () {
-      mvNotifier.notify('Your profile has been updated');
+      mvNotifier.notify('PROFILE_UPDATE_SUCCESS');
     }, function (reason) {
       mvNotifier.error(reason);
     });

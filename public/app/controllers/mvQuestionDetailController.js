@@ -34,14 +34,14 @@ angular.module('app').controller('mvQuestionDetailController', function ($scope,
     question.tags = tags;
     if (question._id) {
       mvQuestionService.updateQuestion(question).then(function () {
-        mvNotifier.notify('The question has been updated');
+        mvNotifier.notify('QUESTION_UPDATED_SUCCESS');
         $location.path('/admin/questions');
       }, function (reason) {
         mvNotifier.error(reason);
       });
     } else {
       mvQuestionService.createQuestion(question).then(function () {
-        mvNotifier.notify('Question created');
+        mvNotifier.notify('QUESTION_CREATED_SUCCESS');
         $location.path('/admin/questions');
       }, function (reason) {
         mvNotifier.error(reason);
@@ -54,7 +54,7 @@ angular.module('app').controller('mvQuestionDetailController', function ($scope,
     mvDialog.confirmDelete($scope).then(function (data) {
       if (data.value === 'confirm') {
         mvQuestionService.deleteQuestion(question).then(function () {
-          mvNotifier.notify('The question has been deleted');
+          mvNotifier.notify('QUESTION_REMOVED_SUCCESS');
           $location.path('/admin/questions');
         }, function (reason) {
           mvNotifier.error(reason);

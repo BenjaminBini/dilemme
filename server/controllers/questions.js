@@ -91,7 +91,7 @@ exports.getQuestionById = function (req, res) {
     }
     if (!question) {
       res.status(400);
-      return res.send({reason: 'This question does not exists'}); 
+      return res.send({reason: 'QUESTION_DOES_NOT_EXIST'}); 
     }
     question.populateQuestion().then(function () {
       return res.send(question);
@@ -244,7 +244,7 @@ exports.deleteQuestion = function (req, res) {
         console.log(err.stack);
         res.status(400);
         return res.send({
-          reason: 'Error with users'
+          reason: 'ERROR_WITH_USERS'
         });
       }
       for (i = 0; i < users.length; i++) {
@@ -274,12 +274,10 @@ exports.answerQuestion = function (req, res) {
   var answerNumber = parseInt(req.params.answer);
   var ip = requestIp.getClientIp(req);
 
-  // TODO : anonymous answer
-
   // The answer number must be 0 or 1
   if (answerNumber !== 0 && answerNumber !== 1) {
     return res.status(400).send({
-      reason: 'This answer number is not allowed'
+      reason: 'WRONG_ANSWER_NUMBER'
     });
   }
 
@@ -288,7 +286,7 @@ exports.answerQuestion = function (req, res) {
     // Is no question is found, send a 400
     if (err) {
       return res.status(400).send({
-        reason: 'Question with id "' + questionId + '" does not exist'
+        reason: 'QUESTION_DOES_NOT_EXIST'
       });
     }
 
@@ -296,9 +294,9 @@ exports.answerQuestion = function (req, res) {
       var reason;
       if (hasBeenAnswered) { // If the user has already answered the question, send a 400
         if (req.isAuthenticated()) {
-          reason = 'This question has already been answered by the current user';
+          reason = 'QUESTION_ALREADY_ANSWERED';
         } else {
-          reason = 'This question has already been answered with this IP address, try again later (15 minutes)';
+          reason = 'QUESTION_ALREADY_ANSWERED_ANONYMOUS';
         }
         return res.status(400).send({
           reason: reason
@@ -330,7 +328,7 @@ exports.answerQuestion = function (req, res) {
               if (err) {
                 reason = err.toString();
               } else {
-                reason = 'An unknown error occurd';
+                reason = 'UNKNOWN_ERROR';
               }
               return res.status(400).send({
                 reason: reason
@@ -389,7 +387,7 @@ exports.upvoteQuestion = function (req, res) {
       if (req.user.upvotes[i].equals(questionId)) {
         res.status(400);
         return res.send({
-          reason: 'You already voted for this question'
+          reason: 'QUESTION_ALREADY_UPVOTED'
         });
       }
     }

@@ -36,7 +36,7 @@ exports.getSuggestionById = function (req, res) {
         console.log(err.stack);
       }
       res.status(400);
-      return res.send({reason: 'This suggestion does not exist'});
+      return res.send({reason: 'SUGGESTION_DOES_NOT_EXIST'});
     }
     suggestion.populateSuggestion().then(function () {
       return res.send(suggestion);
@@ -99,7 +99,7 @@ exports.validateSuggestion = function (req, res) {
   var suggestion = req.body;
   if (!suggestion) {
     res.status(400);
-    return res.send({reason: 'The suggestion does not exists'});
+    return res.send({reason: 'SUGGESTION_DOES_NOT_EXIST'});
   }
 
   suggestion.date = Date.now;
@@ -111,13 +111,13 @@ exports.validateSuggestion = function (req, res) {
           console.log(err.stack);
         }
         res.status(400);
-        return res.send('Error while publishing new question');
+        return res.send();
       }
       Suggestion.remove({_id: suggestion._id}, function (err) {
         if (err) {
           console.log(err.stack);
           res.status(400);
-          return res.send('Error while deleting the suggestion');
+          return res.send();
         }
         return res.send(question);
       });
@@ -130,9 +130,7 @@ exports.deleteSuggestion = function (req, res) {
     if (err) {
       console.log(err.stack);
       res.status(400);
-      return res.send({
-        reason: 'Error while deleting the suggestion'
-      });
+      return res.send();
     }
     return res.send(req.params.id);
   });

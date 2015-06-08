@@ -40,7 +40,7 @@ angular.module('app').controller('mvAnswerController', function ($scope, mvQuest
    */
   $scope.comment = function (comment) {
     mvQuestionService.commentQuestion($scope.question, comment).then(function (question) {
-      mvNotifier.notify('Your comment has been successfully posted');
+      mvNotifier.notify('COMMENT_POSTED');
       $scope.question = question;
     }, function (reason) {
       mvNotifier.error(reason);
@@ -56,7 +56,7 @@ angular.module('app').controller('mvAnswerController', function ($scope, mvQuest
     mvDialog.confirmDelete($scope).then(function (data) {
       if (data.value === 'confirm') {
         mvQuestionService.deleteComment($scope.question, commentId).then(function () {
-          mvNotifier.notify('The comment has been removed');
+          mvNotifier.notify('COMMENT_REMOVED');
         }, function (reason) {
           mvNotifier.error(reason);
         });

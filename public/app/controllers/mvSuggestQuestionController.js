@@ -14,7 +14,7 @@ angular.module('app').controller('mvSuggestQuestionController', function ($scope
       }
     }
     mvSuggestionService.createSuggestion(question).then(function () {
-      mvNotifier.notify('Your suggestion has been submitted.');
+      mvNotifier.notify('SUGGESTION_SUBMITTED');
       $scope.closeThisDialog();
       $location.path('/profile');
     }, function (reason) {

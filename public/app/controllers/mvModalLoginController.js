@@ -2,10 +2,10 @@ angular.module('app').controller('mvModalLoginController', function ($scope, mvN
   $scope.signin = function (email, password) {
     mvAuthService.authenticateUser(email, password).then(function (success) {
       if (success) {
-        mvNotifier.notify('You have successfully signed in.');
+        mvNotifier.notify('SIGN_IN_SUCCESS');
         $scope.closeThisDialog();
       } else {
-        mvNotifier.warn('Email/Password combination incorrect');
+        mvNotifier.warn('SIGN_IN_ERROR');
       }
     });
   };

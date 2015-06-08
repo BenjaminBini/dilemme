@@ -2,9 +2,9 @@ angular.module('app').controller('mvNavBarLoginController', function ($scope, $l
   $scope.signin = function (email, password) {
     mvAuthService.authenticateUser(email, password).then(function (success) {
       if (success) {
-        mvNotifier.notify('You have successfully signed in.');
+        mvNotifier.notify('SIGN_IN_SUCCESS');
       } else {
-        mvNotifier.warn('Username/Password combination incorrect');
+        mvNotifier.warn('SIGN_IN_ERROR');
       }
     });
   };
@@ -12,7 +12,7 @@ angular.module('app').controller('mvNavBarLoginController', function ($scope, $l
     mvAuthService.logoutUser().then(function () {
       $scope.email = '';
       $scope.password = '';
-      mvNotifier.notify('You have successfully signed out.');
+      mvNotifier.notify('SIGN_OUT_SUCCESS');
       $location.path('/');
     });
   };

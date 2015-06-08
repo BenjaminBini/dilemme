@@ -66,14 +66,14 @@ exports.createUser = function (req, res, next) {
       // If the error is E11000, the reason is a duplicate username or email
       if (err.toString().indexOf('E11000') > -1) {
         if (err.toString().indexOf('username') > -1) {
-          err = new Error('This username already exists');
+          err = 'USERNAME_ALREADY_EXISTS';
         } else if (err.toString().indexOf('email') > -1) {
-          err = new Error('This email address already exists');
+          err = 'EMAIL_ALREADY_EXISTS';
         }
       }
       // Return 400 code with the error
       res.status(400);
-      return res.send({reason: err.toString()});
+      return res.send({reason: err});
     }
     // If no error, login the user
     req.logIn(user, function (err) {
@@ -131,9 +131,11 @@ exports.updateUser = function (req, res) {
     // Save the user
     user.save(function (err) {
       if (err) {
-        // If the error is E11000, the reason is a duplicate username
-        if (err.toString().indexOf('E11000') > -1) {
-          err = new Error('This username already exists');
+        // If the error is E11000, the reason is a duplicate username or email
+        if (err.toString().indexOf('username') > -1) {
+          err = 'USERNAME_ALREADY_EXISTS';
+        } else if (err.toString().indexOf('email') > -1) {
+          err = 'EMAIL_ALREADY_EXISTS';
         }
         // If an error occure, return error 400 with the error
         res.status(400);
@@ -181,7 +183,7 @@ exports.getUserStats = function (req, res) {
   User.findOne({_id: req.params.id}).exec(function (err, user) {
     if (err) {
       return res.status(400).send({
-        reason: 'This user does not exist'
+        reason: 'USER_DOES_NOT_EXIST'
       });
     }
     user.populateUser().then(function () {

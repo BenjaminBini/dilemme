@@ -7,7 +7,7 @@ angular.module('app').controller('mvRegisterController', function ($scope, mvNot
     };
 
     mvAuthService.registerUser(newUserData).then(function () {
-      mvNotifier.notify('User account created');
+      mvNotifier.notify('USER_CREATED_SUCCESS');
       $location.path('/');
     }, function (reason) {
       mvNotifier.error(reason);
@@ -21,7 +21,7 @@ angular.module('app').controller('mvRegisterController', function ($scope, mvNot
       password: $scope.password
     };
     mvAuthService.registerUser(newUserData).then(function () {
-      mvNotifier.notify('You registered successfully');
+      mvNotifier.notify('USER_CREATED_SUCCESS');
       $scope.closeThisDialog();
     }, function (reason) {
       mvNotifier.error(reason);

@@ -29,7 +29,7 @@ angular.module('app').controller('mvUserDetailController', function ($scope, $ro
       user.password = $scope.password;
     }
     mvUserService.updateUser(user).then(function () {
-      mvNotifier.notify('User has been updated');
+      mvNotifier.notify('USER_UPDATED_SUCCESS');
       $location.path('/admin/users');
     }, function (reason) {
       mvNotifier.error(reason);
@@ -42,7 +42,7 @@ angular.module('app').controller('mvUserDetailController', function ($scope, $ro
     mvDialog.confirmDelete($scope).then(function (data) {
       if (data.value === 'confirm') {
         mvUserService.deleteUser(user).then(function () {
-          mvNotifier.notify('User deleted');
+          mvNotifier.notify('USER_REMOVED_SUCCESS');
           $location.path('/admin/users');
         }, function (reason) {
           mvNotifier.error(reason);

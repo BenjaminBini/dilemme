@@ -17,7 +17,7 @@ exports.commentQuestion = function (req, res) {
   if (comment.text && comment.text.length > 1000) {
     res.status(400);
     return res.send({
-      reason: 'Your comment is too long (1000 characters maximum)'
+      reason: 'TOO_LONG_COMMENT'
     });
   }
   Question.findOne({_id: questionId}).exec(function (err, question) {
@@ -62,14 +62,14 @@ exports.deleteComment = function (req, res) {
     if (!question) {
       res.status(400);
       return res.send({
-        reason: 'This question does not exist'
+        reason: 'QUESTION_DOES_NOT_EXIST'
       });
     }
     var comment = question.comments.id(commentId);
     if (!comment) {
       res.status(400);
       return res.send({
-        reason: 'This comment does not exist'
+        reason: 'COMMENT_DOES_NOT_EXIST'
       });
     }
     comment.remove();
@@ -104,21 +104,21 @@ exports.upvoteComment = function (req, res) {
     if (!question) {
       res.status(400);
       return res.send({
-        reason: 'This question does not exist'
+        reason: 'QUESTION_DOES_NOT_EXIST'
       });
     }
     var comment = question.comments.id(commentId);
     if (!comment) {
       res.status(400);
       return res.send({
-        reason: 'This comment does not exist'
+        reason: 'COMMENT_DOES_NOT_EXIST'
       });
     }
     for (i = 0; i < req.user.commentUpvotes.length; i++) {
       if (req.user.commentUpvotes[i].equals(commentId)) {
         res.status(400);
         return res.send({
-          reason: 'You already voted for this comment'
+          reason: 'COMMENT_ALREADY_UPVOTED'
         });
       }
     }
