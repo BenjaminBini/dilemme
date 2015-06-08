@@ -103,6 +103,8 @@
   "USER_CREATED_SUCCESS": "You registered successfully",
   "USER_UPDATED_SUCCESS": "User has been updated",
   "USER_REMOVED_SUCCESS": "User has been deleted",
+  "AUTHENTICATION_REQUIRED": "Authentication required",
+  "NOT_AUTHORIZED": "You are not authorized to perform this action",
 
   "LIKE": "Like",
   "PLEASE": "Please",

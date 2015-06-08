@@ -103,6 +103,8 @@
   "USER_CREATED": "Le compte utilisateur a été créé avec succès",
   "USER_UPDATED_SUCCESS": "L'utilisateur a été modifié avec succès",
   "USER_REMOVED_SUCCESS": "L'utilisateur a été supprimé avec succès",
+  "AUTHENTICATION_REQUIRED": "Veuillez vous connecter ou vous inscrire",
+  "NOT_AUTHORIZED": "Vous n'avez pas les droits nécessaires pour réaliser cette action",
 
   "LIKE": "Comme",
   "PLEASE": "Veuillez",

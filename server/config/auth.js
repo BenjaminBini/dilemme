@@ -40,7 +40,7 @@ exports.requiresApiLogin = function (req, res, next) {
   if (!req.isAuthenticated()) {
     res.status(403);
     res.send({
-      reason: 'Authentication required'
+      reason: 'AUTHENTICATION_REQUIRED'
     }).end();
   } else {
     next();
@@ -57,7 +57,7 @@ exports.requiresRole = function (role) {
     if (!req.isAuthenticated() || req.user.roles.indexOf(role) === -1) {
       res.status(403);
       res.send({
-        reason: 'Special permission required'
+        reason: 'NOT_AUTHORIZED'
       }).end();
     } else {
       next();
