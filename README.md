@@ -21,5 +21,6 @@ Classic stuff :
 ```
 npm install
 bower install
+gulp
 node server
 ```
