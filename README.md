@@ -6,9 +6,14 @@ Work in progress.
 
 # Install and run
 
-Mongodb required.
+Mongodb required running on default port.
+You must have [gulp](http://gulpjs.com/) installed to
+```
+npm install -g gulp
+```
 
 Admin credentials are 'joe'/'joe'.
+
 
 Classic stuff : 
 
