@@ -37,4 +37,5 @@ function mvDialog(ngDialog) {
   };
 }
 
+mvDialog.$inject = ['ngDialog'];
 angular.module('app').factory('mvDialog', mvDialog);

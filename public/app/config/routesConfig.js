@@ -7,16 +7,17 @@ function routesConfig($routeProvider, $locationProvider) {
    */
   var routeRolesCheck = {
     admin: {
-      auth: function (mvAuthService) {
+      auth: ['mvAuthService', function (mvAuthService) {
         return mvAuthService.authorizeCurrentUserForRoute('admin');
-      }
+      }]
     },
     user: {
-      auth: function (mvAuthService) {
+      auth: ['mvAuthService', function (mvAuthService) {
         return mvAuthService.authorizeAuthenticatedUserForRoute();
-      }
+      }]
     }
   };
+
 
   /**
    * Use HTML5 mode (no # in route)
