@@ -1,4 +1,4 @@
-angular.module('app').filter('proportion', function (mvQuestionService) {
+function proportion(mvQuestionService) {
   return function (question, answer) {
     var proportions = mvQuestionService.getProportions(question);
     if (!proportions) {
@@ -6,4 +6,7 @@ angular.module('app').filter('proportion', function (mvQuestionService) {
     }
     return proportions[answer];
   };
-});
+}
+
+proportion.$inject = ['mvQuestionService'];
+angular.module('app').filter('proportion', proportion);

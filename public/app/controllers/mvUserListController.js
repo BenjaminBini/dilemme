@@ -1,4 +1,4 @@
-angular.module('app').controller('mvUserListController', function ($scope, mvUser) {
+function mvUserListController($scope, mvUser) {
   $scope.users = mvUser.query();
 
   $scope.sortOptions = [{
@@ -15,4 +15,7 @@ angular.module('app').controller('mvUserListController', function ($scope, mvUse
   $scope.sortOrder = {
     selected: $scope.sortOptions[0].value
   };
-});
+}
+
+mvUserListController.$inject = ['$scope', 'mvUser'];
+angular.module('app').controller('mvUserListController', mvUserListController);

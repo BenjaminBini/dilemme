@@ -1,4 +1,7 @@
-angular.module('app').config(function ($routeProvider, $locationProvider) {
+/**
+ * Routes configuration
+ */
+function routesConfig($routeProvider, $locationProvider) {
   /**
    * Roles configuration
    */
@@ -117,4 +120,7 @@ angular.module('app').config(function ($routeProvider, $locationProvider) {
       resolve: routeRolesCheck.user,
       animation: 'view-transition'
     });
-});
+}
+
+routesConfig.$inject = ['$routeProvider', '$locationProvider'];
+angular.module('app').config(routesConfig);

@@ -1,4 +1,4 @@
-angular.module('app').controller('mvUserDetailController', function ($scope, $routeParams, mvUser, mvNotifier, $location, mvUserService, mvDialog, mvSuggestionService, mvQuestionService) {
+function mvUserDetailController($scope, $routeParams, mvUser, mvNotifier, $location, mvUserService, mvDialog, mvSuggestionService, mvQuestionService) {
 
   // Pass the edited user to the scope
   var user = mvUser.get({_id: $routeParams.id}, function () {
@@ -50,4 +50,7 @@ angular.module('app').controller('mvUserDetailController', function ($scope, $ro
       }
     });
   };
-});
+}
+
+mvUserDetailController.$inject = ['$scope', '$routeParams', 'mvUser', 'mvNotifier', '$location', 'mvUserService', 'mvDialog', 'mvSuggestionService', 'mvQuestionService'];
+angular.module('app').controller('mvUserDetailController', mvUserDetailController);

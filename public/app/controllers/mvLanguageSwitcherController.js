@@ -1,4 +1,4 @@
-angular.module('app').controller('mvLanguageSwitcherController', function ($scope, $translate, localStorageService) {
+function mvLanguageSwitcherController($scope, $translate, localStorageService) {
   var savedLanguage = localStorageService.get('language');
   if (!!savedLanguage) {
     $translate.use(savedLanguage);
@@ -12,5 +12,7 @@ angular.module('app').controller('mvLanguageSwitcherController', function ($scop
     $scope.currentLanguage = language;
     localStorageService.set('language', language);
   };
+}
 
-});
+mvLanguageSwitcherController.$inject = ['$scope', '$translate', 'localStorageService'];
+angular.module('app').controller('mvLanguageSwitcherController', mvLanguageSwitcherController);

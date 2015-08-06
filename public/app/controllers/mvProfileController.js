@@ -1,4 +1,4 @@
-angular.module('app').controller('mvProfileController', function ($scope, mvAuthService, mvSuggestionService, mvQuestionService, mvIdentity, mvNotifier) {
+function mvProfileController($scope, mvAuthService, mvSuggestionService, mvQuestionService, mvIdentity, mvNotifier) {
   $scope.username = mvIdentity.currentUser.username;
   $scope.email = mvIdentity.currentUser.email;
   $scope.currentUser = mvIdentity.currentUser;
@@ -25,5 +25,7 @@ angular.module('app').controller('mvProfileController', function ($scope, mvAuth
   mvQuestionService.getQuestionsByAuthor(mvIdentity.currentUser).then(function (questions) {
     $scope.questions = questions;
   });
+}
 
-});
+mvProfileController.$inject = ['$scope', 'mvAuthService', 'mvSuggestionService', 'mvQuestionService', 'mvIdentity', 'mvNotifier'];
+angular.module('app').controller('mvProfileController', mvProfileController);

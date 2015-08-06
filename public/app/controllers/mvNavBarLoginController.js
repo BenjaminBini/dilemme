@@ -1,4 +1,4 @@
-angular.module('app').controller('mvNavBarLoginController', function ($scope, $location, mvNotifier, mvAuthService, mvDialog) {
+function mvNavBarLoginController($scope, $location, mvNotifier, mvAuthService, mvDialog) {
   $scope.signin = function (email, password) {
     mvAuthService.authenticateUser(email, password).then(function (success) {
       if (success) {
@@ -22,4 +22,7 @@ angular.module('app').controller('mvNavBarLoginController', function ($scope, $l
   $scope.openSuggestModal = function () {
     mvDialog.suggestQuestion();
   };
-});
+}
+
+mvNavBarLoginController.$inject = ['$scope', '$location', 'mvNotifier', 'mvAuthService', 'mvDialog'];
+angular.module('app').controller('mvNavBarLoginController', mvNavBarLoginController);

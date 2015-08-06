@@ -1,4 +1,4 @@
-angular.module('app').controller('mvBrowseController', function ($scope, mvQuestionService) {
+function mvBrowseController($scope, mvQuestionService) {
 
   mvQuestionService.getAll().then(function (questions) {
     $scope.questions = questions;
@@ -21,4 +21,7 @@ angular.module('app').controller('mvBrowseController', function ($scope, mvQuest
   $scope.sortOrder = {
     selected: $scope.sortOptions[0].value
   };
-});
+}
+
+mvBrowseController.$inject = ['$scope', 'mvQuestionService'];
+angular.module('app').controller('mvBrowseController', mvBrowseController);

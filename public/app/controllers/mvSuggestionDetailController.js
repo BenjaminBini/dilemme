@@ -1,4 +1,4 @@
-angular.module('app').controller('mvSuggestionDetailController', function ($scope, $routeParams, mvNotifier, mvSuggestionService, $location, mvDialog) {
+function mvSuggestionDetailController($scope, $routeParams, mvNotifier, mvSuggestionService, $location, mvDialog) {
 
   if (!!$routeParams.id) {
     mvSuggestionService.getSuggestionById($routeParams.id).then(function (suggestion) {
@@ -44,5 +44,7 @@ angular.module('app').controller('mvSuggestionDetailController', function ($scop
       }
     });
   };
+}
 
-});
+mvSuggestionDetailController.$inject = ['$scope', '$routeParams', 'mvNotifier', 'mvSuggestionService', '$location', 'mvDialog'];
+angular.module('app').controller('mvSuggestionDetailController', mvSuggestionDetailController);

@@ -1,4 +1,5 @@
-angular.module('app').factory('mvUserService', function ($q, mvUser) {
+/*jslint newcap: true */
+function mvUserService($q, mvUser) {
   return {
     createUser: function (user) {
       var newUser = new mvUser(user);
@@ -37,7 +38,7 @@ angular.module('app').factory('mvUserService', function ($q, mvUser) {
     getStats: function (user) {
       var dfd = $q.defer();
 
-      user.$getStats({_id: user._id}).then(function (stats) {
+      user.$getStats({_id: user._id}).then(function () {
         dfd.resolve(user.stats);
       }, function (response) {
         dfd.reject(response.data.reason);
@@ -46,4 +47,7 @@ angular.module('app').factory('mvUserService', function ($q, mvUser) {
       return dfd.promise;
     }
   };
-});
+}
+
+mvUserService.$inject = ['$q', 'mvUser'];
+angular.module('app').factory('mvUserService', mvUserService);

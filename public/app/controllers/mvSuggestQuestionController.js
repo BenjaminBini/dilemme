@@ -1,4 +1,4 @@
-angular.module('app').controller('mvSuggestQuestionController', function ($scope, $location, mvNotifier, mvSuggestionService) {
+function mvSuggestQuestionController($scope, $location, mvNotifier, mvSuggestionService) {
   var question = {};
   question.answers = [];
   $scope.question = question;
@@ -21,4 +21,7 @@ angular.module('app').controller('mvSuggestQuestionController', function ($scope
       mvNotifier.error(reason);
     });
   };
-});
+}
+
+mvSuggestQuestionController.$inject = ['$scope', '$location', 'mvNotifier', 'mvSuggestionService'];
+angular.module('app').controller('mvSuggestQuestionController', mvSuggestQuestionController);

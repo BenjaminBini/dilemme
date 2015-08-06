@@ -1,4 +1,4 @@
-angular.module('app').controller('mvQuestionDetailController', function ($scope, $routeParams, mvNotifier, mvQuestionService, $location, mvDialog) {
+function mvQuestionDetailController($scope, $routeParams, $location, mvNotifier, mvQuestionService, mvDialog) {
   var question = {};
   question.answers = [];
   $scope.question = question;
@@ -62,5 +62,7 @@ angular.module('app').controller('mvQuestionDetailController', function ($scope,
       }
     });
   };
+}
 
-});
+mvQuestionDetailController.$inject = ['$scope', '$routeParams', '$location', 'mvNotifier', 'mvQuestionService', 'mvDialog'];
+angular.module('app').controller('mvQuestionDetailController', mvQuestionDetailController);

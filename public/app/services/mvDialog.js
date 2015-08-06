@@ -1,4 +1,4 @@
-angular.module('app').factory('mvDialog', function (ngDialog) {
+function mvDialog(ngDialog) {
   return {
     confirmDelete: function (scope) {
       return ngDialog.open({
@@ -35,4 +35,6 @@ angular.module('app').factory('mvDialog', function (ngDialog) {
       });
     }
   };
-});
+}
+
+angular.module('app').factory('mvDialog', mvDialog);

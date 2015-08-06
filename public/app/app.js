@@ -4,13 +4,15 @@ angular.module('app', ['ngResource', 'ngRoute', 'ui.select',
                       'angularUtils.directives.dirPagination',
                       'pascalprecht.translate', 'cfp.hotkeys']);
 
-angular.module('app').run(function ($route, $rootScope, $location, mvIdentity, $translate, $window) {
+function initConfig($route, $rootScope, $location, mvIdentity, $translate, $window) {
   // Redirect to homepage if not authorized
+  /*jslint unparam: true*/
   $rootScope.$on('$routeChangeError', function (event, current, previous, rejection) {
     if (rejection === 'not authorized') {
       $location.path('/');
     }
   });
+  /*jslint unparam: false*/
 
   // Set title
   $translate('SITE_NAME').then(function (siteName) {
@@ -19,11 +21,13 @@ angular.module('app').run(function ($route, $rootScope, $location, mvIdentity, $
 
   // Set identity in rootScope
   $rootScope.identity = mvIdentity;
-  
+
   // Set animation in rootScope
+  /*jslint unparam: true*/
   $rootScope.$on('$routeChangeStart', function (event, currentRoute) {
     $rootScope.animation = currentRoute.animation;
   });
+  /*jslint unparam: false*/
 
   // Custom $location.path method
   // Add a parameter that allows not to run controller on location change
@@ -38,4 +42,7 @@ angular.module('app').run(function ($route, $rootScope, $location, mvIdentity, $
     }
     return original.apply($location, [path]);
   };
-});
+}
+
+initConfig.$inject = ['$route', '$rootScope', '$location', 'mvIdentity', '$translate', '$window'];
+angular.module('app').run(initConfig);

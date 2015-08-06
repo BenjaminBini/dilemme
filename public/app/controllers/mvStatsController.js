@@ -1,4 +1,4 @@
-angular.module('app').controller('mvStatsController', function ($scope, $rootScope, mvUserService, mvQuestionService) {
+function mvStatsController($scope, $rootScope, mvUserService, mvQuestionService) {
   var currentUser = $rootScope.identity.currentUser;
 
   mvUserService.getStats(currentUser).then(function (stats) {
@@ -40,4 +40,7 @@ angular.module('app').controller('mvStatsController', function ($scope, $rootSco
     $scope.tagsSeries = ['Tag'];
     $scope.tagsValues = [tagsValues];
   });
-});
+}
+
+mvStatsController.$inject = ['$scope', '$rootScope', 'mvUserService', 'mvQuestionService'];
+angular.module('app').controller('mvStatsController', mvStatsController);

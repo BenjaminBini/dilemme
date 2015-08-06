@@ -1,6 +1,9 @@
 /**
  * Pagination template configuration
  */
-angular.module('app').config(function (paginationTemplateProvider) {
+function paginationConfig(paginationTemplateProvider) {
   paginationTemplateProvider.setPath('/partials/templates/pagination');
-});
+}
+
+paginationConfig.$inject = ['paginationTemplateProvider'];
+angular.module('app').config(paginationConfig);

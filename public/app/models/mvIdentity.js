@@ -1,4 +1,5 @@
-angular.module('app').factory('mvIdentity', function ($window, mvUser) {
+/*jslint newcap: true*/
+function mvIdentity($window, mvUser) {
   var currentUser;
   if (!!$window.bootstrappedUserObject) {
     currentUser = new mvUser();
@@ -14,4 +15,7 @@ angular.module('app').factory('mvIdentity', function ($window, mvUser) {
       return !!this.currentUser && this.currentUser.roles.indexOf(role) > -1;
     }
   };
-});
+}
+
+mvIdentity.$inject = ['$window', 'mvUser'];
+angular.module('app').factory('mvIdentity', mvIdentity);

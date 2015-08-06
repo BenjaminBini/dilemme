@@ -1,4 +1,4 @@
-angular.module('app').factory('mvQuestion', function ($resource) {
+function mvQuestion($resource) {
   var QuestionResource = $resource('/api/questions/:_id', {_id: '@id'}, {
     update: {
       method: 'PUT',
@@ -57,4 +57,7 @@ angular.module('app').factory('mvQuestion', function ($resource) {
   });
 
   return QuestionResource;
-});
+}
+
+mvQuestion.$inject = ['$resource'];
+angular.module('app').factory('mvQuestion', mvQuestion);

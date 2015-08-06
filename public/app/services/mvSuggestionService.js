@@ -1,16 +1,17 @@
-angular.module('app').factory('mvSuggestionService', function ($q, mvSuggestion) {
+/*jslint newcap: true */
+function mvSuggestionService($q, mvSuggestion) {
 
   return {
-    getSuggestionById: function  (id) {
+    getSuggestionById: function (id) {
       var dfd = $q.defer();
 
-       suggestion = mvSuggestion.get({_id: id}, function () {
+      mvSuggestion.get({_id: id}, function (suggestion) {
         dfd.resolve(suggestion);
-       }, function (response) {
+      }, function (response) {
         dfd.reject(response.data.reason);
-       });
+      });
 
-       return dfd.promise;
+      return dfd.promise;
     },
     createSuggestion: function (suggestion) {
       var newSuggestion = new mvSuggestion(suggestion);
@@ -58,5 +59,7 @@ angular.module('app').factory('mvSuggestionService', function ($q, mvSuggestion)
       return dfd.promise;
     }
   };
+}
 
-});
+mvSuggestionService.$inject = ['$q', 'mvSuggestion'];
+angular.module('app').factory('mvSuggestionService', mvSuggestionService);

@@ -1,4 +1,5 @@
-angular.module('app').factory('mvQuestionService', function ($q, mvQuestion, localStorageService) {
+/*jslint newcap: true */
+function mvQuestionService($q, mvQuestion, localStorageService) {
   return {
     getAll: function () {
       var dfd = $q.defer();
@@ -176,4 +177,7 @@ angular.module('app').factory('mvQuestionService', function ($q, mvQuestion, loc
       return dfd.promise;
     }
   };
-});
+}
+
+mvQuestionService.$inject = ['$q', 'mvQuestion', 'localStorageService'];
+angular.module('app').factory('mvQuestionService', mvQuestionService);

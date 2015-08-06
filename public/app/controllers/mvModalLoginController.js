@@ -1,4 +1,4 @@
-angular.module('app').controller('mvModalLoginController', function ($scope, mvNotifier, mvAuthService) {
+function mvModalLoginController($scope, mvNotifier, mvAuthService) {
   $scope.signin = function (email, password) {
     mvAuthService.authenticateUser(email, password).then(function (success) {
       if (success) {
@@ -9,4 +9,7 @@ angular.module('app').controller('mvModalLoginController', function ($scope, mvN
       }
     });
   };
-});
+}
+
+mvModalLoginController.$inject = ['$scope', 'mvNotifier', 'mvAuthService'];
+angular.module('app').controller('mvModalLoginController', mvModalLoginController);

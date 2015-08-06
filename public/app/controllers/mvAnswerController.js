@@ -1,4 +1,4 @@
-angular.module('app').controller('mvAnswerController', function ($scope, mvQuestionService, $location, mvNotifier, mvIdentity, localStorageService, mvDialog, $window, hotkeys) {
+function mvAnswerController($scope, mvQuestionService, $location, mvNotifier, mvIdentity, localStorageService, mvDialog, $window, hotkeys) {
 
   /**
    * Answer the question
@@ -183,4 +183,7 @@ angular.module('app').controller('mvAnswerController', function ($scope, mvQuest
       }
     }
   });
-});
+}
+
+mvAnswerController.$inject = ['$scope', 'mvQuestionService', '$location', 'mvNotifier', 'mvIdentity', 'localStorageService', 'mvDialog', '$window', 'hotkeys'];
+angular.module('app').controller('mvAnswerController', mvAnswerController);

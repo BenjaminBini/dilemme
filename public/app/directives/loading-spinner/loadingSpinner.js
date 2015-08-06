@@ -1,4 +1,4 @@
-angular.module('app').directive('loadingSpinner', function ($http) {
+function loadingSpinner($http) {
   return {
     restrict: 'E',
     templateUrl: '/directives-templates/loading-spinner/loading-spinner.jade',
@@ -20,4 +20,7 @@ angular.module('app').directive('loadingSpinner', function ($http) {
       });
     }
   };
-});
+}
+
+loadingSpinner.$inject = ['$http'];
+angular.module('app').directive('loadingSpinner', loadingSpinner);

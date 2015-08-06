@@ -1,6 +1,9 @@
 /**
 * Local storage config
 */
-angular.module('app').config(function (localStorageServiceProvider) {
+function localStorageConfig(localStorageServiceProvider) {
   localStorageServiceProvider.setPrefix('dilemme');
-});
+}
+
+localStorageConfig.$inject = ['localStorageServiceProvider'];
+angular.module('app').config(localStorageConfig);

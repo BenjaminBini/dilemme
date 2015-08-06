@@ -1,4 +1,4 @@
-angular.module('app').controller('mvRegisterController', function ($scope, mvNotifier, mvAuthService, $location) {
+function mvRegisterController($scope, mvNotifier, mvAuthService, $location) {
   $scope.registerFromPage = function () {
     var newUserData = {
       email: $scope.email,
@@ -27,4 +27,7 @@ angular.module('app').controller('mvRegisterController', function ($scope, mvNot
       mvNotifier.error(reason);
     });
   };
-});
+}
+
+mvRegisterController.$inject = ['$scope', 'mvNotifier', 'mvAuthService', '$location'];
+angular.module('app').controller('mvRegisterController', mvRegisterController);

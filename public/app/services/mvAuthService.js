@@ -1,4 +1,5 @@
-angular.module('app').factory('mvAuthService', function ($http, mvIdentity, $q, mvUser, mvUserService) {
+/*jslint newcap: true */
+function mvAuthService($http, mvIdentity, $q, mvUser, mvUserService) {
   return {
     authenticateUser: function (email, password) {
       var dfd = $q.defer();
@@ -60,4 +61,7 @@ angular.module('app').factory('mvAuthService', function ($http, mvIdentity, $q, 
       return $q.reject('not authorized');
     }
   };
-});
+}
+
+mvAuthService.$inject = ['$http', 'mvIdentity', '$q', 'mvUser', 'mvUserService'];
+angular.module('app').factory('mvAuthService', mvAuthService);
