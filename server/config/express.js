@@ -36,10 +36,10 @@ module.exports = function (app, config) {
   app.use(passport.session());
 
   // Set static middleware for static assets
-  app.use(express.static(config.rootPath + '/public'));
+  app.use(express.static(config.rootPath + 'public'));
 
   // Set views dir and engine
-  app.set('views', config.rootPath + '/server/views');
+  app.set('views', config.rootPath + 'public/app/views');
   app.set('view engine', 'jade');
 
   // Logger

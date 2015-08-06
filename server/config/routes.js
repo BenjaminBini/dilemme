@@ -1,7 +1,7 @@
+/*jslint unparam: true*/
 /**
  * Routes configuration
  */
-
 var auth = require('./auth');
 var mongoose = require('mongoose');
 var users = require('../controllers/users');
@@ -49,12 +49,12 @@ module.exports = function (app) {
 
   // Render partials
   app.get('/partials/*', function (req, res) {
-    res.render('../../public/app/views/' + req.params[0]);
+    res.render(req.params[0]);
   });
 
   // Render directive templates
   app.get('/directives-templates/*', function (req, res) {
-    res.render('../../public/app/directives/' + req.params[0]);
+    res.render('../directives/' + req.params[0]);
   });
 
   // Auth routes
@@ -76,7 +76,7 @@ module.exports = function (app) {
 
   // Catch all requests
   app.get('*', function (req, res) {
-    res.render('index', {
+    res.render('layout/index', {
       bootstrappedUser: req.user
     });
   });
