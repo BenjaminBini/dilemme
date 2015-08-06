@@ -5,21 +5,12 @@ html
 		base(href="/")
 		meta(name="viewport" content="width=device-width, initial-scale=1.0")
 		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
-		link(rel="stylesheet", href="/css/socicon.css")
 		link(rel="stylesheet", href="/vendor/octicons/octicons/octicons.css")
 		link(rel="stylesheet", href="/vendor/bootstrap/dist/css/bootstrap.min.css")
 		link(rel="stylesheet", href="/vendor/flat-ui/dist/css/flat-ui.min.css")
-		link(rel="stylesheet", href="/vendor/ngDialog/css/ngDialog.min.css")
-		link(rel="stylesheet", href="/vendor/ngDialog/css/ngDialog-theme-default.min.css")
-		link(rel="stylesheet", href="/vendor/angular-ui-select/dist/select.css")
-		link(rel="stylesheet", href="/vendor/odometer/themes/odometer-theme-minimal.css")
-		link(rel="stylesheet", href="/vendor/toastr/toastr.css")
-		link(rel="stylesheet", href="/vendor/angular-chart.js/dist/angular-chart.css")
-		link(rel="stylesheet", href="/vendor/angular-hotkeys/build/angular-hotkeys.min.css")
-		link(rel="stylesheet", href="/css/site.css")
-		link(rel="stylesheet", href="/css/mobile.css")
+		link(rel="stylesheet", href="/dist/dilemme.min.css")
 	body(ng-app="app" ng-class="animation")
 		include current-user
 		loading-spinner
 		block main-content
-		include scripts
+		script(type="text/javascript", src="/dist/dilemme.min.js")
