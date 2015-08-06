@@ -9,8 +9,8 @@ Work in progress.
 Mongodb required running on default port.
 
 You must have [gulp](http://gulpjs.com/) installed too.
-```
-npm install -g gulp
+```sh
+$ npm install -g gulp
 ```
 
 Admin credentials are 'joe'/'joe'.
@@ -18,9 +18,9 @@ Admin credentials are 'joe'/'joe'.
 
 Classic stuff : 
 
-```
-npm install
-bower install
-gulp
-node server
+```sh
+$ npm install
+$ bower install
+$ gulp 
+$ node server
 ```
