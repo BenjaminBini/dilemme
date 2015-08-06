@@ -7,7 +7,8 @@ Work in progress.
 # Install and run
 
 Mongodb required running on default port.
-You must have [gulp](http://gulpjs.com/) installed to
+
+You must have [gulp](http://gulpjs.com/) installed too.
 ```
 npm install -g gulp
 ```
