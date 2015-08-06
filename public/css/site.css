@@ -12,6 +12,14 @@ body {
 [role="button"] {
   cursor: pointer;
 }
+input,
+button,
+.btn,
+.select2-choice,
+.dropdown-menu,
+a {
+  border-radius: 0 !important;
+}
 footer {
   background: #34495e;
   color: #fff;
@@ -51,9 +59,6 @@ footer .github {
 .navbar-form .form-group {
   margin-left: 10px;
 }
-.navbar-form button {
-  margin-left: 10px;
-}
 .navbar-form .register {
   margin-top: -8px;
   cursor: pointer;
@@ -62,6 +67,10 @@ footer .github {
   width: 150px;
   background-color: #fff !important;
   display: inline;
+  border-radius: 0;
+}
+.navbar-form button.btn {
+  border-radius: 0 !important;
 }
 .navbar-form .select2-choice {
   line-height: 1;
@@ -89,6 +98,9 @@ footer .github {
 .toast-top-right {
   top: 70px;
 }
+#toast-container > div {
+  border-radius: 0;
+}
 .filters {
   margin: 10px 0;
 }
@@ -109,9 +121,14 @@ footer .github {
 .actions .pull-right button {
   margin-right: 0;
   margin-left: 20px;
+  border-radius: 0;
 }
 .bootstrap-tagsinput {
   margin-bottom: 0;
+  border-radius: 0;
+}
+.bootstrap-tagsinput .tag {
+  border-radius: 0;
 }
 .select2-drop .select2-result-single li:first-child .select2-result-label {
   border-top-left-radius: 4px;
@@ -230,6 +247,12 @@ footer .github {
   margin-top: 40px;
   margin-bottom: 40px;
 }
+.question .question-details {
+  border-radius: 0;
+}
+.question .question-details .panel-heading {
+  border-radius: 0;
+}
 .question .question-details .question-detail-field {
   margin-bottom: 10px;
 }
@@ -250,7 +273,6 @@ footer .github {
   color: #fff;
   background-color: #1abc9c;
   vertical-align: middle;
-  border-radius: 4px;
   font-weight: 700;
 }
 .question .question-details .tags a {
@@ -268,13 +290,16 @@ footer .github {
 .question .comments textarea {
   height: 100px;
   margin-bottom: 20px;
-  border-radius: 3px;
   font-size: 16px;
   border-color: #ddd;
+}
+.question .comments .comment {
+  border-radius: 0;
 }
 .question .comments .comment .panel-heading {
   padding-top: 5px;
   padding-right: 5px;
+  border-radius: 0;
 }
 .question .comments .comment .panel-heading.red {
   background-color: #e74c3c;
@@ -310,8 +335,17 @@ footer .github {
   width: 100%;
   text-align: center;
 }
+.pagination ul {
+  border-radius: 0;
+}
 .pagination li {
   margin-right: 0;
+}
+.pagination .next > a,
+.pagination .previous > a,
+.pagination li:last-child > a:hover,
+.pagination li:first-child > a:hover {
+  border-radius: 0 !important;
 }
 .red-background {
   background-color: #e74c3c;

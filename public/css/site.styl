@@ -11,7 +11,16 @@ body
 	
 [role="button"]
 	cursor pointer
-	
+
+// No radius on input
+input,
+button,
+.btn,
+.select2-choice,
+.dropdown-menu
+a {
+	border-radius 0 !important
+}
 footer
 	background #34495e
 	color white
@@ -45,8 +54,6 @@ footer
 	padding-bottom 0
 	.form-group
 		margin-left 10px
-	button
-		margin-left 10px
 	.register
 		margin-top -8px
 		cursor pointer
@@ -54,6 +61,9 @@ footer
 		width 150px
 		background-color white !important
 		display inline
+		border-radius 0
+	button.btn
+		border-radius 0 !important
 	.select2-choice
 		line-height 1
 		padding: 9px 39px 6px 15px
@@ -73,6 +83,8 @@ footer
 // Notifications
 .toast-top-right
 	top 70px
+#toast-container > div
+	border-radius 0
 	
 	
 // Filters buttons
@@ -93,10 +105,14 @@ footer
 	.pull-right button
 		margin-right 0
 		margin-left 20px
+		border-radius 0
 
 // Tags input
 .bootstrap-tagsinput
 	margin-bottom 0
+	border-radius 0
+.bootstrap-tagsinput .tag
+	border-radius 0
 // Dropdowns
 .select2-drop .select2-result-single li:first-child .select2-result-label
 	border-top-left-radius 4px
@@ -198,6 +214,9 @@ footer
 		margin-top 40px
 		margin-bottom 40px
 	.question-details
+		border-radius 0
+		.panel-heading
+			border-radius 0
 		.question-detail-field
 			margin-bottom 10px
 		.icon
@@ -216,7 +235,6 @@ footer
 				color #fff;
 				background-color #1abc9c;
 				vertical-align middle
-				border-radius 4px
 				font-weight 700
 			a
 				color white
@@ -231,13 +249,14 @@ footer
 		textarea
 			height 100px
 			margin-bottom 20px
-			border-radius 3px
 			font-size 16px
 			border-color #ddd
 		.comment
+			border-radius 0
 			.panel-heading
 				padding-top 5px
 				padding-right 5px
+				border-radius 0
 				&.red
 					background-color #e74c3c
 					color white
@@ -268,8 +287,15 @@ footer
 .pagination
 	width 100%
 	text-align center
+	ul
+		border-radius 0
 	li
 		margin-right 0
+	.next > a,
+	.previous > a,
+	li:last-child > a:hover,
+	li:first-child > a:hover
+		border-radius 0 !important
 		
 // Global color classes
 .red-background
