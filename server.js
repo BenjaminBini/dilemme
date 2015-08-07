@@ -13,7 +13,7 @@ require('./server/config/mongoose')(config);
 
 require('./server/config/passport')();
 
-require('./server/config/routes')(app);
+require('./server/config/routes')(app, config);
 
 // Log uncaught errors
 process.on('uncaughtException', function (err) {

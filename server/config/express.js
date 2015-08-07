@@ -11,13 +11,6 @@ var stylus = require('stylus');
 var passport = require('passport');
 
 module.exports = function (app, config) {
-  // Set stylus middleware
-  app.use(stylus.middleware({
-    src: config.rootPath + '/public',
-    compile: function (str, path) {
-      return stylus(str).set('filename', path);
-    }
-  }));
 
   // Parsers
   app.use(cookieParser());
@@ -38,8 +31,8 @@ module.exports = function (app, config) {
   // Set static middleware for static assets
   app.use(express.static(config.rootPath + 'public'));
 
-  // Set views dir and engine
-  app.set('views', config.rootPath + 'public/app/views');
+  // Set views dir and engine (only for server rendered views : index / layout / current-user)
+  app.set('views', config.rootPath + 'public/app/views/layout');
   app.set('view engine', 'jade');
 
   // Logger

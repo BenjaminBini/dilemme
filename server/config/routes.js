@@ -9,7 +9,7 @@ var questions = require('../controllers/questions');
 var suggestions = require('../controllers/suggestions');
 var comments = require('../controllers/comments');
 
-module.exports = function (app) {
+module.exports = function (app, config) {
 
   // REST API
   // Users
@@ -49,12 +49,12 @@ module.exports = function (app) {
 
   // Render partials
   app.get('/partials/*', function (req, res) {
-    res.render(req.params[0]);
+    res.sendFile(config.rootPath + 'public/dist/views/' + req.params[0] + '.html');
   });
 
   // Render directive templates
   app.get('/directives-templates/*', function (req, res) {
-    res.render('../directives/' + req.params[0]);
+    res.sendFile(config.rootPath + 'public/dist/directives-views/' + req.params[0] + '.html');
   });
 
   // Auth routes
@@ -76,7 +76,7 @@ module.exports = function (app) {
 
   // Catch all requests
   app.get('*', function (req, res) {
-    res.render('layout/index', {
+    res.render('index', {
       bootstrappedUser: req.user
     });
   });
