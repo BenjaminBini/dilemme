@@ -48,14 +48,14 @@ function routesConfig($routeProvider, $locationProvider) {
       controller: 'mvBrowseController',
       animation: 'view-transition'
     })
-    .when('/questions/most-answered', {
-      templateUrl: '/partials/questions/most-answered',
-      controller: 'mvMostAnsweredController',
+    .when('/questions/top', {
+      templateUrl: '/partials/questions/top',
+      controller: 'mvTopController',
       animation: 'view-transition'
     })
-    .when('/questions/most-voted', {
-      templateUrl: '/partials/questions/most-voted',
-      controller: 'mvMostVotedController',
+    .when('/questions/new', {
+      templateUrl: '/partials/questions/new',
+      controller: 'mvNewController',
       animation: 'view-transition'
     })
     .when('/questions/:id', {
