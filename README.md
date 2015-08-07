@@ -10,9 +10,10 @@ Work in progress.
 
 Mongodb required running on default port.
 
-You must have [gulp](http://gulpjs.com/) installed too.
+You must have [gulp](http://gulpjs.com/) and bower installed too.
 ```sh
 $ npm install -g gulp
+$ npm install -g bower
 ```
 
 Admin credentials are 'joe'/'joe'.
