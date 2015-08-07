@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var ipAnswersModel = require('../models/IpAnswers');
-var Deffered = require("promised-io/promise").Deferred;
+var Deferred = require('promised-io/promise').Deferred;
 var Question;
 
 /** 
@@ -76,7 +76,7 @@ var IpAnswers = mongoose.model('IpAnswers');
 questionSchema.methods = {
   hasBeenAnswered: function (user, ip) {
     var self = this;
-    var q = new Deffered();
+    var q = new Deferred();
     var i;
     if (!user) { // Anonymous mode
       IpAnswers.find({ip: ip}, function (err, ipAnswers) {
@@ -129,7 +129,7 @@ questionSchema.methods = {
   },
   populateQuestion: function () {
     var question = this;
-    var q = new Deffered();
+    var q = new Deferred();
     Question.populate(question, [{
       path: 'comments.author',
       select: 'username answers',
