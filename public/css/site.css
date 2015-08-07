@@ -109,6 +109,10 @@ footer .github {
 }
 #toast-container > div {
   border-radius: 0;
+  box-shadow: none;
+}
+#toast-container > :hover {
+  box-shadow: none;
 }
 .filters {
   margin: 10px 0;
