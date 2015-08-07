@@ -1,20 +1,39 @@
 var gulp = require('gulp');
+var clean = require('gulp-clean');
 var concat = require('gulp-concat');
-var uglify = require("gulp-uglify");
+var uglify = require('gulp-uglify');
 var minify = require('gulp-minify-css');
-var rename = require("gulp-rename");
-var sourcemaps = require("gulp-sourcemaps");
+var rename = require('gulp-rename');
+var sourcemaps = require('gulp-sourcemaps');
+var jade = require('gulp-jade');
+
+var DIST_DIR = './public/dist';
+var JS_DIR = DIST_DIR + '/js';
+var CSS_DIR = DIST_DIR + '/css';
+var VIEW_DIR = DIST_DIR + '/views';
+var DIRECTIVES_DIR = DIST_DIR + '/directives-views';
 
 gulp.task('default', function () {
+  gulp.start('build');
+});
+
+gulp.task('build', function () {
   gulp.start('build-client');
 });
 
 gulp.task('build-client', function () {
+  gulp.start('clean-client-dist');
   gulp.start('build-client-js');
   gulp.start('build-client-css');
+  gulp.start('build-client-views');
 });
 
-gulp.task('build-client-js', function () {
+gulp.task('clean-client-dist', function () {
+  return gulp.src(DIST_DIR)
+    .pipe(clean());
+});
+
+gulp.task('build-client-js', ['clean-client-dist'], function () {
   gulp.src(['./public/vendor/jquery/dist/jquery.min.js',
             './public/vendor/bootstrap/dist/js/bootstrap.min.js',
             './public/vendor/toastr/toastr.min.js',
@@ -34,43 +53,11 @@ gulp.task('build-client-js', function () {
             './public/vendor/angular-utils-pagination/dirPagination.js',
             './public/vendor/angular-hotkeys/build/hotkeys.min.js',
             './public/app/app.js',
-            './public/app/config/routesConfig.js',
-            './public/app/config/paginationConfig.js',
-            './public/app/config/localStorageConfig.js',
-            './public/app/config/translationConfig.js',
-            './public/app/config/odometerConfig.js',
-            './public/app/controllers/mvMainController.js',
-            './public/app/controllers/mvNavBarLoginController.js',
-            './public/app/controllers/mvLanguageSwitcherController.js',
-            './public/app/controllers/mvModalLoginController.js',
-            './public/app/controllers/mvRegisterController.js',
-            './public/app/controllers/mvProfileController.js',
-            './public/app/controllers/mvStatsController.js',
-            './public/app/controllers/mvUserListController.js',
-            './public/app/controllers/mvUserDetailController.js',
-            './public/app/controllers/mvAnswerController.js',
-            './public/app/controllers/mvQuestionController.js',
-            './public/app/controllers/mvQuestionRandomController.js',
-            './public/app/controllers/mvUnansweredQuestionRandomController.js',
-            './public/app/controllers/mvQuestionListController.js',
-            './public/app/controllers/mvQuestionDetailController.js',
-            './public/app/controllers/mvSuggestionListController.js',
-            './public/app/controllers/mvSuggestionDetailController.js',
-            './public/app/controllers/mvTagViewController.js',
-            './public/app/controllers/mvSuggestQuestionController.js',
-            './public/app/controllers/mvBrowseController.js',
-            './public/app/controllers/mvMostAnsweredController.js',
-            './public/app/controllers/mvMostVotedController.js',
-            './public/app/services/mvAuthService.js',
-            './public/app/services/mvNotifier.js',
-            './public/app/services/mvDialog.js',
-            './public/app/services/mvQuestionService.js',
-            './public/app/services/mvSuggestionService.js',
-            './public/app/services/mvUserService.js',
-            './public/app/resources/mvUser.js',
-            './public/app/resources/mvQuestion.js',
-            './public/app/resources/mvSuggestion.js',
-            './public/app/models/mvIdentity.js',
+            './public/app/config/*.js',
+            './public/app/controllers/*.js',
+            './public/app/services/*',
+            './public/app/resources/*.js',
+            './public/app/models/*.js',
             './public/app/directives/tags-input/tagsInput.js',
             './public/app/directives/answer-button/answerButton.js',
             './public/app/directives/loading-spinner/loadingSpinner.js',
@@ -78,14 +65,14 @@ gulp.task('build-client-js', function () {
             './public/app/filters/questionFilters.js'])
     .pipe(sourcemaps.init())
     .pipe(concat('dilemme.js'))
-    .pipe(gulp.dest('./public/dist/'))
+    .pipe(gulp.dest(JS_DIR))
     .pipe(uglify())
     .pipe(rename({extname: '.min.js'}))
     .pipe(sourcemaps.write('maps'))
-    .pipe(gulp.dest('./public/dist/'));
+    .pipe(gulp.dest(JS_DIR));
 });
 
-gulp.task('build-client-css', function () {
+gulp.task('build-client-css', ['clean-client-dist'], function () {
   gulp.src(['./public/css/socicon.css',
             './public/vendor/ngDialog/css/ngDialog.min.css',
             './public/vendor/ngDialog/css/ngDialog-theme-default.min.css',
@@ -98,9 +85,18 @@ gulp.task('build-client-css', function () {
             './public/css/mobile.css'])
     .pipe(sourcemaps.init())
     .pipe(concat('dilemme.css'))
-    .pipe(gulp.dest('./public/dist/'))
+    .pipe(gulp.dest(CSS_DIR))
     .pipe(minify())
     .pipe(rename({extname: '.min.css'}))
     .pipe(sourcemaps.write('maps'))
-    .pipe(gulp.dest('./public/dist/'));
+    .pipe(gulp.dest(CSS_DIR));
+});
+
+gulp.task('build-client-views', ['clean-client-dist'], function () {
+  gulp.src(['./public/app/views/**/*.jade'])
+    .pipe(jade())
+    .pipe(gulp.dest(VIEW_DIR));
+  gulp.src(['./public/app/directives/**/*.jade'])
+    .pipe(jade())
+    .pipe(gulp.dest(DIRECTIVES_DIR));
 });
