@@ -5,6 +5,7 @@ var uglify = require('gulp-uglify');
 var minify = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sourcemaps = require('gulp-sourcemaps');
+var stylus = require('gulp-stylus');
 var jade = require('gulp-jade');
 
 var DIST_DIR = './public/dist';
@@ -72,7 +73,13 @@ gulp.task('build-client-js', ['clean-client-dist'], function () {
     .pipe(gulp.dest(JS_DIR));
 });
 
-gulp.task('build-client-css', ['clean-client-dist'], function () {
+gulp.task('build-client-stylus', ['clean-client-dist'], function () {
+  return gulp.src(['./public/css/*.styl'])
+    .pipe(stylus())
+    .pipe(gulp.dest('./public/css/'));
+});
+
+gulp.task('build-client-css', ['build-client-stylus'], function () {
   gulp.src(['./public/css/socicon.css',
             './public/vendor/ngDialog/css/ngDialog.min.css',
             './public/vendor/ngDialog/css/ngDialog-theme-default.min.css',
