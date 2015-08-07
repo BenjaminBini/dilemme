@@ -1,3 +1,5 @@
+![Build Status](https://codeship.com/projects/fe21adf0-1f10-0133-8b98-7a1057e16cf4/status?branch=master)
+
 # Dilemme website
 
 My future website, "Dilemme", French website based on [either.io](http://either.io) concept.
