@@ -3,27 +3,27 @@ function mvDialog(ngDialog) {
     confirmDelete: function (scope) {
       return ngDialog.open({
         scope: scope,
-        template: '/partials/modals/confirm-delete.jade'
+        template: '/partials/modals/confirm-delete'
       }).closePromise;
     },
     login: function (scope) {
       return ngDialog.open({
         scope: scope,
-        template: '/partials/modals/login.jade',
+        template: '/partials/modals/login',
         controller: 'mvModalLoginController'
       }).closePromise;
     },
     register: function (scope) {
       return ngDialog.open({
         scope: scope,
-        template: '/partials/modals/register.jade',
+        template: '/partials/modals/register',
         controller: 'mvRegisterController'
       }).closePromise;
     },
     suggestQuestion: function (scope) {
       return ngDialog.open({
         scope: scope,
-        template: '/partials/modals/suggest-question.jade',
+        template: '/partials/modals/suggest-question',
         controller: 'mvSuggestQuestionController',
         className: 'ngdialog-theme-default ngdialog-large'
       }).closePromise;
@@ -31,7 +31,7 @@ function mvDialog(ngDialog) {
     example: function (scope) {
       ngDialog.open({
         scope: scope,
-        template: '/partials/modals/example.jade'
+        template: '/partials/modals/example'
       });
     }
   };

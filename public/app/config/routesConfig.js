@@ -49,22 +49,22 @@ function routesConfig($routeProvider, $locationProvider) {
       animation: 'view-transition'
     })
     .when('/questions/most-answered', {
-      templateUrl: '/partials/questions/most-answered.jade',
+      templateUrl: '/partials/questions/most-answered',
       controller: 'mvMostAnsweredController',
       animation: 'view-transition'
     })
     .when('/questions/most-voted', {
-      templateUrl: '/partials/questions/most-voted.jade',
+      templateUrl: '/partials/questions/most-voted',
       controller: 'mvMostVotedController',
       animation: 'view-transition'
     })
     .when('/questions/:id', {
-      templateUrl: '/partials/questions/question.jade',
+      templateUrl: '/partials/questions/question',
       controller: 'mvQuestionController',
       animation: 'view-transition'
     })
     .when('/questions/tag/:tag', {
-      templateUrl: '/partials/questions/tag/tag.jade',
+      templateUrl: '/partials/questions/tag/tag',
       controller: 'mvTagViewController',
       animation: 'view-transition'
     })

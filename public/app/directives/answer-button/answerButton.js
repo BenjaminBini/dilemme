@@ -1,7 +1,7 @@
 angular.module('app').directive('answerButton', function () {
   return {
     restrict: 'E',
-    templateUrl: '/directives-templates/answer-button/answer-button.jade',
+    templateUrl: '/directives-templates/answer-button/answer-button',
     scope: {
       'answer': '=?',
       'result': '=?',

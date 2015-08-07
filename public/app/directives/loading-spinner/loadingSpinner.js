@@ -1,7 +1,7 @@
 function loadingSpinner($http) {
   return {
     restrict: 'E',
-    templateUrl: '/directives-templates/loading-spinner/loading-spinner.jade',
+    templateUrl: '/directives-templates/loading-spinner/loading-spinner',
     link: function (scope, element) {
       scope.isLoading = function () {
         return $http.pendingRequests.length > 0;
