@@ -1,5 +1,3 @@
-![https://codeship.com/projects/95451/status?branch=master]
-
 # Dilemme website
 
 My future website, "Dilemme", French website based on [either.io](http://either.io) concept.
