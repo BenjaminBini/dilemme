@@ -24,6 +24,8 @@ Classic stuff :
 ```sh
 $ npm install
 $ bower install
-$ gulp 
+$ gulp build
 $ node server
 ```
+
+Then go to http://localhost:3131 and everything should be fine.
