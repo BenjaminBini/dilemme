@@ -1,32 +1,32 @@
 /*global toastr*/
-angular.module('app').value('mvToastr', toastr);
+angular.module('app').value('Toastr', toastr);
 
-function mvNotifier(mvToastr, $log, $translate) {
-  mvToastr.options.progressBar = true;
+function NotifierService(Toastr, $log, $translate) {
+  Toastr.options.progressBar = true;
   return {
     notify: function (message) {
-      mvToastr.clear();
+      Toastr.clear();
       $translate(message).then(function (translatedMessage) {
-        mvToastr.success(translatedMessage);
+        Toastr.success(translatedMessage);
       });
       $log.log(message);
     },
     warn: function (message) {
-      mvToastr.clear();
+      Toastr.clear();
       $translate(message).then(function (translatedMessage) {
-        mvToastr.warning(translatedMessage);
+        Toastr.warning(translatedMessage);
       });
       $log.error(message);
     },
     error: function (message) {
-      mvToastr.clear();
+      Toastr.clear();
       $translate(message).then(function (translatedMessage) {
-        mvToastr.error(translatedMessage);
+        Toastr.error(translatedMessage);
       });
       $log.error(message);
     }
   };
 }
 
-mvNotifier.$inject = ['mvToastr', '$log', '$translate'];
-angular.module('app').factory('mvNotifier', mvNotifier);
+NotifierService.$inject = ['Toastr', '$log', '$translate'];
+angular.module('app').factory('NotifierService', NotifierService);

@@ -1,6 +1,6 @@
-function mvBrowseController($scope, mvQuestionService) {
+function BrowseController($scope, QuestionService) {
 
-  mvQuestionService.getAll().then(function (questions) {
+  QuestionService.getAll().then(function (questions) {
     $scope.questions = questions;
   });
 
@@ -23,5 +23,5 @@ function mvBrowseController($scope, mvQuestionService) {
   };
 }
 
-mvBrowseController.$inject = ['$scope', 'mvQuestionService'];
-angular.module('app').controller('mvBrowseController', mvBrowseController);
+BrowseController.$inject = ['$scope', 'QuestionService'];
+angular.module('app').controller('BrowseController', BrowseController);

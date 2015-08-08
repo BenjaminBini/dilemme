@@ -1,4 +1,4 @@
-function mvAnswerController($scope, mvQuestionService, $location, mvNotifier, mvIdentity, localStorageService, mvDialog, $window, hotkeys) {
+function AnswerController($scope, QuestionService, $location, NotifierService, IdentityService, localStorageService, ModalService, $window, hotkeys) {
 
   /**
    * Answer the question
@@ -6,20 +6,20 @@ function mvAnswerController($scope, mvQuestionService, $location, mvNotifier, mv
    */
   $scope.answer = function (answer) {
     if (!$scope.answered) {
-      $scope.results = mvQuestionService.getProportions($scope.question);
-      mvQuestionService.answerQuestion($scope.question, answer).then(function () {
-        $scope.results = mvQuestionService.getProportions($scope.question);
+      $scope.results = QuestionService.getProportions($scope.question);
+      QuestionService.answerQuestion($scope.question, answer).then(function () {
+        $scope.results = QuestionService.getProportions($scope.question);
         // Push the answer to current user answer list if authenticated
-        if (mvIdentity.isAuthenticated()) {
-          mvIdentity.currentUser.answers.push({
+        if (IdentityService.isAuthenticated()) {
+          IdentityService.currentUser.answers.push({
             question: $scope.question,
             answer: answer
           });
         } else { // Push it in the local storage/cookie
-          mvQuestionService.saveAnswerLocally($scope.question, answer);
+          QuestionService.saveAnswerLocally($scope.question, answer);
         }
       }, function (reason) {
-        mvNotifier.error(reason);
+        NotifierService.error(reason);
       });
     }
   };
@@ -28,9 +28,9 @@ function mvAnswerController($scope, mvQuestionService, $location, mvNotifier, mv
    * Upvote the question
    */
   $scope.upvote = function () {
-    mvQuestionService.upvoteQuestion($scope.question).then(function () {
+    QuestionService.upvoteQuestion($scope.question).then(function () {
     }, function (reason) {
-      mvNotifier.error(reason);
+      NotifierService.error(reason);
     });
   };
 
@@ -39,11 +39,11 @@ function mvAnswerController($scope, mvQuestionService, $location, mvNotifier, mv
    * @param  {String} comment The comment to add
    */
   $scope.comment = function (comment) {
-    mvQuestionService.commentQuestion($scope.question, comment).then(function (question) {
-      mvNotifier.notify('COMMENT_POSTED');
+    QuestionService.commentQuestion($scope.question, comment).then(function (question) {
+      NotifierService.notify('COMMENT_POSTED');
       $scope.question = question;
     }, function (reason) {
-      mvNotifier.error(reason);
+      NotifierService.error(reason);
     });
   };
 
@@ -53,12 +53,12 @@ function mvAnswerController($scope, mvQuestionService, $location, mvNotifier, mv
    */
   $scope.deleteComment = function (commentId) {
     $scope.itemType = 'COMMENT';
-    mvDialog.confirmDelete($scope).then(function (data) {
+    ModalService.confirmDelete($scope).then(function (data) {
       if (data.value === 'confirm') {
-        mvQuestionService.deleteComment($scope.question, commentId).then(function () {
-          mvNotifier.notify('COMMENT_REMOVED');
+        QuestionService.deleteComment($scope.question, commentId).then(function () {
+          NotifierService.notify('COMMENT_REMOVED');
         }, function (reason) {
-          mvNotifier.error(reason);
+          NotifierService.error(reason);
         });
       }
     });
@@ -69,9 +69,9 @@ function mvAnswerController($scope, mvQuestionService, $location, mvNotifier, mv
    * @param  {String} commentId Id of the comment to delete
    */
   $scope.upvoteComment = function (commentId) {
-    mvQuestionService.upvoteComment($scope.question, commentId).then(function () {
+    QuestionService.upvoteComment($scope.question, commentId).then(function () {
     }, function (reason) {
-      mvNotifier.error(reason);
+      NotifierService.error(reason);
     });
   };
 
@@ -99,7 +99,7 @@ function mvAnswerController($scope, mvQuestionService, $location, mvNotifier, mv
    * Go to next question
    */
   $scope.nextQuestion = function () {
-    var question = mvQuestionService.getUnansweredQuestion().then(function (question) {
+    var question = QuestionService.getUnansweredQuestion().then(function (question) {
       $scope.question = question;
       $location.path('/questions/' + question._id, false);
     });
@@ -118,14 +118,14 @@ function mvAnswerController($scope, mvQuestionService, $location, mvNotifier, mv
    * Open the registration modal
    */
   $scope.openRegisterModal = function () {
-    mvDialog.register();
+    ModalService.register();
   };
 
   /**
    * Open the login modal
    */
   $scope.openLoginModal = function () {
-    mvDialog.login();
+    ModalService.login();
   };
 
   /**
@@ -165,8 +165,8 @@ function mvAnswerController($scope, mvQuestionService, $location, mvNotifier, mv
       $scope.answered = false;
       $scope.userAnswer = -1;
       var answers;
-      if (mvIdentity.isAuthenticated()) {
-        answers = mvIdentity.currentUser.answers;
+      if (IdentityService.isAuthenticated()) {
+        answers = IdentityService.currentUser.answers;
       } else {
         answers = localStorageService.get('answers');
       }
@@ -174,7 +174,7 @@ function mvAnswerController($scope, mvQuestionService, $location, mvNotifier, mv
         for (i = 0; i < answers.length; i++) {
           if (answers[i].question._id == question._id) {
             $scope.userAnswer = answers[i].answer;
-            $scope.results = mvQuestionService.getProportions($scope.question);
+            $scope.results = QuestionService.getProportions($scope.question);
             $scope.answered = true;
             $scope.answer = function () {};
             break;
@@ -185,5 +185,5 @@ function mvAnswerController($scope, mvQuestionService, $location, mvNotifier, mv
   });
 }
 
-mvAnswerController.$inject = ['$scope', 'mvQuestionService', '$location', 'mvNotifier', 'mvIdentity', 'localStorageService', 'mvDialog', '$window', 'hotkeys'];
-angular.module('app').controller('mvAnswerController', mvAnswerController);
+AnswerController.$inject = ['$scope', 'QuestionService', '$location', 'NotifierService', 'IdentityService', 'localStorageService', 'ModalService', '$window', 'hotkeys'];
+angular.module('app').controller('AnswerController', AnswerController);

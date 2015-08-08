@@ -1,5 +1,5 @@
-function mvSuggestionListController($scope, mvSuggestion) {
-  $scope.questions = mvSuggestion.query();
+function SuggestionListController($scope, Suggestion) {
+  $scope.questions = Suggestion.query();
 
   $scope.sortOptions = [{
     value: 'text + answers[0].text + answers[1].text',
@@ -17,5 +17,5 @@ function mvSuggestionListController($scope, mvSuggestion) {
   };
 }
 
-mvSuggestionListController.$inject = ['$scope', 'mvSuggestion'];
-angular.module('app').controller('mvSuggestionListController', mvSuggestionListController);
+SuggestionListController.$inject = ['$scope', 'Suggestion'];
+angular.module('app').controller('SuggestionListController', SuggestionListController);

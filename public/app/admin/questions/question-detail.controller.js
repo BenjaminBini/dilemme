@@ -1,4 +1,4 @@
-function mvQuestionDetailController($scope, $routeParams, $location, mvNotifier, mvQuestionService, mvDialog) {
+function QuestionDetailController($scope, $routeParams, $location, NotifierService, QuestionService, ModalService) {
   var question = {};
   question.answers = [];
   $scope.question = question;
@@ -6,13 +6,13 @@ function mvQuestionDetailController($scope, $routeParams, $location, mvNotifier,
   $scope.editionMode = false;
 
   if ($routeParams.id !== 'add') {
-    mvQuestionService.getQuestionById($routeParams.id).then(function (questionResponse) {
+    QuestionService.getQuestionById($routeParams.id).then(function (questionResponse) {
       question = questionResponse;
       $scope.question = question;
       $scope.isLoaded = true;
       $scope.editionMode = true;
     }, function (reason) {
-      mvNotifier.error(reason);
+      NotifierService.error(reason);
     });
   } else {
     $scope.isLoaded = true;
@@ -33,36 +33,36 @@ function mvQuestionDetailController($scope, $routeParams, $location, mvNotifier,
     }
     question.tags = tags;
     if (question._id) {
-      mvQuestionService.updateQuestion(question).then(function () {
-        mvNotifier.notify('QUESTION_UPDATED_SUCCESS');
+      QuestionService.updateQuestion(question).then(function () {
+        NotifierService.notify('QUESTION_UPDATED_SUCCESS');
         $location.path('/admin/questions');
       }, function (reason) {
-        mvNotifier.error(reason);
+        NotifierService.error(reason);
       });
     } else {
-      mvQuestionService.createQuestion(question).then(function () {
-        mvNotifier.notify('QUESTION_CREATED_SUCCESS');
+      QuestionService.createQuestion(question).then(function () {
+        NotifierService.notify('QUESTION_CREATED_SUCCESS');
         $location.path('/admin/questions');
       }, function (reason) {
-        mvNotifier.error(reason);
+        NotifierService.error(reason);
       });
     }
   };
 
   $scope.delete = function () {
     $scope.itemType = 'QUESTION';
-    mvDialog.confirmDelete($scope).then(function (data) {
+    ModalService.confirmDelete($scope).then(function (data) {
       if (data.value === 'confirm') {
-        mvQuestionService.deleteQuestion(question).then(function () {
-          mvNotifier.notify('QUESTION_REMOVED_SUCCESS');
+        QuestionService.deleteQuestion(question).then(function () {
+          NotifierService.notify('QUESTION_REMOVED_SUCCESS');
           $location.path('/admin/questions');
         }, function (reason) {
-          mvNotifier.error(reason);
+          NotifierService.error(reason);
         });
       }
     });
   };
 }
 
-mvQuestionDetailController.$inject = ['$scope', '$routeParams', '$location', 'mvNotifier', 'mvQuestionService', 'mvDialog'];
-angular.module('app').controller('mvQuestionDetailController', mvQuestionDetailController);
+QuestionDetailController.$inject = ['$scope', '$routeParams', '$location', 'NotifierService', 'QuestionService', 'ModalService'];
+angular.module('app').controller('QuestionDetailController', QuestionDetailController);

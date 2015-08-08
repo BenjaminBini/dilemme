@@ -5,7 +5,7 @@ angular.module('app', ['ngResource', 'ngRoute', 'ui.select',
                       'angularUtils.directives.dirPagination',
                       'pascalprecht.translate', 'cfp.hotkeys']);
 
-function initConfig($route, $rootScope, $location, mvIdentity, $translate, $window) {
+function initConfig($route, $rootScope, $location, IdentityService, $translate, $window) {
   // Redirect to homepage if not authorized
   $rootScope.$on('$routeChangeError', function (event, current, previous, rejection) {
     if (rejection === 'not authorized') {
@@ -19,7 +19,7 @@ function initConfig($route, $rootScope, $location, mvIdentity, $translate, $wind
   });
 
   // Set identity in rootScope
-  $rootScope.identity = mvIdentity;
+  $rootScope.identity = IdentityService;
 
   // Set animation in rootScope
   $rootScope.$on('$routeChangeStart', function (event, currentRoute) {
@@ -41,5 +41,5 @@ function initConfig($route, $rootScope, $location, mvIdentity, $translate, $wind
   };
 }
 
-initConfig.$inject = ['$route', '$rootScope', '$location', 'mvIdentity', '$translate', '$window'];
+initConfig.$inject = ['$route', '$rootScope', '$location', 'IdentityService', '$translate', '$window'];
 angular.module('app').run(initConfig);

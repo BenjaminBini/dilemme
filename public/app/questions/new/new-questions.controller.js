@@ -1,10 +1,10 @@
-function mvNewController($scope, mvQuestionService) {
+function NewController($scope, QuestionService) {
 
-  mvQuestionService.getAll().then(function (questions) {
+  QuestionService.getAll().then(function (questions) {
     $scope.questions = questions;
   });
 
 }
 
-mvNewController.$inject = ['$scope', 'mvQuestionService'];
-angular.module('app').controller('mvNewController', mvNewController);
+NewController.$inject = ['$scope', 'QuestionService'];
+angular.module('app').controller('NewController', NewController);

@@ -1,5 +1,5 @@
 .container
-	.question(ng-controller="mvAnswerController")
+	.question(ng-controller="AnswerController")
 		h2.question-text {{question.text}}
 		.row.answers
 			answer-button(answer="question.answers[0]", on-click="answer(0)", result="results[0]", user-answer="userAnswer", answer-number="0", answered="answered")

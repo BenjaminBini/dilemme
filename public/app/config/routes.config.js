@@ -7,13 +7,13 @@ function routesConfig($routeProvider, $locationProvider) {
    */
   var routeRolesCheck = {
     admin: {
-      auth: ['mvAuthService', function (mvAuthService) {
-        return mvAuthService.authorizeCurrentUserForRoute('admin');
+      auth: ['AuthService', function (AuthService) {
+        return AuthService.authorizeCurrentUserForRoute('admin');
       }]
     },
     user: {
-      auth: ['mvAuthService', function (mvAuthService) {
-        return mvAuthService.authorizeAuthenticatedUserForRoute();
+      auth: ['AuthService', function (AuthService) {
+        return AuthService.authorizeAuthenticatedUserForRoute();
       }]
     }
   };
@@ -30,94 +30,94 @@ function routesConfig($routeProvider, $locationProvider) {
   $routeProvider
     .when('/', {
       templateUrl: '/partials/ui/home',
-      controller: 'mvMainController',
+      controller: 'MainController',
       animation: 'view-transition'
     })
     .when('/questions/random', {
       template: '',
-      controller: 'mvQuestionRandomController',
+      controller: 'QuestionRandomController',
       animation: 'view-transition'
     })
     .when('/questions/random/unanswered', {
       template: '',
-      controller: 'mvUnansweredQuestionRandomController',
+      controller: 'UnansweredQuestionRandomController',
       animation: 'view-transition'
     })
     .when('/questions/browse', {
       templateUrl: '/partials/questions/browse/browse-questions',
-      controller: 'mvBrowseController',
+      controller: 'BrowseController',
       animation: 'view-transition'
     })
     .when('/questions/top', {
       templateUrl: '/partials/questions/top/top-questions',
-      controller: 'mvTopController',
+      controller: 'TopController',
       animation: 'view-transition'
     })
     .when('/questions/new', {
       templateUrl: '/partials/questions/new/new-questions',
-      controller: 'mvNewController',
+      controller: 'NewController',
       animation: 'view-transition'
     })
     .when('/questions/:id', {
       templateUrl: '/partials/questions/question',
-      controller: 'mvQuestionController',
+      controller: 'QuestionController',
       animation: 'view-transition'
     })
     .when('/questions/tag/:tag', {
       templateUrl: '/partials/questions/tag/tag',
-      controller: 'mvTagViewController',
+      controller: 'TagViewController',
       animation: 'view-transition'
     })
     .when('/admin/users', {
       templateUrl: '/partials/admin/users/user-list',
-      controller: 'mvUserListController',
+      controller: 'UserListController',
       resolve: routeRolesCheck.admin,
       animation: 'view-transition'
     })
     .when('/admin/users/:id', {
       templateUrl: '/partials/admin/users/user-detail',
-      controller: 'mvUserDetailController',
+      controller: 'UserDetailController',
       resolve: routeRolesCheck.admin,
       animation: 'view-transition'
     })
     .when('/admin/questions', {
       templateUrl: '/partials/admin/questions/question-list',
-      controller: 'mvQuestionListController',
+      controller: 'QuestionListController',
       resolve: routeRolesCheck.admin,
       animation: 'view-transition'
     })
     .when('/admin/questions/:id', {
       templateUrl: '/partials/admin/questions/question-detail',
-      controller: 'mvQuestionDetailController',
+      controller: 'QuestionDetailController',
       resolve: routeRolesCheck.admin,
       animation: 'view-transition'
     })
     .when('/admin/suggestions', {
       templateUrl: '/partials/admin/suggestions/suggestion-list',
-      controller: 'mvSuggestionListController',
+      controller: 'SuggestionListController',
       resolve: routeRolesCheck.admin,
       animation: 'view-transition'
     })
     .when('/admin/suggestions/:id', {
       templateUrl: '/partials/admin/suggestions/suggestion-detail',
-      controller: 'mvSuggestionDetailController',
+      controller: 'SuggestionDetailController',
       resolve: routeRolesCheck.admin,
       animation: 'view-transition'
     })
     .when('/register', {
       templateUrl: '/partials/users/register',
-      controller: 'mvRegisterController',
+      controller: 'RegisterController',
       animation: 'view-transition'
     })
     .when('/stats', {
       templateUrl: '/partials/users/stats',
-      controller: 'mvStatsController',
+      controller: 'StatsController',
       resolve: routeRolesCheck.user,
       animation: 'view-transition'
     })
     .when('/profile', {
       templateUrl: '/partials/users/profile',
-      controller: 'mvProfileController',
+      controller: 'ProfileController',
       resolve: routeRolesCheck.user,
       animation: 'view-transition'
     });

@@ -5,7 +5,7 @@ ul.nav.navbar-nav
 		a(href="/questions/new") {{'NEW' | translate}}
 	li(ng-if="identity.isAuthenticated()")
 		a(href="/questions/browse") {{'BROWSE' | translate}}
-.navbar-right(ng-controller="mvNavBarLoginController")
+.navbar-right(ng-controller="NavbarController")
 	ul.nav.navbar-nav.navbar-right
 		li(ng-show="identity.isAuthenticated()")
 			a.suggest(role="button", ng-click="openSuggestModal()") {{'SUGGEST_A_QUESTION' | translate}}
@@ -26,7 +26,7 @@ ul.nav.navbar-nav
 					a(href="/stats") {{'STATS' | translate}}
 				li
 					a(role="button", ng-click="signout()") {{'SIGN_OUT' | translate}}
-		li.dropdown.language-switcher(ng-controller="mvLanguageSwitcherController")
+		li.dropdown.language-switcher(ng-controller="LanguageSwitcherController")
 			a.dropdown-toggle(href="", data-toggle="dropdown")
 				img(src="/images/{{currentLanguage}}.png", width="30")
 				b.caret

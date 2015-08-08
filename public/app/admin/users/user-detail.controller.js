@@ -1,17 +1,17 @@
-function mvUserDetailController($scope, $routeParams, mvUser, mvNotifier, $location, mvUserService, mvDialog, mvSuggestionService, mvQuestionService) {
+function UserDetailController($scope, $routeParams, User, NotifierService, $location, UserService, ModalService, SuggestionService, QuestionService) {
 
   // Pass the edited user to the scope
-  var user = mvUser.get({_id: $routeParams.id}, function () {
+  var user = User.get({_id: $routeParams.id}, function () {
     $scope.email = user.email;
     $scope.username = user.username;
 
     // Add user's suggestions to scope
-    mvSuggestionService.getSuggestionsByUser(user).then(function (suggestions) {
+    SuggestionService.getSuggestionsByUser(user).then(function (suggestions) {
       $scope.suggestions = suggestions;
     });
 
     // Add user's questions to scope
-    mvQuestionService.getQuestionsByAuthor(user).then(function (questions) {
+    QuestionService.getQuestionsByAuthor(user).then(function (questions) {
       $scope.questions = questions;
     });
 
@@ -28,29 +28,29 @@ function mvUserDetailController($scope, $routeParams, mvUser, mvNotifier, $locat
     if ($scope.password && $scope.password.length > 0) {
       user.password = $scope.password;
     }
-    mvUserService.updateUser(user).then(function () {
-      mvNotifier.notify('USER_UPDATED_SUCCESS');
+    UserService.updateUser(user).then(function () {
+      NotifierService.notify('USER_UPDATED_SUCCESS');
       $location.path('/admin/users');
     }, function (reason) {
-      mvNotifier.error(reason);
+      NotifierService.error(reason);
     });
   };
 
   // Delete the user
   $scope.delete = function () {
     $scope.itemType = 'USER';
-    mvDialog.confirmDelete($scope).then(function (data) {
+    ModalService.confirmDelete($scope).then(function (data) {
       if (data.value === 'confirm') {
-        mvUserService.deleteUser(user).then(function () {
-          mvNotifier.notify('USER_REMOVED_SUCCESS');
+        UserService.deleteUser(user).then(function () {
+          NotifierService.notify('USER_REMOVED_SUCCESS');
           $location.path('/admin/users');
         }, function (reason) {
-          mvNotifier.error(reason);
+          NotifierService.error(reason);
         });
       }
     });
   };
 }
 
-mvUserDetailController.$inject = ['$scope', '$routeParams', 'mvUser', 'mvNotifier', '$location', 'mvUserService', 'mvDialog', 'mvSuggestionService', 'mvQuestionService'];
-angular.module('app').controller('mvUserDetailController', mvUserDetailController);
+UserDetailController.$inject = ['$scope', '$routeParams', 'User', 'NotifierService', '$location', 'UserService', 'ModalService', 'SuggestionService', 'QuestionService'];
+angular.module('app').controller('UserDetailController', UserDetailController);

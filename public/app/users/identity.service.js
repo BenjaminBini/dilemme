@@ -1,8 +1,8 @@
 /*jslint newcap: true*/
-function mvIdentity($window, mvUser) {
+function IdentityService($window, User) {
   var currentUser;
   if (!!$window.bootstrappedUserObject) {
-    currentUser = new mvUser();
+    currentUser = new User();
     angular.extend(currentUser, $window.bootstrappedUserObject);
   }
 
@@ -17,5 +17,5 @@ function mvIdentity($window, mvUser) {
   };
 }
 
-mvIdentity.$inject = ['$window', 'mvUser'];
-angular.module('app').factory('mvIdentity', mvIdentity);
+IdentityService.$inject = ['$window', 'User'];
+angular.module('app').factory('IdentityService', IdentityService);

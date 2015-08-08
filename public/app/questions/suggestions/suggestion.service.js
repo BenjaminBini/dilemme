@@ -1,11 +1,11 @@
 /*jslint newcap: true */
-function mvSuggestionService($q, mvSuggestion) {
+function SuggestionService($q, Suggestion) {
 
   return {
     getSuggestionById: function (id) {
       var dfd = $q.defer();
 
-      mvSuggestion.get({_id: id}, function (suggestion) {
+      Suggestion.get({_id: id}, function (suggestion) {
         dfd.resolve(suggestion);
       }, function (response) {
         dfd.reject(response.data.reason);
@@ -14,7 +14,7 @@ function mvSuggestionService($q, mvSuggestion) {
       return dfd.promise;
     },
     createSuggestion: function (suggestion) {
-      var newSuggestion = new mvSuggestion(suggestion);
+      var newSuggestion = new Suggestion(suggestion);
       var dfd = $q.defer();
 
       newSuggestion.$save().then(function () {
@@ -28,7 +28,7 @@ function mvSuggestionService($q, mvSuggestion) {
     getSuggestionsByUser: function (user) {
       var dfd = $q.defer();
 
-      mvSuggestion.getByUser({_id: user._id}, function (suggestions) {
+      Suggestion.getByUser({_id: user._id}, function (suggestions) {
         dfd.resolve(suggestions);
       }, function (response) {
         dfd.reject(response.data.reason);
@@ -61,5 +61,5 @@ function mvSuggestionService($q, mvSuggestion) {
   };
 }
 
-mvSuggestionService.$inject = ['$q', 'mvSuggestion'];
-angular.module('app').factory('mvSuggestionService', mvSuggestionService);
+SuggestionService.$inject = ['$q', 'Suggestion'];
+angular.module('app').factory('SuggestionService', SuggestionService);

@@ -1,10 +1,10 @@
 /*jslint newcap: true */
-function mvQuestionService($q, mvQuestion, localStorageService) {
+function QuestionService($q, Question, localStorageService) {
   return {
     getAll: function () {
       var dfd = $q.defer();
 
-      mvQuestion.query(function (questions) {
+      Question.query(function (questions) {
         dfd.resolve(questions);
       }, function (response) {
         dfd.reject(response.data.reason);
@@ -15,7 +15,7 @@ function mvQuestionService($q, mvQuestion, localStorageService) {
     count: function () {
       var dfd = $q.defer();
 
-      mvQuestion.count(function (response) {
+      Question.count(function (response) {
         dfd.resolve(response.count);
       });
 
@@ -24,7 +24,7 @@ function mvQuestionService($q, mvQuestion, localStorageService) {
     getQuestionById: function (id) {
       var dfd = $q.defer();
 
-      mvQuestion.get({_id: id}, function (question) {
+      Question.get({_id: id}, function (question) {
         dfd.resolve(question);
       }, function (response) {
         dfd.reject(response.data.reason);
@@ -35,7 +35,7 @@ function mvQuestionService($q, mvQuestion, localStorageService) {
     getUnansweredQuestion: function () {
       var dfd = $q.defer();
 
-      mvQuestion.unansweredRandom(function (question) {
+      Question.unansweredRandom(function (question) {
         dfd.resolve(question);
       }, function (response) {
         dfd.reject(response.data.reason);
@@ -46,7 +46,7 @@ function mvQuestionService($q, mvQuestion, localStorageService) {
     getQuestionsByAuthor: function (user) {
       var dfd = $q.defer();
 
-      mvQuestion.getByAuthor({_id: user._id}, function (questions) {
+      Question.getByAuthor({_id: user._id}, function (questions) {
         dfd.resolve(questions);
       }, function (response) {
         dfd.reject(response.data.reason);
@@ -55,7 +55,7 @@ function mvQuestionService($q, mvQuestion, localStorageService) {
       return dfd.promise;
     },
     createQuestion: function (question) {
-      var newQuestion = new mvQuestion(question);
+      var newQuestion = new Question(question);
       var dfd = $q.defer();
 
       newQuestion.$save().then(function () {
@@ -129,7 +129,7 @@ function mvQuestionService($q, mvQuestion, localStorageService) {
       var newComment = {
         text: comment
       };
-      mvQuestion.commentQuestion({_id: question._id}, newComment, function (result) {
+      Question.commentQuestion({_id: question._id}, newComment, function (result) {
         dfd.resolve(result);
       }, function (response) {
         dfd.reject(response.data.reason);
@@ -179,5 +179,5 @@ function mvQuestionService($q, mvQuestion, localStorageService) {
   };
 }
 
-mvQuestionService.$inject = ['$q', 'mvQuestion', 'localStorageService'];
-angular.module('app').factory('mvQuestionService', mvQuestionService);
+QuestionService.$inject = ['$q', 'Question', 'localStorageService'];
+angular.module('app').factory('QuestionService', QuestionService);

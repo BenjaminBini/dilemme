@@ -1,5 +1,5 @@
-function mvUserListController($scope, mvUser) {
-  $scope.users = mvUser.query();
+function UserListController($scope, User) {
+  $scope.users = User.query();
 
   $scope.sortOptions = [{
     value: "username",
@@ -17,5 +17,5 @@ function mvUserListController($scope, mvUser) {
   };
 }
 
-mvUserListController.$inject = ['$scope', 'mvUser'];
-angular.module('app').controller('mvUserListController', mvUserListController);
+UserListController.$inject = ['$scope', 'User'];
+angular.module('app').controller('UserListController', UserListController);

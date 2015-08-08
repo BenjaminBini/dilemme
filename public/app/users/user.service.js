@@ -1,8 +1,8 @@
 /*jslint newcap: true */
-function mvUserService($q, mvUser) {
+function UserService($q, User) {
   return {
     createUser: function (user) {
-      var newUser = new mvUser(user);
+      var newUser = new User(user);
       var dfd = $q.defer();
 
       newUser.$save().then(function (user) {
@@ -49,5 +49,5 @@ function mvUserService($q, mvUser) {
   };
 }
 
-mvUserService.$inject = ['$q', 'mvUser'];
-angular.module('app').factory('mvUserService', mvUserService);
+UserService.$inject = ['$q', 'User'];
+angular.module('app').factory('UserService', UserService);

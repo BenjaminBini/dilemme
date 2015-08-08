@@ -1,4 +1,4 @@
-function mvSuggestQuestionController($scope, $location, mvNotifier, mvSuggestionService) {
+function SuggestQuestionController($scope, $location, NotifierService, SuggestionService) {
   var question = {};
   question.answers = [];
   $scope.question = question;
@@ -13,15 +13,15 @@ function mvSuggestQuestionController($scope, $location, mvNotifier, mvSuggestion
         question.tags[i] = $.trim(question.tags[i]);
       }
     }
-    mvSuggestionService.createSuggestion(question).then(function () {
-      mvNotifier.notify('SUGGESTION_SUBMITTED');
+    SuggestionService.createSuggestion(question).then(function () {
+      NotifierService.notify('SUGGESTION_SUBMITTED');
       $scope.closeThisDialog();
       $location.path('/profile');
     }, function (reason) {
-      mvNotifier.error(reason);
+      NotifierService.error(reason);
     });
   };
 }
 
-mvSuggestQuestionController.$inject = ['$scope', '$location', 'mvNotifier', 'mvSuggestionService'];
-angular.module('app').controller('mvSuggestQuestionController', mvSuggestQuestionController);
+SuggestQuestionController.$inject = ['$scope', '$location', 'NotifierService', 'SuggestionService'];
+angular.module('app').controller('SuggestQuestionController', SuggestQuestionController);

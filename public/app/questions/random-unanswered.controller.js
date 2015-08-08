@@ -1,9 +1,9 @@
-function mvUnansweredQuestionRandomController($location, mvQuestion) {
+function UnansweredQuestionRandomController($location, Question) {
   // Redirect to random question page
-  var question = mvQuestion.unansweredRandom(function () {
+  var question = Question.unansweredRandom(function () {
     $location.path('/questions/' + question._id);
   });
 }
 
-mvUnansweredQuestionRandomController.$inject = ['$location', 'mvQuestion'];
-angular.module('app').controller('mvUnansweredQuestionRandomController', mvUnansweredQuestionRandomController);
+UnansweredQuestionRandomController.$inject = ['$location', 'Question'];
+angular.module('app').controller('UnansweredQuestionRandomController', UnansweredQuestionRandomController);

@@ -1,11 +1,11 @@
-function mvSuggestionDetailController($scope, $routeParams, mvNotifier, mvSuggestionService, $location, mvDialog) {
+function SuggestionDetailController($scope, $routeParams, NotifierService, SuggestionService, $location, ModalService) {
 
   if (!!$routeParams.id) {
-    mvSuggestionService.getSuggestionById($routeParams.id).then(function (suggestion) {
+    SuggestionService.getSuggestionById($routeParams.id).then(function (suggestion) {
       $scope.suggestion = suggestion;
       $scope.isLoaded = true;
     }, function (reason) {
-      mvNotifier.error(reason);
+      NotifierService.error(reason);
     });
   }
 
@@ -23,28 +23,28 @@ function mvSuggestionDetailController($scope, $routeParams, mvNotifier, mvSugges
       }
     }
     $scope.suggestion.tags = tags;
-    mvSuggestionService.validateSuggestion($scope.suggestion).then(function (question) {
-      mvNotifier.notify('SUGGESTION_PUBLISHED_SUCCESS');
+    SuggestionService.validateSuggestion($scope.suggestion).then(function (question) {
+      NotifierService.notify('SUGGESTION_PUBLISHED_SUCCESS');
       $location.path('/admin/questions/' + question._id);
     }, function (reason) {
-      mvNotifier.error(reason);
+      NotifierService.error(reason);
     });
   };
 
   $scope.delete = function () {
     $scope.itemType = 'SUGGESTION';
-    mvDialog.confirmDelete($scope).then(function (data) {
+    ModalService.confirmDelete($scope).then(function (data) {
       if (data.value === 'confirm') {
-        mvSuggestionService.deleteSuggestion($scope.suggestion).then(function () {
-          mvNotifier.notify('SUGGESTION_REMOVED_SUCCESS');
+        SuggestionService.deleteSuggestion($scope.suggestion).then(function () {
+          NotifierService.notify('SUGGESTION_REMOVED_SUCCESS');
           $location.path('/admin/suggestions');
         }, function (reason) {
-          mvNotifier.error(reason);
+          NotifierService.error(reason);
         });
       }
     });
   };
 }
 
-mvSuggestionDetailController.$inject = ['$scope', '$routeParams', 'mvNotifier', 'mvSuggestionService', '$location', 'mvDialog'];
-angular.module('app').controller('mvSuggestionDetailController', mvSuggestionDetailController);
+SuggestionDetailController.$inject = ['$scope', '$routeParams', 'NotifierService', 'SuggestionService', '$location', 'ModalService'];
+angular.module('app').controller('SuggestionDetailController', SuggestionDetailController);

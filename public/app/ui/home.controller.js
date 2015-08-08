@@ -1,8 +1,8 @@
-function mvMainController($scope, mvQuestion) {
-  var question = mvQuestion.unansweredRandom(function () {
+function MainController($scope, Question) {
+  var question = Question.unansweredRandom(function () {
     $scope.question = question;
   });
 }
 
-mvMainController.$inject = ['$scope', 'mvQuestion'];
-angular.module('app').controller('mvMainController', mvMainController);
+MainController.$inject = ['$scope', 'Question'];
+angular.module('app').controller('MainController', MainController);

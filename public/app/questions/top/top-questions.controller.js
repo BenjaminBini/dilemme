@@ -1,8 +1,8 @@
-function mvTopController($scope, mvQuestionService) {
-  mvQuestionService.getAll().then(function (questions) {
+function TopController($scope, QuestionService) {
+  QuestionService.getAll().then(function (questions) {
     $scope.questions = questions;
   });
 }
 
-mvTopController.$inject = ['$scope', 'mvQuestionService'];
-angular.module('app').controller('mvTopController', mvTopController);
+TopController.$inject = ['$scope', 'QuestionService'];
+angular.module('app').controller('TopController', TopController);

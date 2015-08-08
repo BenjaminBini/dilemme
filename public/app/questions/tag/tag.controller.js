@@ -1,7 +1,7 @@
-function mvTagViewController($scope, mvQuestion, $routeParams) {
-  $scope.questions = mvQuestion.queryForTag({ tag: $routeParams.tag});
+function TagViewController($scope, Question, $routeParams) {
+  $scope.questions = Question.queryForTag({ tag: $routeParams.tag});
   $scope.tag = $routeParams.tag;
 }
 
-mvTagViewController.$inject = ['$scope', 'mvQuestion', '$routeParams'];
-angular.module('app').controller('mvTagViewController', mvTagViewController);
+TagViewController.$inject = ['$scope', 'Question', '$routeParams'];
+angular.module('app').controller('TagViewController', TagViewController);

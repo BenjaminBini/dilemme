@@ -1,4 +1,4 @@
-function mvRegisterController($scope, mvNotifier, mvAuthService, $location) {
+function RegisterController($scope, NotifierService, AuthService, $location) {
   $scope.registerFromPage = function () {
     var newUserData = {
       email: $scope.email,
@@ -6,11 +6,11 @@ function mvRegisterController($scope, mvNotifier, mvAuthService, $location) {
       password: $scope.password
     };
 
-    mvAuthService.registerUser(newUserData).then(function () {
-      mvNotifier.notify('USER_CREATED_SUCCESS');
+    AuthService.registerUser(newUserData).then(function () {
+      NotifierService.notify('USER_CREATED_SUCCESS');
       $location.path('/');
     }, function (reason) {
-      mvNotifier.error(reason);
+      NotifierService.error(reason);
     });
   };
 
@@ -20,14 +20,14 @@ function mvRegisterController($scope, mvNotifier, mvAuthService, $location) {
       username: $scope.username,
       password: $scope.password
     };
-    mvAuthService.registerUser(newUserData).then(function () {
-      mvNotifier.notify('USER_CREATED_SUCCESS');
+    AuthService.registerUser(newUserData).then(function () {
+      NotifierService.notify('USER_CREATED_SUCCESS');
       $scope.closeThisDialog();
     }, function (reason) {
-      mvNotifier.error(reason);
+      NotifierService.error(reason);
     });
   };
 }
 
-mvRegisterController.$inject = ['$scope', 'mvNotifier', 'mvAuthService', '$location'];
-angular.module('app').controller('mvRegisterController', mvRegisterController);
+RegisterController.$inject = ['$scope', 'NotifierService', 'AuthService', '$location'];
+angular.module('app').controller('RegisterController', RegisterController);

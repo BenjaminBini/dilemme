@@ -1,11 +1,11 @@
-function mvQuestionController($scope, $routeParams, $location, mvQuestionService, mvNotifier) {
-  mvQuestionService.getQuestionById($routeParams.id).then(function (question) {
+function QuestionController($scope, $routeParams, $location, QuestionService, NotifierService) {
+  QuestionService.getQuestionById($routeParams.id).then(function (question) {
     $scope.question = question;
   }, function (reason) {
-    mvNotifier.error(reason);
+    NotifierService.error(reason);
     $location.path('/');
   });
 }
 
-mvQuestionController.$inject = ['$scope', '$routeParams', '$location', 'mvQuestionService', 'mvNotifier'];
-angular.module('app').controller('mvQuestionController', mvQuestionController);
+QuestionController.$inject = ['$scope', '$routeParams', '$location', 'QuestionService', 'NotifierService'];
+angular.module('app').controller('QuestionController', QuestionController);

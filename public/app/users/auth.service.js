@@ -1,13 +1,13 @@
 /*jslint newcap: true */
-function mvAuthService($http, mvIdentity, $q, mvUser, mvUserService) {
+function AuthService($http, IdentityService, $q, User, UserService) {
   return {
     authenticateUser: function (email, password) {
       var dfd = $q.defer();
       $http.post('/login', {email: email, password: password}).then(function (response) {
         if (response.data.success) {
-          var user = new mvUser();
+          var user = new User();
           angular.extend(user, response.data.user);
-          mvIdentity.currentUser = user;
+          IdentityService.currentUser = user;
           dfd.resolve(true);
         } else {
           dfd.resolve(false);
@@ -16,11 +16,11 @@ function mvAuthService($http, mvIdentity, $q, mvUser, mvUserService) {
       return dfd.promise;
     },
     registerUser: function (newUserData) {
-      var newUser = new mvUser(newUserData);
+      var newUser = new User(newUserData);
       var dfd = $q.defer();
 
-      mvUserService.createUser(newUser).then(function (user) {
-        mvIdentity.currentUser = user;
+      UserService.createUser(newUser).then(function (user) {
+        IdentityService.currentUser = user;
         dfd.resolve();
       }, function (reason) {
         dfd.reject(reason);
@@ -30,10 +30,10 @@ function mvAuthService($http, mvIdentity, $q, mvUser, mvUserService) {
     },
     updateCurrentUser: function (newUserData) {
       var dfd = $q.defer();
-      var clone = angular.copy(mvIdentity.currentUser);
+      var clone = angular.copy(IdentityService.currentUser);
       angular.extend(clone, newUserData);
-      mvUserService.updateUser(clone).then(function () {
-        mvIdentity.currentUser = clone;
+      UserService.updateUser(clone).then(function () {
+        IdentityService.currentUser = clone;
         dfd.resolve();
       }, function (reason) {
         dfd.reject(reason);
@@ -43,19 +43,19 @@ function mvAuthService($http, mvIdentity, $q, mvUser, mvUserService) {
     logoutUser: function () {
       var dfd = $q.defer();
       $http.post('/logout', {logout: true}).then(function () {
-        mvIdentity.currentUser = undefined;
+        IdentityService.currentUser = undefined;
         dfd.resolve();
       });
       return dfd.promise;
     },
     authorizeCurrentUserForRoute: function (role) {
-      if (mvIdentity.isAuthorized(role)) {
+      if (IdentityService.isAuthorized(role)) {
         return true;
       }
       return $q.reject('not authorized');
     },
     authorizeAuthenticatedUserForRoute: function () {
-      if (mvIdentity.isAuthenticated()) {
+      if (IdentityService.isAuthenticated()) {
         return true;
       }
       return $q.reject('not authorized');
@@ -63,5 +63,5 @@ function mvAuthService($http, mvIdentity, $q, mvUser, mvUserService) {
   };
 }
 
-mvAuthService.$inject = ['$http', 'mvIdentity', '$q', 'mvUser', 'mvUserService'];
-angular.module('app').factory('mvAuthService', mvAuthService);
+AuthService.$inject = ['$http', 'IdentityService', '$q', 'User', 'UserService'];
+angular.module('app').factory('AuthService', AuthService);

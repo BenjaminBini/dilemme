@@ -1,4 +1,4 @@
-function mvDialog(ngDialog) {
+function ModalService(ngDialog) {
   return {
     confirmDelete: function (scope) {
       return ngDialog.open({
@@ -10,21 +10,21 @@ function mvDialog(ngDialog) {
       return ngDialog.open({
         scope: scope,
         template: '/partials/users/login-modal',
-        controller: 'mvModalLoginController'
+        controller: 'LoginController'
       }).closePromise;
     },
     register: function (scope) {
       return ngDialog.open({
         scope: scope,
         template: '/partials/users/register-modal',
-        controller: 'mvRegisterController'
+        controller: 'RegisterController'
       }).closePromise;
     },
     suggestQuestion: function (scope) {
       return ngDialog.open({
         scope: scope,
         template: '/partials/questions/suggestions/suggest-question-modal',
-        controller: 'mvSuggestQuestionController',
+        controller: 'SuggestQuestionController',
         className: 'ngdialog-theme-default ngdialog-large'
       }).closePromise;
     },
@@ -37,5 +37,5 @@ function mvDialog(ngDialog) {
   };
 }
 
-mvDialog.$inject = ['ngDialog'];
-angular.module('app').factory('mvDialog', mvDialog);
+ModalService.$inject = ['ngDialog'];
+angular.module('app').factory('ModalService', ModalService);

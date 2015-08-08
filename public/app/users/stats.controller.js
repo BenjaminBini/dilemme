@@ -1,7 +1,7 @@
-function mvStatsController($scope, $rootScope, mvUserService, mvQuestionService) {
+function StatsController($scope, $rootScope, UserService, QuestionService) {
   var currentUser = $rootScope.identity.currentUser;
 
-  mvUserService.getStats(currentUser).then(function (stats) {
+  UserService.getStats(currentUser).then(function (stats) {
     $scope.stats = stats;
     $scope.colours = ['#e74c3c', '#3498db'];
 
@@ -15,7 +15,7 @@ function mvStatsController($scope, $rootScope, mvUserService, mvQuestionService)
     $scope.isHipster = stats.agree < (stats.answered - stats.agree);
 
     // Total    
-    mvQuestionService.count().then(function (count) {
+    QuestionService.count().then(function (count) {
       $scope.totalValues = [count - stats.answered, stats.answered];
       $scope.totalLabels = ['Not answered', 'Answered'];
     });
@@ -42,5 +42,5 @@ function mvStatsController($scope, $rootScope, mvUserService, mvQuestionService)
   });
 }
 
-mvStatsController.$inject = ['$scope', '$rootScope', 'mvUserService', 'mvQuestionService'];
-angular.module('app').controller('mvStatsController', mvStatsController);
+StatsController.$inject = ['$scope', '$rootScope', 'UserService', 'QuestionService'];
+angular.module('app').controller('StatsController', StatsController);
