@@ -2,7 +2,7 @@
  * Pagination template configuration
  */
 function paginationConfig(paginationTemplateProvider) {
-  paginationTemplateProvider.setPath('/partials/templates/pagination');
+  paginationTemplateProvider.setPath('/partials/ui/pagination');
 }
 
 paginationConfig.$inject = ['paginationTemplateProvider'];

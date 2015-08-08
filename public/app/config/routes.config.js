@@ -29,7 +29,7 @@ function routesConfig($routeProvider, $locationProvider) {
    */
   $routeProvider
     .when('/', {
-      templateUrl: '/partials/main/main',
+      templateUrl: '/partials/ui/home',
       controller: 'mvMainController',
       animation: 'view-transition'
     })
@@ -44,17 +44,17 @@ function routesConfig($routeProvider, $locationProvider) {
       animation: 'view-transition'
     })
     .when('/questions/browse', {
-      templateUrl: '/partials/questions/browse',
+      templateUrl: '/partials/questions/browse/browse-questions',
       controller: 'mvBrowseController',
       animation: 'view-transition'
     })
     .when('/questions/top', {
-      templateUrl: '/partials/questions/top',
+      templateUrl: '/partials/questions/top/top-questions',
       controller: 'mvTopController',
       animation: 'view-transition'
     })
     .when('/questions/new', {
-      templateUrl: '/partials/questions/new',
+      templateUrl: '/partials/questions/new/new-questions',
       controller: 'mvNewController',
       animation: 'view-transition'
     })
@@ -105,18 +105,18 @@ function routesConfig($routeProvider, $locationProvider) {
       animation: 'view-transition'
     })
     .when('/register', {
-      templateUrl: '/partials/account/register',
+      templateUrl: '/partials/users/register',
       controller: 'mvRegisterController',
       animation: 'view-transition'
     })
     .when('/stats', {
-      templateUrl: '/partials/account/stats',
+      templateUrl: '/partials/users/stats',
       controller: 'mvStatsController',
       resolve: routeRolesCheck.user,
       animation: 'view-transition'
     })
     .when('/profile', {
-      templateUrl: '/partials/account/profile',
+      templateUrl: '/partials/users/profile',
       controller: 'mvProfileController',
       resolve: routeRolesCheck.user,
       animation: 'view-transition'

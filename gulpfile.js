@@ -17,45 +17,46 @@ var VIEW_DIR = DIST_DIR + '/views';
 var DIRECTIVES_DIR = DIST_DIR + '/directives-views';
 var COMPILED_STYLUS_DIR = './public/css/';
 
-var JS_SRC = ['./public/vendor/jquery/dist/jquery.min.js',
-              './public/vendor/bootstrap/dist/js/bootstrap.min.js',
-              './public/vendor/toastr/toastr.min.js',
-              './public/vendor/angular/angular.min.js',
-              './public/vendor/angular-resource/angular-resource.min.js',
-              './public/vendor/angular-animate/angular-animate.min.js',
-              './public/vendor/angular-route/angular-route.min.js',
-              './public/vendor/angular-translate/angular-translate.min.js',
-              './public/vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',
-              './public/vendor/angular-local-storage/dist/angular-local-storage.min.js',
-              './public/vendor/angular-ui-select/dist/select.js',
-              './public/vendor/odometer/odometer.js',
-              './public/vendor/angular-odometer-js/dist/angular-odometer.js',
-              './public/vendor/Chart.js/Chart.min.js',
-              './public/vendor/angular-chart.js/dist/angular-chart.min.js',
-              './public/vendor/ngDialog/js/ngDialog.min.js',
-              './public/vendor/angular-utils-pagination/dirPagination.js',
-              './public/vendor/angular-hotkeys/build/hotkeys.min.js',
+var JS_SRC = ['./public/vendors/jquery/dist/jquery.min.js',
+              './public/vendors/bootstrap/dist/js/bootstrap.min.js',
+              './public/vendors/toastr/toastr.min.js',
+              './public/vendors/angular/angular.min.js',
+              './public/vendors/angular-resource/angular-resource.min.js',
+              './public/vendors/angular-animate/angular-animate.min.js',
+              './public/vendors/angular-route/angular-route.min.js',
+              './public/vendors/angular-translate/angular-translate.min.js',
+              './public/vendors/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',
+              './public/vendors/angular-local-storage/dist/angular-local-storage.min.js',
+              './public/vendors/angular-ui-select/dist/select.js',
+              './public/vendors/odometer/odometer.js',
+              './public/vendors/angular-odometer-js/dist/angular-odometer.js',
+              './public/vendors/Chart.js/Chart.min.js',
+              './public/vendors/angular-chart.js/dist/angular-chart.min.js',
+              './public/vendors/ngDialog/js/ngDialog.min.js',
+              './public/vendors/angular-utils-pagination/dirPagination.js',
+              './public/vendors/angular-hotkeys/build/hotkeys.min.js',
               './public/app/app.js',
-              './public/app/config/*.js',
-              './public/app/controllers/*.js',
-              './public/app/services/*',
-              './public/app/resources/*.js',
-              './public/app/models/*.js',
+              './public/app/config/**/*.js',
+              './public/app/filters/**/*.js',
               './public/app/directives/**/*.js',
-              './public/app/filters/**.js'];
+              './public/app/ui/**/*.js',
+              './public/app/questions/**/*.js',
+              './public/app/users/**/*.js',
+              './public/app/admin/**/*.js'
+              ];
 
 var CSS_SRC = ['./public/css/socicon.css',
-                './public/vendor/ngDialog/css/ngDialog.min.css',
-                './public/vendor/ngDialog/css/ngDialog-theme-default.min.css',
-                './public/vendor/angular-ui-select/dist/select.css',
-                './public/vendor/odometer/themes/odometer-theme-minimal.css',
-                './public/vendor/toastr/toastr.css',
-                './public/vendor/angular-chart.js/dist/angular-chart.css',
-                './public/vendor/angular-hotkeys/build/angular-hotkeys.min.css',
+                './public/vendors/ngDialog/css/ngDialog.min.css',
+                './public/vendors/ngDialog/css/ngDialog-theme-default.min.css',
+                './public/vendors/angular-ui-select/dist/select.css',
+                './public/vendors/odometer/themes/odometer-theme-minimal.css',
+                './public/vendors/toastr/toastr.css',
+                './public/vendors/angular-chart.js/dist/angular-chart.css',
+                './public/vendors/angular-hotkeys/build/angular-hotkeys.min.css',
                 './public/css/site.css',
                 './public/css/mobile.css'];
 
-var VIEW_SRC = ['./public/app/views/**/*.jade'];
+var VIEW_SRC = ['./public/app/**/*.jade'];
 
 var DIRECTIVE_SRC = ['./public/app/directives/**/*.jade'];
 

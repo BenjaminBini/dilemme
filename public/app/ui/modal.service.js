@@ -9,21 +9,21 @@ function mvDialog(ngDialog) {
     login: function (scope) {
       return ngDialog.open({
         scope: scope,
-        template: '/partials/modals/login',
+        template: '/partials/users/login-modal',
         controller: 'mvModalLoginController'
       }).closePromise;
     },
     register: function (scope) {
       return ngDialog.open({
         scope: scope,
-        template: '/partials/modals/register',
+        template: '/partials/users/register-modal',
         controller: 'mvRegisterController'
       }).closePromise;
     },
     suggestQuestion: function (scope) {
       return ngDialog.open({
         scope: scope,
-        template: '/partials/modals/suggest-question',
+        template: '/partials/questions/suggestions/suggest-question-modal',
         controller: 'mvSuggestQuestionController',
         className: 'ngdialog-theme-default ngdialog-large'
       }).closePromise;
@@ -31,7 +31,7 @@ function mvDialog(ngDialog) {
     example: function (scope) {
       ngDialog.open({
         scope: scope,
-        template: '/partials/modals/example'
+        template: '/partials/ui/example-modal'
       });
     }
   };

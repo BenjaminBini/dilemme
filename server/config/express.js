@@ -32,7 +32,7 @@ module.exports = function (app, config) {
   app.use(express.static(config.rootPath + 'public'));
 
   // Set views dir and engine (only for server rendered views : index / layout / current-user)
-  app.set('views', config.rootPath + 'public/app/views/layout');
+  app.set('views', config.rootPath + '/server/views');
   app.set('view engine', 'jade');
 
   // Logger
