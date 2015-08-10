@@ -3,7 +3,7 @@ function ModalService(ngDialog) {
     confirmDelete: function (scope) {
       return ngDialog.open({
         scope: scope,
-        template: '/partials/modals/confirm-delete'
+        template: '/partials/ui/confirm-delete'
       }).closePromise;
     },
     login: function (scope) {
