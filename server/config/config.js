@@ -12,7 +12,7 @@ module.exports = {
   production: {
     dbURI: 'mongodb://localhost/dilemme',
     dbName: 'dilemme',
-    dbUser: 'dilemme',
+    dbUser: process.env.MONGO_PASSWORD,
     dbPassword: 'dilemme',
     rootPath: rootPath,
     port: 3131

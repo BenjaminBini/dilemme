@@ -8,7 +8,10 @@ Work in progress.
 
 # Install and run
 
-Mongodb required running on default port.
+Mongodb required running on default port. With a "dilemme" user being able to read and write "dilemme" db.
+On development platform (whith no `NODE\_ENV` environement variable defined or set to "development"), dilemme password must be "dilemme".
+On production platform (with `NODE_ENV` set to "production"), the db password must be in a node environement variable called `MONGO_PASSWORD`.
+Environment variables have to be set in a ".env" file at the root of the project (I use [dotenv](https://github.com/motdotla/dotenv)).
 
 You must have [gulp](http://gulpjs.com/) and bower installed too.
 ```sh

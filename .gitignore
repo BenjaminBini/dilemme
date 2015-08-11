@@ -2,4 +2,4 @@ node_modules
 public/vendors
 public/dist
 .idea
-/server/config/config.js
+.env

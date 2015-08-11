@@ -1,4 +1,7 @@
 /// <reference path="typings/node/node.d.ts"/>
+// Load environment variables
+require('dotenv').load();
+
 var express = require('express');
 var app = express();
 var http = require('http').Server(app);
