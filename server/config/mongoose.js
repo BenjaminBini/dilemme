@@ -10,7 +10,7 @@ var ipAnswersModel = require('../models/IpAnswers');
 
 module.exports = function (config) {
   // Mongodb connection
-  mongoose.connect(config.db);
+  mongoose.connect(config.dbURI, {user: config.dbUser, pass: config.dbPassword});
   var db = mongoose.connection;
   db.on('error', console.error.bind(console, 'connection error...'));
   db.once('open', function callback() {
