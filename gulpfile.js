@@ -3,6 +3,7 @@ var clean = require('gulp-clean');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var minify = require('gulp-minify-css');
+var autoprefixer = require('gulp-autoprefixer');
 var rename = require('gulp-rename');
 var sourcemaps = require('gulp-sourcemaps');
 var stylus = require('gulp-stylus');
@@ -20,10 +21,10 @@ var COMPILED_STYLUS_DIR = './public/css/';
 var JS_SRC = ['./public/vendors/jquery/dist/jquery.min.js',
               './public/vendors/bootstrap/dist/js/bootstrap.min.js',
               './public/vendors/toastr/toastr.min.js',
-              './public/vendors/angular/angular.min.js',
-              './public/vendors/angular-resource/angular-resource.min.js',
-              './public/vendors/angular-animate/angular-animate.min.js',
-              './public/vendors/angular-route/angular-route.min.js',
+              './public/vendors/angular/angular.js',
+              './public/vendors/angular-resource/angular-resource.js',
+              './public/vendors/angular-animate/angular-animate.js',
+              './public/vendors/angular-route/angular-route.js',
               './public/vendors/angular-translate/angular-translate.min.js',
               './public/vendors/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',
               './public/vendors/angular-local-storage/dist/angular-local-storage.min.js',
@@ -86,7 +87,7 @@ gulp.task('build-client-js', function () {
     .pipe(sourcemaps.init())
     .pipe(concat('dilemme.js'))
     .pipe(gulp.dest(JS_DIR))
-    .pipe(uglify())
+    .pipe(uglify({mangle: false}))
     .pipe(rename({extname: '.min.js'}))
     .pipe(sourcemaps.write('maps'))
     .pipe(gulp.dest(JS_DIR));
@@ -101,6 +102,7 @@ gulp.task('build-client-stylus', function () {
 gulp.task('build-client-css', ['build-client-stylus'], function () {
   gulp.src(CSS_SRC)
     .pipe(sourcemaps.init())
+    .pipe(autoprefixer())
     .pipe(concat('dilemme.css'))
     .pipe(gulp.dest(CSS_DIR))
     .pipe(minify())
