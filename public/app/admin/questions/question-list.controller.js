@@ -36,6 +36,14 @@ function QuestionListController($scope, $filter, Question, QuestionService, Noti
       });
     }
   };
+
+  var allSelected = false;
+  $scope.toggleAll = function () {
+    allSelected = !allSelected;
+    angular.forEach($scope.questions, function (question) {
+      question.selected = allSelected;
+    });
+  };
 }
 
 QuestionListController.$inject = ['$scope', '$filter', 'Question', 'QuestionService', 'NotifierService'];
