@@ -22,10 +22,10 @@ $ npm install -g gulp
 $ npm install -g bower
 ```
 
-Admin credentials are 'joe'/'joe'.
+Default dmin credentials are 'joe'/'joe'.
 
 
-Classic stuff : 
+Classic stuff to launch the application : 
 
 ```sh
 $ npm install
@@ -35,3 +35,27 @@ $ node server
 ```
 
 Then go to http://localhost:3131 and everything should be fine.
+
+# Useful Gulp tasks
+
+## Build
+
+```sh
+$ gulp build
+```
+
+* Concat and minify JS files
+* Build Stylus files to CSS, concat and minify CSS
+* Compile Jade views to HTML
+
+## Watch
+
+```sh
+$ gulp watch
+```
+
+* Launch server.js using [gulp-nodemon](https://github.com/JacksonGariety/gulp-nodemon)
+* Watch for any change in JS sources (client side) and rebuild them
+* Watch for any change in Stylus sources and rebuild them
+* Same for Jade files
+* Watch for any change in JS files inside of /server directory and relaunch server.js
