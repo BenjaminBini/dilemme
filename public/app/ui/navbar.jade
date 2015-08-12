@@ -1,50 +1,53 @@
-ul.nav.navbar-nav
-	li
-		a(href="/questions/top") {{'TOP' | translate}}
-	li
-		a(href="/questions/new") {{'NEW' | translate}}
-	li(ng-if="identity.isAuthenticated()")
-		a(href="/questions/browse") {{'BROWSE' | translate}}
-.navbar-right(ng-controller="NavbarController")
-	ul.nav.navbar-nav.navbar-right
-		li(ng-show="identity.isAuthenticated()")
-			a.suggest(role="button", ng-click="openSuggestModal()") {{'SUGGEST_A_QUESTION' | translate}}
-		li.dropdown(ng-show="identity.isAuthenticated()")
-			a.dropdown-toggle(href="", data-toggle="dropdown")
-				| {{identity.currentUser.username}}
-				b.caret
-			ul.dropdown-menu
-				li(ng-show="identity.currentUser.isAdmin()")
-					a(href="/admin/users") {{'USERS_ADMIN' | translate}}
-				li(ng-show="identity.currentUser.isAdmin()")
-					a(href="/admin/questions") {{'QUESTIONS_ADMIN' | translate}}
-				li(ng-show="identity.currentUser.isAdmin()")
-					a(href="/admin/suggestions") {{'SUGGESTIONS_ADMIN' | translate}}
-				li
-					a(href="/profile") {{'PROFILE' | translate}}
-				li(ng-show="identity.isAuthenticated()")
-					a(href="/stats") {{'STATS' | translate}}
-				li
-					a(role="button", ng-click="signout()") {{'SIGN_OUT' | translate}}
-		li.dropdown.language-switcher(ng-controller="LanguageSwitcherController")
-			a.dropdown-toggle(href="", data-toggle="dropdown")
-				img(src="/images/{{currentLanguage}}.png", width="30")
-				b.caret
-			ul.dropdown-menu.languages
-				li
-					a(href="", ng-click="setLanguage('fr_FR')")
-						img(src="/images/fr_FR.png", width="30") 
-						| FR
-				li 
-					a(href="", ng-click="setLanguage('en_US')")
-						img(src="/images/en_US.png", width="30") 
-						| EN
-	form.navbar-form(ng-if="!identity.isAuthenticated()")
-			ul.nav.navbar-nav
-				li
-					a.register(role="button", ng-click="openRegisterModal()") {{'REGISTER' | translate}}
-			.form-group
-				input.form-control(placeholder="{{'USERNAME_OR_EMAIL' | translate}}", ng-model="email" autofocus)
-			.form-group
-				input.form-control(type="password", placeholder="{{'PASSWORD' | translate}}", ng-model="password")
-			button.btn.btn-primary(ng-click="signin(email, password)") {{'SIGN_IN' | translate}}
+.navbar-header
+	a.navbar-brand(href="/") {{'SITE_NAME' | translate}}
+.navbar-collapse.collapse.desktop-only
+	ul.nav.navbar-nav
+		li
+			a(href="/questions/top") {{'TOP' | translate}}
+		li
+			a(href="/questions/new") {{'NEW' | translate}}
+		li(ng-if="identity.isAuthenticated()")
+			a(href="/questions/browse") {{'BROWSE' | translate}}
+	.navbar-right(ng-controller="NavbarController")
+		ul.nav.navbar-nav.navbar-right
+			li(ng-show="identity.isAuthenticated()")
+				a.suggest(role="button", ng-click="openSuggestModal()") {{'SUGGEST_A_QUESTION' | translate}}
+			li.dropdown(ng-show="identity.isAuthenticated()")
+				a.dropdown-toggle(href="", data-toggle="dropdown")
+					| {{identity.currentUser.username}}
+					b.caret
+				ul.dropdown-menu
+					li(ng-show="identity.currentUser.isAdmin()")
+						a(href="/admin/users") {{'USERS_ADMIN' | translate}}
+					li(ng-show="identity.currentUser.isAdmin()")
+						a(href="/admin/questions") {{'QUESTIONS_ADMIN' | translate}}
+					li(ng-show="identity.currentUser.isAdmin()")
+						a(href="/admin/suggestions") {{'SUGGESTIONS_ADMIN' | translate}}
+					li
+						a(href="/profile") {{'PROFILE' | translate}}
+					li(ng-show="identity.isAuthenticated()")
+						a(href="/stats") {{'STATS' | translate}}
+					li
+						a(role="button", ng-click="signout()") {{'SIGN_OUT' | translate}}
+			li.dropdown.language-switcher(ng-controller="LanguageSwitcherController")
+				a.dropdown-toggle(href="", data-toggle="dropdown")
+					img(src="/images/{{currentLanguage}}.png", width="30")
+					b.caret
+				ul.dropdown-menu.languages
+					li
+						a(href="", ng-click="setLanguage('fr_FR')")
+							img(src="/images/fr_FR.png", width="30") 
+							| FR
+					li 
+						a(href="", ng-click="setLanguage('en_US')")
+							img(src="/images/en_US.png", width="30") 
+							| EN
+		form.navbar-form(ng-if="!identity.isAuthenticated()")
+				ul.nav.navbar-nav
+					li
+						a.register(role="button", ng-click="openRegisterModal()") {{'REGISTER' | translate}}
+				.form-group
+					input.form-control(placeholder="{{'USERNAME_OR_EMAIL' | translate}}", ng-model="email" autofocus)
+				.form-group
+					input.form-control(type="password", placeholder="{{'PASSWORD' | translate}}", ng-model="password")
+				button.btn.btn-primary(ng-click="signin(email, password)") {{'SIGN_IN' | translate}}

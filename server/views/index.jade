@@ -3,10 +3,7 @@ extends layout
 block main-content
 	.navbar.navbar-inverse.navbar-fixed-top
 		.container
-			.navbar-header
-				a.navbar-brand(href="/") {{'SITE_NAME' | translate}}
-			.navbar-collapse.collapse.desktop-only
-				div(ng-include="'/partials/ui/navbar'")
+			div(ng-include="'/partials/ui/navbar'")
 	section.content
 		.view(ng-view)
 
