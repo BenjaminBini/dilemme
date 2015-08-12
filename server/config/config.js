@@ -5,7 +5,7 @@ module.exports = {
   development: {
     dbURI: 'mongodb://localhost/dilemme',
     dbUser: 'dilemme',
-    dbPassword: 'dilemme',
+    dbPassword: process.env.MONGO_PASSWORD,
     rootPath: rootPath,
     port: 3131
   },
