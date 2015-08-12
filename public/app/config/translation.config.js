@@ -7,6 +7,8 @@ function translationConfig($translateProvider) {
     suffix: '.json'
   });
 
+  $translateProvider.fallbackLanguage('en_US');
+
   $translateProvider.useSanitizeValueStrategy('escape');
 
   $translateProvider.determinePreferredLanguage();
