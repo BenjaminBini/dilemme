@@ -65,6 +65,10 @@ var questionSchema = mongoose.Schema({
   author: {
     type: mongoose.Schema.Types.ObjectId,
     reference: 'User'
+  },
+  status: {
+    type: Number,
+    default: 0
   }
 });
 
@@ -155,12 +159,12 @@ questionSchema.methods = {
  * @return {[type]}            [description]
  */
 questionSchema.statics.random = function (callback) {
-  this.count(function (err, count) {
+  this.count({status: 1}, function (err, count) {
     if (err) {
       return callback(err);
     }
     var rand = Math.floor(Math.random() * count);
-    this.findOne().skip(rand).exec(callback);
+    this.findOne({status: 1}).skip(rand).exec(callback);
   }.bind(this));
 };
 

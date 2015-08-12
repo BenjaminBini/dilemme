@@ -1,6 +1,5 @@
 function NewController($scope, QuestionService) {
-
-  QuestionService.getAll().then(function (questions) {
+  QuestionService.getPublished().then(function (questions) {
     $scope.questions = questions;
   });
 

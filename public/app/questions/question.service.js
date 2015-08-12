@@ -12,6 +12,9 @@ function QuestionService($q, Question, localStorageService) {
 
       return dfd.promise;
     },
+    getPublished: function () {
+      return Question.queryPublished().$promise;
+    },
     count: function () {
       var dfd = $q.defer();
 
@@ -58,8 +61,8 @@ function QuestionService($q, Question, localStorageService) {
       var newQuestion = new Question(question);
       var dfd = $q.defer();
 
-      newQuestion.$save().then(function () {
-        dfd.resolve();
+      newQuestion.$save().then(function (question) {
+        dfd.resolve(question);
       }, function (response) {
         dfd.reject(response.data.reason);
       });
@@ -69,8 +72,8 @@ function QuestionService($q, Question, localStorageService) {
     updateQuestion: function (question) {
       var dfd = $q.defer();
 
-      question.$update({_id: question._id}).then(function () {
-        dfd.resolve();
+      question.$update({_id: question._id}).then(function (question) {
+        dfd.resolve(question);
       }, function (response) {
         dfd.reject(response.data.reason);
       });

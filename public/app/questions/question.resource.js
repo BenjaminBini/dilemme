@@ -19,6 +19,11 @@ function Question($resource) {
       url: '/api/questions/random/unanswered',
       isArray: false
     },
+    queryPublished: {
+      method: 'GET',
+      isArray: true,
+      url: '/api/questions/published'
+    },
     queryForTag: {
       method: 'GET',
       url: '/api/questions/tag/:tag',

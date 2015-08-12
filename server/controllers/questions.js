@@ -24,6 +24,19 @@ exports.getQuestions = function (req, res) {
 };
 
 /**
+ * Return array of published questions
+ */
+exports.getPublishedQuestions = function (req, res) {
+  Question.find({status: 1}).exec(function (err, collection) {
+    if (err) {
+      res.status(400);
+      return res.send({reason: err.toString()});
+    }
+    return res.send(collection);
+  });
+};
+
+/**
  * Count number of questions
  * @param  {[type]} req [description]
  * @param  {[type]} res [description]
@@ -37,7 +50,7 @@ exports.count = function (req, res) {
     }
     res.send({count: count});
   });
-}
+};
 
 /**
  * Return array of questions with the given author
@@ -68,7 +81,7 @@ exports.getQuestionsByAuthor = function (req, res) {
  * @return {[type]}     [description]
  */
 exports.getQuestionsByTag = function (req, res) {
-  Question.find({tags: req.params.tag}).exec(function (err, collection) {
+  Question.find({status: 1, tags: req.params.tag}).exec(function (err, collection) {
     if (err) {
       return;
     }
@@ -91,7 +104,13 @@ exports.getQuestionById = function (req, res) {
     }
     if (!question) {
       res.status(400);
-      return res.send({reason: 'QUESTION_DOES_NOT_EXIST'}); 
+      return res.send({reason: 'QUESTION_DOES_NOT_EXIST'});
+    }
+    // If the user is not an admin and the question is not published: not authorized
+    if (question.status === 0
+        && !(req.user && req.user.hasRole('admin'))) {
+      res.status(403);
+      return res.send({reason: 'NOT_AUTHORIZED'});
     }
     question.populateQuestion().then(function () {
       return res.send(question);
@@ -135,7 +154,7 @@ exports.getUnansweredRandomQuestion = function (req, res) {
       answeredQuestions.push(req.user.answers[i].question);
     }
     // We look for question not in the collection of answered questions
-    Question.find({}).where('_id').nin(answeredQuestions).exec(function (err, collection) {
+    Question.find({status: 1}).where('_id').nin(answeredQuestions).exec(function (err, collection) {
       if (err) {
         return res.status(400).send({reason: err.toString()});
       }
@@ -180,7 +199,9 @@ exports.createQuestion = function (req, res) {
       return res.send({reason: err.toString()});
     }
     // If no error, return the question
-    return res.send(question);
+    question.populateQuestion().then(function () {
+      return res.send(question);
+    });
   });
 };
 
@@ -207,6 +228,7 @@ exports.updateQuestion = function (req, res) {
     question.answers[0].text = updatedQuestion.answers[0].text;
     question.answers[1].text = updatedQuestion.answers[1].text;
     question.tags = updatedQuestion.tags;
+    question.status = !!updatedQuestion.status ? updatedQuestion.status : 0;
     question.save(function (err) {
       if (err) {
         // If an error occur, return error 400 with the error
@@ -216,7 +238,9 @@ exports.updateQuestion = function (req, res) {
         });
       }
       // Send and return the user
-      res.send(question);
+      question.populateQuestion().then(function () {
+        return res.send(question);
+      });
       return question;
     });
   });
@@ -271,7 +295,7 @@ exports.deleteQuestion = function (req, res) {
  */
 exports.answerQuestion = function (req, res) {
   var questionId = req.params.id;
-  var answerNumber = parseInt(req.params.answer);
+  var answerNumber = parseInt(req.params.answer, 10);
   var ip = requestIp.getClientIp(req);
 
   // The answer number must be 0 or 1
@@ -282,7 +306,7 @@ exports.answerQuestion = function (req, res) {
   }
 
   // Let's get the question we want and update it and the user
-  Question.findOne({_id: questionId}).exec(function (err, question) {
+  Question.findOne({_id: questionId, status: 1}).exec(function (err, question) {
     // Is no question is found, send a 400
     if (err) {
       return res.status(400).send({
@@ -375,7 +399,7 @@ exports.answerQuestion = function (req, res) {
 exports.upvoteQuestion = function (req, res) {
   var i;
   var questionId = req.params.id;
-  Question.findOne({_id: questionId}).exec(function (err, question) {
+  Question.findOne({_id: questionId, status: 1}).exec(function (err, question) {
     if (!question) {
       // If an error occur, return error 400 with the error
       res.status(400);

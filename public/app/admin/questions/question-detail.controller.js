@@ -1,16 +1,16 @@
 function QuestionDetailController($scope, $routeParams, $location, NotifierService, QuestionService, ModalService) {
+  var originalQuestion = {};
   var question = {};
   question.answers = [];
   $scope.question = question;
   $scope.isLoaded = false;
-  $scope.editionMode = false;
 
   if ($routeParams.id !== 'add') {
     QuestionService.getQuestionById($routeParams.id).then(function (questionResponse) {
       question = questionResponse;
+      originalQuestion = question;
       $scope.question = question;
       $scope.isLoaded = true;
-      $scope.editionMode = true;
     }, function (reason) {
       NotifierService.error(reason);
     });
@@ -33,16 +33,16 @@ function QuestionDetailController($scope, $routeParams, $location, NotifierServi
     }
     question.tags = tags;
     if (question._id) {
-      QuestionService.updateQuestion(question).then(function () {
+      QuestionService.updateQuestion(question).then(function (newQuestion) {
+        $scope.question = question = newQuestion;
         NotifierService.notify('QUESTION_UPDATED_SUCCESS');
-        $location.path('/admin/questions');
       }, function (reason) {
         NotifierService.error(reason);
       });
     } else {
-      QuestionService.createQuestion(question).then(function () {
+      QuestionService.createQuestion(question).then(function (newQuestion) {
+        $scope.question = question = newQuestion;
         NotifierService.notify('QUESTION_CREATED_SUCCESS');
-        $location.path('/admin/questions');
       }, function (reason) {
         NotifierService.error(reason);
       });
@@ -60,6 +60,26 @@ function QuestionDetailController($scope, $routeParams, $location, NotifierServi
           NotifierService.error(reason);
         });
       }
+    });
+  };
+
+  $scope.publish = function () {
+    originalQuestion.status = 1;
+    QuestionService.updateQuestion(originalQuestion).then(function (newQuestion) {
+      $scope.question = question = newQuestion;
+      NotifierService.notify('QUESTION_PUBLISHED_SUCCESS');
+    }, function (reason) {
+      NotifierService.error(reason);
+    });
+  };
+
+  $scope.unpublish = function () {
+    originalQuestion.status = 0;
+    QuestionService.updateQuestion(originalQuestion).then(function (newQuestion) {
+      $scope.question = question = newQuestion;
+      NotifierService.notify('QUESTION_UNPUBLISHED_SUCCESS');
+    }, function (reason) {
+      NotifierService.error(reason);
     });
   };
 }

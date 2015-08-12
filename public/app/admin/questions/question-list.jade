@@ -16,7 +16,7 @@
 				th {{'UPVOTES' | translate}}
 				th {{'ANSWER' | translate}} 1
 				th {{'ANSWER' | translate}} 2
-				th {{'PUBLICATION_DATE' | translate}}
+				th {{'STATUS' | translate}}
 		tbody
 			tr(dir-paginate="question in questions | filter: searchText | orderBy: sortOrder.selected | itemsPerPage: 10")
 				td {{question.title}}
@@ -25,7 +25,7 @@
 				td {{question.upvotes}}
 				td {{question.answers[0].votes}}
 				td {{question.answers[1].votes}}
-				td {{question.published | date }}
+				td {{question.status == 1 ? 'PUBLISHED' : 'UNPUBLISHED' | translate}}
 	dir-pagination-controls
 	div.actions
 		a.btn.btn-info.btn-embossed(href="/admin/questions/add") {{'ADD_A_QUESTION' | translate}}

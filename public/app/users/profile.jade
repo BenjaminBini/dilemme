@@ -72,6 +72,7 @@
 				tbody
 					tr(dir-paginate="answer in currentUser.answers | itemsPerPage: 10", pagination-id="answers")
 						td 
-							a(href="/questions/{{answer.question._id}}") {{answer.question.text}} : {{answer.question.answers[0].text}} or {{answer.question.answers[1].text}} ?
+							a(ng-if="answer.question.status === 1" href="/questions/{{answer.question._id}}") {{answer.question.text}} : {{answer.question.answers[0].text}} or {{answer.question.answers[1].text}} ?
+							span(ng-if="answer.question.status === 0") {{answer.question.text}} : {{answer.question.answers[0].text}} or {{answer.question.answers[1].text}} ?
 						td(ng-class="answer.answer == 0 ? 'red-background' : 'blue-background'") {{answer.question.answers[answer.answer].text}} (like {{answer.question | proportion:answer.answer}}% of the users)
 			dir-pagination-controls(pagination-id="answers")

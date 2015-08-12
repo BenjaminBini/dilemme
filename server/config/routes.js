@@ -25,6 +25,7 @@ module.exports = function (app, config) {
   // Questions
   app.get('/api/questions', questions.getQuestions);
   app.get('/api/questions/tag/:tag', questions.getQuestionsByTag);
+  app.get('/api/questions/published', questions.getPublishedQuestions);
   app.get('/api/questions/random', questions.getRandomQuestion);
   app.get('/api/questions/random/unanswered', questions.getUnansweredRandomQuestion);
   app.get('/api/questions/count', questions.count);
