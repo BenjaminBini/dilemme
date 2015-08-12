@@ -64,22 +64,16 @@ function QuestionDetailController($scope, $routeParams, $location, NotifierServi
   };
 
   $scope.publish = function () {
-    originalQuestion.status = 1;
-    QuestionService.updateQuestion(originalQuestion).then(function (newQuestion) {
+    QuestionService.publishQuestion(originalQuestion).then(function (newQuestion) {
       $scope.question = question = newQuestion;
       NotifierService.notify('QUESTION_PUBLISHED_SUCCESS');
-    }, function (reason) {
-      NotifierService.error(reason);
     });
   };
 
   $scope.unpublish = function () {
-    originalQuestion.status = 0;
-    QuestionService.updateQuestion(originalQuestion).then(function (newQuestion) {
+    QuestionService.unpublishQuestion(originalQuestion).then(function (newQuestion) {
       $scope.question = question = newQuestion;
-      NotifierService.notify('QUESTION_UNPUBLISHED_SUCCESS');
-    }, function (reason) {
-      NotifierService.error(reason);
+      NotifierService.notify('QUESTION_PUBLISHED_SUCCESS');
     });
   };
 }

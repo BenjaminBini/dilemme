@@ -11,6 +11,7 @@
 	table.table.table-hover(ng-show="questions.length > 0")
 		thead
 			tr
+				th
 				th {{'TITLE' | translate}}
 				th {{'QUESTION' | translate}}
 				th {{'UPVOTES' | translate}}
@@ -18,7 +19,9 @@
 				th {{'ANSWER' | translate}} 2
 				th {{'STATUS' | translate}}
 		tbody
-			tr(dir-paginate="question in questions | filter: searchText | orderBy: sortOrder.selected | itemsPerPage: 10")
+			tr(dir-paginate="question in questions | filter: searchText | orderBy: sortOrder.selected | itemsPerPage: 10", ng-click="question.selected = !question.selected")
+				td
+					input(type="checkbox", ng-model="question.selected")
 				td {{question.title}}
 				td
 					a(href="/admin/questions/{{question._id}}") {{question.text}} : {{question.answers[0].text}} or {{question.answers[1].text}} ?
@@ -29,3 +32,5 @@
 	dir-pagination-controls
 	div.actions
 		a.btn.btn-info.btn-embossed(href="/admin/questions/add") {{'ADD_A_QUESTION' | translate}}
+		a.btn.btn-primary(ng-click="publishSelection()") {{'PUBLISH_SELECTION' | translate}}
+		a.btn.btn-warning(ng-click="unpublishSelection()") {{'UNPUBLISH_SELECTION' | translate}}

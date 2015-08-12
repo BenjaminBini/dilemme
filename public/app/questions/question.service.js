@@ -80,6 +80,38 @@ function QuestionService($q, Question, localStorageService) {
 
       return dfd.promise;
     },
+    publishQuestion: function (question) {
+      question.status = 1;
+      return question.$update({_id: question._id});
+    },
+    publishQuestions: function (questions) {
+      var self = this;
+      var dfd = $q.defer();
+      var promises = [];
+      angular.forEach(questions, function (question) {
+        promises.push(self.publishQuestion(question));
+      });
+      $q.all(promises).then(function () {
+        dfd.resolve(questions);
+      });
+      return dfd.promise;
+    },
+    unpublishQuestion: function (question) {
+      question.status = 0;
+      return question.$update({_id: question._id});
+    },
+    unpublishQuestions: function (questions) {
+      var self = this;
+      var dfd = $q.defer();
+      var promises = [];
+      angular.forEach(questions, function (question) {
+        promises.push(self.unpublishQuestion(question));
+      });
+      $q.all(promises).then(function () {
+        dfd.resolve(questions);
+      });
+      return dfd.promise;
+    },
     deleteQuestion: function (question) {
       var dfd = $q.defer();
 

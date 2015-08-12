@@ -1,4 +1,4 @@
-function QuestionListController($scope, Question) {
+function QuestionListController($scope, $filter, Question, QuestionService, NotifierService) {
   $scope.questions = Question.query();
 
   $scope.sortOptions = [{
@@ -18,7 +18,25 @@ function QuestionListController($scope, Question) {
   $scope.sortOrder = {
     selected: $scope.sortOptions[0].value
   };
+
+  $scope.publishSelection = function () {
+    var selectedQuestions = $filter('filter')($scope.questions, {selected: true});
+    if (selectedQuestions.length > 0) {
+      QuestionService.publishQuestions(selectedQuestions).then(function () {
+        NotifierService.notify('QUESTIONS_PUBLISHED_SUCCESS');
+      });
+    }
+  };
+
+  $scope.unpublishSelection = function () {
+    var selectedQuestions = $filter('filter')($scope.questions, {selected: true});
+    if (selectedQuestions.length > 0) {
+      QuestionService.unpublishQuestions(selectedQuestions).then(function () {
+        NotifierService.notify('QUESTIONS_UNPUBLISHED_SUCCESS');
+      });
+    }
+  };
 }
 
-QuestionListController.$inject = ['$scope', 'Question'];
+QuestionListController.$inject = ['$scope', '$filter', 'Question', 'QuestionService', 'NotifierService'];
 angular.module('app').controller('QuestionListController', QuestionListController);
