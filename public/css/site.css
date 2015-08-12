@@ -412,6 +412,9 @@ span.blue {
   -o-transition-duration: 3s !important;
   transition-duration: 3s !important;
 }
+.translate-cloak {
+  display: none;
+}
 @-moz-keyframes effect {
   100% {
     opacity: 0;
