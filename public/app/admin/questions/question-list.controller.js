@@ -1,5 +1,8 @@
-function QuestionListController($scope, $filter, Question, QuestionService, NotifierService) {
-  $scope.questions = Question.query();
+function QuestionListController($scope, $filter, QuestionService, NotifierService) {
+
+  QuestionService.getAll().then(function (questions) {
+    $scope.questions = questions;
+  });
 
   $scope.sortOptions = [{
     value: 'text + answers[0].text + answers[1].text',
@@ -46,5 +49,5 @@ function QuestionListController($scope, $filter, Question, QuestionService, Noti
   };
 }
 
-QuestionListController.$inject = ['$scope', '$filter', 'Question', 'QuestionService', 'NotifierService'];
+QuestionListController.$inject = ['$scope', '$filter', 'QuestionService', 'NotifierService'];
 angular.module('app').controller('QuestionListController', QuestionListController);

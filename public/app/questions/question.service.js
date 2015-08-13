@@ -2,15 +2,7 @@
 function QuestionService($q, Question, localStorageService) {
   return {
     getAll: function () {
-      var dfd = $q.defer();
-
-      Question.query(function (questions) {
-        dfd.resolve(questions);
-      }, function (response) {
-        dfd.reject(response.data.reason);
-      });
-
-      return dfd.promise;
+      return Question.query().$promise;
     },
     getPublished: function () {
       return Question.queryPublished().$promise;
