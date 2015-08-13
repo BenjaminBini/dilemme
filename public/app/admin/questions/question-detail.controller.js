@@ -73,7 +73,7 @@ function QuestionDetailController($scope, $routeParams, $location, NotifierServi
   $scope.unpublish = function () {
     QuestionService.unpublishQuestion(originalQuestion).then(function (newQuestion) {
       $scope.question = question = newQuestion;
-      NotifierService.notify('QUESTION_PUBLISHED_SUCCESS');
+      NotifierService.notify('QUESTION_UNPUBLISHED_SUCCESS');
     });
   };
 
