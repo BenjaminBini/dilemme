@@ -57,6 +57,15 @@ var userSchema = mongoose.Schema({
  */
 userSchema.methods = {
   /**
+   * Override "toJSON" method to hide hashedPassword
+   */
+  toJSON: function () {
+    var user = this.toObject();
+    delete user.hashedPassword;
+    delete user.salt;
+    return user;
+  },
+  /**
    * Check if the password is correct
    * @param  passwordToMatch Password to check
    * @return                 True if the password is correct
