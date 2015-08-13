@@ -1,4 +1,4 @@
-function QuestionDetailController($scope, $routeParams, $location, NotifierService, QuestionService, ModalService) {
+function QuestionDetailController($scope, $routeParams, $location, NotifierService, QuestionService, ModalService, UserService) {
   var originalQuestion = {};
   var question = {};
   question.answers = [];
@@ -76,7 +76,15 @@ function QuestionDetailController($scope, $routeParams, $location, NotifierServi
       NotifierService.notify('QUESTION_PUBLISHED_SUCCESS');
     });
   };
+
+  $scope.$watch('question', function (question) {
+    if (!!question && !!question._id) {
+      UserService.getByAnsweredQuestion(question).then(function (users) {
+        $scope.users = users;
+      });
+    }
+  });
 }
 
-QuestionDetailController.$inject = ['$scope', '$routeParams', '$location', 'NotifierService', 'QuestionService', 'ModalService'];
+QuestionDetailController.$inject = ['$scope', '$routeParams', '$location', 'NotifierService', 'QuestionService', 'ModalService', 'UserService'];
 angular.module('app').controller('QuestionDetailController', QuestionDetailController);

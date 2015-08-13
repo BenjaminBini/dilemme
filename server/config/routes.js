@@ -10,7 +10,6 @@ var suggestions = require('../controllers/suggestions');
 var comments = require('../controllers/comments');
 
 module.exports = function (app, config) {
-
   // REST API
   // Users
   app.get('/api/users', auth.requiresRole('admin'), users.getUsers);
@@ -21,6 +20,7 @@ module.exports = function (app, config) {
   app.get('/api/users/:id/suggestions', auth.requiresApiLogin, suggestions.getSuggestionsByUser);
   app.get('/api/users/:id/questions', auth.requiresApiLogin, questions.getQuestionsByAuthor);
   app.get('/api/users/:id/stats', auth.requiresApiLogin, users.getUserStats);
+  app.get('/api/users/answeredQuestion/:questionId', auth.requiresRole('admin'), users.getUsersByAnsweredQuestion);
 
   // Questions
   app.get('/api/questions', questions.getQuestions);

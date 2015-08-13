@@ -26,6 +26,9 @@ function QuestionListController($scope, $filter, QuestionService, NotifierServic
     var selectedQuestions = $filter('filter')($scope.questions, {selected: true});
     if (selectedQuestions.length > 0) {
       QuestionService.publishQuestions(selectedQuestions).then(function () {
+        angular.forEach(selectedQuestions, function (question) {
+          question.selected = true;
+        });
         NotifierService.notify('QUESTIONS_PUBLISHED_SUCCESS');
       });
     }
@@ -35,6 +38,9 @@ function QuestionListController($scope, $filter, QuestionService, NotifierServic
     var selectedQuestions = $filter('filter')($scope.questions, {selected: true});
     if (selectedQuestions.length > 0) {
       QuestionService.unpublishQuestions(selectedQuestions).then(function () {
+        angular.forEach(selectedQuestions, function (question) {
+          question.selected = true;
+        });
         NotifierService.notify('QUESTIONS_UNPUBLISHED_SUCCESS');
       });
     }

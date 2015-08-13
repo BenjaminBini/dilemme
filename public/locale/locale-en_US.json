@@ -112,6 +112,8 @@
   "USER_REMOVED_SUCCESS": "User has been deleted",
   "AUTHENTICATION_REQUIRED": "Authentication required",
   "NOT_AUTHORIZED": "You are not authorized to perform this action",
+  "NO_USER_YET": "No user yet",
+  "USERS_ANSWERS": "Users answers",
 
   "LIKE": "Like",
   "PLEASE": "Please",

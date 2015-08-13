@@ -191,3 +191,17 @@ exports.getUserStats = function (req, res) {
     });
   });
 };
+
+/**
+ * Return the list of users who answered a question
+ */
+exports.getUsersByAnsweredQuestion = function (req, res) {
+  User.find({"answers.question": req.params.questionId}).then(function (collection) {
+    res.send(collection);
+  }, function (err) {
+    res.status(400);
+    return res.send({
+      reason: err.toString()
+    });
+  });
+};

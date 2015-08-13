@@ -28,7 +28,7 @@
   "QUESTION": "Question",
   "YOUR_QUESTIONS": "Vos questions",
   "PUBLISHED_QUESTIONS": "Questions publiées",
-  "NO_QUESTION_YET": "Pas encore de questions",
+  "NO_QUESTION_YET": "Pas encore de question",
   "EDIT_THIS_QUESTION": "Editer cette question",
   "NEXT_QUESTION": "Question suivante",
   "DETAILS": "Détails",
@@ -112,6 +112,8 @@
   "USER_REMOVED_SUCCESS": "L'utilisateur a été supprimé avec succès",
   "AUTHENTICATION_REQUIRED": "Veuillez vous connecter ou vous inscrire",
   "NOT_AUTHORIZED": "Vous n'avez pas les droits nécessaires pour réaliser cette action",
+  "NO_USER_YET": "Pas encore d'utilisateur",
+  "USERS_ANSWERS": "Réponses utilisateurs",
 
   "LIKE": "Comme",
   "PLEASE": "Veuillez",

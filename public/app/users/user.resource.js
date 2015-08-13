@@ -8,6 +8,11 @@ function User($resource) {
       method: 'GET',
       isArray: false,
       url: '/api/users/:_id/stats'
+    },
+    getByAnsweredQuestion: {
+      method: 'GET',
+      isArray: true,
+      url: '/api/users/answeredQuestion/:_questionId'
     }
   });
 

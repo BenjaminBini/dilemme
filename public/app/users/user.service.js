@@ -45,6 +45,22 @@ function UserService($q, User) {
       });
 
       return dfd.promise;
+    },
+    getByAnsweredQuestion: function (question) {
+      var dfd = $q.defer();
+      var i, j;
+      User.getByAnsweredQuestion({_questionId: question._id}).$promise.then(function (users) {
+        for (i = 0; i < users.length; i++) {
+          for (j = 0; j < users[i].answers.length; j++) {
+            if (users[i].answers[j].question == question._id) {
+              users[i].answer = users[i].answers[j].answer;
+            }
+          }
+        }
+        dfd.resolve(users);
+      });
+
+      return dfd.promise;
     }
   };
 }
