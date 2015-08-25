@@ -8,10 +8,9 @@ angular.module('app').directive('tagsInput', function () {
       isLoaded: '=?'
     },
     link: function link(scope, element, attrs) {
-      var loadedListener = scope.$watch(attrs.isLoaded, function (isLoaded) {
+      scope.$watch(attrs.isLoaded, function (isLoaded) {
         if (isLoaded) {
           $('input', element).tagsinput();
-          loadedListener();
         }
       });
     }
