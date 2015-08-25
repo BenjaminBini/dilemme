@@ -59,8 +59,8 @@ userSchema.methods = {
   /**
    * Override "toJSON" method to hide hashedPassword
    */
-  toJSON: function () {
-    var user = this.toObject();
+  toJSON: function (options) {
+    var user = this.toObject(options);
     delete user.hashedPassword;
     delete user.salt;
     return user;
