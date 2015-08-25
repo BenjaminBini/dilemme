@@ -11,6 +11,11 @@ function QuestionDetailController($scope, $routeParams, $location, NotifierServi
       originalQuestion = question;
       $scope.question = question;
       $scope.isLoaded = true;
+
+      UserService.getByAnsweredQuestion(question).then(function (users) {
+        $scope.users = users;
+      });
+
     }, function (reason) {
       NotifierService.error(reason);
     });
@@ -76,14 +81,6 @@ function QuestionDetailController($scope, $routeParams, $location, NotifierServi
       NotifierService.notify('QUESTION_UNPUBLISHED_SUCCESS');
     });
   };
-
-  $scope.$watch('question', function (question) {
-    if (!!question && !!question._id) {
-      UserService.getByAnsweredQuestion(question).then(function (users) {
-        $scope.users = users;
-      });
-    }
-  });
 }
 
 QuestionDetailController.$inject = ['$scope', '$routeParams', '$location', 'NotifierService', 'QuestionService', 'ModalService', 'UserService'];
