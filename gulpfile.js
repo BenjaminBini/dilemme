@@ -11,7 +11,7 @@ var jade = require('gulp-jade');
 var nodemon = require('gulp-nodemon');
 var jshint = require('gulp-jshint');
 var jscs = require('gulp-jscs');
-var noop = function () {};
+var noop = function() {};
 var stylish = require('gulp-jscs-stylish');
 
 var DIST_DIR = './public/dist';
