@@ -8,8 +8,8 @@ var rename = require('gulp-rename');
 var sourcemaps = require('gulp-sourcemaps');
 var stylus = require('gulp-stylus');
 var jade = require('gulp-jade');
-var watch = require('gulp-watch');
 var nodemon = require('gulp-nodemon');
+var jshint = require('gulp-jshint');
 
 var DIST_DIR = './public/dist';
 var JS_DIR = DIST_DIR + '/js';
@@ -59,9 +59,14 @@ var CSS_SRC = ['./public/css/socicon.css',
 
 var VIEW_SRC = ['./public/app/**/*.jade'];
 
-var DIRECTIVE_SRC = ['./public/app/directives/**/*.jade'];
+// yvar DIRECTIVE_SRC = ['./public/app/directives/**/*.jade'];
 
 var STYLUS_SRC = ['./public/css/*.styl'];
+
+var TO_LINT_SRC = ['./public/app/**/*.js',
+                   './server.js',
+                   './server/**/*.js',
+                  '!./public/**/bootstrap-tagsinput.js'];
 
 gulp.task('default', function () {
   gulp.start('build');
@@ -136,4 +141,10 @@ gulp.task('watch-server', function () {
     script: 'server.js',
     watch: './server'
   });
+});
+
+gulp.task('lint', function () { 
+  gulp.src(TO_LINT_SRC)
+    .pipe(jshint())
+    .pipe(jshint.reporter('jshint-stylish'));
 });

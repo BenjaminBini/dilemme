@@ -10,7 +10,7 @@ angular.module('app').directive('answerButton', function () {
       'answered': '=?',
       'sendAnswer': '&onClick'
     },
-    link: function link(scope, element, attrs) {
+    link: function link(scope, element) {
       // Animate on click
       var button, circle, d, x, y;
       $('.answer', element).on('click', function (e) {

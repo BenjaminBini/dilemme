@@ -60,7 +60,7 @@ exports.count = function (req, res) {
  */
 exports.getQuestionsByAuthor = function (req, res) {
   // Check if the user is authorized (admin or current user)
-  if (req.user._id != req.params.id && !req.user.hasRole('admin')) {
+  if (req.user._id != req.params.id && !req.user.hasRole('admin')) { // jshint ignore:line
     res.status(403);
     return res.send();
   }
@@ -107,8 +107,7 @@ exports.getQuestionById = function (req, res) {
       return res.send({reason: 'QUESTION_DOES_NOT_EXIST'});
     }
     // If the user is not an admin and the question is not published: not authorized
-    if (question.status === 0
-        && !(req.user && req.user.hasRole('admin'))) {
+    if (question.status === 0 && !(req.user && req.user.hasRole('admin'))) {
       res.status(403);
       return res.send({reason: 'NOT_AUTHORIZED'});
     }

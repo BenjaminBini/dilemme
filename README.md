@@ -59,3 +59,11 @@ $ gulp watch
 * Watch for any change in Stylus sources and rebuild them
 * Same for Jade files
 * Watch for any change in JS files inside of /server directory and relaunch server.js
+
+## Lint
+
+```sh
+$ gulp lint
+```
+
+* Run JSHint on sources

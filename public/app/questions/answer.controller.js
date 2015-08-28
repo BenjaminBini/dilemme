@@ -80,11 +80,11 @@ function AnswerController($scope, QuestionService, $location, NotifierService, I
    * @type {Array}
    */
   $scope.sortOptions = [{
-    value: "date",
-    text: "Sort by date"
+    value: 'date',
+    text: 'Sort by date'
   }, {
-    value: "upvotes",
-    text: "Sort by upvotes"
+    value: 'upvotes',
+    text: 'Sort by upvotes'
   }];
 
   /**
@@ -99,7 +99,7 @@ function AnswerController($scope, QuestionService, $location, NotifierService, I
    * Go to next question
    */
   $scope.nextQuestion = function () {
-    var question = QuestionService.getUnansweredQuestion().then(function (question) {
+    QuestionService.getUnansweredQuestion().then(function (question) {
       $scope.question = question;
       $location.path('/questions/' + question._id, false);
     });
@@ -172,7 +172,7 @@ function AnswerController($scope, QuestionService, $location, NotifierService, I
       }
       if (answers) {
         for (i = 0; i < answers.length; i++) {
-          if (answers[i].question._id == question._id) {
+          if (answers[i].question._id === question._id) {
             $scope.userAnswer = answers[i].answer;
             $scope.results = QuestionService.getProportions($scope.question);
             $scope.answered = true;

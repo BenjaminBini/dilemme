@@ -75,7 +75,7 @@ exports.createSuggestion = function (req, res) {
  */
 exports.getSuggestionsByUser = function (req, res) {
   // Check if the user is authorized (admin or current user)
-  if (req.user._id != req.params.id && !req.user.hasRole('admin')) {
+  if (req.user._id != req.params.id && !req.user.hasRole('admin')) { // jshint ignore:line
     res.status(403);
     return res.send();
   }

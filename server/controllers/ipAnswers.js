@@ -1,4 +1,4 @@
 /**
  * IpAnswers controller
  */
-var IpAnswers = require('mongoose').model('ipAnswers');
+require('mongoose').model('ipAnswers');

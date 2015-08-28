@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var ipAnswersModel = require('../models/IpAnswers');
+require('../models/IpAnswers');
 var Deferred = require('promised-io/promise').Deferred;
 var Question;
 

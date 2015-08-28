@@ -99,7 +99,7 @@ exports.updateUser = function (req, res) {
   var userUpdates = req.body;
 
   // Check if the user is authorized (admin or current user)
-  if (req.user._id != req.params.id && !req.user.hasRole('admin')) {
+  if (req.user._id != req.params.id && !req.user.hasRole('admin')) { // jshint ignore:line
     res.status(403);
     return res.end();
   }
@@ -125,7 +125,7 @@ exports.updateUser = function (req, res) {
       user.hashedPassword = encrypt.hashPassword(user.salt, userUpdates.password);
     }
     // If the modified user is the logged in user, let's reset it
-    if (req.user._id == req.params.id) {
+    if (req.user._id == req.params.id) { // jshint ignore:line
       req.user = user;
     }
     // Save the user
@@ -176,7 +176,8 @@ exports.deleteUser = function (req, res) {
   */
 exports.getUserStats = function (req, res) {
   // Check if the user is authorized (admin or current user)
-  if (req.user._id != req.params.id && !req.user.hasRole('admin')) {
+  // 
+  if (req.user._id != req.params.id && !req.user.hasRole('admin')) { // jshint ignore:line
     res.status(403);
     return res.end();
   }
@@ -196,7 +197,7 @@ exports.getUserStats = function (req, res) {
  * Return the list of users who answered a question
  */
 exports.getUsersByAnsweredQuestion = function (req, res) {
-  User.find({"answers.question": req.params.questionId}).then(function (collection) {
+  User.find({'answers.question': req.params.questionId}).then(function (collection) {
     res.send(collection);
   }, function (err) {
     res.status(400);

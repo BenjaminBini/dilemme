@@ -3,7 +3,6 @@
  * Routes configuration
  */
 var auth = require('./auth');
-var mongoose = require('mongoose');
 var users = require('../controllers/users');
 var questions = require('../controllers/questions');
 var suggestions = require('../controllers/suggestions');

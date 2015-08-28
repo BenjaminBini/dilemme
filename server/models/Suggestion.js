@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var Deffered = require("promised-io/promise").Deferred;
+var Deffered = require('promised-io/promise').Deferred;
 var Suggestion;
 
 /**

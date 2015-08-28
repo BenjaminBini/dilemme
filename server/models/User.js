@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var validator = require('validator');
 var encrypt = require('../utils/encryption');
-var Deffered = require("promised-io/promise").Deferred;
+var Deffered = require('promised-io/promise').Deferred;
 var User;
 
 /**
@@ -192,7 +192,7 @@ exports.createDefaultEntries = function () {
       var salt, hash;
       salt = encrypt.createSalt();
       hash = encrypt.hashPassword(salt, 'joe');
-      User.create({username: 'joe', email: 'joe@joe.joe', salt: salt, hashedPassword: hash, roles: ["admin"], registrationDate: new Date('10/02/2015') });
+      User.create({username: 'joe', email: 'joe@joe.joe', salt: salt, hashedPassword: hash, roles: ['admin'], registrationDate: new Date('10/02/2015') });
       salt = encrypt.createSalt();
       hash = encrypt.hashPassword(salt, 'ben');
       User.create({username: 'ben', email: 'ben@ben.ben', salt: salt, hashedPassword: hash, roles: [], registrationDate: new Date('10/02/2014')});
