@@ -4,14 +4,10 @@
 var mongoose = require('mongoose');
 var Question = mongoose.model('Question');
 
-
 /**
  * Add a comment to a question
- * @param  {[type]} req Request
- * @param  {[type]} res Response
- * @return {[type]}     
  */
-exports.commentQuestion = function (req, res) {
+exports.commentQuestion = function(req, res) {
   var questionId = req.params.id;
   var comment = req.body;
   if (comment.text && comment.text.length > 1000) {
@@ -20,7 +16,7 @@ exports.commentQuestion = function (req, res) {
       reason: 'TOO_LONG_COMMENT'
     });
   }
-  Question.findOne({_id: questionId}).exec(function (err, question) {
+  Question.findOne({_id: questionId}).exec(function(err, question) {
     if (!question) {
       res.status(400);
       return res.send({
@@ -32,14 +28,14 @@ exports.commentQuestion = function (req, res) {
     }
     comment.author = req.user._id;
     question.comments.push(comment);
-    question.save(function (err) {
+    question.save(function(err) {
       if (err) {
         res.status(400);
         return res.send({
           reason: err.toString()
         });
       }
-      question.populateQuestion().then(function () {
+      question.populateQuestion().then(function() {
         return res.send(question);
       });
     });
@@ -48,14 +44,11 @@ exports.commentQuestion = function (req, res) {
 
 /**
  * Delete a comment
- * @param  {[type]} req Request
- * @param  {[type]} res Response
- * @return {[type]}     
  */
-exports.deleteComment = function (req, res) {
+exports.deleteComment = function(req, res) {
   var questionId = req.params.id;
   var commentId = req.params.commentId;
-  Question.findOne({_id: questionId}).exec(function (err, question) {
+  Question.findOne({_id: questionId}).exec(function(err, question) {
     if (err) {
       return;
     }
@@ -73,14 +66,14 @@ exports.deleteComment = function (req, res) {
       });
     }
     comment.remove();
-    question.save(function (err) {
+    question.save(function(err) {
       if (err) {
         res.status(400);
         return res.send({
           reason: err.toString()
         });
       }
-      question.populateQuestion().then(function () {
+      question.populateQuestion().then(function() {
         return res.send(question);
       });
     });
@@ -89,15 +82,12 @@ exports.deleteComment = function (req, res) {
 
 /**
  * Upvote a comment
- * @param  {[type]} req Request
- * @param  {[type]} res Response
- * @return {[type]}     
  */
-exports.upvoteComment = function (req, res) {
+exports.upvoteComment = function(req, res) {
   var questionId = req.params.id;
   var commentId = req.params.commentId;
   var i;
-  Question.findOne({_id: questionId}).exec(function (err, question) {
+  Question.findOne({_id: questionId}).exec(function(err, question) {
     if (err) {
       return;
     }
@@ -123,7 +113,7 @@ exports.upvoteComment = function (req, res) {
       }
     }
     req.user.commentUpvotes.push(commentId);
-    req.user.save(function (err) {
+    req.user.save(function(err) {
       if (err) {
         res.status(400);
         return res.send({
@@ -131,14 +121,14 @@ exports.upvoteComment = function (req, res) {
         });
       }
       comment.upvotes = comment.upvotes + 1;
-      question.save(function (err) {
+      question.save(function(err) {
         if (err) {
           res.status(400);
           return res.send({
             reason: err.toString()
           });
         }
-        question.populateQuestion().then(function () {
+        question.populateQuestion().then(function() {
           return res.send(question);
         });
       });

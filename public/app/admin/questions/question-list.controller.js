@@ -1,6 +1,6 @@
 function QuestionListController($scope, $filter, QuestionService, NotifierService) {
 
-  QuestionService.getAll().then(function (questions) {
+  QuestionService.getAll().then(function(questions) {
     $scope.questions = questions;
   });
 
@@ -22,11 +22,11 @@ function QuestionListController($scope, $filter, QuestionService, NotifierServic
     selected: $scope.sortOptions[0].value
   };
 
-  $scope.publishSelection = function () {
+  $scope.publishSelection = function() {
     var selectedQuestions = $filter('filter')($scope.questions, {selected: true});
     if (selectedQuestions.length > 0) {
-      QuestionService.publishQuestions(selectedQuestions).then(function () {
-        angular.forEach(selectedQuestions, function (question) {
+      QuestionService.publishQuestions(selectedQuestions).then(function() {
+        angular.forEach(selectedQuestions, function(question) {
           question.selected = true;
         });
         NotifierService.notify('QUESTIONS_PUBLISHED_SUCCESS');
@@ -34,11 +34,11 @@ function QuestionListController($scope, $filter, QuestionService, NotifierServic
     }
   };
 
-  $scope.unpublishSelection = function () {
+  $scope.unpublishSelection = function() {
     var selectedQuestions = $filter('filter')($scope.questions, {selected: true});
     if (selectedQuestions.length > 0) {
-      QuestionService.unpublishQuestions(selectedQuestions).then(function () {
-        angular.forEach(selectedQuestions, function (question) {
+      QuestionService.unpublishQuestions(selectedQuestions).then(function() {
+        angular.forEach(selectedQuestions, function(question) {
           question.selected = true;
         });
         NotifierService.notify('QUESTIONS_UNPUBLISHED_SUCCESS');
@@ -47,9 +47,9 @@ function QuestionListController($scope, $filter, QuestionService, NotifierServic
   };
 
   var allSelected = false;
-  $scope.toggleAll = function () {
+  $scope.toggleAll = function() {
     allSelected = !allSelected;
-    angular.forEach($scope.questions, function (question) {
+    angular.forEach($scope.questions, function(question) {
       question.selected = allSelected;
     });
   };

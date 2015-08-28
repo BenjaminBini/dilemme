@@ -6,7 +6,8 @@ function UserListController($scope, User) {
     text: 'Sort by username'
   }, {
     value: '- registrationDate',
-    text: 'Sort by registration date'  }, {
+    text: 'Sort by registration date'
+  }, {
     value: '- role',
     text: 'Sort by role'
   }];

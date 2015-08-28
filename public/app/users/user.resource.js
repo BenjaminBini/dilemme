@@ -16,7 +16,7 @@ function User($resource) {
     }
   });
 
-  UserResource.prototype.isAdmin = function () {
+  UserResource.prototype.isAdmin = function() {
     return this.roles && this.roles.indexOf('admin') > -1;
   };
 

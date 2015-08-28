@@ -3,8 +3,8 @@
  */
 function odometerConfiguration(odometerOptionsProvider) {
   odometerOptionsProvider.defaults = {
-    duration : 5000,
-    theme    : 'minimal'
+    duration: 5000,
+    theme: 'minimal'
   };
 }
 

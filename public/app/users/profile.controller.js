@@ -3,7 +3,7 @@ function ProfileController($scope, AuthService, SuggestionService, QuestionServi
   $scope.email = IdentityService.currentUser.email;
   $scope.currentUser = IdentityService.currentUser;
 
-  $scope.update = function () {
+  $scope.update = function() {
     var newUserData = {
       username: $scope.username,
       email: $scope.email,
@@ -11,18 +11,18 @@ function ProfileController($scope, AuthService, SuggestionService, QuestionServi
     if ($scope.password && $scope.password.length > 0) {
       newUserData.password = $scope.password;
     }
-    AuthService.updateCurrentUser(newUserData).then(function () {
+    AuthService.updateCurrentUser(newUserData).then(function() {
       NotifierService.notify('PROFILE_UPDATE_SUCCESS');
-    }, function (reason) {
+    }, function(reason) {
       NotifierService.error(reason);
     });
   };
 
-  SuggestionService.getSuggestionsByUser(IdentityService.currentUser).then(function (suggestions) {
+  SuggestionService.getSuggestionsByUser(IdentityService.currentUser).then(function(suggestions) {
     $scope.suggestions = suggestions;
   });
 
-  QuestionService.getQuestionsByAuthor(IdentityService.currentUser).then(function (questions) {
+  QuestionService.getQuestionsByAuthor(IdentityService.currentUser).then(function(questions) {
     $scope.questions = questions;
   });
 }

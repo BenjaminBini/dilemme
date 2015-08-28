@@ -10,6 +10,9 @@ var stylus = require('gulp-stylus');
 var jade = require('gulp-jade');
 var nodemon = require('gulp-nodemon');
 var jshint = require('gulp-jshint');
+var jscs = require('gulp-jscs');
+var noop = function () {};
+var stylish = require('gulp-jscs-stylish');
 
 var DIST_DIR = './public/dist';
 var JS_DIR = DIST_DIR + '/js';
@@ -146,5 +149,8 @@ gulp.task('watch-server', function () {
 gulp.task('lint', function () { 
   gulp.src(TO_LINT_SRC)
     .pipe(jshint())
+    .pipe(jscs())
+    .on('error', noop) 
+    .pipe(stylish.combineWithHintResults()) // combine with jshint results
     .pipe(jshint.reporter('jshint-stylish'));
 });

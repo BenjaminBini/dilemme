@@ -1,4 +1,4 @@
-angular.module('app').directive('answerButton', function () {
+angular.module('app').directive('answerButton', function() {
   return {
     restrict: 'E',
     templateUrl: '/directives-templates/answer-button/answer-button',
@@ -12,8 +12,12 @@ angular.module('app').directive('answerButton', function () {
     },
     link: function link(scope, element) {
       // Animate on click
-      var button, circle, d, x, y;
-      $('.answer', element).on('click', function (e) {
+      var button;
+      var circle;
+      var d;
+      var x;
+      var y;
+      $('.answer', element).on('click', function(e) {
         if (!scope.answered) {
           button = $(this);
           if (button.find('.circle').length === 0) {

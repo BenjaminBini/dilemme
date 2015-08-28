@@ -7,14 +7,14 @@ angular.module('app', ['ngResource', 'ngRoute', 'ui.select',
 
 function initConfig($route, $rootScope, $location, IdentityService, $translate, $window) {
   // Redirect to homepage if not authorized
-  $rootScope.$on('$routeChangeError', function (event, current, previous, rejection) {
+  $rootScope.$on('$routeChangeError', function(event, current, previous, rejection) {
     if (rejection === 'not authorized') {
       $location.path('/');
     }
   });
 
   // Set title
-  $translate('SITE_NAME').then(function (siteName) {
+  $translate('SITE_NAME').then(function(siteName) {
     $window.document.title = siteName;
   });
 
@@ -22,17 +22,17 @@ function initConfig($route, $rootScope, $location, IdentityService, $translate, 
   $rootScope.identity = IdentityService;
 
   // Set animation in rootScope
-  $rootScope.$on('$routeChangeStart', function (event, currentRoute) {
+  $rootScope.$on('$routeChangeStart', function(event, currentRoute) {
     $rootScope.animation = currentRoute.animation;
   });
 
   // Custom $location.path method
   // Add a parameter that allows not to run controller on location change
   var original = $location.path;
-  $location.path = function (path, reload) {
+  $location.path = function(path, reload) {
     if (reload === false) {
       var lastRoute = $route.current;
-      var un = $rootScope.$on('$locationChangeSuccess', function () {
+      var un = $rootScope.$on('$locationChangeSuccess', function() {
         $route.current = lastRoute;
         un();
       });

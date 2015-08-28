@@ -3,7 +3,7 @@ require('../models/IpAnswers');
 var Deferred = require('promised-io/promise').Deferred;
 var Question;
 
-/** 
+/**
  * Comment schema
  */
 var commentSchema = mongoose.Schema({
@@ -78,12 +78,12 @@ var IpAnswers = mongoose.model('IpAnswers');
  * Question schema methods
  */
 questionSchema.methods = {
-  hasBeenAnswered: function (user, ip) {
+  hasBeenAnswered: function(user, ip) {
     var self = this;
     var q = new Deferred();
     var i;
     if (!user) { // Anonymous mode
-      IpAnswers.find({ip: ip}, function (err, ipAnswers) {
+      IpAnswers.find({ip: ip}, function(err, ipAnswers) {
         if (err) { // Error case : resolve with true
           q.resolve(true);
         } else {
@@ -91,7 +91,7 @@ questionSchema.methods = {
             IpAnswers.create({
               ip: ip,
               answers: []
-            }, function (err) {
+            }, function(err) {
               if (err) {
                 q.resolve(true);
               } else {
@@ -131,7 +131,7 @@ questionSchema.methods = {
     }
     return q.promise;
   },
-  populateQuestion: function () {
+  populateQuestion: function() {
     var question = this;
     var q = new Deferred();
     Question.populate(question, [{
@@ -142,7 +142,7 @@ questionSchema.methods = {
       path: 'author',
       select: 'username',
       model: 'User'
-    }], function (err) {
+    }], function(err) {
       if (err) {
         q.reject();
       } else {
@@ -155,11 +155,9 @@ questionSchema.methods = {
 
 /**
  * Get a random question
- * @param  {Function} callback [description]
- * @return {[type]}            [description]
  */
-questionSchema.statics.random = function (callback) {
-  this.count({status: 1}, function (err, count) {
+questionSchema.statics.random = function(callback) {
+  this.count({status: 1}, function(err, count) {
     if (err) {
       return callback(err);
     }
@@ -168,14 +166,13 @@ questionSchema.statics.random = function (callback) {
   }.bind(this));
 };
 
-
 Question = mongoose.model('Question', questionSchema);
 
 /**
  * Create default questions in the db
  */
-exports.createDefaultEntries = function () {
-  Question.find({}).exec(function (err, collection) {
+exports.createDefaultEntries = function() {
+  Question.find({}).exec(function(err, collection) {
     if (err) {
       return;
     }

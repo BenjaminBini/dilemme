@@ -1,29 +1,29 @@
 function RegisterController($scope, NotifierService, AuthService, $location) {
-  $scope.registerFromPage = function () {
+  $scope.registerFromPage = function() {
     var newUserData = {
       email: $scope.email,
       username: $scope.username,
       password: $scope.password
     };
 
-    AuthService.registerUser(newUserData).then(function () {
+    AuthService.registerUser(newUserData).then(function() {
       NotifierService.notify('USER_CREATED_SUCCESS');
       $location.path('/');
-    }, function (reason) {
+    }, function(reason) {
       NotifierService.error(reason);
     });
   };
 
-  $scope.registerFromModal = function () {
+  $scope.registerFromModal = function() {
     var newUserData = {
       email: $scope.email,
       username: $scope.username,
       password: $scope.password
     };
-    AuthService.registerUser(newUserData).then(function () {
+    AuthService.registerUser(newUserData).then(function() {
       NotifierService.notify('USER_CREATED_SUCCESS');
       $scope.closeThisDialog();
-    }, function (reason) {
+    }, function(reason) {
       NotifierService.error(reason);
     });
   };

@@ -1,5 +1,5 @@
 function proportion(QuestionService) {
-  return function (question, answer) {
+  return function(question, answer) {
     var proportions = QuestionService.getProportions(question);
     if (!proportions) {
       return;

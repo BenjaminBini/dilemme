@@ -8,7 +8,7 @@ var ipAnswersSchema = mongoose.Schema({
     type: String,
     required: '{PATH} is required'
   },
-  answers : [{
+  answers: [{
     question: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Question',
@@ -37,8 +37,8 @@ ipAnswersSchema.methods = {
 /**
  * Create default entry in the db
  */
-exports.createDefaultEntries = function () {
-  IpAnswers.find({}).exec(function (err, collection) {
+exports.createDefaultEntries = function() {
+  IpAnswers.find({}).exec(function(err, collection) {
     if (err) {
       return;
     }

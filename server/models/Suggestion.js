@@ -7,19 +7,18 @@ var Suggestion;
  */
 var suggestionSchema = mongoose.model('Question').schema;
 
-
 /**
  * Suggestion schema methods
  */
 suggestionSchema.methods = {
-  populateSuggestion: function () {
+  populateSuggestion: function() {
     var suggestion = this;
     var q = new Deffered();
     Suggestion.populate(suggestion, [{
       path: 'author',
       select: 'username',
       model: 'User'
-    }], function (err) {
+    }], function(err) {
       if (err) {
         q.reject();
       } else {
@@ -35,8 +34,8 @@ Suggestion = mongoose.model('Suggestion', suggestionSchema);
 /**
  * Create default suggestions in the db
  */
-exports.createDefaultEntries = function () {
-  Suggestion.find({}).exec(function (err, collection) {
+exports.createDefaultEntries = function() {
+  Suggestion.find({}).exec(function(err, collection) {
     if (err) {
       return;
     }

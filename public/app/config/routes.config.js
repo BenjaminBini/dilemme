@@ -7,17 +7,16 @@ function routesConfig($routeProvider, $locationProvider) {
    */
   var routeRolesCheck = {
     admin: {
-      auth: ['AuthService', function (AuthService) {
+      auth: ['AuthService', function(AuthService) {
         return AuthService.authorizeCurrentUserForRoute('admin');
       }]
     },
     user: {
-      auth: ['AuthService', function (AuthService) {
+      auth: ['AuthService', function(AuthService) {
         return AuthService.authorizeAuthenticatedUserForRoute();
       }]
     }
   };
-
 
   /**
    * Use HTML5 mode (no # in route)

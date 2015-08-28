@@ -1,5 +1,5 @@
-angular.module('app').filter('authorCssClass', function () {
-  return function (comment, question) {
+angular.module('app').filter('authorCssClass', function() {
+  return function(comment, question) {
     var i;
     if (!comment.author || !comment.author.answers) {
       return;

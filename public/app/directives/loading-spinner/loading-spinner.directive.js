@@ -2,14 +2,14 @@ function loadingSpinner($http) {
   return {
     restrict: 'E',
     templateUrl: '/directives-templates/loading-spinner/loading-spinner',
-    link: function (scope, element) {
-      scope.isLoading = function () {
+    link: function(scope, element) {
+      scope.isLoading = function() {
         return $http.pendingRequests.length > 0;
       };
       var timer = 0;
-      scope.$watch(scope.isLoading, function (isLoading) {
+      scope.$watch(scope.isLoading, function(isLoading) {
         if (isLoading) {
-          timer = setTimeout(function () {
+          timer = setTimeout(function() {
             element.fadeIn();
           }, 300);
         } else {

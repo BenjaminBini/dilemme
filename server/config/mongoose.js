@@ -8,7 +8,7 @@ var questionModel = require('../models/Question');
 var suggestionModel = require('../models/Suggestion');
 var ipAnswersModel = require('../models/IpAnswers');
 
-module.exports = function (config) {
+module.exports = function(config) {
   // Mongodb connection
   mongoose.connect(config.dbURI, {user: config.dbUser, pass: config.dbPassword});
   var db = mongoose.connection;

@@ -2,12 +2,13 @@ function AnswerController($scope, QuestionService, $location, NotifierService, I
 
   /**
    * Answer the question
+   *
    * @param  {Number} answer Answer of the question (0 or 1)
    */
-  $scope.answer = function (answer) {
+  $scope.answer = function(answer) {
     if (!$scope.answered) {
       $scope.results = QuestionService.getProportions($scope.question);
-      QuestionService.answerQuestion($scope.question, answer).then(function () {
+      QuestionService.answerQuestion($scope.question, answer).then(function() {
         $scope.results = QuestionService.getProportions($scope.question);
         // Push the answer to current user answer list if authenticated
         if (IdentityService.isAuthenticated()) {
@@ -18,7 +19,7 @@ function AnswerController($scope, QuestionService, $location, NotifierService, I
         } else { // Push it in the local storage/cookie
           QuestionService.saveAnswerLocally($scope.question, answer);
         }
-      }, function (reason) {
+      }, function(reason) {
         NotifierService.error(reason);
       });
     }
@@ -27,37 +28,39 @@ function AnswerController($scope, QuestionService, $location, NotifierService, I
   /**
    * Upvote the question
    */
-  $scope.upvote = function () {
-    QuestionService.upvoteQuestion($scope.question).then(function () {
-    }, function (reason) {
+  $scope.upvote = function() {
+    QuestionService.upvoteQuestion($scope.question).then(function() {
+    }, function(reason) {
       NotifierService.error(reason);
     });
   };
 
   /**
    * Add a comment to the question
+   *
    * @param  {String} comment The comment to add
    */
-  $scope.comment = function (comment) {
-    QuestionService.commentQuestion($scope.question, comment).then(function (question) {
+  $scope.comment = function(comment) {
+    QuestionService.commentQuestion($scope.question, comment).then(function(question) {
       NotifierService.notify('COMMENT_POSTED');
       $scope.question = question;
-    }, function (reason) {
+    }, function(reason) {
       NotifierService.error(reason);
     });
   };
 
   /**
    * Delete a comment
+   *
    * @param  {String} commentId Id of the comment to delete
    */
-  $scope.deleteComment = function (commentId) {
+  $scope.deleteComment = function(commentId) {
     $scope.itemType = 'COMMENT';
-    ModalService.confirmDelete($scope).then(function (data) {
+    ModalService.confirmDelete($scope).then(function(data) {
       if (data.value === 'confirm') {
-        QuestionService.deleteComment($scope.question, commentId).then(function () {
+        QuestionService.deleteComment($scope.question, commentId).then(function() {
           NotifierService.notify('COMMENT_REMOVED');
-        }, function (reason) {
+        }, function(reason) {
           NotifierService.error(reason);
         });
       }
@@ -66,17 +69,19 @@ function AnswerController($scope, QuestionService, $location, NotifierService, I
 
   /**
    * Upvote a comment
+   *
    * @param  {String} commentId Id of the comment to delete
    */
-  $scope.upvoteComment = function (commentId) {
-    QuestionService.upvoteComment($scope.question, commentId).then(function () {
-    }, function (reason) {
+  $scope.upvoteComment = function(commentId) {
+    QuestionService.upvoteComment($scope.question, commentId).then(function() {
+    }, function(reason) {
       NotifierService.error(reason);
     });
   };
 
   /**
    * Comment sort options
+   *
    * @type {Array}
    */
   $scope.sortOptions = [{
@@ -89,7 +94,6 @@ function AnswerController($scope, QuestionService, $location, NotifierService, I
 
   /**
    * Selected sort order
-   * @type {Object}
    */
   $scope.sortOrder = {
     selected: $scope.sortOptions[0].value
@@ -98,8 +102,8 @@ function AnswerController($scope, QuestionService, $location, NotifierService, I
   /**
    * Go to next question
    */
-  $scope.nextQuestion = function () {
-    QuestionService.getUnansweredQuestion().then(function (question) {
+  $scope.nextQuestion = function() {
+    QuestionService.getUnansweredQuestion().then(function(question) {
       $scope.question = question;
       $location.path('/questions/' + question._id, false);
     });
@@ -117,21 +121,21 @@ function AnswerController($scope, QuestionService, $location, NotifierService, I
   /**
    * Open the registration modal
    */
-  $scope.openRegisterModal = function () {
+  $scope.openRegisterModal = function() {
     ModalService.register();
   };
 
   /**
    * Open the login modal
    */
-  $scope.openLoginModal = function () {
+  $scope.openLoginModal = function() {
     ModalService.login();
   };
 
   /**
    * Share the question on FB
    */
-  $scope.facebookShare = function () {
+  $scope.facebookShare = function() {
     FB.ui({
       method: 'feed',
       name: 'Dilemme : ' + $scope.question.text + ' ' + $scope.question.answers[0].text + ' or ' + $scope.question.answers[1].text + ' ?',
@@ -143,7 +147,7 @@ function AnswerController($scope, QuestionService, $location, NotifierService, I
   /**
    * Share the question on Twitter
    */
-  $scope.twitterShare = function () {
+  $scope.twitterShare = function() {
     var link = 'https://twitter.com/share?';
     link += 'url=http://dilemme.io/questions/' + $scope.question._id;
     link += '&text=Dilemme : ' + $scope.question.text + ' ' + $scope.question.answers[0].text + ' or ' + $scope.question.answers[1].text + ' ?';
@@ -159,7 +163,7 @@ function AnswerController($scope, QuestionService, $location, NotifierService, I
    * Check if the user has already answered the question
    * If yes, show the answer
    */
-  $scope.$watch('question', function (question) {
+  $scope.$watch('question', function(question) {
     var i;
     if (!!question) {
       $scope.answered = false;
@@ -176,7 +180,7 @@ function AnswerController($scope, QuestionService, $location, NotifierService, I
             $scope.userAnswer = answers[i].answer;
             $scope.results = QuestionService.getProportions($scope.question);
             $scope.answered = true;
-            $scope.answer = function () {};
+            $scope.answer = function() {};
             break;
           }
         }

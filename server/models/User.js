@@ -51,7 +51,6 @@ var userSchema = mongoose.Schema({
   }]
 });
 
-
 /**
  * User schema methods
  */
@@ -59,7 +58,7 @@ userSchema.methods = {
   /**
    * Override "toJSON" method to hide hashedPassword
    */
-  toJSON: function (options) {
+  toJSON: function(options) {
     var user = this.toObject(options);
     delete user.hashedPassword;
     delete user.salt;
@@ -67,27 +66,23 @@ userSchema.methods = {
   },
   /**
    * Check if the password is correct
-   * @param  passwordToMatch Password to check
-   * @return                 True if the password is correct
    */
-  authenticate: function (passwordToMatch) {
+  authenticate: function(passwordToMatch) {
     return encrypt.hashPassword(this.salt, passwordToMatch) === this.hashedPassword;
   },
   /**
    * Check if the user has the given role
-   * @param  {[type]}  role Role to check
-   * @return {Boolean}      True if the user has the role
    */
-  hasRole: function (role) {
+  hasRole: function(role) {
     return this.roles.indexOf(role) > -1;
   },
-  populateUser: function () {
+  populateUser: function() {
     var user = this;
     var q = new Deffered();
     User.populate(user, [{
       path: 'answers.question',
       model: 'Question'
-    }], function (err) {
+    }], function(err) {
       if (err) {
         q.reject();
       } else {
@@ -102,7 +97,7 @@ userSchema.methods = {
  * User static methods
  */
 userSchema.statics = {
-  validate: function (user) {
+  validate: function(user) {
     var err;
     if (validator.isEmail(user.username)) {
       err = 'Username must not be an email address';
@@ -115,10 +110,12 @@ userSchema.statics = {
   }
 };
 
-userSchema.virtual('stats').get(function () {
+userSchema.virtual('stats').get(function() {
   var answers = this.answers;
   var stats = {};
-  var i, j, k;
+  var i;
+  var j;
+  var k;
 
   // Answered questions
   stats.answered = this.answers.length;
@@ -183,16 +180,17 @@ User = mongoose.model('User', userSchema);
 /**
  * Create default users in the db
  */
-exports.createDefaultEntries = function () {
-  User.find({}).exec(function (err, collection) {
+exports.createDefaultEntries = function() {
+  User.find({}).exec(function(err, collection) {
     if (err) {
       return;
     }
     if (collection.length === 0) {
-      var salt, hash;
+      var salt;
+      var hash;
       salt = encrypt.createSalt();
       hash = encrypt.hashPassword(salt, 'joe');
-      User.create({username: 'joe', email: 'joe@joe.joe', salt: salt, hashedPassword: hash, roles: ['admin'], registrationDate: new Date('10/02/2015') });
+      User.create({username: 'joe', email: 'joe@joe.joe', salt: salt, hashedPassword: hash, roles: ['admin'], registrationDate: new Date('10/02/2015')});
       salt = encrypt.createSalt();
       hash = encrypt.hashPassword(salt, 'ben');
       User.create({username: 'ben', email: 'ben@ben.ben', salt: salt, hashedPassword: hash, roles: [], registrationDate: new Date('10/02/2014')});

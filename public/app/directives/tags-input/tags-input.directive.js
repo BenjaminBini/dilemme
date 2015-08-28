@@ -1,4 +1,4 @@
-angular.module('app').directive('tagsInput', function () {
+angular.module('app').directive('tagsInput', function() {
   return {
     restrict: 'E',
     templateUrl: '/directives-templates/tags-input/tags-input',
@@ -8,7 +8,7 @@ angular.module('app').directive('tagsInput', function () {
       isLoaded: '=?'
     },
     link: function link(scope, element, attrs) {
-      scope.$watch(attrs.isLoaded, function (isLoaded) {
+      scope.$watch(attrs.isLoaded, function(isLoaded) {
         if (isLoaded) {
           $('input', element).tagsinput();
         }

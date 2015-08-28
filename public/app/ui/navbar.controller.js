@@ -1,6 +1,6 @@
 function NavbarController($scope, $location, NotifierService, AuthService, ModalService) {
-  $scope.signin = function (email, password) {
-    AuthService.authenticateUser(email, password).then(function (success) {
+  $scope.signin = function(email, password) {
+    AuthService.authenticateUser(email, password).then(function(success) {
       if (success) {
         NotifierService.notify('SIGN_IN_SUCCESS');
       } else {
@@ -8,18 +8,18 @@ function NavbarController($scope, $location, NotifierService, AuthService, Modal
       }
     });
   };
-  $scope.signout = function () {
-    AuthService.logoutUser().then(function () {
+  $scope.signout = function() {
+    AuthService.logoutUser().then(function() {
       $scope.email = '';
       $scope.password = '';
       NotifierService.notify('SIGN_OUT_SUCCESS');
       $location.path('/');
     });
   };
-  $scope.openRegisterModal = function () {
+  $scope.openRegisterModal = function() {
     ModalService.register();
   };
-  $scope.openSuggestModal = function () {
+  $scope.openSuggestModal = function() {
     ModalService.suggestQuestion();
   };
 }

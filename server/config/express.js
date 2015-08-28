@@ -9,7 +9,7 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var passport = require('passport');
 
-module.exports = function (app, config) {
+module.exports = function(app, config) {
 
   // Parsers
   app.use(cookieParser());

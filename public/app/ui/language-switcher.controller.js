@@ -7,7 +7,7 @@ function LanguageSwitcherController($scope, $translate, localStorageService) {
     $scope.currentLanguage = $translate.use();
   }
 
-  $scope.setLanguage = function (language) {
+  $scope.setLanguage = function(language) {
     $translate.use(language);
     $scope.currentLanguage = language;
     localStorageService.set('language', language);

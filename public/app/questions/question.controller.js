@@ -1,7 +1,7 @@
 function QuestionController($scope, $routeParams, $location, QuestionService, NotifierService) {
-  QuestionService.getQuestionById($routeParams.id).then(function (question) {
+  QuestionService.getQuestionById($routeParams.id).then(function(question) {
     $scope.question = question;
-  }, function (reason) {
+  }, function(reason) {
     NotifierService.error(reason);
     $location.path('/');
   });

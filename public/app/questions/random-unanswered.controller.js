@@ -1,6 +1,6 @@
 function UnansweredQuestionRandomController($location, Question) {
   // Redirect to random question page
-  var question = Question.unansweredRandom(function () {
+  var question = Question.unansweredRandom(function() {
     $location.path('/questions/' + question._id);
   });
 }

@@ -1,6 +1,6 @@
 function LoginController($scope, NotifierService, AuthService) {
-  $scope.signin = function (email, password) {
-    AuthService.authenticateUser(email, password).then(function (success) {
+  $scope.signin = function(email, password) {
+    AuthService.authenticateUser(email, password).then(function(success) {
       if (success) {
         NotifierService.notify('SIGN_IN_SUCCESS');
         $scope.closeThisDialog();

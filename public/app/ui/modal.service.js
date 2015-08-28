@@ -1,26 +1,26 @@
 function ModalService(ngDialog) {
   return {
-    confirmDelete: function (scope) {
+    confirmDelete: function(scope) {
       return ngDialog.open({
         scope: scope,
         template: '/partials/ui/confirm-delete'
       }).closePromise;
     },
-    login: function (scope) {
+    login: function(scope) {
       return ngDialog.open({
         scope: scope,
         template: '/partials/users/login-modal',
         controller: 'LoginController'
       }).closePromise;
     },
-    register: function (scope) {
+    register: function(scope) {
       return ngDialog.open({
         scope: scope,
         template: '/partials/users/register-modal',
         controller: 'RegisterController'
       }).closePromise;
     },
-    suggestQuestion: function (scope) {
+    suggestQuestion: function(scope) {
       return ngDialog.open({
         scope: scope,
         template: '/partials/questions/suggestions/suggest-question-modal',
@@ -28,7 +28,7 @@ function ModalService(ngDialog) {
         className: 'ngdialog-theme-default ngdialog-large'
       }).closePromise;
     },
-    example: function (scope) {
+    example: function(scope) {
       ngDialog.open({
         scope: scope,
         template: '/partials/ui/example-modal'

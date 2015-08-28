@@ -1,7 +1,7 @@
 function StatsController($scope, $rootScope, UserService, QuestionService) {
   var currentUser = $rootScope.identity.currentUser;
 
-  UserService.getStats(currentUser).then(function (stats) {
+  UserService.getStats(currentUser).then(function(stats) {
     $scope.stats = stats;
     $scope.colours = ['#e74c3c', '#3498db'];
 
@@ -14,8 +14,8 @@ function StatsController($scope, $rootScope, UserService, QuestionService) {
     $scope.agreeValues = [stats.answered - stats.agree, stats.agree];
     $scope.isHipster = stats.agree < (stats.answered - stats.agree);
 
-    // Total    
-    QuestionService.count().then(function (count) {
+    // Total
+    QuestionService.count().then(function(count) {
       $scope.totalValues = [count - stats.answered, stats.answered];
       $scope.totalLabels = ['Not answered', 'Answered'];
     });

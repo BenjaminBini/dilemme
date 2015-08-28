@@ -1,5 +1,5 @@
 function MainController($scope, Question) {
-  var question = Question.unansweredRandom(function () {
+  var question = Question.unansweredRandom(function() {
     $scope.question = question;
   });
 }

@@ -8,7 +8,7 @@ var questions = require('../controllers/questions');
 var suggestions = require('../controllers/suggestions');
 var comments = require('../controllers/comments');
 
-module.exports = function (app, config) {
+module.exports = function(app, config) {
   // REST API
   // Users
   app.get('/api/users', auth.requiresRole('admin'), users.getUsers);
@@ -48,34 +48,34 @@ module.exports = function (app, config) {
   app.delete('/api/suggestions/:id', auth.requiresRole('admin'), suggestions.deleteSuggestion);
 
   // Render partials
-  app.get('/partials/*', function (req, res) {
+  app.get('/partials/*', function(req, res) {
     res.sendFile(config.rootPath + 'public/dist/views/' + req.params[0] + '.html');
   });
 
   // Render directive templates
-  app.get('/directives-templates/*', function (req, res) {
+  app.get('/directives-templates/*', function(req, res) {
     res.sendFile(config.rootPath + 'public/dist/directives-views/' + req.params[0] + '.html');
   });
 
   // Auth routes
   app.post('/login', auth.authenticate);
-  app.post('/logout', function (req, res) {
+  app.post('/logout', function(req, res) {
     req.logout();
     res.end();
   });
 
   // Return 404 for undefined api queries
-  app.all('/api/*', function (req, res) {
+  app.all('/api/*', function(req, res) {
     res.sendStatus(404);
   });
 
   // Same for Jade files
-  app.all('*.jade', function (req, res) {
+  app.all('*.jade', function(req, res) {
     res.sendStatus(404);
   });
 
   // Catch all requests
-  app.get('*', function (req, res) {
+  app.get('*', function(req, res) {
     res.render('index', {
       bootstrappedUser: req.user
     });

@@ -7,12 +7,9 @@ var User = require('mongoose').model('User');
 
 /**
  * Return array of all users
- * @param   req Request
- * @param   res Response
- * @return      Array of all users
  */
-exports.getUsers = function (req, res) {
-  User.find({}).exec(function (err, collection) {
+exports.getUsers = function(req, res) {
+  User.find({}).exec(function(err, collection) {
     if (err) {
       return;
     }
@@ -23,16 +20,13 @@ exports.getUsers = function (req, res) {
 
 /**
  * Return the user with the given id
- * @param  {[type]} req [description]
- * @param  {[type]} res [description]
- * @return {[type]}     [description]
  */
-exports.getUserById = function (req, res) {
-  User.findOne({_id: req.params.id}).exec(function (err, user) {
+exports.getUserById = function(req, res) {
+  User.findOne({_id: req.params.id}).exec(function(err, user) {
     if (err) {
       return res.send(400);
     }
-    user.populateUser().then(function () {
+    user.populateUser().then(function() {
       res.send(user);
     });
   });
@@ -40,12 +34,8 @@ exports.getUserById = function (req, res) {
 
 /**
  * Create a new user
- * @param  {[type]}   req  Request
- * @param  {[type]}   res  Response
- * @param  {Function} next Next
- * @return {[type]}        Created username
  */
-exports.createUser = function (req, res, next) {
+exports.createUser = function(req, res, next) {
   // Get the user data from the request
   var userData = req.body;
   // Encrypt password
@@ -61,7 +51,7 @@ exports.createUser = function (req, res, next) {
   }
 
   // Create user
-  User.create(userData, function (err, user) {
+  User.create(userData, function(err, user) {
     if (err) {
       // If the error is E11000, the reason is a duplicate username or email
       if (err.toString().indexOf('E11000') > -1) {
@@ -76,7 +66,7 @@ exports.createUser = function (req, res, next) {
       return res.send({reason: err});
     }
     // If no error, login the user
-    req.logIn(user, function (err) {
+    req.logIn(user, function(err) {
       // If login fail, continue the middleware chain
       if (err) {
         return next(err);
@@ -90,11 +80,8 @@ exports.createUser = function (req, res, next) {
 
 /**
  * Update a user
- * @param  {[type]}   req  Request
- * @param  {[type]}   res  Response
- * @return {[type]}        Updated user
  */
-exports.updateUser = function (req, res) {
+exports.updateUser = function(req, res) {
   // Get the user data from the request
   var userUpdates = req.body;
 
@@ -113,7 +100,7 @@ exports.updateUser = function (req, res) {
   }
 
   // Get the user we have to modify
-  User.findOne({_id: req.params.id}).exec(function (err, user) {
+  User.findOne({_id: req.params.id}).exec(function(err, user) {
     if (err || !user) {
       return res.sendStatus(400);
     }
@@ -129,7 +116,7 @@ exports.updateUser = function (req, res) {
       req.user = user;
     }
     // Save the user
-    user.save(function (err) {
+    user.save(function(err) {
       if (err) {
         // If the error is E11000, the reason is a duplicate username or email
         if (err.toString().indexOf('username') > -1) {
@@ -144,7 +131,7 @@ exports.updateUser = function (req, res) {
         });
       }
       // Send and return the user
-      user.populateUser().then(function () {
+      user.populateUser().then(function() {
         res.send(user);
         return user;
       });
@@ -154,12 +141,9 @@ exports.updateUser = function (req, res) {
 
 /**
  * Delete a user
- * @param  {[type]} req   Request
- * @param  {[type]} resp  Response
- * @return {[type]}         Deleted id
  */
-exports.deleteUser = function (req, res) {
-  User.remove({ _id: req.params.id}, function (err) {
+exports.deleteUser = function(req, res) {
+  User.remove({_id: req.params.id}, function(err) {
     if (err) {
       res.status(400);
       return res.send({
@@ -174,20 +158,20 @@ exports.deleteUser = function (req, res) {
 /**
   * Return user with his stats
   */
-exports.getUserStats = function (req, res) {
+exports.getUserStats = function(req, res) {
   // Check if the user is authorized (admin or current user)
-  // 
+  //
   if (req.user._id != req.params.id && !req.user.hasRole('admin')) { // jshint ignore:line
     res.status(403);
     return res.end();
   }
-  User.findOne({_id: req.params.id}).exec(function (err, user) {
+  User.findOne({_id: req.params.id}).exec(function(err, user) {
     if (err) {
       return res.status(400).send({
         reason: 'USER_DOES_NOT_EXIST'
       });
     }
-    user.populateUser().then(function () {
+    user.populateUser().then(function() {
       res.send(user.toJSON({virtuals: true}));
     });
   });
@@ -196,10 +180,10 @@ exports.getUserStats = function (req, res) {
 /**
  * Return the list of users who answered a question
  */
-exports.getUsersByAnsweredQuestion = function (req, res) {
-  User.find({'answers.question': req.params.questionId}).then(function (collection) {
+exports.getUsersByAnsweredQuestion = function(req, res) {
+  User.find({'answers.question': req.params.questionId}).then(function(collection) {
     res.send(collection);
-  }, function (err) {
+  }, function(err) {
     res.status(400);
     return res.send({
       reason: err.toString()

@@ -9,12 +9,9 @@ var IpAnswers = mongoose.model('IpAnswers');
 
 /**
  * Return array of all questions
- * @param   req Request
- * @param   res Response
- * @return      Array of all questions
  */
-exports.getQuestions = function (req, res) {
-  Question.find({}).exec(function (err, collection) {
+exports.getQuestions = function(req, res) {
+  Question.find({}).exec(function(err, collection) {
     if (err) {
       res.status(400);
       return res.send({reason: err.toString()});
@@ -26,8 +23,8 @@ exports.getQuestions = function (req, res) {
 /**
  * Return array of published questions
  */
-exports.getPublishedQuestions = function (req, res) {
-  Question.find({status: 1}).exec(function (err, collection) {
+exports.getPublishedQuestions = function(req, res) {
+  Question.find({status: 1}).exec(function(err, collection) {
     if (err) {
       res.status(400);
       return res.send({reason: err.toString()});
@@ -38,12 +35,9 @@ exports.getPublishedQuestions = function (req, res) {
 
 /**
  * Count number of questions
- * @param  {[type]} req [description]
- * @param  {[type]} res [description]
- * @return {[type]}     [description]
  */
-exports.count = function (req, res) {
-  Question.count({}, function (err, count) {
+exports.count = function(req, res) {
+  Question.count({}, function(err, count) {
     if (err) {
       res.status(400);
       return res.send({reason: err.toString()});
@@ -54,18 +48,15 @@ exports.count = function (req, res) {
 
 /**
  * Return array of questions with the given author
- * @param  {[type]} req [description]
- * @param  {[type]} res [description]
- * @return {[type]}     [description]
  */
-exports.getQuestionsByAuthor = function (req, res) {
+exports.getQuestionsByAuthor = function(req, res) {
   // Check if the user is authorized (admin or current user)
   if (req.user._id != req.params.id && !req.user.hasRole('admin')) { // jshint ignore:line
     res.status(403);
     return res.send();
   }
 
-  Question.find({author: req.params.id}).exec(function (err, collection) {
+  Question.find({author: req.params.id}).exec(function(err, collection) {
     if (err) {
       res.status(400);
       return res.send({reason: err.toString()});
@@ -76,12 +67,9 @@ exports.getQuestionsByAuthor = function (req, res) {
 
 /**
  * Return array of questions with the given tag
- * @param  {[type]} req [description]
- * @param  {[type]} res [description]
- * @return {[type]}     [description]
  */
-exports.getQuestionsByTag = function (req, res) {
-  Question.find({status: 1, tags: req.params.tag}).exec(function (err, collection) {
+exports.getQuestionsByTag = function(req, res) {
+  Question.find({status: 1, tags: req.params.tag}).exec(function(err, collection) {
     if (err) {
       return;
     }
@@ -92,12 +80,9 @@ exports.getQuestionsByTag = function (req, res) {
 
 /**
  * Return a question by its id
- * @param  {[type]}   req  Request
- * @param  {[type]}   res  Response
- * @return {[type]}      The question with the given id
  */
-exports.getQuestionById = function (req, res) {
-  Question.findOne({_id: req.params.id}).exec(function (err, question) {
+exports.getQuestionById = function(req, res) {
+  Question.findOne({_id: req.params.id}).exec(function(err, question) {
     if (err) {
       res.status(400);
       return res.send({reason: err.toString()});
@@ -111,7 +96,7 @@ exports.getQuestionById = function (req, res) {
       res.status(403);
       return res.send({reason: 'NOT_AUTHORIZED'});
     }
-    question.populateQuestion().then(function () {
+    question.populateQuestion().then(function() {
       return res.send(question);
     });
   });
@@ -119,13 +104,10 @@ exports.getQuestionById = function (req, res) {
 
 /**
  * Return a random question
- * @param  {[type]}   req  Request
- * @param  {[type]}   res  Response
- * @return {[type]}      The question with the given id
  */
-exports.getRandomQuestion = function (req, res) {
-  Question.random(function (err, question) {
-    question.populateQuestion().then(function () {
+exports.getRandomQuestion = function(req, res) {
+  Question.random(function(err, question) {
+    question.populateQuestion().then(function() {
       return res.send(question);
     });
     return question;
@@ -134,15 +116,12 @@ exports.getRandomQuestion = function (req, res) {
 
 /**
  * Return a random question unanswered by the user
- * @param  {[type]}   req  Request
- * @param  {[type]}   res  Response
- * @return {[type]}      The question with the given id
  */
-exports.getUnansweredRandomQuestion = function (req, res) {
+exports.getUnansweredRandomQuestion = function(req, res) {
   var i;
   if (!req.isAuthenticated()) {
-    Question.random(function (err, question) {
-      question.populateQuestion().then(function () {
+    Question.random(function(err, question) {
+      question.populateQuestion().then(function() {
         return res.send(question);
       });
     });
@@ -153,17 +132,17 @@ exports.getUnansweredRandomQuestion = function (req, res) {
       answeredQuestions.push(req.user.answers[i].question);
     }
     // We look for question not in the collection of answered questions
-    Question.find({status: 1}).where('_id').nin(answeredQuestions).exec(function (err, collection) {
+    Question.find({status: 1}).where('_id').nin(answeredQuestions).exec(function(err, collection) {
       if (err) {
         return res.status(400).send({reason: err.toString()});
       }
       if (collection.length === 0) { // If all questions have been answered we return a random one
-        return Question.random(function (err, question) {
+        return Question.random(function(err, question) {
           if (err) {
             res.status(400);
             return res.send({reason: err.toString()});
           }
-          question.populateQuestion().then(function () {
+          question.populateQuestion().then(function() {
             return res.send(question);
           });
         });
@@ -171,7 +150,7 @@ exports.getUnansweredRandomQuestion = function (req, res) {
       // We return a random question from this collection
       var rand = Math.floor(Math.random() * collection.length);
       var question = collection[rand];
-      question.populateQuestion().then(function () {
+      question.populateQuestion().then(function() {
         return res.send(question);
       });
     });
@@ -180,25 +159,21 @@ exports.getUnansweredRandomQuestion = function (req, res) {
 
 /**
  * Create a new question
- * @param  {[type]}   req  Request
- * @param  {[type]}   res  Response
- * @param  {Function} next Next
- * @return {[type]}        Created question
  */
-exports.createQuestion = function (req, res) {
+exports.createQuestion = function(req, res) {
   // Get the question data from the request
   var questionData = req.body;
   questionData.author = req.user;
 
   // Create question
-  Question.create(questionData, function (err, question) {
+  Question.create(questionData, function(err, question) {
     if (err) {
       // Return 400 code with the error
       res.status(400);
       return res.send({reason: err.toString()});
     }
     // If no error, return the question
-    question.populateQuestion().then(function () {
+    question.populateQuestion().then(function() {
       return res.send(question);
     });
   });
@@ -206,14 +181,11 @@ exports.createQuestion = function (req, res) {
 
 /**
  * Update a question
- * @param  {[type]}   req  Request
- * @param  {[type]}   res  Response
- * @return {[type]}        Updated question
  */
-exports.updateQuestion = function (req, res) {
+exports.updateQuestion = function(req, res) {
 
   var updatedQuestion = req.body;
-  Question.findOne({_id: req.params.id}).exec(function (err, question) {
+  Question.findOne({_id: req.params.id}).exec(function(err, question) {
     if (!question) {
       // If an error occur, return error 400 with the error
       res.status(400);
@@ -228,7 +200,7 @@ exports.updateQuestion = function (req, res) {
     question.answers[1].text = updatedQuestion.answers[1].text;
     question.tags = updatedQuestion.tags;
     question.status = !!updatedQuestion.status ? updatedQuestion.status : 0;
-    question.save(function (err) {
+    question.save(function(err) {
       if (err) {
         // If an error occur, return error 400 with the error
         res.status(400);
@@ -237,7 +209,7 @@ exports.updateQuestion = function (req, res) {
         });
       }
       // Send and return the user
-      question.populateQuestion().then(function () {
+      question.populateQuestion().then(function() {
         return res.send(question);
       });
       return question;
@@ -247,12 +219,9 @@ exports.updateQuestion = function (req, res) {
 
 /**
  * Delete a question
- * @param  {[type]} req   Request
- * @param  {[type]} resp  Response
- * @return {[type]}         Deleted id
  */
-exports.deleteQuestion = function (req, res) {
-  Question.remove({ _id: req.params.id}, function (err) {
+exports.deleteQuestion = function(req, res) {
+  Question.remove({_id: req.params.id}, function(err) {
     if (err) {
       res.status(400);
       return res.send({
@@ -261,8 +230,10 @@ exports.deleteQuestion = function (req, res) {
     }
     // On supprime les références à la question supprimée dans les réponses utilisateurs
     // On ne s'occupe pas des réponses anonymes : elles sont automatiquement purgées
-    User.find({}).exec(function (err, users) {
-      var i, j, userModified;
+    User.find({}).exec(function(err, users) {
+      var i;
+      var j;
+      var userModified;
       if (err) {
         console.log(err.stack);
         res.status(400);
@@ -288,11 +259,8 @@ exports.deleteQuestion = function (req, res) {
 
 /**
  * Answer a question
- * @param  {[type]} req [description]
- * @param  {[type]} res [description]
- * @return {[type]}     [description]
  */
-exports.answerQuestion = function (req, res) {
+exports.answerQuestion = function(req, res) {
   var questionId = req.params.id;
   var answerNumber = parseInt(req.params.answer, 10);
   var ip = requestIp.getClientIp(req);
@@ -305,7 +273,7 @@ exports.answerQuestion = function (req, res) {
   }
 
   // Let's get the question we want and update it and the user
-  Question.findOne({_id: questionId, status: 1}).exec(function (err, question) {
+  Question.findOne({_id: questionId, status: 1}).exec(function(err, question) {
     // Is no question is found, send a 400
     if (err) {
       return res.status(400).send({
@@ -313,7 +281,7 @@ exports.answerQuestion = function (req, res) {
       });
     }
 
-    question.hasBeenAnswered(req.user, ip).then(function (hasBeenAnswered) {
+    question.hasBeenAnswered(req.user, ip).then(function(hasBeenAnswered) {
       var reason;
       if (hasBeenAnswered) { // If the user has already answered the question, send a 400
         if (req.isAuthenticated()) {
@@ -325,7 +293,7 @@ exports.answerQuestion = function (req, res) {
           reason: reason
         });
       } else {
-        if (req.isAuthenticated()) { // Authenticated mode, push the new answer to user answers list 
+        if (req.isAuthenticated()) { // Authenticated mode, push the new answer to user answers list
           // If the user has no answer object yet (it should not happen, but let's try not to take any risk)
           if (!req.user.answers) {
             req.user.answers = [];
@@ -336,7 +304,7 @@ exports.answerQuestion = function (req, res) {
           });
 
           // Save the user
-          req.user.save(function (err) {
+          req.user.save(function(err) {
             if (err) {
               return res.status(400).send({
                 reason: err.toString()
@@ -346,7 +314,7 @@ exports.answerQuestion = function (req, res) {
 
         } else { // Anonymous mode
 
-          IpAnswers.findOne({ip: ip}, function (err, ipAnswers) {
+          IpAnswers.findOne({ip: ip}, function(err, ipAnswers) {
             if (err || !ipAnswers) {
               if (err) {
                 reason = err.toString();
@@ -361,7 +329,7 @@ exports.answerQuestion = function (req, res) {
               question: questionId,
               answer: answerNumber
             });
-            ipAnswers.save(function (err) {
+            ipAnswers.save(function(err) {
               if (err) {
                 return res.status(400).send({
                   reason: err.toString()
@@ -373,14 +341,14 @@ exports.answerQuestion = function (req, res) {
 
         // Increase the vote number and save the question
         question.answers[answerNumber].votes = question.answers[answerNumber].votes + 1;
-        question.save(function (err) {
+        question.save(function(err) {
           if (err) {
             return res.status(400).send({
               reason: err.toString()
             });
           }
 
-          question.populateQuestion().then(function () {
+          question.populateQuestion().then(function() {
             return res.send(question);
           });
         });
@@ -391,14 +359,11 @@ exports.answerQuestion = function (req, res) {
 
 /**
  * Upvote a question
- * @param  {[type]} req Request
- * @param  {[type]} res Response
- * @return {[type]}     
  */
-exports.upvoteQuestion = function (req, res) {
+exports.upvoteQuestion = function(req, res) {
   var i;
   var questionId = req.params.id;
-  Question.findOne({_id: questionId, status: 1}).exec(function (err, question) {
+  Question.findOne({_id: questionId, status: 1}).exec(function(err, question) {
     if (!question) {
       // If an error occur, return error 400 with the error
       res.status(400);
@@ -416,14 +381,14 @@ exports.upvoteQuestion = function (req, res) {
     }
     req.user.upvotes.push(question._id);
     // Save the user
-    req.user.save(function (err) {
+    req.user.save(function(err) {
       if (err) {
         return res.status(400).send({
           reason: err.toString()
         });
       }
       question.upvotes = question.upvotes + 1;
-      question.save(function (err) {
+      question.save(function(err) {
         if (err) {
           // If an error occur, return error 400 with the error
           res.status(400);
@@ -432,7 +397,7 @@ exports.upvoteQuestion = function (req, res) {
           });
         }
         // Send and return the question
-        question.populateQuestion().then(function () {
+        question.populateQuestion().then(function() {
           return res.send(question);
         });
       });

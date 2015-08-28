@@ -1,15 +1,15 @@
 function SuggestionDetailController($scope, $routeParams, NotifierService, SuggestionService, $location, ModalService) {
 
   if (!!$routeParams.id) {
-    SuggestionService.getSuggestionById($routeParams.id).then(function (suggestion) {
+    SuggestionService.getSuggestionById($routeParams.id).then(function(suggestion) {
       $scope.suggestion = suggestion;
       $scope.isLoaded = true;
-    }, function (reason) {
+    }, function(reason) {
       NotifierService.error(reason);
     });
   }
 
-  $scope.validate = function () {
+  $scope.validate = function() {
     var i;
     var tags = [];
     if ($scope.suggestion.tags !== undefined) {
@@ -23,22 +23,22 @@ function SuggestionDetailController($scope, $routeParams, NotifierService, Sugge
       }
     }
     $scope.suggestion.tags = tags;
-    SuggestionService.validateSuggestion($scope.suggestion).then(function (question) {
+    SuggestionService.validateSuggestion($scope.suggestion).then(function(question) {
       NotifierService.notify('SUGGESTION_PUBLISHED_SUCCESS');
       $location.path('/admin/questions/' + question._id);
-    }, function (reason) {
+    }, function(reason) {
       NotifierService.error(reason);
     });
   };
 
-  $scope.delete = function () {
+  $scope.delete = function() {
     $scope.itemType = 'SUGGESTION';
-    ModalService.confirmDelete($scope).then(function (data) {
+    ModalService.confirmDelete($scope).then(function(data) {
       if (data.value === 'confirm') {
-        SuggestionService.deleteSuggestion($scope.suggestion).then(function () {
+        SuggestionService.deleteSuggestion($scope.suggestion).then(function() {
           NotifierService.notify('SUGGESTION_REMOVED_SUCCESS');
           $location.path('/admin/suggestions');
-        }, function (reason) {
+        }, function(reason) {
           NotifierService.error(reason);
         });
       }

@@ -6,24 +6,24 @@ function QuestionDetailController($scope, $routeParams, $location, NotifierServi
   $scope.isLoaded = false;
 
   if ($routeParams.id !== 'add') {
-    QuestionService.getQuestionById($routeParams.id).then(function (questionResponse) {
+    QuestionService.getQuestionById($routeParams.id).then(function(questionResponse) {
       question = questionResponse;
       originalQuestion = question;
       $scope.question = question;
       $scope.isLoaded = true;
 
-      UserService.getByAnsweredQuestion(question).then(function (users) {
+      UserService.getByAnsweredQuestion(question).then(function(users) {
         $scope.users = users;
       });
 
-    }, function (reason) {
+    }, function(reason) {
       NotifierService.error(reason);
     });
   } else {
     $scope.isLoaded = true;
   }
 
-  $scope.save = function () {
+  $scope.save = function() {
     var i;
     var tags = [];
     if (question.tags !== undefined) {
@@ -38,45 +38,45 @@ function QuestionDetailController($scope, $routeParams, $location, NotifierServi
     }
     question.tags = tags;
     if (question._id) {
-      QuestionService.updateQuestion(question).then(function (newQuestion) {
+      QuestionService.updateQuestion(question).then(function(newQuestion) {
         $scope.question = question = newQuestion;
         NotifierService.notify('QUESTION_UPDATED_SUCCESS');
-      }, function (reason) {
+      }, function(reason) {
         NotifierService.error(reason);
       });
     } else {
-      QuestionService.createQuestion(question).then(function (newQuestion) {
+      QuestionService.createQuestion(question).then(function(newQuestion) {
         $scope.question = question = newQuestion;
         NotifierService.notify('QUESTION_CREATED_SUCCESS');
-      }, function (reason) {
+      }, function(reason) {
         NotifierService.error(reason);
       });
     }
   };
 
-  $scope.delete = function () {
+  $scope.delete = function() {
     $scope.itemType = 'QUESTION';
-    ModalService.confirmDelete($scope).then(function (data) {
+    ModalService.confirmDelete($scope).then(function(data) {
       if (data.value === 'confirm') {
-        QuestionService.deleteQuestion(question).then(function () {
+        QuestionService.deleteQuestion(question).then(function() {
           NotifierService.notify('QUESTION_REMOVED_SUCCESS');
           $location.path('/admin/questions');
-        }, function (reason) {
+        }, function(reason) {
           NotifierService.error(reason);
         });
       }
     });
   };
 
-  $scope.publish = function () {
-    QuestionService.publishQuestion(originalQuestion).then(function (newQuestion) {
+  $scope.publish = function() {
+    QuestionService.publishQuestion(originalQuestion).then(function(newQuestion) {
       $scope.question = question = newQuestion;
       NotifierService.notify('QUESTION_PUBLISHED_SUCCESS');
     });
   };
 
-  $scope.unpublish = function () {
-    QuestionService.unpublishQuestion(originalQuestion).then(function (newQuestion) {
+  $scope.unpublish = function() {
+    QuestionService.unpublishQuestion(originalQuestion).then(function(newQuestion) {
       $scope.question = question = newQuestion;
       NotifierService.notify('QUESTION_UNPUBLISHED_SUCCESS');
     });

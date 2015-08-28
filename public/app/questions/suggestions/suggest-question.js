@@ -3,7 +3,7 @@ function SuggestQuestionController($scope, $location, NotifierService, Suggestio
   question.answers = [];
   $scope.question = question;
 
-  $scope.suggestQuestion = function () {
+  $scope.suggestQuestion = function() {
     var i;
     if (question.tags !== undefined && !Array.isArray(question.tags)) {
       question.tags = question.tags.split(',');
@@ -13,11 +13,11 @@ function SuggestQuestionController($scope, $location, NotifierService, Suggestio
         question.tags[i] = $.trim(question.tags[i]);
       }
     }
-    SuggestionService.createSuggestion(question).then(function () {
+    SuggestionService.createSuggestion(question).then(function() {
       NotifierService.notify('SUGGESTION_SUBMITTED');
       $scope.closeThisDialog();
       $location.path('/profile');
-    }, function (reason) {
+    }, function(reason) {
       NotifierService.error(reason);
     });
   };
