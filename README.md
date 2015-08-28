@@ -66,4 +66,7 @@ $ gulp watch
 $ gulp lint
 ```
 
-* Run JSHint on sources
+* Run [JSHint](http://jshint.com/docs/) on sources
+* Run [JSCS](http://jscs.info/) on sources using [Google JS Code Style](https://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml) customized with two rules :
+	* No limitation for line length
+	* Trailing white spaces forbidden
