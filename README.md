@@ -22,7 +22,7 @@ $ npm install -g gulp
 $ npm install -g bower
 ```
 
-Default dmin credentials are 'joe'/'joe'.
+Default admin credentials are 'joe'/'joe'.
 
 
 Classic stuff to launch the application : 
