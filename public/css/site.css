@@ -274,9 +274,16 @@ footer .github {
 }
 .question .question-details {
   border-radius: 0;
+  border: 1px solid #1abc9c;
 }
 .question .question-details .panel-heading {
   border-radius: 0;
+  border: none;
+  background-color: #1abc9c;
+}
+.question .question-details .panel-heading h2 {
+  font-size: 15px;
+  color: #fff;
 }
 .question .question-details .question-detail-field {
   margin-bottom: 10px;
