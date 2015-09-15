@@ -14,13 +14,19 @@ var jscs = require('gulp-jscs');
 var noop = function() {};
 var stylish = require('gulp-jscs-stylish');
 
-var DIST_DIR = './public/dist';
-var JS_DIR = DIST_DIR + '/js';
-var CSS_DIR = DIST_DIR + '/css';
-var VIEW_DIR = DIST_DIR + '/views';
-var DIRECTIVES_DIR = DIST_DIR + '/directives-views';
-var COMPILED_STYLUS_DIR = './public/css/';
+/**
+ * Project directories
+ */
+var DIST_DIR = './public/dist'; // Where the build goes
+var JS_DIR = DIST_DIR + '/js'; // Where JS goes
+var CSS_DIR = DIST_DIR + '/css'; // Where CSS goes
+var VIEW_DIR = DIST_DIR + '/views'; // Where views go
+var DIRECTIVES_DIR = DIST_DIR + '/directives-views'; // Where directives go
+var COMPILED_STYLUS_DIR = './public/css/'; // And where compiled Stylus files go
 
+/**
+ * JS Sources
+ */
 var JS_SRC = ['./public/vendors/jquery/dist/jquery.min.js',
               './public/vendors/bootstrap/dist/js/bootstrap.min.js',
               './public/vendors/toastr/toastr.min.js',
@@ -28,8 +34,8 @@ var JS_SRC = ['./public/vendors/jquery/dist/jquery.min.js',
               './public/vendors/angular-resource/angular-resource.js',
               './public/vendors/angular-animate/angular-animate.js',
               './public/vendors/angular-route/angular-route.js',
-              './public/vendors/angular-translate/angular-translate.min.js',
-              './public/vendors/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',
+              './public/vendors/angular-translate/angular-translate.js',
+              './public/vendors/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
               './public/vendors/angular-local-storage/dist/angular-local-storage.min.js',
               './public/vendors/angular-ui-select/dist/select.js',
               './public/vendors/odometer/odometer.js',
@@ -49,6 +55,9 @@ var JS_SRC = ['./public/vendors/jquery/dist/jquery.min.js',
               './public/app/admin/**/*.js'
               ];
 
+/**
+ * CSS Sources
+ */
 var CSS_SRC = ['./public/css/socicon.css',
                 './public/vendors/ngDialog/css/ngDialog.min.css',
                 './public/vendors/ngDialog/css/ngDialog-theme-default.min.css',
@@ -60,37 +69,59 @@ var CSS_SRC = ['./public/css/socicon.css',
                 './public/css/site.css',
                 './public/css/mobile.css'];
 
+/**
+ * Views sources
+ */
 var VIEW_SRC = ['./public/app/**/*.jade'];
 
-// yvar DIRECTIVE_SRC = ['./public/app/directives/**/*.jade'];
-
+/**
+ * Stylus sources
+ */
 var STYLUS_SRC = ['./public/css/*.styl'];
 
+/**
+ * Sources to lint
+ */
 var TO_LINT_SRC = ['./public/app/**/*.js',
                    './server.js',
                    './server/**/*.js',
                   '!./public/**/bootstrap-tagsinput.js'];
 
-gulp.task('default', function () {
+/**
+ * Set default task to build
+ */
+gulp.task('default', function() {
   gulp.start('build');
 });
 
-gulp.task('build', function () {
+/**
+ * Build client
+ */
+gulp.task('build', function() {
   gulp.start('build-client');
 });
 
-gulp.task('clean-client-dist', function () {
+/**
+ * Client client dist directory
+ */
+gulp.task('clean-client-dist', function() {
   return gulp.src(DIST_DIR)
     .pipe(clean());
 });
 
-gulp.task('build-client', ['clean-client-dist'], function () {
+/**
+ * Build JS, CSS and views
+ */
+gulp.task('build-client', ['clean-client-dist'], function() {
   gulp.start('build-client-js');
   gulp.start('build-client-css');
   gulp.start('build-client-views');
 });
 
-gulp.task('build-client-js', function () {
+/**
+ * Build JS
+ */
+gulp.task('build-client-js', function() {
   gulp.src(JS_SRC)
     .pipe(sourcemaps.init())
     .pipe(concat('dilemme.js'))
@@ -101,13 +132,19 @@ gulp.task('build-client-js', function () {
     .pipe(gulp.dest(JS_DIR));
 });
 
-gulp.task('build-client-stylus', function () {
+/**
+ * Build Stylus
+ */
+gulp.task('build-client-stylus', function() {
   return gulp.src(STYLUS_SRC)
     .pipe(stylus())
     .pipe(gulp.dest(COMPILED_STYLUS_DIR));
 });
 
-gulp.task('build-client-css', ['build-client-stylus'], function () {
+/**
+ * Build CSS
+ */
+gulp.task('build-client-css', ['build-client-stylus'], function() {
   gulp.src(CSS_SRC)
     .pipe(sourcemaps.init())
     .pipe(autoprefixer())
@@ -119,7 +156,10 @@ gulp.task('build-client-css', ['build-client-stylus'], function () {
     .pipe(gulp.dest(CSS_DIR));
 });
 
-gulp.task('build-client-views', function () {
+/**
+ * Build views
+ */
+gulp.task('build-client-views', function() {
   gulp.src(VIEW_SRC)
     .pipe(jade())
     .pipe(gulp.dest(VIEW_DIR));
@@ -128,29 +168,54 @@ gulp.task('build-client-views', function () {
     .pipe(gulp.dest(DIRECTIVES_DIR));
 });
 
-gulp.task('watch', function () {
+/**
+ * Launch application and watch for any change
+ */
+gulp.task('watch', function() {
   gulp.start('watch-client');
   gulp.start('watch-server');
 });
 
-gulp.task('watch-client', function () {
+/**
+ * Rebuild JS, CSS an views sources on any change
+ */
+gulp.task('watch-client', function() {
   gulp.watch(JS_SRC, ['build-client-js']);
   gulp.watch(STYLUS_SRC, ['build-client-css']);
   gulp.watch(VIEW_SRC, ['build-client-views']);
 });
 
-gulp.task('watch-server', function () {
+/**
+ * Launch application and watch server files for any change
+ */
+gulp.task('watch-server', function() {
   nodemon({
     script: 'server.js',
     watch: './server'
   });
 });
 
-gulp.task('lint', function () { 
+/**
+ * Launch application with debug port set to 3132
+ * Watch client and server files for any change
+ */
+gulp.task('debug', function() {
+  gulp.start('watch-client');
+  nodemon({
+    script: 'server.js',
+    nodeArgs: ['--debug=3132'],
+    watch: './server'
+  });
+});
+
+/**
+ * Lint sources (JSHint and JSCS)
+ */
+gulp.task('lint', function() {
   gulp.src(TO_LINT_SRC)
     .pipe(jshint())
     .pipe(jscs())
-    .on('error', noop) 
-    .pipe(stylish.combineWithHintResults()) // combine with jshint results
+    .on('error', noop)
+    .pipe(stylish.combineWithHintResults())
     .pipe(jshint.reporter('jshint-stylish'));
 });
