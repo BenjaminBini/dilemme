@@ -5,7 +5,7 @@ angular.module('app', ['ngResource', 'ngRoute', 'ui.select',
                       'angularUtils.directives.dirPagination',
                       'pascalprecht.translate', 'cfp.hotkeys']);
 
-function initConfig($route, $rootScope, $location, IdentityService, $translate, $window) {
+function initConfig($route, $rootScope, $location, IdentityService, $translate, $window, TranslationService, localStorageService) {
   // Redirect to homepage if not authorized
   $rootScope.$on('$routeChangeError', function(event, current, previous, rejection) {
     if (rejection === 'not authorized') {
@@ -13,6 +13,12 @@ function initConfig($route, $rootScope, $location, IdentityService, $translate, 
     }
   });
 
+  // Set language if saved in localStorage
+  if (!!localStorageService.get('language')) {
+    TranslationService.useLanguage(localStorageService.get('language'));
+  } else {
+    TranslationService.useLanguage('en_US');
+  }
   // Set title
   $translate('SITE_NAME').then(function(siteName) {
     $window.document.title = siteName;
@@ -41,5 +47,5 @@ function initConfig($route, $rootScope, $location, IdentityService, $translate, 
   };
 }
 
-initConfig.$inject = ['$route', '$rootScope', '$location', 'IdentityService', '$translate', '$window'];
+initConfig.$inject = ['$route', '$rootScope', '$location', 'IdentityService', '$translate', '$window', 'TranslationService', 'localStorageService'];
 angular.module('app').run(initConfig);

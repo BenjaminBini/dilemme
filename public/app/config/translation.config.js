@@ -11,7 +11,6 @@ function translationConfig($translateProvider) {
 
   $translateProvider.useSanitizeValueStrategy('escape');
 
-  $translateProvider.determinePreferredLanguage();
 }
 
 translationConfig.$inject = ['$translateProvider'];
