@@ -10,7 +10,7 @@
 		tbody
 			tr(dir-paginate="question in questions | orderBy: '-published' | itemsPerPage: 10")
 				td
-					a(href="/questions/{{question._id}}") {{question.text}} : {{question.answers[0].text}} or {{question.answers[1].text}} ?
+					a(href="/questions/{{question._id}}") {{question.text | extractTranslation}} : {{question.answers[0].text | extractTranslation}} or {{question.answers[1].text | extractTranslation}} ?
 				td {{question.upvotes}}
 				td {{question.published | date }}
 	dir-pagination-controls

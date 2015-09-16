@@ -1,9 +1,10 @@
-function TranslationService($translate, $rootScope, localStorageService) {
+function TranslationService($translate, localStorageService, IdentityService) {
   return {
     useLanguage: function(language) {
       $translate.use(language);
       localStorageService.set('language', language);
-      $rootScope.userLanguage = language;
+      IdentityService.language = language;
+      IdentityService.shortLanguage = language.substring(0, 2);
     },
     getCurrentLanguage: function() {
       return $translate.use();
@@ -11,5 +12,5 @@ function TranslationService($translate, $rootScope, localStorageService) {
   };
 }
 
-TranslationService.$inject = ['$translate', '$rootScope', 'localStorageService'];
+TranslationService.$inject = ['$translate', 'localStorageService', 'IdentityService'];
 angular.module('app').factory('TranslationService', TranslationService);

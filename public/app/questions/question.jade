@@ -1,6 +1,6 @@
 .container
 	.question(ng-controller="AnswerController")
-		h2.question-text {{question.text}}
+		h2.question-text {{question.text | extractTranslation}}
 		.row.answers
 			answer-button(answer="question.answers[0]", on-click="answer(0)", result="results[0]", user-answer="userAnswer", answer-number="0", answered="answered")
 			.col-md-2.separation ? 
@@ -51,10 +51,10 @@
 					.panel-heading
 						h2.panel-title
 							span(ng-show="!question.title") {{'DETAILS' | translate}}
-							span(ng-show="!!question.title") {{question.title}}
+							span(ng-show="!!question.title") {{question.title | extractTranslation}}
 					.panel-body
 						.question-detail-field.description(ng-show="!!question.description")
-							span.description {{question.description}}
+							span.description {{question.description | extractTranslation}}
 						.question-detail-field.votes
 							a(ng-click="upvote()", title="Upvote this question")
 								span.icon.glyphicon.glyphicon-arrow-up

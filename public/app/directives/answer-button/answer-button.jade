@@ -1,5 +1,5 @@
 .col-md-5.answer(ng-click="sendAnswer()", ng-class="{answered: answered}")
-	.answer-text {{answer.text}}
+	.answer-text {{answer.text | extractTranslation}}
 		.result
 			i.glyphicon.glyphicon-ok(aria-hidden="true", ng-show="userAnswer === answerNumber") 
 			span.percentage(odometer="result")

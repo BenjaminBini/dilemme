@@ -60,7 +60,7 @@
 						td {{question.published | date }}
 			dir-pagination-controls(pagination-id="questions")
 	.row(ng-show="currentUser.answers.length === 0")
-		h4.col-md-12 {{'NO_ANSWERS_YET' | translate}}
+		h4.col-md-12 {{'NO_ANSWER_YET' | translate}}
 	.row(ng-show="currentUser.answers.length > 0")
 		.col-md-12
 			h4 {{'YOUR_ANSWERS' | translate}}

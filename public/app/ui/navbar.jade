@@ -31,7 +31,7 @@
 						a(role="button", ng-click="signout()") {{'SIGN_OUT' | translate}}
 			li.dropdown.language-switcher(ng-controller="LanguageSwitcherController")
 				a.dropdown-toggle(href="", data-toggle="dropdown")
-					img(src="/images/{{currentLanguage}}.png", width="30")
+					img(src="/images/{{!!currentLanguage ? currentLanguage : en_US}}.png", width="30")
 					b.caret
 				ul.dropdown-menu.languages
 					li

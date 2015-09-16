@@ -18,7 +18,7 @@
 		tbody
 			tr(dir-paginate="question in questions | filter: searchText | orderBy: sortOrder.selected | itemsPerPage: 10")
 				td
-					a(href="/questions/{{question._id}}") {{question.text}} : {{question.answers[0].text}} {{'OR' | translate}} {{question.answers[1].text}} ?
+					a(href="/questions/{{question._id}}") {{question.text | extractTranslation}} : {{question.answers[0].text | extractTranslation}} {{'OR' | translate}} {{question.answers[1].text | extractTranslation}} ?
 				td {{question.answers[0].votes + question.answers[1].votes}}
 				td {{question.upvotes}}
 				td {{question.published | date }}

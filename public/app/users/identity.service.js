@@ -6,8 +6,13 @@ function IdentityService($window, User) {
     angular.extend(currentUser, $window.bootstrappedUserObject);
   }
 
+  var language = '';
+  var shortLanguage = '';
+
   return {
     currentUser: currentUser,
+    language: language,
+    shortLanguage: shortLanguage,
     isAuthenticated: function() {
       return !!this.currentUser;
     },

@@ -25,7 +25,7 @@
 					input(type="checkbox", ng-model="question.selected")
 				td {{question.title}}
 				td
-					a(href="/admin/questions/{{question._id}}") {{question.text}} : {{question.answers[0].text}} or {{question.answers[1].text}} ?
+					a(href="/admin/questions/{{question._id}}") {{question.text | extractTranslation}} : {{question.answers[0].text | extractTranslation}} {{'OR' | translate}} {{question.answers[1].text | extractTranslation}} ?
 				td {{question.upvotes}}
 				td {{question.answers[0].votes}}
 				td {{question.answers[1].votes}}
