@@ -31,19 +31,41 @@ var commentSchema = mongoose.Schema({
  */
 var questionSchema = mongoose.Schema({
   title: {
-    type: String
+    en: {
+      type: String
+    },
+    fr: {
+      type: String
+    }
   },
   description: {
-    type: String
+    en: {
+      type: String
+    },
+    fr: {
+      type: String
+    }
   },
   text: {
-    type: String,
-    required: '{PATH} is required'
+    en: {
+      type: String,
+      required: '{PATH} is required'
+    },
+    fr: {
+      type: String,
+      required: '{PATH} is required'
+    }
   },
   answers: [{
     text: {
-      type: String,
-      required: '{PATH} is required'
+      en: {
+        type: String,
+        required: '{PATH} is required'
+      },
+      fr: {
+        type: String,
+        required: '{PATH} is required'
+      }
     },
     votes: {
       type: Number,
@@ -178,94 +200,66 @@ exports.createDefaultEntries = function() {
     }
     if (collection.length === 0) {
       Question.create({
-        text: 'Would you rather',
+        text: {
+          en: 'Would you rather',
+          fr: 'Préférez-vous'
+        },
         answers: [{
-          text: 'eat beef',
+          text: {
+            en: 'eat beef',
+            fr: 'manger du boeuf'
+          },
           votes: 10
         }, {
-          text: 'eat chicken'
+          text: {
+            en: 'eat chicken',
+            fr: 'manger du poulet'
+          }
         }],
         published: new Date('1/1/2015'),
-        tags: ['food', 'preferences']
+        tags: ['food', 'preferences'],
+        status: 1
       });
       Question.create({
-        text: 'Do you prefer',
+        text: {
+          en: 'Do you prefer',
+          fr: 'Préférez-vous'
+        },
         answers: [{
-          text: 'green'
+          text: {
+            en: 'green',
+            fr: 'vert'
+          }
         }, {
-          text: 'blue',
+          text: {
+            en: 'blue',
+            fr: 'bleu'
+          },
           votes: 2
         }],
         published: new Date('1/1/2015'),
-        tags: ['color']
+        tags: ['color'],
+        status: 1
       });
       Question.create({
-        text: 'Would you rather',
+        text: {
+          en: 'Would you rather',
+          fr: 'Préférez-vous'
+        },
         answers: [{
-          text: 'go to Italy',
+          text: {
+            en: 'go to Italy',
+            fr: 'aller en Italie'
+          },
           votes: 10
         }, {
-          text: 'go to France',
+          text: {
+            en: 'go to France',
+            fr: 'aller en France'
+          },
           votes: 15
         }],
         published: new Date('1/1/2015')
-      });
-      Question.create({
-        text: 'Would you rather',
-        answers: [{
-          text: 'play football'
-        }, {
-          text: 'play rugby'
-        }],
-        published: new Date('1/1/2015')
-      });
-      Question.create({
-        text: 'Do you prefer',
-        answers: [{
-          text: 'Manchester United'
-        }, {
-          text: 'Manchester City'
-        }]
-      });
-      Question.create({
-        text: 'Would you rather',
-        answers: [{
-          text: 'be immportal'
-        }, {
-          text: 'be mortal'
-        }]
-      });
-      Question.create({
-        text: 'Do you prefer',
-        answers: [{
-          text: 'men'
-        }, {
-          text: 'women'
-        }]
-      });
-      Question.create({
-        text: 'Do you prefer',
-        answers: [{
-          text: 'bar'
-        }, {
-          text: 'clubs'
-        }]
-      });
-      Question.create({
-        text: 'Do you prefer',
-        answers: [{
-          text: 'apples'
-        }, {
-          text: 'oranges'
-        }]
-      });
-      Question.create({
-        text: 'Do you prefer',
-        answers: [{
-          text: 'mathematics'
-        }, {
-          text: 'history'
-        }]
       });
     }
     console.log('Questions collection has ' + collection.length + ' entries');
