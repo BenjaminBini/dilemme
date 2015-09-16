@@ -22,8 +22,8 @@
 		tbody
 			tr(dir-paginate="question in questions | filter: searchText | orderBy: sortOrder.selected | itemsPerPage: 10", ng-click="question.selected = !question.selected")
 				td
-					input(type="checkbox", ng-model="question.selected")
-				td {{question.title}}
+					input(type="checkbox", ng-model="question.selected", ng-click="$event.stopPropagation()")
+				td {{question.title | extractTranslation}}
 				td
 					a(href="/admin/questions/{{question._id}}") {{question.text | extractTranslation}} : {{question.answers[0].text | extractTranslation}} {{'OR' | translate}} {{question.answers[1].text | extractTranslation}} ?
 				td {{question.upvotes}}
