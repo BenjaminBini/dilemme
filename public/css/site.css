@@ -363,6 +363,22 @@ footer .github {
 .stats .description {
   height: 7.5rem;
 }
+.question-form input[type="text"] + input[type="text"] {
+  margin-top: 10px;
+}
+input[data-language="en"],
+input[data-language="fr"] {
+  padding-left: 40px;
+  background-size: 24px 16px;
+  background-position: 8px 11px;
+  background-repeat: no-repeat;
+}
+input[data-language="en"] {
+  background-image: url("/images/en_US.png");
+}
+input[data-language="fr"] {
+  background-image: url("/images/fr_FR.png");
+}
 .pagination {
   width: 100%;
   text-align: center;

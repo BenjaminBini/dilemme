@@ -87,6 +87,32 @@ exports.validateSuggestion = function(req, res) {
   }
 
   suggestion.date = Date.now;
+
+  // Set the i18n data for the question
+  suggestion.title = {
+    en: suggestion.title,
+    fr: suggestion.title
+  };
+  suggestion.description = {
+    en: suggestion.description,
+    fr: suggestion.description
+  };
+  suggestion.text = {
+    en: suggestion.text,
+    fr: suggestion.text
+  };
+  suggestion.answers = [{
+    text: {
+      en: suggestion.answers[0].text,
+      fr: suggestion.answers[0].text
+    }
+  }, {
+    text: {
+      en: suggestion.answers[1].text,
+      fr: suggestion.answers[1].text
+    }
+  }];
+
   Suggestion.findOne({_id: suggestion._id}, function(err, savedSuggestion) {
     suggestion.author = savedSuggestion.author;
     Question.create(suggestion, function(err, question) {

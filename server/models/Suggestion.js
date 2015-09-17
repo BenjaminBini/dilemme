@@ -5,7 +5,37 @@ var Suggestion;
 /**
  * Suggestion schema (same as Question schema)
  */
-var suggestionSchema = mongoose.model('Question').schema;
+var suggestionSchema = mongoose.Schema({
+  title: {
+    type: String,
+    required: '{PATH} is required'
+  },
+  description: {
+    type: String,
+    required: '{PATH} is required'
+  },
+  text: {
+    type: String,
+    required: '{PATH} is required'
+  },
+  answers: [{
+    text: {
+      type: String,
+      required: '{PATH} is required'
+    }
+  }],
+  tags: {
+    type: [String]
+  },
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    reference: 'User'
+  },
+  published: {
+    type: Date,
+    default: Date.now
+  }
+});
 
 /**
  * Suggestion schema methods
