@@ -34,14 +34,14 @@
 					img(src="/images/{{!!currentLanguage ? currentLanguage : en_US}}.png", width="30")
 					b.caret
 				ul.dropdown-menu.languages
-					li
-						a(href="", ng-click="setLanguage('fr_FR')")
-							img(src="/images/fr_FR.png", width="30") 
-							| FR
 					li 
 						a(href="", ng-click="setLanguage('en_US')")
 							img(src="/images/en_US.png", width="30") 
-							| EN
+							| English
+					li
+						a(href="", ng-click="setLanguage('fr_FR')")
+							img(src="/images/fr_FR.png", width="30") 
+							| French
 		form.navbar-form(ng-if="!identity.isAuthenticated()")
 				ul.nav.navbar-nav
 					li
