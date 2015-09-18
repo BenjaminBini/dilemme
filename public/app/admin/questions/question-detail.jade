@@ -58,5 +58,5 @@
 			tr(dir-paginate="user in users | filter: searchText | orderBy: sortOrder.selected | itemsPerPage: 10")
 				td
 					a(href="/admin/users/{{user._id}}") {{user.username}}
-				td(ng-class="user.answer == 0 ? 'red-background' : 'blue-background'") {{question.answers[user.answer].text}} ({{'LIKE' | translate | lowercase}} {{question | proportion:user.answer}}% {{'OF_THE_USERS' | translate | lowercase}})
+				td(ng-class="user.answer == 0 ? 'red-background' : 'blue-background'") {{question.answers[user.answer].text | extractTranslation}} ({{'LIKE' | translate | lowercase}} {{question | proportion:user.answer}}% {{'OF_THE_USERS' | translate | lowercase}})
 	dir-pagination-controls

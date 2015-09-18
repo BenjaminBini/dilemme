@@ -53,7 +53,7 @@
 				tbody
 					tr(dir-paginate="question in questions | itemsPerPage: 10", pagination-id="questions")
 						td
-							a(href="/questions/{{question._id}}") {{question.text}} : {{question.answers[0].text}} or {{question.answers[1].text}} ?
+							a(href="/questions/{{question._id}}") {{question.text | extractTranslation}} : {{question.answers[0].text | extractTranslation}} or {{question.answers[1].text | extractTranslation}} ?
 						td {{question.upvotes}}
 						td {{question.answers[0].votes}}
 						td {{question.answers[1].votes}}
@@ -72,7 +72,7 @@
 				tbody
 					tr(dir-paginate="answer in currentUser.answers | itemsPerPage: 10", pagination-id="answers")
 						td 
-							a(ng-if="answer.question.status === 1" href="/questions/{{answer.question._id}}") {{answer.question.text}} : {{answer.question.answers[0].text}} or {{answer.question.answers[1].text}} ?
-							span(ng-if="answer.question.status === 0") {{answer.question.text}} : {{answer.question.answers[0].text}} or {{answer.question.answers[1].text}} ?
-						td(ng-class="answer.answer == 0 ? 'red-background' : 'blue-background'") {{answer.question.answers[answer.answer].text}} (like {{answer.question | proportion:answer.answer}}% of the users)
+							a(ng-if="answer.question.status === 1" href="/questions/{{answer.question._id}}") {{answer.question.text | extractTranslation}} : {{answer.question.answers[0].text | extractTranslation}} or {{answer.question.answers[1].text | extractTranslation}} ?
+							span(ng-if="answer.question.status === 0") {{answer.question.text | extractTranslation}} : {{answer.question.answers[0].text | extractTranslation}} or {{answer.question.answers[1].text | extractTranslation}} ?
+						td(ng-class="answer.answer == 0 ? 'red-background' : 'blue-background'") {{answer.question.answers[answer.answer].text | extractTranslation}} (like {{answer.question | proportion:answer.answer}}% of the users)
 			dir-pagination-controls(pagination-id="answers")
