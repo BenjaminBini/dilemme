@@ -43,6 +43,9 @@
 							img(src="/images/fr_FR.png", width="30") 
 							| French
 		form.navbar-form(ng-if="!identity.isAuthenticated()")
+				ul.nav.navbar-nav.navbar-right
+					li
+						a.forgot-pwd Forgot my password
 				ul.nav.navbar-nav
 					li
 						a.register(role="button", ng-click="openRegisterModal()") {{'REGISTER' | translate}}
@@ -51,3 +54,4 @@
 				.form-group
 					input.form-control(type="password", placeholder="{{'PASSWORD' | translate}}", ng-model="password")
 				button.btn.btn-primary(ng-click="signin(email, password)") {{'SIGN_IN' | translate}}
+		
