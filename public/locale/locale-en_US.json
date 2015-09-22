@@ -97,6 +97,7 @@
   "USERNAME": "Username",
   "EMAIL": "Email",
   "USERNAME_OR_EMAIL": "Username or Email",
+  "FORGOT_MY_PASSWORD": "Forgot my password",
   "PASSWORD": "Password",
   "ACCOUNT_DELETED": "Account deleted",
   "ROLES": "Roles",

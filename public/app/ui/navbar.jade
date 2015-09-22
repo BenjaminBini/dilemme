@@ -41,11 +41,11 @@
 					li
 						a(href="", ng-click="setLanguage('fr_FR')")
 							img(src="/images/fr_FR.png", width="30") 
-							| French
+							| Français
 		form.navbar-form(ng-if="!identity.isAuthenticated()")
 				ul.nav.navbar-nav.navbar-right
 					li
-						a.forgot-pwd Forgot my password
+						a.forgot-pwd(href="/forgot-password") {{'FORGOT_MY_PASSWORD' | translate}}
 				ul.nav.navbar-nav
 					li
 						a.register(role="button", ng-click="openRegisterModal()") {{'REGISTER' | translate}}

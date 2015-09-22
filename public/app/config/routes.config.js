@@ -108,6 +108,12 @@ function routesConfig($routeProvider, $locationProvider) {
       controller: 'RegisterController',
       animation: 'view-transition'
     })
+    .when('/forgot-password', {
+      templateUrl: '/partials/users/forgot-password',
+      controller: 'ForgotPasswordController',
+      controllerAs: 'vm',
+      animation: 'view-transition',
+    })
     .when('/stats', {
       templateUrl: '/partials/users/stats',
       controller: 'StatsController',
