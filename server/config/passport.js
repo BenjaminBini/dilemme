@@ -9,6 +9,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var User = mongoose.model('User');
 
 module.exports = function() {
+
   /**
    * Serialize the  a user (just save its id)
    */

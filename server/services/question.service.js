@@ -5,7 +5,7 @@ var requestIp = require('request-ip');
 var mongoose = require('mongoose');
 var Question = mongoose.model('Question');
 var User = mongoose.model('User');
-var IpAnswers = mongoose.model('IpAnswers');
+var IpAnswer = mongoose.model('IpAnswer');
 
 /**
  * Return array of all questions
@@ -314,7 +314,7 @@ exports.answerQuestion = function(req, res) {
 
         } else { // Anonymous mode
 
-          IpAnswers.findOne({ip: ip}, function(err, ipAnswers) {
+          IpAnswer.findOne({ip: ip}, function(err, ipAnswers) {
             if (err || !ipAnswers) {
               if (err) {
                 reason = err.toString();

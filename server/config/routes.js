@@ -3,10 +3,10 @@
  * Routes configuration
  */
 var auth = require('./auth');
-var users = require('../controllers/users');
-var questions = require('../controllers/questions');
-var suggestions = require('../controllers/suggestions');
-var comments = require('../controllers/comments');
+var users = require('../services/user.service');
+var suggestions = require('../services/suggestion.service');
+var questions = require('../services/question.service');
+var comments = require('../services/comment.service');
 
 module.exports = function(app, config) {
   // REST API

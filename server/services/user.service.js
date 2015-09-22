@@ -1,9 +1,8 @@
 /**
- * Users controller
+ * User service
  */
-
-var encrypt = require('../utils/encryption');
 var User = require('mongoose').model('User');
+var encrypt = require('../utils/encryption');
 
 /**
  * Return array of all users

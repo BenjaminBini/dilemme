@@ -1,5 +1,5 @@
 /**
- * Suggestions controller
+ * Suggestions service
  */
 var Suggestion = require('mongoose').model('Suggestion');
 var Question = require('mongoose').model('Question');
