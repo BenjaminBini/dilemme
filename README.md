@@ -15,6 +15,8 @@ Environment variables have to be set in a ".env" file at the root of the project
 Two environment variables are required :
 * `NODE\_ENV`: "development" or "production"
 * `MONGO\_PASSWORD`: the "dilemme" database password
+* `GMAIL\_USER`: GMail user for sending mail
+* `GMAIL\_PASSWORD`: GMail password for sending mail
 
 You must have [gulp](http://gulpjs.com/) and bower installed too.
 ```sh
