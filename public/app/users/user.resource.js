@@ -13,6 +13,11 @@ function User($resource) {
       method: 'GET',
       isArray: true,
       url: '/api/users/answeredQuestion/:_questionId'
+    },
+    requestNewPassword: {
+      method: 'POST',
+      isArray: false,
+      url: '/api/users/:_username/requestNewPassword'
     }
   });
 

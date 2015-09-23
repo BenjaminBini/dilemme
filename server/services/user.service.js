@@ -3,6 +3,8 @@
  */
 var User = require('mongoose').model('User');
 var encrypt = require('../utils/encryption');
+var mailer = require('../utils/mailer');
+var validator = require('validator');
 
 /**
  * Return array of all users
@@ -186,6 +188,37 @@ exports.getUsersByAnsweredQuestion = function(req, res) {
     res.status(400);
     return res.send({
       reason: err.toString()
+    });
+  });
+};
+
+/**
+ * Send a mail to the user with a link to set a new password
+ */
+exports.requestNewPassword = function(req, res) {
+  // Try to find the concerned user
+  var username = req.params.username;
+  var criteria = validator.isEmail(username) ? {email: username} : {username: username};
+  User.findOne(criteria).then(function(user) {
+    // Get the user language (default it to English if necessary)
+    var language = (!!req.body.language && req.body.language.length === 2) ? req.body.language : 'en';
+    // Send the mail and send the response to the user
+    mailer.sendRequestNewPasswordMail(language, user.email).then(function() {
+      res.send({
+        newPasswordSent: true
+      });
+    }, function() {
+      res.send({
+        newPasswordSent: false
+      });
+    });
+    // Set the token and the date of the user
+    user.resetPasswordToken = encrypt.createToken();
+    user.resetPasswordExpire = Date.now() + (1000 * 60 * 60 * 2); // 2 hours in the future
+    user.save();
+  }, function() {
+    res.send({
+      newPasswordSent: false
     });
   });
 };

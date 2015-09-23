@@ -3,30 +3,34 @@
 		fieldset
 			legend {{'QUESTION' | translate}}
 			.form-group
+				label.col-md-2.control-label(for="id") {{'ID' | translate}}
+				.col-md-10
+					input.form-control(name="id", disabled, ng-value="question._id")
+			.form-group
 				label.col-md-2.control-label(for="title-en") {{'TITLE' | translate}}
 				.col-md-10
-					input.form-control(data-language="en", name="title-en", type="text", placeholder="Title", ng-model="question.title.en", autofocus)
-					input.form-control(data-language="fr", name="title-fr", type="text", placeholder="Titre", ng-model="question.title.fr")
+					input.form-control(data-language="en", name="title-en", id="title-en", type="text", placeholder="Title", ng-model="question.title.en", autofocus)
+					input.form-control(data-language="fr", name="title-fr", id="title-fr", type="text", placeholder="Titre", ng-model="question.title.fr")
 			.form-group
 				label.col-md-2.control-label(for="description-en") {{'DESCRIPTION' | translate}}
 				.col-md-10
-					input.form-control(data-language="en", name="description-en", type="text", placeholder="Description", ng-model="question.description.en")
-					input.form-control(data-language="fr", name="description-fr", type="text", placeholder="Description", ng-model="question.description.fr")
+					input.form-control(data-language="en", name="description-en", id="description-en", type="text", placeholder="Description", ng-model="question.description.en")
+					input.form-control(data-language="fr", name="description-fr", id="description-fr", type="text", placeholder="Description", ng-model="question.description.fr")
 			.form-group
 				label.col-md-2.control-label(for="text-en") {{'TEXT' | translate}}
 				.col-md-10
-					input.form-control(data-language="en", name="text-en", type="text", placeholder="Text", ng-model="question.text.en", required)
-					input.form-control(data-language="fr", name="text-fr", type="text", placeholder="Texte", ng-model="question.text.fr", required)
+					input.form-control(data-language="en", name="text-en", id="text-en", type="text", placeholder="Text", ng-model="question.text.en", required)
+					input.form-control(data-language="fr", name="text-fr", id="text-fr", type="text", placeholder="Texte", ng-model="question.text.fr", required)
 			.form-group
 				label.col-md-2.control-label(for="answer1-en") {{'FIRST_CHOICE' | translate}}
 				.col-md-10
-					input.form-control(data-language="en", name="answer1-en", type="text", placeholder="First choice", ng-model="question.answers[0].text.en", required)
-					input.form-control(data-language="fr", name="answer1-fr", type="text", placeholder="Premier choix", ng-model="question.answers[0].text.fr", required)
+					input.form-control(data-language="en", name="answer1-en", id="answer1-en", type="text", placeholder="First choice", ng-model="question.answers[0].text.en", required)
+					input.form-control(data-language="fr", name="answer1-fr", id="answer1-fr", type="text", placeholder="Premier choix", ng-model="question.answers[0].text.fr", required)
 			.form-group
 				label.col-md-2.control-label(for="answer2-en") {{'SECOND_CHOICE' | translate}}
 				.col-md-10
-					input.form-control(data-language="en", name="answer2-en", type="text", placeholder="Second choice", ng-model="question.answers[1].text.en", required)
-					input.form-control(data-language="fr", name="answer2-fr", type="text", placeholder="Second choix", ng-model="question.answers[1].text.fr", required)
+					input.form-control(data-language="en", name="answer2-en", id="answer2-en", type="text", placeholder="Second choice", ng-model="question.answers[1].text.en", required)
+					input.form-control(data-language="fr", name="answer2-fr", id="answer2-fr", type="text", placeholder="Second choix", ng-model="question.answers[1].text.fr", required)
 			.form-group
 				label.col-md-2.control-label(for="tags") {{'TAGS' | translate}}
 				.col-md-10

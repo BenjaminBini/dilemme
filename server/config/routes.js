@@ -19,6 +19,7 @@ module.exports = function(app, config) {
   app.get('/api/users/:id/suggestions', auth.requiresApiLogin, suggestions.getSuggestionsByUser);
   app.get('/api/users/:id/questions', auth.requiresApiLogin, questions.getQuestionsByAuthor);
   app.get('/api/users/:id/stats', auth.requiresApiLogin, users.getUserStats);
+  app.post('/api/users/:username/requestNewPassword/', users.requestNewPassword);
   app.get('/api/users/answeredQuestion/:questionId', auth.requiresRole('admin'), users.getUsersByAnsweredQuestion);
 
   // Questions

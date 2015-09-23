@@ -3,17 +3,21 @@
 		fieldset
 			legend {{'USER_PROFILE' | translate}}
 			.form-group
+				label.col-md-2.control-label(for="id") {{'ID' | translate}}
+				.col-md-10 
+					input.form-control(name="id", id="id", disabled, ng-value="userId")
+			.form-group
 				label.col-md-2.control-label(for="username") {{'USERNAME' | translate}}
 				.col-md-10
-					input.form-control(name="username", type="text", placeholder="{{'USERNAME' | translate}}", ng-model="username", required)
+					input.form-control(name="username", id="username", type="text", placeholder="{{'USERNAME' | translate}}", ng-model="username", required)
 			.form-group
 				label.col-md-2.control-label(for="email") {{'EMAIL' | translate}}
 				.col-md-10
-					input.form-control(name="email", type="email", placeholder="{{'EMAIL' | translate}}", ng-model="email", required)
+					input.form-control(name="email", id="email", type="email", placeholder="{{'EMAIL' | translate}}", ng-model="email", required)
 			.form-group
 				label.col-md-2.control-label(for="password") {{'PASSWORD' | translate}}
 				.col-md-10
-					input.form-control(name="password", type="password", placeholder="{{'PASSWORD' | translate}}", ng-model="password")
+					input.form-control(name="password", id="password", type="password", placeholder="{{'PASSWORD' | translate}}", ng-model="password")
 			.form-group.actions
 				.col-md-10.col-md-offset-2
 					a.btn.btn-default(href="/admin/users") {{'BACK_TO_USERS_LIST' | translate}}

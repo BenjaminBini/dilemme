@@ -14,3 +14,11 @@ exports.hashPassword = function(salt, pwd) {
   var hmac = crypto.createHmac('sha1', salt);
   return hmac.update(pwd).digest('hex');
 };
+
+
+/**
+ * Generate an URL-safe token
+ */
+exports.createToken = function() {
+  return crypto.randomBytes(48).toString('hex');
+};

@@ -109,10 +109,16 @@ function routesConfig($routeProvider, $locationProvider) {
       animation: 'view-transition'
     })
     .when('/forgot-password', {
-      templateUrl: '/partials/users/forgot-password',
+      templateUrl: '/partials/users/forgot-password/forgot-password',
       controller: 'ForgotPasswordController',
       controllerAs: 'vm',
       animation: 'view-transition',
+    })
+    .when('/forgot-password/reset', {
+      templateUrl: '/partials/users/forgot-password/reset-password',
+      controller: 'ResetPasswordController',
+      controllerAs: 'vm',
+      animation: 'view-transition'
     })
     .when('/stats', {
       templateUrl: '/partials/users/stats',

@@ -3,25 +3,25 @@
 		fieldset
 			legend {{'SUGGESTION' | translate}}
 			.form-group
-				label.col-md-2.control-label(for="text") {{'TITLE' | translate}}
+				label.col-md-2.control-label(for="title") {{'TITLE' | translate}}
 				.col-md-10
-					input.form-control(name="text", type="text", placeholder="{{'TITLE' | translate}}", ng-model="suggestion.title", autofocus)
+					input.form-control(name="title", id="title", type="text", placeholder="{{'TITLE' | translate}}", ng-model="suggestion.title", autofocus)
 			.form-group
-				label.col-md-2.control-label(for="text") {{'DESCRIPTION' | translate}}
+				label.col-md-2.control-label(for="description") {{'DESCRIPTION' | translate}}
 				.col-md-10
-					input.form-control(name="text", type="text", placeholder="{{'DESCRIPTION' | translate}}", ng-model="suggestion.description", autofocus)
+					input.form-control(name="description", id="description", type="text", placeholder="{{'DESCRIPTION' | translate}}", ng-model="suggestion.description", autofocus)
 			.form-group
 				label.col-md-2.control-label(for="text") {{'TEXT' | translate}}
 				.col-md-10
-					input.form-control(name="text", type="text", placeholder="{{'TEXT' | translate}}", ng-model="suggestion.text", required, autofocus)
+					input.form-control(name="text", id="text", type="text", placeholder="{{'TEXT' | translate}}", ng-model="suggestion.text", required, autofocus)
 			.form-group
 				label.col-md-2.control-label(for="answer1") {{'FIRST_CHOICE' | translate}}
 				.col-md-10
-					input.form-control(name="answer1", type="text", placeholder="{{'FIRST_CHOICE' | translate}}", ng-model="suggestion.answers[0].text", required)
+					input.form-control(name="answer1", id="answer1", type="text", placeholder="{{'FIRST_CHOICE' | translate}}", ng-model="suggestion.answers[0].text", required)
 			.form-group
 				label.col-md-2.control-label(for="answer2") {{'SECOND_CHOICE' | translate}}
 				.col-md-10
-					input.form-control(name="answer2", type="text", placeholder="{{'SECOND_CHOICE' | translate}}", ng-model="suggestion.answers[1].text", required)
+					input.form-control(name="answer2", id="answer2", type="text", placeholder="{{'SECOND_CHOICE' | translate}}", ng-model="suggestion.answers[1].text", required)
 			.form-group
 				label.col-md-2.control-label(for="tags") {{'TAGS' | translate}}
 				.col-md-10

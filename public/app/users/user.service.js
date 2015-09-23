@@ -62,6 +62,9 @@ function UserService($q, User) {
       });
 
       return dfd.promise;
+    },
+    requestNewPassword: function(username, language) {
+      return User.requestNewPassword({_username: username}, {language: language}).$promise;
     }
   };
 }

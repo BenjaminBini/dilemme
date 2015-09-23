@@ -45,7 +45,9 @@ exports.schema = mongoose.Schema({
   commentUpvotes: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Comment'
-  }]
+  }],
+  resetPasswordToken: String,
+  resetPasswordExpire: Date
 });
 
 /**

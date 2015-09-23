@@ -14,6 +14,7 @@ exports.methods = {
     var user = this.toObject(options);
     delete user.hashedPassword;
     delete user.salt;
+    delete user.resetPasswordToken;
     return user;
   },
   /**
@@ -58,6 +59,8 @@ exports.statics = {
       err = 'Username must not be an email address';
     } else if (!validator.isEmail(user.email)) {
       err = 'Email address is not valid';
+    } else if (!validator.isLength(user.email, 1, 150)) {
+      err = 'Email address it too long';
     } else if (!validator.isLength(user.username, 1, 70)) {
       err = 'Username is too long';
     }

@@ -137,5 +137,6 @@
   "WILL_REMAIN_PRIVATE": "Restera privé. Pas de pubs. Pas de spam",
   "ARE_YOU_SURE": "Etes-vous sûr de vouloir",
   "AUTHOR": "Auteur",
-  "UNKNOWN_ERROR": "Une erreur inconnue est arrivée"
+  "UNKNOWN_ERROR": "Une erreur inconnue est arrivée",
+  "ID": "Id"
 }

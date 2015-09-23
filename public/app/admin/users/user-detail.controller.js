@@ -2,6 +2,7 @@ function UserDetailController($scope, $routeParams, User, NotifierService, $loca
 
   // Pass the edited user to the scope
   var user = User.get({_id: $routeParams.id}, function() {
+    $scope.userId = user._id;
     $scope.email = user.email;
     $scope.username = user.username;
 
