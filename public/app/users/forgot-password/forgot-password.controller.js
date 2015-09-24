@@ -10,7 +10,7 @@ function ForgotPasswordController(UserService, NotifierService, IdentityService)
       if (response.newPasswordSent) {
         vm.mailSent = true;
       } else {
-        NotifierService.warn('Cet utilisateur n\'existe pas');
+        NotifierService.warn('USER_DOES_NOT_EXIST');
       }
     });
   }

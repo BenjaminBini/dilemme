@@ -200,25 +200,78 @@ exports.requestNewPassword = function(req, res) {
   var username = req.params.username;
   var criteria = validator.isEmail(username) ? {email: username} : {username: username};
   User.findOne(criteria).then(function(user) {
-    // Get the user language (default it to English if necessary)
-    var language = (!!req.body.language && req.body.language.length === 2) ? req.body.language : 'en';
-    // Send the mail and send the response to the user
-    mailer.sendRequestNewPasswordMail(language, user.email).then(function() {
-      res.send({
-        newPasswordSent: true
+    if (user) {
+      // Get the user language (default it to English if necessary)
+      var language = (!!req.body.language && req.body.language.length === 2) ? req.body.language : 'en';
+      // Create the token
+      var token = encrypt.createToken();
+      // Send the mail and send the response to the user
+      mailer.sendRequestNewPasswordMail(language, user.email, token).then(function() {
+        res.send({
+          newPasswordSent: true
+        });
+      }, function() {
+        res.send({
+          newPasswordSent: false
+        });
       });
-    }, function() {
+      // Set the token and the expire date of the user reset password request
+      user.resetPasswordToken = token;
+      user.resetPasswordExpire = Date.now() + (1000 * 60 * 60 * 2); // 2 hours in the future
+      user.save();
+    } else {
       res.send({
         newPasswordSent: false
       });
+    }
+  });
+};
+
+exports.resetPassword = function(req, res, next) {
+  var newPassword = req.body.newPassword;
+  var token = req.body.token;
+  if (token === undefined || token.length === 0 || !validator.isHexadecimal(token)) {
+    res.status(400);
+    return res.send({
+      reason: 'INVALID_TOKEN'
     });
-    // Set the token and the date of the user
-    user.resetPasswordToken = encrypt.createToken();
-    user.resetPasswordExpire = Date.now() + (1000 * 60 * 60 * 2); // 2 hours in the future
-    user.save();
-  }, function() {
-    res.send({
-      newPasswordSent: false
-    });
+  }
+  User.findOne({resetPasswordToken: token}).then(function(user) {
+    if (user && Date.now() < user.resetPasswordExpire) {
+      user.salt = encrypt.createSalt();
+      user.hashedPassword = encrypt.hashPassword(user.salt, newPassword);
+      user.resetPasswordToken = undefined;
+      user.resetPasswordExpire = undefined;
+      // Validate data (just in case)
+      var err = User.validate(user);
+      if (err) {
+        return res.status(400).send({
+          reason: err
+        });
+      }
+
+      // Save the user
+      user.save().then(function() {
+        req.password = newPassword;
+        req.email = user.email;
+        // Login the user
+        req.logIn(user, function(err) {
+          // If login fail, continue the middleware chain
+          if (err) {
+            return next(err);
+          }
+
+          // Send and return the user
+          user.populateUser().then(function() {
+            res.send(user);
+          });
+        });
+      });
+    } else {
+      res.status(400);
+      res.send({
+        reason: 'INVALID_TOKEN'
+      });
+    }
   });
 };

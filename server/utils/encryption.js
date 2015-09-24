@@ -20,5 +20,5 @@ exports.hashPassword = function(salt, pwd) {
  * Generate an URL-safe token
  */
 exports.createToken = function() {
-  return crypto.randomBytes(48).toString('hex');
+  return crypto.randomBytes(24).toString('hex');
 };

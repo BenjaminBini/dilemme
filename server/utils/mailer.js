@@ -5,7 +5,7 @@ var Deferred = require('promised-io/promise').Deferred;
 exports.sendRequestNewPasswordMail = function(language, to, token) {
   var subject = templates.newPasswordRequest.subject[language];
   var text = templates.newPasswordRequest.body[language];
-  text.replace('{{url}}', '/forgot-password/reset/' + token);
+  text = text.replace('{{URL}}', process.env.ROOT_PATH + '/forgot-password/reset/' + token);
   return sendMail('Dilemme <benjamin@dilemme.io>', to, subject, text);
 };
 

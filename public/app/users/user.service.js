@@ -65,6 +65,19 @@ function UserService($q, User) {
     },
     requestNewPassword: function(username, language) {
       return User.requestNewPassword({_username: username}, {language: language}).$promise;
+    },
+    resetPassword: function(token, newPassword) {
+      var dfd = $q.defer();
+      User.resetPassword({
+        token: token,
+        newPassword: newPassword
+      }).$promise.then(function(user) {
+        dfd.resolve(user);
+      }, function(response) {
+        dfd.reject(response.data.reason);
+      });
+
+      return dfd.promise;
     }
   };
 }

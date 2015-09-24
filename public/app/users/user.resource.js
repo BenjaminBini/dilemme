@@ -18,6 +18,11 @@ function User($resource) {
       method: 'POST',
       isArray: false,
       url: '/api/users/:_username/requestNewPassword'
+    },
+    resetPassword: {
+      method: 'POST',
+      isArray: false,
+      url: '/api/users/resetPassword'
     }
   });
 

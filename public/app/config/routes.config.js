@@ -114,9 +114,9 @@ function routesConfig($routeProvider, $locationProvider) {
       controllerAs: 'vm',
       animation: 'view-transition',
     })
-    .when('/forgot-password/reset', {
+    .when('/forgot-password/reset/:token', {
       templateUrl: '/partials/users/forgot-password/reset-password',
-      controller: 'ResetPasswordController',
+      controller: 'PasswordResetController',
       controllerAs: 'vm',
       animation: 'view-transition'
     })
