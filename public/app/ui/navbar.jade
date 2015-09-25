@@ -23,10 +23,10 @@
 						a(href="/admin/questions") {{'QUESTIONS_ADMIN' | translate}}
 					li(ng-show="identity.currentUser.isAdmin()")
 						a(href="/admin/suggestions") {{'SUGGESTIONS_ADMIN' | translate}}
-					li
-						a(href="/profile") {{'PROFILE' | translate}}
 					li(ng-show="identity.isAuthenticated()")
 						a(href="/stats") {{'STATS' | translate}}
+					li
+						a(href="/profile") {{'PROFILE' | translate}}
 					li
 						a(role="button", ng-click="signout()") {{'SIGN_OUT' | translate}}
 			li.dropdown.language-switcher(ng-controller="LanguageSwitcherController")
