@@ -101,6 +101,7 @@
   "FORGOT_MY_PASSWORD_SUCCESS_TITLE": "Check your mailbox",
   "FORGOT_MY_PASSWORD_SUCCESS": "We sent you a mail with a link to reset your password, you have one hour to do it. Verify that the mail did not end in your spam box.",
   "PASSWORD_RESET_SUCCESS": "Your password has been successfully modified",
+  "INVALID_TOKEN": "This link is not valid any more. Please click on \"Forgot my password\" again.",
   "NEW_PASSWORD": "New password",
   "PASSWORD": "Password",
   "ACCOUNT_DELETED": "Account deleted",

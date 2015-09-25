@@ -101,6 +101,8 @@
   "FORGOT_MY_PASSWORD": "Mot de passe oublié",
   "FORGOT_MY_PASSWORD_SUCCESS_TITLE": "Allez voir vos mails",
   "FORGOT_MY_PASSWORD_SUCCESS": "Nous vous avons envoyez un mail contenant un lien permettant de changer votre mot de passe, vous avez une heure pour le faire. Vérifiez bien que le mail ne se trouve pas dans vos spams.",
+  "PASSWORD_RESET_SUCCESS": "Votre mot de passe a bien été modifié",
+  "INVALID_TOKEN": "Ce lien n'est plus valide. Veuillez cliquer sur \"J'ai oublié mon mot de passe\" de nouveau.",
   "NEW_PASSWORD": "Nouveau mot de passe",
   "ACCOUNT_DELETED": "Compte supprimé",
   "ROLES": "Rôles",
