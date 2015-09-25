@@ -82,4 +82,13 @@ module.exports = function(app, config) {
       bootstrappedUser: req.user
     });
   });
+
+  // Error middleware
+  app.use(function(err, req, res, next) { // jshint ignore:line
+    res.status(400);
+    console.log('ERROOOOR');
+    res.send({
+      reason: err.message
+    });
+  });
 };

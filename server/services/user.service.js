@@ -9,10 +9,10 @@ var validator = require('validator');
 /**
  * Return array of all users
  */
-exports.getUsers = function(req, res) {
+exports.getUsers = function(req, res, next) {
   User.find({}).exec(function(err, collection) {
     if (err) {
-      return;
+      return next(err);
     }
     res.send(collection);
     return collection;
@@ -22,10 +22,10 @@ exports.getUsers = function(req, res) {
 /**
  * Return the user with the given id
  */
-exports.getUserById = function(req, res) {
+exports.getUserById = function(req, res, next) {
   User.findOne({_id: req.params.id}).exec(function(err, user) {
     if (err) {
-      return res.send(400);
+      return next(err);
     }
     user.populateUser().then(function() {
       res.send(user);
@@ -44,31 +44,28 @@ exports.createUser = function(req, res, next) {
   userData.hashedPassword = encrypt.hashPassword(userData.salt, userData.password);
 
   // Validate data
-  var err = User.validate(userData);
-  if (err) {
-    return res.status(400).send({
-      reason: err
-    });
+  var validationErrorMessage = User.validate(userData);
+  if (validationErrorMessage) {
+    return next(new Error(validationErrorMessage));
   }
 
   // Create user
   User.create(userData, function(err, user) {
     if (err) {
       // If the error is E11000, the reason is a duplicate username or email
+      var reason = err.message;
       if (err.toString().indexOf('E11000') > -1) {
         if (err.toString().indexOf('username') > -1) {
-          err = 'USERNAME_ALREADY_EXISTS';
+          reason = 'USERNAME_ALREADY_EXISTS';
         } else if (err.toString().indexOf('email') > -1) {
-          err = 'EMAIL_ALREADY_EXISTS';
+          reason = 'EMAIL_ALREADY_EXISTS';
         }
       }
-      // Return 400 code with the error
-      res.status(400);
-      return res.send({reason: err});
+      return next(new Error(reason));
     }
     // If no error, login the user
     req.logIn(user, function(err) {
-      // If login fail, continue the middleware chain
+      // If login fail
       if (err) {
         return next(err);
       }
@@ -82,7 +79,7 @@ exports.createUser = function(req, res, next) {
 /**
  * Update a user
  */
-exports.updateUser = function(req, res) {
+exports.updateUser = function(req, res, next) {
   // Get the user data from the request
   var userUpdates = req.body;
 
@@ -95,15 +92,16 @@ exports.updateUser = function(req, res) {
   // Validate data
   var err = User.validate(userUpdates);
   if (err) {
-    return res.status(400).send({
-      reason: err
-    });
+    return next(err);
   }
 
   // Get the user we have to modify
   User.findOne({_id: req.params.id}).exec(function(err, user) {
-    if (err || !user) {
-      return res.sendStatus(400);
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return next(new Error('USER_DOES_NOT_EXIST'));
     }
     user.username = userUpdates.username;
     user.email = userUpdates.email;
@@ -119,17 +117,15 @@ exports.updateUser = function(req, res) {
     // Save the user
     user.save(function(err) {
       if (err) {
+        var reason = err.message;
         // If the error is E11000, the reason is a duplicate username or email
         if (err.toString().indexOf('username') > -1) {
-          err = 'USERNAME_ALREADY_EXISTS';
+          reason = 'USERNAME_ALREADY_EXISTS';
         } else if (err.toString().indexOf('email') > -1) {
-          err = 'EMAIL_ALREADY_EXISTS';
+          reason = 'EMAIL_ALREADY_EXISTS';
         }
         // If an error occure, return error 400 with the error
-        res.status(400);
-        return res.send({
-          reason: err.toString()
-        });
+        return next(new Error(reason));
       }
       // Send and return the user
       user.populateUser().then(function() {
@@ -143,13 +139,10 @@ exports.updateUser = function(req, res) {
 /**
  * Delete a user
  */
-exports.deleteUser = function(req, res) {
+exports.deleteUser = function(req, res, next) {
   User.remove({_id: req.params.id}, function(err) {
     if (err) {
-      res.status(400);
-      return res.send({
-        reason: err.toString()
-      });
+      return next(err);
     }
     res.send(req.params.id);
     return req.params.id;
@@ -159,7 +152,7 @@ exports.deleteUser = function(req, res) {
 /**
   * Return user with his stats
   */
-exports.getUserStats = function(req, res) {
+exports.getUserStats = function(req, res, next) {
   // Check if the user is authorized (admin or current user)
   //
   if (req.user._id != req.params.id && !req.user.hasRole('admin')) { // jshint ignore:line
@@ -168,9 +161,7 @@ exports.getUserStats = function(req, res) {
   }
   User.findOne({_id: req.params.id}).exec(function(err, user) {
     if (err) {
-      return res.status(400).send({
-        reason: 'USER_DOES_NOT_EXIST'
-      });
+      return next(new Error('USER_DOES_NOT_EXIST'));
     }
     user.populateUser().then(function() {
       res.send(user.toJSON({virtuals: true}));
@@ -181,14 +172,11 @@ exports.getUserStats = function(req, res) {
 /**
  * Return the list of users who answered a question
  */
-exports.getUsersByAnsweredQuestion = function(req, res) {
+exports.getUsersByAnsweredQuestion = function(req, res, next) {
   User.find({'answers.question': req.params.questionId}).then(function(collection) {
     res.send(collection);
   }, function(err) {
-    res.status(400);
-    return res.send({
-      reason: err.toString()
-    });
+    return next(err);
   });
 };
 
@@ -231,10 +219,7 @@ exports.resetPassword = function(req, res, next) {
   var newPassword = req.body.newPassword;
   var token = req.body.token;
   if (token === undefined || token.length === 0 || !validator.isHexadecimal(token)) {
-    res.status(400);
-    return res.send({
-      reason: 'INVALID_TOKEN'
-    });
+    return next(new Error('INVALID_TOKEN'));
   }
   User.findOne({resetPasswordToken: token}).then(function(user) {
     if (user && Date.now() < user.resetPasswordExpire) {
@@ -243,11 +228,9 @@ exports.resetPassword = function(req, res, next) {
       user.resetPasswordToken = undefined;
       user.resetPasswordExpire = undefined;
       // Validate data (just in case)
-      var err = User.validate(user);
-      if (err) {
-        return res.status(400).send({
-          reason: err
-        });
+      var validationErrorMessage = User.validate(user);
+      if (validationErrorMessage) {
+        return next(new Error(validationErrorMessage));
       }
 
       // Save the user
@@ -268,10 +251,7 @@ exports.resetPassword = function(req, res, next) {
         });
       });
     } else {
-      res.status(400);
-      res.send({
-        reason: 'INVALID_TOKEN'
-      });
+      return next(new Error('INVALID_TOKEN'));
     }
   });
 };

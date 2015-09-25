@@ -7,14 +7,14 @@ var Question = require('mongoose').model('Question');
 /**
  * Return all suggestions
  */
-exports.getSuggestions = function(req, res) {
+exports.getSuggestions = function(req, res, next) {
   Suggestion.find({}).populate([{
     path: 'author',
     select: 'username',
     model: 'User'
   }]).exec(function(err, collection) {
     if (err) {
-      return;
+      return next(err);
     }
     return res.send(collection);
   });
@@ -23,14 +23,13 @@ exports.getSuggestions = function(req, res) {
 /**
  * Return a suggestion by its id
  */
-exports.getSuggestionById = function(req, res) {
+exports.getSuggestionById = function(req, res, next) {
   Suggestion.findOne({_id: req.params.id}).exec(function(err, suggestion) {
-    if (err || !suggestion) {
-      if (err) {
-        console.log(err.stack);
-      }
-      res.status(400);
-      return res.send({reason: 'SUGGESTION_DOES_NOT_EXIST'});
+    if (err) {
+      return next(err);
+    }
+    if (!suggestion) {
+      return next(new Error('SUGGESTION_DOES_NOT_EXIST'));
     }
     suggestion.populateSuggestion().then(function() {
       return res.send(suggestion);
@@ -41,7 +40,7 @@ exports.getSuggestionById = function(req, res) {
 /**
  * Create a new suggestion
  */
-exports.createSuggestion = function(req, res) {
+exports.createSuggestion = function(req, res, next) {
   // Get the suggestion data from the request
   var suggestionData = req.body;
   suggestionData.author = req.user;
@@ -49,8 +48,7 @@ exports.createSuggestion = function(req, res) {
   // Create question
   Suggestion.create(suggestionData, function(err, suggestion) {
     if (err) {
-      res.status(400);
-      return res.send({reason: err.toString()});
+      return next(err);
     }
     // If no error, return the question
     return res.send(suggestion);
@@ -60,7 +58,7 @@ exports.createSuggestion = function(req, res) {
 /**
  * Return the suggestions of a particular user
  */
-exports.getSuggestionsByUser = function(req, res) {
+exports.getSuggestionsByUser = function(req, res, next) {
   // Check if the user is authorized (admin or current user)
   if (req.user._id != req.params.id && !req.user.hasRole('admin')) { // jshint ignore:line
     res.status(403);
@@ -69,8 +67,7 @@ exports.getSuggestionsByUser = function(req, res) {
 
   Suggestion.find({author: req.params.id}).exec(function(err, collection) {
     if (err) {
-      res.status(400);
-      return res.send({reason: err.toString()});
+      return next(err);
     }
     return res.send(collection);
   });
@@ -79,11 +76,10 @@ exports.getSuggestionsByUser = function(req, res) {
 /**
  * Validate a suggestion and publish the question
  */
-exports.validateSuggestion = function(req, res) {
+exports.validateSuggestion = function(req, res, next) {
   var suggestion = req.body;
   if (!suggestion) {
-    res.status(400);
-    return res.send({reason: 'SUGGESTION_DOES_NOT_EXIST'});
+    return next(new Error('SUGGESTION_DOES_NOT_EXIST'));
   }
 
   suggestion.date = Date.now;
@@ -118,18 +114,13 @@ exports.validateSuggestion = function(req, res) {
     Question.create(suggestion, function(err, question) {
       if (!question || err) {
         if (err) {
-          console.log(err.stack);
+          return next(err);
         }
-        res.status(400);
-        return res.send();
       }
       Suggestion.remove({_id: suggestion._id}, function(err) {
         if (err) {
-          console.log(err.stack);
-          res.status(400);
-          return res.send();
+          return next(err);
         }
-        return res.send(question);
       });
     });
   });
@@ -138,12 +129,10 @@ exports.validateSuggestion = function(req, res) {
 /**
  * Delete a suggestion
  */
-exports.deleteSuggestion = function(req, res) {
+exports.deleteSuggestion = function(req, res, next) {
   Suggestion.remove({_id: req.params.id}, function(err) {
     if (err) {
-      console.log(err.stack);
-      res.status(400);
-      return res.send();
+      return next(err);
     }
     return res.send(req.params.id);
   });
