@@ -13,11 +13,11 @@ Mongodb required running on default port. With a "dilemme" user being able to re
 Environment variables have to be set in a ".env" file at the root of the project (I use [dotenv](https://github.com/motdotla/dotenv)).
 
 5 environment variables are required :
-* `NODE\_ENV`: "development" or "production"
-* `ROOT\_PATH`: root URL (for example : http://dilemme.io, or http://localhost:3131) WITHOUT trailing slash
-* `MONGO\_PASSWORD`: the "dilemme" database password
-* `GMAIL\_USER`: GMail user for sending mail
-* `GMAIL\_PASSWORD`: GMail password for sending mail
+* `NODE_ENV`: "development" or "production"
+* `ROOT_PATH`: root URL (for example : http://dilemme.io, or http://localhost:3131) WITHOUT trailing slash but WITH leading "http://"
+* `MONGO_PASSWORD`: the "dilemme" database password
+* `GMAIL_USER`: GMail user for sending mail
+* `GMAIL_PASSWORD`: GMail password for sending mail
 
 You must have [gulp](http://gulpjs.com/) and bower installed too.
 ```sh
