@@ -29,108 +29,89 @@ function routesConfig($routeProvider, $locationProvider) {
   $routeProvider
     .when('/', {
       templateUrl: '/partials/ui/home',
-      controller: 'MainController',
-      animation: 'view-transition'
+      controller: 'MainController'
     })
     .when('/questions/random', {
       template: '',
-      controller: 'QuestionRandomController',
-      animation: 'view-transition'
+      controller: 'QuestionRandomController'
     })
     .when('/questions/random/unanswered', {
       template: '',
-      controller: 'UnansweredQuestionRandomController',
-      animation: 'view-transition'
+      controller: 'UnansweredQuestionRandomController'
     })
     .when('/questions/browse', {
       templateUrl: '/partials/questions/browse/browse-questions',
-      controller: 'BrowseController',
-      animation: 'view-transition'
+      controller: 'BrowseController'
     })
     .when('/questions/top', {
       templateUrl: '/partials/questions/top/top-questions',
-      controller: 'TopController',
-      animation: 'view-transition'
+      controller: 'TopController'
     })
     .when('/questions/new', {
       templateUrl: '/partials/questions/new/new-questions',
-      controller: 'NewController',
-      animation: 'view-transition'
+      controller: 'NewController'
     })
     .when('/questions/:id', {
       templateUrl: '/partials/questions/question',
-      controller: 'QuestionController',
-      animation: 'view-transition'
+      controller: 'QuestionController'
     })
     .when('/questions/tag/:tag', {
       templateUrl: '/partials/questions/tag/tag',
-      controller: 'TagViewController',
-      animation: 'view-transition'
+      controller: 'TagViewController'
     })
     .when('/admin/users', {
       templateUrl: '/partials/admin/users/user-list',
       controller: 'UserListController',
-      resolve: routeRolesCheck.admin,
-      animation: 'view-transition'
+      resolve: routeRolesCheck.admin
     })
     .when('/admin/users/:id', {
       templateUrl: '/partials/admin/users/user-detail',
       controller: 'UserDetailController',
-      resolve: routeRolesCheck.admin,
-      animation: 'view-transition'
+      resolve: routeRolesCheck.admin
     })
     .when('/admin/questions', {
       templateUrl: '/partials/admin/questions/question-list',
       controller: 'QuestionListController',
-      resolve: routeRolesCheck.admin,
-      animation: 'view-transition'
+      resolve: routeRolesCheck.admin
     })
     .when('/admin/questions/:id', {
       templateUrl: '/partials/admin/questions/question-detail',
       controller: 'QuestionDetailController',
-      resolve: routeRolesCheck.admin,
-      animation: 'view-transition'
+      resolve: routeRolesCheck.admin
     })
     .when('/admin/suggestions', {
       templateUrl: '/partials/admin/suggestions/suggestion-list',
       controller: 'SuggestionListController',
-      resolve: routeRolesCheck.admin,
-      animation: 'view-transition'
+      resolve: routeRolesCheck.admin
     })
     .when('/admin/suggestions/:id', {
       templateUrl: '/partials/admin/suggestions/suggestion-detail',
       controller: 'SuggestionDetailController',
-      resolve: routeRolesCheck.admin,
-      animation: 'view-transition'
+      resolve: routeRolesCheck.admin
     })
     .when('/register', {
       templateUrl: '/partials/users/register',
-      controller: 'RegisterController',
-      animation: 'view-transition'
+      controller: 'RegisterController'
     })
     .when('/forgot-password', {
       templateUrl: '/partials/users/forgot-password/forgot-password',
       controller: 'ForgotPasswordController',
       controllerAs: 'vm',
-      animation: 'view-transition',
     })
     .when('/forgot-password/reset/:token', {
       templateUrl: '/partials/users/forgot-password/reset-password',
       controller: 'PasswordResetController',
-      controllerAs: 'vm',
-      animation: 'view-transition'
+      controllerAs: 'vm'
     })
     .when('/stats', {
       templateUrl: '/partials/users/stats',
       controller: 'StatsController',
-      resolve: routeRolesCheck.user,
-      animation: 'view-transition'
+      resolve: routeRolesCheck.user
     })
     .when('/profile', {
       templateUrl: '/partials/users/profile',
       controller: 'ProfileController',
-      resolve: routeRolesCheck.user,
-      animation: 'view-transition'
+      resolve: routeRolesCheck.user
     });
 }
 

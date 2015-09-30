@@ -420,18 +420,6 @@ span.red {
 span.blue {
   color: #3498db;
 }
-.view-transition .view {
-  transition: 800ms;
-  position: relative;
-}
-.view-transition .view.ng-enter {
-  opacity: 0;
-}
-.view-transition .view.ng-enter-active {
-  opacity: 1;
-}
-.view-transition .view.ng-leave {
-  display: none;
 }
 .no-transition,
 .no-transition * {
