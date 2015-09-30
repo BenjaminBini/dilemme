@@ -167,3 +167,29 @@
 	-ms-transition-duration 3s !important
 	-o-transition-duration 3s !important
 	transition-duration 3s !important
+
+// Odometer blur effect
+.percentage.odometer
+	position relative
+.percentage.odometer:after,
+.percentage.odometer:before
+	content ""
+	display block
+	z-index 2
+	height 35%
+	width 100%
+	position absolute
+	
+answer-button:first-child .percentage.odometer:before
+	background-image linear-gradient(to top, transparent, #E74C3C)
+	top 0
+answer-button:first-child .percentage.odometer:after
+	background-image linear-gradient(to bottom, transparent, #E74C3C)
+	bottom 0
+	
+answer-button:last-child .percentage.odometer:before
+	background-image linear-gradient(to top, transparent, #3498db)
+	top 0
+answer-button:last-child .percentage.odometer:after
+	background-image linear-gradient(to bottom, transparent, #3498db)
+	bottom 0
