@@ -58,9 +58,10 @@ footer
 		vertical-align top
 
 // Navbar	
-.navbar-nav > li > a {
+.navbar-header
+	position relative
+.navbar-nav > li > a
 	font-weight normal
-}
 .navbar-form
 	float right
 	padding-left 0
@@ -370,13 +371,19 @@ span.red
 span.blue
 	color #3498db
 		
-// View transition animation
+// Circle effect
 @keyframes effect
 	100%
 		opacity 0
 		transform scale(3)
 		-ms-transform scale(3)
 		-wekbit-transform scale(3)
+
+// Loading spinner
+loading-spinner
+	position absolute
+	left -45px
+	top 18px
 
 .no-transition
 .no-transition *

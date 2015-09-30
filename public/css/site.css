@@ -59,6 +59,9 @@ footer .github {
   font-size: 20px;
   vertical-align: top;
 }
+.navbar-header {
+  position: relative;
+}
 .navbar-nav > li > a {
   font-weight: normal;
 }
@@ -420,6 +423,10 @@ span.red {
 span.blue {
   color: #3498db;
 }
+loading-spinner {
+  position: absolute;
+  left: -45px;
+  top: 18px;
 }
 .no-transition,
 .no-transition * {

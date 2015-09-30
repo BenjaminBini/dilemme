@@ -10,12 +10,12 @@ function loadingSpinner($http) {
       scope.$watch(scope.isLoading, function(isLoading) {
         if (isLoading) {
           timer = setTimeout(function() {
-            element.fadeIn();
-          }, 300);
+            element.show();
+          }, 100);
         } else {
           clearTimeout(timer);
           timer = 0;
-          element.fadeOut();
+          element.hide();
         }
       });
     }

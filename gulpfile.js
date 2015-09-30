@@ -59,13 +59,14 @@ var JS_SRC = ['./public/vendors/jquery/dist/jquery.min.js',
  * CSS Sources
  */
 var CSS_SRC = ['./public/css/socicon.css',
-                './public/vendors/ngDialog/css/ngDialog.min.css',
-                './public/vendors/ngDialog/css/ngDialog-theme-default.min.css',
+                './public/vendors/ngDialog/css/ngDialog.css',
+                './public/vendors/ngDialog/css/ngDialog-theme-default.css',
                 './public/vendors/angular-ui-select/dist/select.css',
                 './public/vendors/odometer/themes/odometer-theme-minimal.css',
                 './public/vendors/toastr/toastr.css',
                 './public/vendors/angular-chart.js/dist/angular-chart.css',
-                './public/vendors/angular-hotkeys/build/angular-hotkeys.min.css',
+                './public/vendors/angular-hotkeys/build/angular-hotkeys.css',
+                './public/vendors/load-awesome/css/line-scale.css',
                 './public/css/site.css',
                 './public/css/mobile.css'];
 
