@@ -67,8 +67,7 @@ var CSS_SRC = ['./public/css/socicon.css',
                 './public/vendors/angular-chart.js/dist/angular-chart.css',
                 './public/vendors/angular-hotkeys/build/angular-hotkeys.css',
                 './public/vendors/load-awesome/css/line-scale.css',
-                './public/css/site.css',
-                './public/css/mobile.css'];
+                './public/css/*.css'];
 
 /**
  * Views sources
@@ -78,7 +77,7 @@ var VIEW_SRC = ['./public/app/**/*.jade'];
 /**
  * Stylus sources
  */
-var STYLUS_SRC = ['./public/css/*.styl'];
+var STYLUS_SRC = ['./public/styles/*.styl'];
 
 /**
  * Sources to lint

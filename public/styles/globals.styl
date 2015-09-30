@@ -1,0 +1,64 @@
+@font-face
+	font-family 'CC-ICONS'
+	font-style normal
+	font-weight normal
+	src url('/fonts/cc-icons.ttf') format('truetype')
+
+body
+	padding-top 61px
+	padding-bottom 60px
+	overflow-x hidden
+	
+// No radius on some stuff
+input,
+button,
+.btn,
+.select2-choice,
+.ui-select-dropdown, 
+.select2-result-label,
+.dropdown-menu,
+.well,
+a
+	border-radius 0 !important
+
+// Same for shadows
+.well
+	box-shadow: none;
+
+// Notifications
+.toast-top-right
+	top 70px
+#toast-container > div
+	border-radius 0
+	box-shadow none
+#toast-container > :hover
+	box-shadow none
+
+		
+// Loading spinner
+loading-spinner
+	position absolute
+	left -45px
+	top 18px
+
+.no-transition
+.no-transition *
+	-moz-transition none !important
+	-webkit-transition none !important
+	-o-transition color 0 ease-in !important
+	transition none !important
+
+.translate-cloak
+	display: none
+
+// Global color classes
+.red-background
+	background-color #e74c3c
+	color white
+.blue-background
+	background-color #3498db
+	color white
+span.red
+	color #e74c3c
+span.blue
+	color #3498db
