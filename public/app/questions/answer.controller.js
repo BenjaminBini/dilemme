@@ -5,25 +5,7 @@ function AnswerController($scope, QuestionService, $location, NotifierService, I
    *
    * @param  {Number} answer Answer of the question (0 or 1)
    */
-  $scope.answer = function(answer) {
-    if (!$scope.answered) {
-      $scope.results = QuestionService.getProportions($scope.question);
-      QuestionService.answerQuestion($scope.question, answer).then(function() {
-        $scope.results = QuestionService.getProportions($scope.question);
-        // Push the answer to current user answer list if authenticated
-        if (IdentityService.isAuthenticated()) {
-          IdentityService.currentUser.answers.push({
-            question: $scope.question,
-            answer: answer
-          });
-        } else { // Push it in the local storage/cookie
-          QuestionService.saveAnswerLocally($scope.question, answer);
-        }
-      }, function(reason) {
-        NotifierService.error(reason);
-      });
-    }
-  };
+  $scope.answer = answerQuestion;
 
   /**
    * Upvote the question
@@ -104,6 +86,7 @@ function AnswerController($scope, QuestionService, $location, NotifierService, I
    */
   $scope.nextQuestion = function() {
     QuestionService.getUnansweredQuestion().then(function(question) {
+      $scope.answer = answerQuestion;
       $scope.question = question;
       $location.path('/questions/' + question._id, false);
     });
@@ -187,6 +170,26 @@ function AnswerController($scope, QuestionService, $location, NotifierService, I
       }
     }
   });
+
+  function answerQuestion(answer) {
+    if (!$scope.answered) {
+      $scope.results = QuestionService.getProportions($scope.question);
+      QuestionService.answerQuestion($scope.question, answer).then(function() {
+        $scope.results = QuestionService.getProportions($scope.question);
+        // Push the answer to current user answer list if authenticated
+        if (IdentityService.isAuthenticated()) {
+          IdentityService.currentUser.answers.push({
+            question: $scope.question,
+            answer: answer
+          });
+        } else { // Push it in the local storage/cookie
+          QuestionService.saveAnswerLocally($scope.question, answer);
+        }
+      }, function(reason) {
+        NotifierService.error(reason);
+      });
+    }
+  }
 }
 
 AnswerController.$inject = ['$scope', 'QuestionService', '$location', 'NotifierService', 'IdentityService', 'localStorageService', 'ModalService', '$window', 'hotkeys'];

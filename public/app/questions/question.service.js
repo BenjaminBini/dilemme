@@ -191,7 +191,9 @@ function QuestionService($q, Question, localStorageService) {
       var dfd = $q.defer();
 
       var anonymousAnswer = {
-        question: question._id,
+        question: {
+          _id: question._id
+        },
         answer: answer
       };
       var anonymousAnswers = localStorageService.get('answers');
