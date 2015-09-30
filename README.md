@@ -8,9 +8,9 @@ Work in progress.
 
 # Install and run
 
-Mongodb required running on default port. With a "dilemme" user being able to read and write "dilemme" db.
+MongoDB is required and must be running on default port (will be configurable in the future). A database called "dilemme" must be created and a user named "dilemme" must be able to read and write the database.
 
-Environment variables have to be set in a ".env" file at the root of the project (I use [dotenv](https://github.com/motdotla/dotenv)).
+Environment variables have to be set in a ".env" file at the root of the project (see `.env.sample` file) (I use [dotenv](https://github.com/motdotla/dotenv)).
 
 5 environment variables are required :
 * `NODE_ENV`: "development" or "production"
@@ -19,7 +19,7 @@ Environment variables have to be set in a ".env" file at the root of the project
 * `GMAIL_USER`: GMail user for sending mail
 * `GMAIL_PASSWORD`: GMail password for sending mail
 
-You must have [gulp](http://gulpjs.com/) and bower installed too.
+You must have [gulp](http://gulpjs.com/) and [bower](http://bower.io/) installed too.
 ```sh
 $ npm install -g gulp
 $ npm install -g bower
