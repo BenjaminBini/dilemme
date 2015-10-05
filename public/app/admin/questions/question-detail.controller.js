@@ -1,6 +1,7 @@
-function QuestionDetailController($scope, $routeParams, $location, NotifierService, QuestionService, ModalService, UserService) {
-  var originalQuestion = {};
+function QuestionDetailController($scope, $routeParams, $location, NotifierService, QuestionService, ModalService, UserService, Question) {
+
   var question = {};
+  var originalQuestion = new Question();
   question.answers = [];
   $scope.question = question;
   $scope.isLoaded = false;
@@ -8,8 +9,8 @@ function QuestionDetailController($scope, $routeParams, $location, NotifierServi
   if ($routeParams.id !== 'add') {
     QuestionService.getQuestionById($routeParams.id).then(function(questionResponse) {
       question = questionResponse;
-      originalQuestion = question;
-      $scope.question = question;
+      angular.extend(originalQuestion, question);
+      $scope.question = questionResponse;
       $scope.isLoaded = true;
 
       UserService.getByAnsweredQuestion(question).then(function(users) {
@@ -69,7 +70,7 @@ function QuestionDetailController($scope, $routeParams, $location, NotifierServi
   };
 
   $scope.publish = function() {
-    QuestionService.publishQuestion(originalQuestion).then(function(newQuestion) {
+    QuestionService.publishQuestion(question).then(function(newQuestion) {
       $scope.question = question = newQuestion;
       NotifierService.notify('QUESTION_PUBLISHED_SUCCESS');
     });
@@ -83,5 +84,5 @@ function QuestionDetailController($scope, $routeParams, $location, NotifierServi
   };
 }
 
-QuestionDetailController.$inject = ['$scope', '$routeParams', '$location', 'NotifierService', 'QuestionService', 'ModalService', 'UserService'];
+QuestionDetailController.$inject = ['$scope', '$routeParams', '$location', 'NotifierService', 'QuestionService', 'ModalService', 'UserService', 'Question'];
 angular.module('app').controller('QuestionDetailController', QuestionDetailController);
