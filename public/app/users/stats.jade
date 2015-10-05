@@ -1,37 +1,40 @@
 .container.stats
-	h3 Stats
-	.row
-		.col-md-4
-			h4(ng-if="stats.color.red > stats.color.blue") Red Dead
-			h4(ng-if="stats.color.red < stats.color.blue") I'm blue, da ba dee...
-			h4(ng-if="stats.color.red == stats.color.blue") Red or blue ?
-			div.description
-				span You voted for 
-				span.red {{stats.color.red}} red answer
-				span.red(ng-if="stats.color.red > 1") s
-				span  and for 
-				span.blue {{stats.color.blue}} blue answer
-				span.blue(ng-if="stats.color.blue > 1") s
-				span .
-			canvas(id="color", class="chart chart-pie", data="colourValues", labels="colourLabels", colours="colours", legend="true")
-		.col-md-4
-			h4(ng-if="isHipster") You are so hipster
-			h4(ng-if="!isHipster") You are so mainstream
-			div.description
-				span You agreed with people on {{stats.agree}} question
-				span(ng-if="stats.agree > 1") s
-				span , you didn't on {{stats.answered - stats.agree}}.
-			canvas(id="agree", class="chart chart-pie", data="agreeValues", labels="agreeLabels", colours="colours", legend="true")
-		.col-md-4
-			h4 How many left ?
-			div.description
-				span You answered {{stats.answered}} question
-				span(ng-if="stats.answered > 1") s
-				span  out of a total of  {{totalValues[0] + totalValues[1]}}.
-			canvas(id="total", class="chart chart-pie", data="totalValues", labels="totalLabels", colours="colours", legend="true")
-	.row
-		.col-md-12(ng-if="tagsValues.length > 0")
-			h4 Tags
-			div.description
-				span Your favourite tag is {{favoriteTag.name}}, you answered {{favoriteTag.count}} questions with this tag.
-			canvas(id="bar", class="chart chart-bar", data="tagsValues", labels="tagsLabels", series="series", colours="colours")
+	.section(ng-if="identity.currentUser.answers.length >= 10")
+		h3 Stats
+		.row
+			.col-md-4
+				h4(ng-if="stats.color.red > stats.color.blue") Red Dead
+				h4(ng-if="stats.color.red < stats.color.blue") I'm blue, da ba dee...
+				h4(ng-if="stats.color.red == stats.color.blue") Red or blue ?
+				div.description
+					span You voted for 
+					span.red {{stats.color.red}} red answer
+					span.red(ng-if="stats.color.red > 1") s
+					span  and for 
+					span.blue {{stats.color.blue}} blue answer
+					span.blue(ng-if="stats.color.blue > 1") s
+					span .
+				canvas(id="color", class="chart chart-pie", data="colourValues", labels="colourLabels", colours="colours", legend="true")
+			.col-md-4
+				h4(ng-if="isHipster") You are so hipster
+				h4(ng-if="!isHipster") You are so mainstream
+				div.description
+					span You agreed with people on {{stats.agree}} question
+					span(ng-if="stats.agree > 1") s
+					span , you didn't on {{stats.answered - stats.agree}}.
+				canvas(id="agree", class="chart chart-pie", data="agreeValues", labels="agreeLabels", colours="colours", legend="true")
+			.col-md-4
+				h4 How many left ?
+				div.description
+					span You answered {{stats.answered}} question
+					span(ng-if="stats.answered > 1") s
+					span  out of a total of  {{totalValues[0] + totalValues[1]}}.
+				canvas(id="total", class="chart chart-pie", data="totalValues", labels="totalLabels", colours="colours", legend="true")
+		.row
+			.col-md-12(ng-if="tagsValues.length > 0")
+				h4 Tags
+				div.description
+					span Your favourite tag is {{favoriteTag.name}}, you answered {{favoriteTag.count}} questions with this tag.
+				canvas(id="bar", class="chart chart-bar", data="tagsValues", labels="tagsLabels", series="series", colours="colours")
+	.well(ng-if="identity.currentUser.answers.length < 10")
+		section {{'NOT_ENOUGH_ANSWERS' | translate}}
