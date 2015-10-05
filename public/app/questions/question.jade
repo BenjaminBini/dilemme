@@ -51,7 +51,8 @@
 					.panel-heading
 						h2.panel-title
 							span(ng-show="!question.title") {{'DETAILS' | translate}}
-							span(ng-show="!!question.title") {{question.title | extractTranslation}}
+							span(ng-show="!!question.title") {{question.title | extractTranslation}} 
+							i(ng-if="question.status === 0") - {{'NOT_PUBLISHED' | translate}}
 					.panel-body
 						.question-detail-field.description(ng-show="!!question.description")
 							span.description {{question.description | extractTranslation}}
