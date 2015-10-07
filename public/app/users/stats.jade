@@ -3,38 +3,41 @@
 		h3 Stats
 		.row
 			.col-md-4
-				h4(ng-if="stats.color.red > stats.color.blue") Red Dead
-				h4(ng-if="stats.color.red < stats.color.blue") I'm blue, da ba dee...
-				h4(ng-if="stats.color.red == stats.color.blue") Red or blue ?
+				h4(ng-if="stats.color.red > stats.color.blue") {{'RED_DEAD' | translate}}
+				h4(ng-if="stats.color.red < stats.color.blue") {{'IM_BLUE' | translate}}
+				h4(ng-if="stats.color.red == stats.color.blue") {{'RED_OR_BLUE' | translate}}
 				div.description
-					span You voted for 
-					span.red {{stats.color.red}} red answer
-					span.red(ng-if="stats.color.red > 1") s
-					span  and for 
-					span.blue {{stats.color.blue}} blue answer
-					span.blue(ng-if="stats.color.blue > 1") s
+					span {{'YOU_VOTED_FOR' | translate}} 
+					span.red {{stats.color.red}} 
+					span.red(ng-if="stats.color.red <= 1") {{'RED_ANSWER' | translate}} 
+					span.red(ng-if="stats.color.red > 1") {{'RED_ANSWERS' | translate}} 
+					span {{'AND' | translate}} {{'FOR' | translate}} 
+					span.blue {{stats.color.blue}} 
+					span.blue(ng-if="stats.color.blue <= 1") {{'BLUE_ANSWER' | translate}} 
+					span.blue(ng-if="stats.color.blue > 1") {{'BLUE_ANSWERS' | translate}} 
 					span .
-				canvas(id="color", class="chart chart-pie", data="colourValues", labels="colourLabels", colours="colours", legend="true")
+				canvas(id="color", class="chart chart-pie", chart-data="colourValues", chart-labels="colourLabels", chart-colours="colours", chart-legend="true")
 			.col-md-4
-				h4(ng-if="isHipster") You are so hipster
-				h4(ng-if="!isHipster") You are so mainstream
+				h4(ng-if="isHipster") {{'SO_HIPSTER' | translate}}
+				h4(ng-if="!isHipster") {{'SO_MAINSTREAM' | translate}}
 				div.description
-					span You agreed with people on {{stats.agree}} question
-					span(ng-if="stats.agree > 1") s
-					span , you didn't on {{stats.answered - stats.agree}}.
-				canvas(id="agree", class="chart chart-pie", data="agreeValues", labels="agreeLabels", colours="colours", legend="true")
+					span {{'YOU_AGREED_WITH' | translate}} 
+					span {{stats.agree}} 
+					span(ng-if="stats.agree <= 1") {{'QUESTION' | translate | lowercase}}
+					span(ng-if="stats.agree > 1") {{'QUESTIONS' | translate | lowercase}}.
+				canvas(id="agree", class="chart chart-pie", chart-data="agreeValues", chart-labels="agreeLabels", chart-colours="colours", chart-legend="true")
 			.col-md-4
-				h4 How many left ?
+				h4 {{'HOW_MANY_LEFT' | translate}}
 				div.description
-					span You answered {{stats.answered}} question
-					span(ng-if="stats.answered > 1") s
-					span  out of a total of  {{totalValues[0] + totalValues[1]}}.
-				canvas(id="total", class="chart chart-pie", data="totalValues", labels="totalLabels", colours="colours", legend="true")
+					span {{'YOU_ANSWERED' | translate}} {{stats.answered}} 
+					span {{'QUESTIONS' | translate | lowercase}} 
+					span {{'OUT_OF_A_TOTAL_OF' | translate}} {{totalValues[0] + totalValues[1]}}.
+				canvas(id="total", class="chart chart-pie", chart-data="totalValues", chart-labels="totalLabels", chart-colours="colours", chart-legend="true")
 		.row
 			.col-md-12(ng-if="tagsValues.length > 0")
-				h4 Tags
+				h4 {{'TAGS' | translate}}
 				div.description
-					span Your favourite tag is {{favoriteTag.name}}, you answered {{favoriteTag.count}} questions with this tag.
-				canvas(id="bar", class="chart chart-bar", data="tagsValues", labels="tagsLabels", series="series", colours="colours")
+					span {{'YOUR_FAVORITE_TAG_IS' | translate}} "{{favoriteTag.name}}", {{'YOU_ANSWERED' | translate | lowercase}} {{favoriteTag.count}} {{'QUESTIONS' | translate | lowercase}} {{'WITH_THIS_TAG' | translate}}.
+				canvas(id="bar", class="chart chart-bar", chart-data="tagsValues", chart-labels="tagsLabels", series="series", chart-colours="colours")
 	.well(ng-if="identity.currentUser.answers.length < 10")
 		section {{'NOT_ENOUGH_ANSWERS' | translate}}

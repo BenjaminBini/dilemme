@@ -1,23 +1,28 @@
-function StatsController($scope, $rootScope, UserService, QuestionService) {
+function StatsController($scope, $rootScope, $translate, UserService, QuestionService) {
   var currentUser = $rootScope.identity.currentUser;
 
   UserService.getStats(currentUser).then(function(stats) {
     $scope.stats = stats;
     $scope.colours = ['#e74c3c', '#3498db'];
 
+    $scope.colourLabels = ['red', 'blue'];
+    // Labels
+    $translate(['RED', 'BLUE', 'DO_NOT_AGREE', 'AGREE', 'NOT_ANSWERED', 'ANSWERED']).then(function(translations) {
+      $scope.colourLabels = [translations.RED, translations.BLUE];
+      $scope.agreeLabels = [translations.DO_NOT_AGREE, translations.AGREE];
+      $scope.totalLabels = [translations.NOT_ANSWERED, translations.ANSWERED];
+    });
+
     // Colours stats
-    $scope.colourLabels = ['Red', 'Blue'];
     $scope.colourValues = [stats.color.red, stats.color.blue];
 
     // Agree / Don't agree stats
-    $scope.agreeLabels = ['Do not agree with the majority', 'Agree with the majority'];
     $scope.agreeValues = [stats.answered - stats.agree, stats.agree];
     $scope.isHipster = stats.agree < (stats.answered - stats.agree);
 
     // Total
     QuestionService.count().then(function(count) {
       $scope.totalValues = [count - stats.answered, stats.answered];
-      $scope.totalLabels = ['Not answered', 'Answered'];
     });
 
     // Tags
@@ -42,5 +47,5 @@ function StatsController($scope, $rootScope, UserService, QuestionService) {
   });
 }
 
-StatsController.$inject = ['$scope', '$rootScope', 'UserService', 'QuestionService'];
+StatsController.$inject = ['$scope', '$rootScope', '$translate', 'UserService', 'QuestionService'];
 angular.module('app').controller('StatsController', StatsController);
