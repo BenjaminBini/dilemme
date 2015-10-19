@@ -82,6 +82,8 @@ module.exports = function() {
           }).then(function(user) {
             return done(null, user);
           });
+        } else {
+          return done(null, user);
         }
       }, function(err) {
         if (err) {
