@@ -46,6 +46,7 @@ exports.schema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Comment'
   }],
+  facebookId: String,
   resetPasswordToken: String,
   resetPasswordExpire: Date
 });

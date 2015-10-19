@@ -19,6 +19,7 @@
     "morgan": "^1.5.1",
     "nodemailer": "^1.5.0",
     "passport": "^0.2.1",
+    "passport-facebook": "^2.0.0",
     "passport-local": "^1.0.0",
     "promised-io": "^0.3.4",
     "request-ip": "0.0.4",

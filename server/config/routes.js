@@ -66,6 +66,9 @@ module.exports = function(app, config) {
     res.end();
   });
 
+  app.get('/auth/facebook', auth.facebookAuthenticate);
+  app.get('/auth/facebook/callback', auth.facebookAuthenticateCallback);
+
   // Return 404 for undefined api queries
   app.all('/api/*', function(req, res) {
     res.sendStatus(404);

@@ -5,7 +5,7 @@
 var passport = require('passport');
 
 /**
- * Authenticate a user with passport
+ * Authenticate a user with passport (local strategy)
  */
 exports.authenticate =  function(req, res, next) {
   req.body.email = req.body.email.toLowerCase();
@@ -25,6 +25,16 @@ exports.authenticate =  function(req, res, next) {
   });
   auth(req, res, next);
 };
+
+/**
+ * Facebook authentication
+ */
+exports.facebookAuthenticate = passport.authenticate('facebook');
+
+/**
+ * Facebook authentication callback
+ */
+exports.facebookAuthenticateCallback = passport.authenticate('facebook', {successRedirect: '/', failureRedirect: '/'});
 
 /**
  * Return 403 error if not authenticated

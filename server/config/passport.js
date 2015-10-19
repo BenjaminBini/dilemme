@@ -5,7 +5,9 @@
 var mongoose = require('mongoose');
 var passport = require('passport');
 var validator = require('validator');
+var encrypt = require('../utils/encryption');
 var LocalStrategy = require('passport-local').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 var User = mongoose.model('User');
 
 module.exports = function() {
@@ -58,4 +60,35 @@ module.exports = function() {
       return done(null, false);
     });
   }));
+
+  /**
+   * Use FB strategy
+   */
+  passport.use(new FacebookStrategy({
+      clientID: process.env.FB_ID,
+      clientSecret: process.env.FB_SECRET,
+      callbackURL: process.env.ROOT_PATH + '/auth/facebook/callback'
+    },
+    function(accessToken, refreshToken, profile, done) {
+      User.findOne({facebookId: profile.id}).then(function(user) {
+        if (!!user) {
+          var salt = encrypt.createSalt();
+          User.create({
+            username: profile.displayName,
+            email: profile.email,
+            salt: salt,
+            password: encrypt.hashPassword(salt, encrypt.createToken()),
+            facebookId: profile.id
+          }).then(function(user) {
+            return done(null, user);
+          });
+        }
+      }, function(err) {
+        if (err) {
+          return done(null, false);
+        }
+      });
+    }
+  ));
+
 };
