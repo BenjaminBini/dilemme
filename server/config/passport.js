@@ -71,7 +71,7 @@ module.exports = function() {
     },
     function(accessToken, refreshToken, profile, done) {
       User.findOne({facebookId: profile.id}).then(function(user) {
-        if (!!user) {
+        if (!user) {
           var salt = encrypt.createSalt();
           User.create({
             username: profile.displayName,
