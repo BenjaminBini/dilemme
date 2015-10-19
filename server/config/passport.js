@@ -71,14 +71,13 @@ module.exports = function() {
     },
     function(accessToken, refreshToken, profile, done) {
       User.findOne({facebookId: profile.id}).then(function(user) {
-        console.log(user);
         if (!!user) {
           var salt = encrypt.createSalt();
           User.create({
             username: profile.displayName,
             email: profile.email,
             salt: salt,
-            password: encrypt.hashPassword(salt, encrypt.createToken()),
+            hashedPassword: encrypt.hashPassword(salt, encrypt.createToken()),
             facebookId: profile.id
           }).then(function(user) {
             return done(null, user);
