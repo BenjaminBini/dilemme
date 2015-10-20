@@ -4,7 +4,7 @@ var suggestionModel = require('../models/suggestion.model.js');
 /**
  * Suggestion schema (same as Question schema)
  */
-exports.schema = mongoose.Schema({
+exports.schema = new mongoose.Schema({
   title: {
     type: String,
     required: '{PATH} is required'

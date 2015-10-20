@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 /**
  * IpAnswer schema
  */
-exports.schema = mongoose.Schema({
+exports.schema = new mongoose.Schema({
   ip: {
     type: String,
     required: '{PATH} is required'

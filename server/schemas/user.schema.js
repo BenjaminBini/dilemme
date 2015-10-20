@@ -4,7 +4,7 @@ var userModel = require('../models/user.model.js');
 /**
  * User schema
  */
-exports.schema = mongoose.Schema({
+exports.schema = new mongoose.Schema({
   username: {
     type: String,
     required: '{PATH} is required',
@@ -13,7 +13,7 @@ exports.schema = mongoose.Schema({
   },
   email: {
     type: String,
-    requred: '{PATH} is requred',
+    required: '{PATH} is requred',
     unique: true,
     lowercase: true
   },

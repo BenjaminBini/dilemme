@@ -4,7 +4,7 @@ var questionModel = require('../models/question.model');
 /**
  * Comment schema
  */
-var commentSchema = mongoose.Schema({
+var commentSchema = new mongoose.Schema({
   text: {
     type: String,
     required: '{PATH} is required'
