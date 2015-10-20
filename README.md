@@ -12,12 +12,14 @@ MongoDB is required and must be running on default port (will be configurable in
 
 Environment variables have to be set in a ".env" file at the root of the project (see `.env.sample` file) (I use [dotenv](https://github.com/motdotla/dotenv)).
 
-5 environment variables are required :
+7 environment variables are required :
 * `NODE_ENV`: "development" or "production"
 * `ROOT_PATH`: root URL (for example : http://dilemme.io, or http://localhost:3131) WITHOUT trailing slash but WITH leading "http://"
 * `MONGO_PASSWORD`: the "dilemme" database password
 * `GMAIL_USER`: GMail user for sending mail
 * `GMAIL_PASSWORD`: GMail password for sending mail
+* `FB_ID`: Facebook app ID, used for Facebook authentication (create an app on [Facebook developper website](https://developers.facebook.com/))
+* `FB_SECRET`: Facebook app secret
 
 You must have [gulp](http://gulpjs.com/) and [bower](http://bower.io/) installed too.
 ```sh
