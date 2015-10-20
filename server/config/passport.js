@@ -75,12 +75,14 @@ module.exports = function() {
           var salt = encrypt.createSalt();
           User.create({
             username: profile.displayName,
-            email: profile.email,
+            email: profile.emails[0].value,
             salt: salt,
             hashedPassword: encrypt.hashPassword(salt, encrypt.createToken()),
             facebookId: profile.id
           }).then(function(user) {
             return done(null, user);
+          }, function(err) {
+            return done(err, false);
           });
         } else {
           return done(null, user);

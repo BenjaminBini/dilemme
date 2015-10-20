@@ -29,7 +29,7 @@ exports.authenticate =  function(req, res, next) {
 /**
  * Facebook authentication
  */
-exports.facebookAuthenticate = passport.authenticate('facebook');
+exports.facebookAuthenticate = passport.authenticate('facebook', {scope: ['email']});
 
 /**
  * Facebook authentication callback
