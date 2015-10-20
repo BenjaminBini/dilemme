@@ -112,6 +112,9 @@ function routesConfig($routeProvider, $locationProvider) {
       templateUrl: '/partials/users/profile',
       controller: 'ProfileController',
       resolve: routeRolesCheck.user
+    })
+    .otherwise({
+      redirectTo: '/'
     });
 }
 
