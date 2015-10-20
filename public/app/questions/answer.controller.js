@@ -121,7 +121,7 @@ function AnswerController($scope, QuestionService, $location, NotifierService, I
   $scope.facebookShare = function() {
     FB.ui({
       method: 'feed',
-      name: 'Dilemme : ' + $scope.question.text + ' ' + $scope.question.answers[0].text + ' or ' + $scope.question.answers[1].text + ' ?',
+      name: 'Dilemme : ' + $scope.question.text[IdentityService.shortLanguage] + ' ' + $scope.question.answers[0].text[IdentityService.shortLanguage] + ' or ' + $scope.question.answers[1].text[IdentityService.shortLanguage] + ' ?',
       link: 'http://dilemme.io/questions/' + $scope.question._id,
       description: $scope.question.description
     });
@@ -133,7 +133,7 @@ function AnswerController($scope, QuestionService, $location, NotifierService, I
   $scope.twitterShare = function() {
     var link = 'https://twitter.com/share?';
     link += 'url=http://dilemme.io/questions/' + $scope.question._id;
-    link += '&text=Dilemme : ' + $scope.question.text + ' ' + $scope.question.answers[0].text + ' or ' + $scope.question.answers[1].text + ' ?';
+    link += '&text=Dilemme : ' + $scope.question.text[IdentityService.shortLanguage] + ' ' + $scope.question.answers[0].text[IdentityService.shortLanguage] + ' or ' + $scope.question.answers[1].text[IdentityService.shortLanguage] + ' ?';
 
     var width = 555;
     var height = 255;
