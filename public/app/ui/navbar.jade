@@ -53,6 +53,6 @@
 				.form-group
 					input.form-control(placeholder="{{'USERNAME_OR_EMAIL' | translate}}", ng-model="email" autofocus)
 				.form-group
-					input.form-control(type="password", placeholder="{{'PASSWORD' | translate}}", ng-model="password")
+					input.form-control.password(type="password", placeholder="{{'PASSWORD' | translate}}", ng-model="password")
 				button.btn.btn-primary(ng-click="signin(email, password)") {{'SIGN_IN' | translate}}
 		
