@@ -1,5 +1,5 @@
 .container.well
-	form.form-horizontal(name="registerForm")
+	form.form-horizontal(name="registerForm").register
 		fieldset
 			legend {{'REGISTER' | translate}}
 			.form-group
@@ -21,3 +21,10 @@
 						button.btn.btn-primary(ng-click="registerFromPage()", ng-disabled="registerForm.$invalid") {{'SUBMIT' | translate}}
 						| &nbsp;
 						a.btn.btn-default(href="/") {{'CANCEL' | translate}}
+			.form-group(ng-if="!isExternal")
+				label.col-md-2.control-label {{'OR_USE' | translate}}
+				.col-md-10
+					a.connect-with(href="/auth/facebook", target="_self")
+						span.socicon-connect.socicon-facebook
+					a.connect-with(href="/auth/twitter", target="_self")
+						span.socicon-connect.socicon-twitter
