@@ -6,9 +6,12 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+var MongoDBStore = require('connect-mongodb-session')(session);
 var passport = require('passport');
+var path = require('path');
+var rootPath = path.normalize(__dirname + '/../../');
 
-module.exports = function(app, config) {
+module.exports = function(app) {
 
   // Parsers
   app.use(cookieParser());
@@ -16,10 +19,16 @@ module.exports = function(app, config) {
   app.use(bodyParser.json());
 
   // Sessions
+  var store = new MongoDBStore({
+    uri: process.env.MONGO_URI,
+    collection: 'sessions'
+  });
+
   app.use(session({
     secret: 'multi vision unicorn',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    store: store
   }));
 
   // Passport middlewares
@@ -27,10 +36,10 @@ module.exports = function(app, config) {
   app.use(passport.session());
 
   // Set static middleware for static assets
-  app.use(express.static(config.rootPath + 'public'));
+  app.use(express.static(rootPath + 'public'));
 
   // Set views dir and engine (only for server rendered views : index / layout / current-user)
-  app.set('views', config.rootPath + '/server/views');
+  app.set('views', rootPath + '/server/views');
   app.set('view engine', 'jade');
 
   // Logger

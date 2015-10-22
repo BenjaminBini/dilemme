@@ -10,7 +10,7 @@ var ipAnswerSchema = require('../schemas/ip-answer.schema');
 var questionSchema = require('../schemas/question.schema');
 var questionData = require('../data/question.data');
 
-module.exports = function(config) {
+module.exports = function() {
   // Init schemas
   mongoose.model('User', userSchema.schema);
   mongoose.model('Suggestion', suggestionSchema.schema);
@@ -18,7 +18,7 @@ module.exports = function(config) {
   mongoose.model('Question', questionSchema.schema);
 
   // Mongodb connection
-  mongoose.connect(config.dbURI, {user: config.dbUser, pass: config.dbPassword});
+  mongoose.connect(process.env.MONGO_URI);
   var db = mongoose.connection;
   db.on('error', console.error.bind(console, 'connection error...'));
   db.once('open', function callback() {

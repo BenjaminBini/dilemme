@@ -6,17 +6,13 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 
-var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+require('./server/config/mongoose')();
 
-var config = require('./server/config/config')[env];
-
-require('./server/config/mongoose')(config);
-
-require('./server/config/express')(app, config);
+require('./server/config/express')(app);
 
 require('./server/config/passport')();
 
-require('./server/config/routes')(app, config);
+require('./server/config/routes')(app);
 
 // Log uncaught errors
 process.on('uncaughtException', function(err) {
@@ -24,5 +20,5 @@ process.on('uncaughtException', function(err) {
 });
 
 // Start app
-http.listen(config.port);
-console.log('Application started and listening to ' + config.port + '...');
+http.listen(process.env.PORT);
+console.log('Application started and listening to ' + process.env.PORT + '...');
