@@ -15,7 +15,6 @@ exports.hashPassword = function(salt, pwd) {
   return hmac.update(pwd).digest('hex');
 };
 
-
 /**
  * Generate an URL-safe token
  */
