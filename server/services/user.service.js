@@ -42,8 +42,8 @@ exports.createUser = function(req, res, next) {
 
   // Encrypt password
   userData.salt = encrypt.createSalt();
-  if (!userData.password && (!!req.session.facebookId || !!req.session.twitterId)) { // If registration from social network
-    console.log('twitter : ' + req.session.twitterId);
+  if (req.session.facebookId || req.session.twitterId) { // If registration from social network
+    console.log('test');
     userData.password = encrypt.createToken();
   }
   if (userData.password) {
@@ -55,11 +55,9 @@ exports.createUser = function(req, res, next) {
   if (req.session.twitterId) {
     userData.twitterId = req.session.twitterId;
   }
-  req.session.twitterId = req.session.facebookId = undefined;
   // Validate data
   var validationErrorMessage = User.validate(userData);
   if (validationErrorMessage) {
-    console.log(validationErrorMessage);
     return next(new Error(validationErrorMessage));
   }
 
@@ -83,6 +81,9 @@ exports.createUser = function(req, res, next) {
       if (err) {
         return next(err);
       }
+
+      // Empty session values
+      req.session.twitterId = req.session.facebookId = undefined;
 
       // Send and return the user
       return res.send(user);

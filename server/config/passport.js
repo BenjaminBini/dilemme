@@ -70,7 +70,7 @@ module.exports = function() {
    * -- if we have them we check if a user with this username or this email exists
    * --- if yes, it's not possible to create the user automatically so we put the facebookId, the username and the mail (if it exists) in the session
    *     and redirect the user to a page where he can set his username and mail address
-   * --- if not then we can create the profile and log the user in 
+   * --- if not then we can create the profile and log the user in
    * -- if we don't have them (a username and a mail), we put all the stuff in the session and redirect the user to the form (read above)
    */
   passport.use(new FacebookStrategy({
@@ -85,11 +85,12 @@ module.exports = function() {
     User.findOne({facebookId: profile.id}).then(function(user) {
       if (!user) { // No user : let's see if we can create one
         if (!!profile.displayName && !!profile.emails && profile.emails.length > 0) { // If username and email address exist we can query the DB
-          User.find({}).or([{username: profile.displayName}, {email: profile.emails[0].value}]).then(function(users) {
+          User.find({}).or([{username: profile.displayName.toLowerCase()}, {email: profile.emails[0].value}]).then(function(users) {
             if (users.length > 0) { // Can't create, a user with this email address or username already exists put data in session and refuse login
-              putProfileDateInSession(req, profile, 'facebook');
+              putProfileDataInSession(req, profile, 'facebook');
               return done(null, false);
             } else { // Can create and conect
+              console.log('facebookStrategyCallback');
               var salt = encrypt.createSalt();
               var password = encrypt.createToken();
               var hashedPassword = encrypt.hashPassword(salt, password);
@@ -105,7 +106,7 @@ module.exports = function() {
             }
           });
         } else { // If no username or address exist, data in session and refuse login
-          putProfileDateInSession(req, profile, 'facebook');
+          putProfileDataInSession(req, profile, 'facebook');
           return done(null, false);
         }
       } else {
@@ -134,9 +135,9 @@ module.exports = function() {
     User.findOne({twitterId: profile.id}).then(function(user) {
       if (!user) { // No user : let's see if we can create one
         if (!!profile.displayName && !!profile.emails && profile.emails.length > 0) { // If username and email address exist we can query the DB
-          User.find({}).or([{username: profile.displayName}, {email: profile.emails[0].value}]).then(function(users) {
+          User.find({}).or([{username: profile.displayName.toLowerCase()}, {email: profile.emails[0].value}]).then(function(users) {
             if (users.length > 0) { // Can't create, a user with this email address or username already exists put data in session and refuse login
-              putProfileDateInSession(req, profile, 'twitter');
+              putProfileDataInSession(req, profile, 'twitter');
               return done(null, false);
             } else { // Can create and conect
               var salt = encrypt.createSalt();
@@ -154,7 +155,7 @@ module.exports = function() {
             }
           });
         } else { // If no username or address exist, data in session and refuse login
-          putProfileDateInSession(req, profile, 'twitter');
+          putProfileDataInSession(req, profile, 'twitter');
           return done(null, false);
         }
       } else {
@@ -167,7 +168,7 @@ module.exports = function() {
     });
   }
 
-  function putProfileDateInSession(req, profile, provider) {
+  function putProfileDataInSession(req, profile, provider) {
     if (provider === 'facebook') {
       req.session.facebookId = profile.id;
     } else if (provider === 'twitter') {
