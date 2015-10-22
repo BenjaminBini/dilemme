@@ -18,7 +18,7 @@
     "angular-local-storage": "~0.2.2",
     "bootstrap": "~3.3.2",
     "flat-ui": "~2.2.2",
-    "angular-ui-select": "~0.13.1",
+    "angular-ui-select": "~0.12.1",
     "ngDialog": "~0.5.4",
     "octicons": "~2.2.0",
     "angular-utils-pagination": "~0.6.1",
