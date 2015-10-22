@@ -8,18 +8,20 @@ Work in progress.
 
 # Install and run
 
-MongoDB is required and must be running on default port (will be configurable in the future). A database called "dilemme" must be created and a user named "dilemme" must be able to read and write the database.
+MongoDB is required and must be running on default port.
 
 Environment variables have to be set in a ".env" file at the root of the project (see `.env.sample` file) (I use [dotenv](https://github.com/motdotla/dotenv)).
 
 7 environment variables are required :
 * `NODE_ENV`: "development" or "production"
 * `ROOT_PATH`: root URL (for example : http://dilemme.io, or http://localhost:3131) WITHOUT trailing slash but WITH leading "http://"
-* `MONGO_PASSWORD`: the "dilemme" database password
+* `MONGO_URI`: database URI, with user and password if required
 * `GMAIL_USER`: GMail user for sending mail
 * `GMAIL_PASSWORD`: GMail password for sending mail
 * `FB_ID`: Facebook app ID, used for Facebook authentication (create an app on [Facebook developper website](https://developers.facebook.com/))
 * `FB_SECRET`: Facebook app secret
+* `TWITTER_ID`: Twitter app ID, used for Twitter authentication (create an app on [Twitter developper website](https://apps.twitter.com/))
+* `TWITTER_SECRET`: Twitter app secret
 
 You must have [gulp](http://gulpjs.com/) and [bower](http://bower.io/) installed too.
 ```sh
@@ -53,6 +55,17 @@ $ gulp build
 * Build Stylus files to CSS, concat and minify CSS
 * Compile Jade views to HTML
 
+## Lint
+
+```sh
+$ gulp lint
+```
+
+* Run [JSHint](http://jshint.com/docs/) on sources
+* Run [JSCS](http://jscs.info/) on sources using [Google JS Code Style](https://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml) customized with two rules :
+	* No limitation for line length
+	* Trailing white spaces forbidden
+
 ## Watch
 
 ```sh
@@ -65,13 +78,11 @@ $ gulp watch
 * Same for Jade files
 * Watch for any change in JS files inside of /server directory and relaunch server.js
 
-## Lint
+## Debug
 
 ```sh
-$ gulp lint
-```
+$ gulp debug
+``
 
-* Run [JSHint](http://jshint.com/docs/) on sources
-* Run [JSCS](http://jscs.info/) on sources using [Google JS Code Style](https://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml) customized with two rules :
-	* No limitation for line length
-	* Trailing white spaces forbidden
+* Launch server.js with debug port set to 3132
+* Watch files like the `watch` task

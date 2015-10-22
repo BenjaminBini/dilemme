@@ -8,6 +8,7 @@ var validator = require('validator');
 var encrypt = require('../utils/encryption');
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
+var TwitterStrategy = require('passport-twitter').Strategy;
 var User = mongoose.model('User');
 
 module.exports = function() {
@@ -40,7 +41,7 @@ module.exports = function() {
   });
 
   /**
-   * Use local strategy
+   * Local strategy
    */
   passport.use(new LocalStrategy({
     usernameField: 'email',
@@ -50,7 +51,7 @@ module.exports = function() {
     var criteria = validator.isEmail(email) ? {email: email} : {username: email};
     User.findOne(criteria).exec(function(err, user) {
       if (err) {
-        return done(null, false);
+        return done(err, false);
       }
       if (user && user.authenticate(password)) {
         return user.populateUser().then(function() {
@@ -62,37 +63,120 @@ module.exports = function() {
   }));
 
   /**
-   * Use FB strategy
+   * Facebook Strategy
+   * Workflow :
+   * - if the user with the good facebookId exists, we log him in
+   * - if not, we see if we have a username and an email
+   * -- if we have them we check if a user with this username or this email exists
+   * --- if yes, it's not possible to create the user automatically so we put the facebookId, the username and the mail (if it exists) in the session
+   *     and redirect the user to a page where he can set his username and mail address
+   * --- if not then we can create the profile and log the user in 
+   * -- if we don't have them (a username and a mail), we put all the stuff in the session and redirect the user to the form (read above)
    */
   passport.use(new FacebookStrategy({
       clientID: process.env.FB_ID,
       clientSecret: process.env.FB_SECRET,
-      callbackURL: process.env.ROOT_PATH + '/auth/facebook/callback'
-    },
-    function(accessToken, refreshToken, profile, done) {
-      User.findOne({facebookId: profile.id}).then(function(user) {
-        if (!user) {
-          var salt = encrypt.createSalt();
-          User.create({
-            username: profile.displayName,
-            email: profile.emails[0].value,
-            salt: salt,
-            hashedPassword: encrypt.hashPassword(salt, encrypt.createToken()),
-            facebookId: profile.id
-          }).then(function(user) {
-            return done(null, user);
-          }, function(err) {
-            return done(err, false);
+      callbackURL: process.env.ROOT_PATH + '/auth/facebook/callback',
+      passReqToCallback: true
+    }, facebookStrategyCallback)
+  );
+
+  function facebookStrategyCallback(req, accessToken, refreshToken, profile, done) {
+    User.findOne({facebookId: profile.id}).then(function(user) {
+      if (!user) { // No user : let's see if we can create one
+        if (!!profile.displayName && !!profile.emails && profile.emails.length > 0) { // If username and email address exist we can query the DB
+          User.find({}).or([{username: profile.displayName}, {email: profile.emails[0].value}]).then(function(users) {
+            if (users.length > 0) { // Can't create, a user with this email address or username already exists put data in session and refuse login
+              putProfileDateInSession(req, profile, 'facebook');
+              return done(null, false);
+            } else { // Can create and conect
+              var salt = encrypt.createSalt();
+              var password = encrypt.createToken();
+              var hashedPassword = encrypt.hashPassword(salt, password);
+              User.create({
+                username: profile.displayName,
+                email: profile.emails[0].value,
+                salt: salt,
+                hashedPassword: hashedPassword,
+                facebookId: profile.id
+              }).then(function(user) {
+                return done(null, user);
+              });
+            }
           });
-        } else {
-          return done(null, user);
-        }
-      }, function(err) {
-        if (err) {
+        } else { // If no username or address exist, data in session and refuse login
+          putProfileDateInSession(req, profile, 'facebook');
           return done(null, false);
         }
-      });
+      } else {
+        return done(null, user);
+      }
+    }, function(err) {
+      if (err) {
+        return done(err, false);
+      }
+    });
+  }
+
+  /**
+   * Twitter Strategy
+   * To know the workflow, read the comment in the Facebook Strategy section
+   */
+  passport.use(new TwitterStrategy({
+      consumerKey: process.env.TWITTER_ID,
+      consumerSecret: process.env.TWITTER_SECRET,
+      callbackURL: process.env.ROOT_PATH + '/auth/twitter/callback',
+      passReqToCallback: true
+    }, twitterAuthenticationCallback)
+  );
+
+  function twitterAuthenticationCallback(req, token, tokenSecret, profile, done) {
+    User.findOne({twitterId: profile.id}).then(function(user) {
+      if (!user) { // No user : let's see if we can create one
+        if (!!profile.displayName && !!profile.emails && profile.emails.length > 0) { // If username and email address exist we can query the DB
+          User.find({}).or([{username: profile.displayName}, {email: profile.emails[0].value}]).then(function(users) {
+            if (users.length > 0) { // Can't create, a user with this email address or username already exists put data in session and refuse login
+              putProfileDateInSession(req, profile, 'twitter');
+              return done(null, false);
+            } else { // Can create and conect
+              var salt = encrypt.createSalt();
+              var password = encrypt.createToken();
+              var hashedPassword = encrypt.hashPassword(salt, password);
+              User.create({
+                username: profile.displayName,
+                email: profile.emails[0].value,
+                salt: salt,
+                hashedPassword: hashedPassword,
+                twitterId: profile.id
+              }).then(function(user) {
+                return done(null, user);
+              });
+            }
+          });
+        } else { // If no username or address exist, data in session and refuse login
+          putProfileDateInSession(req, profile, 'twitter');
+          return done(null, false);
+        }
+      } else {
+        return done(null, user);
+      }
+    }, function(err) {
+      if (err) {
+        return done(err, false);
+      }
+    });
+  }
+
+  function putProfileDateInSession(req, profile, provider) {
+    if (provider === 'facebook') {
+      req.session.facebookId = profile.id;
+    } else if (provider === 'twitter') {
+      req.session.twitterId = profile.id;
     }
-  ));
+    req.session.profileName = profile.displayName;
+    if (!!profile.emails && profile.emails.length > 0) {
+      req.session.profileMail = profile.emails[0].value;
+    }
+  }
 
 };

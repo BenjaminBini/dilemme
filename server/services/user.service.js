@@ -39,13 +39,27 @@ exports.getUserById = function(req, res, next) {
 exports.createUser = function(req, res, next) {
   // Get the user data from the request
   var userData = req.body;
+
   // Encrypt password
   userData.salt = encrypt.createSalt();
-  userData.hashedPassword = encrypt.hashPassword(userData.salt, userData.password);
-
+  if (!userData.password && (!!req.session.facebookId || !!req.session.twitterId)) { // If registration from social network
+    console.log('twitter : ' + req.session.twitterId);
+    userData.password = encrypt.createToken();
+  }
+  if (userData.password) {
+    userData.hashedPassword = encrypt.hashPassword(userData.salt, userData.password);
+  }
+  if (req.session.facebookId) {
+    userData.facebookId = req.session.facebookId;
+  }
+  if (req.session.twitterId) {
+    userData.twitterId = req.session.twitterId;
+  }
+  req.session.twitterId = req.session.facebookId = undefined;
   // Validate data
   var validationErrorMessage = User.validate(userData);
   if (validationErrorMessage) {
+    console.log(validationErrorMessage);
     return next(new Error(validationErrorMessage));
   }
 
@@ -54,10 +68,10 @@ exports.createUser = function(req, res, next) {
     if (err) {
       // If the error is E11000, the reason is a duplicate username or email
       var reason = err.message;
-      if (err.toString().indexOf('E11000') > -1) {
-        if (err.toString().indexOf('username') > -1) {
+      if (reason.indexOf('E11000') > -1) {
+        if (reason.indexOf('username') > -1) {
           reason = 'USERNAME_ALREADY_EXISTS';
-        } else if (err.toString().indexOf('email') > -1) {
+        } else if (reason.indexOf('email') > -1) {
           reason = 'EMAIL_ALREADY_EXISTS';
         }
       }

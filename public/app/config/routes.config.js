@@ -93,6 +93,10 @@ function routesConfig($routeProvider, $locationProvider) {
       templateUrl: '/partials/users/register',
       controller: 'RegisterController'
     })
+    .when('/register-external', {
+      templateUrl: '/partials/users/register',
+      controller: 'RegisterController'
+    })
     .when('/forgot-password', {
       templateUrl: '/partials/users/forgot-password/forgot-password',
       controller: 'ForgotPasswordController',

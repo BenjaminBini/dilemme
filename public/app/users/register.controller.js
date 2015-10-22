@@ -1,4 +1,9 @@
 function RegisterController($scope, NotifierService, AuthService, $location) {
+  $scope.isExternal = $location.url().startsWith('/register-external');
+  if ($scope.isExternal) {
+    $scope.username = $location.search().name;
+    $scope.email = $location.search().email;
+  }
   $scope.registerFromPage = function() {
     var newUserData = {
       email: $scope.email,

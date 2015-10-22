@@ -18,3 +18,10 @@ form.register.form-horizontal(name="registerForm")
 			.pull-right
 				button.btn.btn-primary(ng-click="registerFromModal()", ng-disabled="registerForm.$invalid") {{'SUBMIT' | translate}}
 				button.btn.btn-default(ng-click="closeThisDialog('cancel')") {{'CANCEL' | translate}}
+	.form-group
+		label.col-md-3.control-label {{'OR_USE' | translate}}
+		.col-md-9
+			a.connect-with(href="/auth/facebook", target="_self")
+				span.socicon-connect.socicon-facebook
+			a.connect-with(href="/", target="_self")
+				span.socicon-connect.socicon-twitter

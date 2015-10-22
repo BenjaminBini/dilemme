@@ -2,13 +2,15 @@
 /**
  * Routes configuration
  */
-var auth = require('./auth');
+var auth = require('../services/auth.service');
 var users = require('../services/user.service');
 var suggestions = require('../services/suggestion.service');
 var questions = require('../services/question.service');
 var comments = require('../services/comment.service');
+var path = require('path');
+var rootPath = path.normalize(__dirname + '/../../');
 
-module.exports = function(app, config) {
+module.exports = function(app) {
   // REST API
   // Users
   app.get('/api/users', auth.requiresRole('admin'), users.getUsers);
@@ -51,12 +53,12 @@ module.exports = function(app, config) {
 
   // Render partials
   app.get('/partials/*', function(req, res) {
-    res.sendFile(config.rootPath + 'public/dist/views/' + req.params[0] + '.html');
+    res.sendFile(rootPath + 'public/dist/views/' + req.params[0] + '.html');
   });
 
   // Render directive templates
   app.get('/directives-templates/*', function(req, res) {
-    res.sendFile(config.rootPath + 'public/dist/directives-views/' + req.params[0] + '.html');
+    res.sendFile(rootPath + 'public/dist/directives-views/' + req.params[0] + '.html');
   });
 
   // Auth routes
@@ -68,6 +70,9 @@ module.exports = function(app, config) {
 
   app.get('/auth/facebook', auth.facebookAuthenticate);
   app.get('/auth/facebook/callback', auth.facebookAuthenticateCallback);
+
+  app.get('/auth/twitter', auth.twitterAuthenticate);
+  app.get('/auth/twitter/callback', auth.twitterAuthenticateCallback);
 
   // Return 404 for undefined api queries
   app.all('/api/*', function(req, res) {

@@ -45,9 +45,19 @@
 							| Français
 		form.navbar-form(ng-if="!identity.isAuthenticated()")
 				ul.nav.navbar-nav.navbar-right
+					li.connect-with-text
+						span {{'OR_USE' | translate}}
+					li.connect-with
+						a(href="/auth/facebook", target="_self")
+							span.socicon-connect.socicon-facebook
+					li.connect-with
+						a(href="/auth/twitter", target="_self")
+							span.socicon-connect.socicon-twitter
 					li
 						a.forgot-pwd(href="/forgot-password") {{'FORGOT_MY_PASSWORD' | translate}}
 				ul.nav.navbar-nav
+					//li
+						a.register(role="button", ng-click="openRegisterModal()") {{'SUGGEST_A_QUESTION' | translate}}
 					li
 						a.register(role="button", ng-click="openRegisterModal()") {{'REGISTER' | translate}}
 				.form-group
