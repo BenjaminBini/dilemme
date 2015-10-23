@@ -15,6 +15,14 @@ exports.methods = {
     delete user.hashedPassword;
     delete user.salt;
     delete user.resetPasswordToken;
+    if (!!user.facebookId) {
+      user.hasFacebook = true;
+    }
+    if (!!user.twitterId) {
+      user.hasTwitter = true;
+    }
+    delete user.facebookId;
+    delete user.twitterId;
     return user;
   },
   /**
