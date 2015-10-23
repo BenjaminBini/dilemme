@@ -4,7 +4,6 @@
 var express = require('express');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var MongoDBStore = require('connect-mongodb-session')(session);
 var passport = require('passport');
@@ -14,7 +13,6 @@ var rootPath = path.normalize(__dirname + '/../../');
 module.exports = function(app) {
 
   // Parsers
-  app.use(cookieParser());
   app.use(bodyParser.urlencoded({extended: true}));
   app.use(bodyParser.json());
 
@@ -26,9 +24,13 @@ module.exports = function(app) {
 
   app.use(session({
     secret: 'multi vision unicorn',
-    resave: false,
+    resave: true,
     saveUninitialized: false,
-    store: store
+    store: store,
+    rolling: true,
+    cookie: {
+      maxAge: 60 * 60 * 1000 // 1 hour = 60 minutes * 60 secondes * 1000 milliseconds
+    }
   }));
 
   // Passport middlewares
