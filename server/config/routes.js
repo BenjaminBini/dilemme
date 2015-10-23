@@ -74,6 +74,9 @@ module.exports = function(app) {
   app.get('/auth/twitter', auth.twitterAuthenticate);
   app.get('/auth/twitter/callback', auth.twitterAuthenticateCallback);
 
+  app.get('/auth/google', auth.googleAuthenticate);
+  app.get('/auth/google/callback', auth.googleAuthenticateCallback);
+
   // Return 404 for undefined api queries
   app.all('/api/*', function(req, res) {
     res.sendStatus(404);

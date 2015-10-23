@@ -1,7 +1,6 @@
 /**
  * Passport configuration
  */
-
 var mongoose = require('mongoose');
 var passport = require('passport');
 var validator = require('validator');
@@ -9,6 +8,7 @@ var encrypt = require('../utils/encryption');
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var User = mongoose.model('User');
 
 module.exports = function() {
@@ -90,7 +90,6 @@ module.exports = function() {
               putProfileDataInSession(req, profile, 'facebook');
               return done(null, false);
             } else { // Can create and conect
-              console.log('facebookStrategyCallback');
               var salt = encrypt.createSalt();
               var password = encrypt.createToken();
               var hashedPassword = encrypt.hashPassword(salt, password);
@@ -168,11 +167,61 @@ module.exports = function() {
     });
   }
 
+  /**
+   * Google Strategy
+   */
+  passport.use(new GoogleStrategy({
+      clientID: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
+      callbackURL: process.env.ROOT_PATH + '/auth/google/callback',
+      passReqToCallback: true
+    }, googleAuthenticationCallback)
+  );
+
+  function googleAuthenticationCallback(req, token, tokenSecret, profile, done) {
+    User.findOne({googleId: profile.id}).then(function(user) {
+      if (!user) { // No user : let's see if we can create one
+        if (!!profile.displayName && !!profile.emails && profile.emails.length > 0) { // If username and email address exist we can query the DB
+          User.find({}).or([{username: profile.displayName.toLowerCase()}, {email: profile.emails[0].value}]).then(function(users) {
+            if (users.length > 0) { // Can't create, a user with this email address or username already exists put data in session and refuse login
+              putProfileDataInSession(req, profile, 'passport');
+              return done(null, false);
+            } else { // Can create and conect
+              var salt = encrypt.createSalt();
+              var password = encrypt.createToken();
+              var hashedPassword = encrypt.hashPassword(salt, password);
+              User.create({
+                username: profile.displayName,
+                email: profile.emails[0].value,
+                salt: salt,
+                hashedPassword: hashedPassword,
+                googleId: profile.id
+              }).then(function(user) {
+                return done(null, user);
+              });
+            }
+          });
+        } else { // If no username or address exist, data in session and refuse login
+          putProfileDataInSession(req, profile, 'google');
+          return done(null, false);
+        }
+      } else {
+        return done(null, user);
+      }
+    }, function(err) {
+      if (err) {
+        return done(err, false);
+      }
+    });
+  }
+
   function putProfileDataInSession(req, profile, provider) {
     if (provider === 'facebook') {
       req.session.facebookId = profile.id;
     } else if (provider === 'twitter') {
       req.session.twitterId = profile.id;
+    } else if (provider === 'google') {
+      req.session.googleId = profile.id;
     }
     req.session.profileName = profile.displayName;
     if (!!profile.emails && profile.emails.length > 0) {

@@ -42,7 +42,7 @@ exports.createUser = function(req, res, next) {
 
   // Encrypt password
   userData.salt = encrypt.createSalt();
-  if (req.session.facebookId || req.session.twitterId) { // If registration from social network
+  if (req.session.facebookId || req.session.twitterId || req.session.googleId) { // If registration from social network
     console.log('test');
     userData.password = encrypt.createToken();
   }
@@ -54,6 +54,9 @@ exports.createUser = function(req, res, next) {
   }
   if (req.session.twitterId) {
     userData.twitterId = req.session.twitterId;
+  }
+  if (req.session.googleId) {
+    userData.googleId = req.session.googleId;
   }
   // Validate data
   var validationErrorMessage = User.validate(userData);
@@ -83,7 +86,7 @@ exports.createUser = function(req, res, next) {
       }
 
       // Empty session values
-      req.session.twitterId = req.session.facebookId = undefined;
+      req.session.googleId = req.session.twitterId = req.session.facebookId = undefined;
 
       // Send and return the user
       return res.send(user);

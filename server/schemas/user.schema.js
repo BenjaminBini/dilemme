@@ -54,6 +54,10 @@ exports.schema = new mongoose.Schema({
     type: String,
     unique: true
   },
+  googleId: {
+    type: String,
+    unique: true
+  },
   resetPasswordToken: String,
   resetPasswordExpire: Date
 });

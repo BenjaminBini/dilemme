@@ -21,6 +21,9 @@ exports.methods = {
     if (!!user.twitterId) {
       user.hasTwitter = true;
     }
+    if (!!user.googleId) {
+      user.hasGoogle = true;
+    }
     delete user.facebookId;
     delete user.twitterId;
     return user;

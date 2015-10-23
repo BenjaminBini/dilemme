@@ -82,6 +82,35 @@ exports.twitterAuthenticateCallback = function(req, res, next) {
   })(req, res, next);
 };
 
+/**
+ * Twitter authentication
+ */
+exports.googleAuthenticate = passport.authenticate('google', {
+  scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/plus.profile.emails.read']
+});
+
+/**
+ * Twitter authentication callback
+ */
+exports.googleAuthenticateCallback = function(req, res, next) {
+  passport.authenticate('google', function(err, user) {
+    var username = req.session.profileName;
+    var email = !!req.session.profileMail ? req.session.profileMail : '';
+    req.session.profileName = req.session.profileMail = undefined;
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      res.redirect('/register-external?name=' + username + '&email=' + email);
+    }
+    req.logIn(user, function(err) {
+      if (err) {
+        return next(err);
+      }
+      res.redirect('/');
+    });
+  })(req, res, next);
+};
 
 
 /**

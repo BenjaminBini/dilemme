@@ -21,7 +21,9 @@ Environment variables have to be set in a ".env" file at the root of the project
 * `FB_ID`: Facebook app ID, used for Facebook authentication (create an app on [Facebook developper website](https://developers.facebook.com/))
 * `FB_SECRET`: Facebook app secret
 * `TWITTER_ID`: Twitter app ID, used for Twitter authentication (create an app on [Twitter developper website](https://apps.twitter.com/))
-* `TWITTER_SECRET`: Twitter app secret
+* `TWITTER_SECRET`: Twitter app secret*
+* `GOOGLE_ID`: Google app client ID, used for Google authentication (create an app and a client for the app on [Google developper console](https://console.developers.google.com/) and enable Google+ API access)
+* `GOOGLE_SECRET`: Google app client secret
 
 You must have [gulp](http://gulpjs.com/) and [bower](http://bower.io/) installed too.
 ```sh
