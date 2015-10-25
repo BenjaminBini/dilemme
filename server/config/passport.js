@@ -184,7 +184,7 @@ module.exports = function() {
         if (!!profile.displayName && !!profile.emails && profile.emails.length > 0) { // If username and email address exist we can query the DB
           User.find({}).or([{username: profile.displayName.toLowerCase()}, {email: profile.emails[0].value}]).then(function(users) {
             if (users.length > 0) { // Can't create, a user with this email address or username already exists put data in session and refuse login
-              putProfileDataInSession(req, profile, 'passport');
+              putProfileDataInSession(req, profile, 'google');
               return done(null, false);
             } else { // Can create and conect
               var salt = encrypt.createSalt();
