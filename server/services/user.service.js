@@ -43,7 +43,6 @@ exports.createUser = function(req, res, next) {
   // Encrypt password
   userData.salt = encrypt.createSalt();
   if (req.session.facebookId || req.session.twitterId || req.session.googleId) { // If registration from social network
-    console.log('test');
     userData.password = encrypt.createToken();
   }
   if (userData.password) {
