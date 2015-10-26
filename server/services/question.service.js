@@ -11,36 +11,24 @@ var IpAnswer = mongoose.model('IpAnswer');
  * Return array of all questions
  */
 exports.getQuestions = function(req, res, next) {
-  Question.find({}).exec(function(err, collection) {
-    if (err) {
-      return next(err);
-    }
-    return res.send(collection);
-  });
+  Question.find({}).then(questions => res.send(questions))
+  .catch(err => next(err));
 };
 
 /**
  * Return array of published questions
  */
 exports.getPublishedQuestions = function(req, res, next) {
-  Question.find({status: 1}).exec(function(err, collection) {
-    if (err) {
-      return next(err);
-    }
-    return res.send(collection);
-  });
+  Question.find({status: 1}).then(questions => res.send(questions))
+  .catch(err => next(err));
 };
 
 /**
  * Count number of questions
  */
 exports.count = function(req, res, next) {
-  Question.count({}, function(err, count) {
-    if (err) {
-      return next(err);
-    }
-    res.send({count: count});
-  });
+  Question.count({}).then(count => res.send({count: count}))
+  .catch(err => next(err));
 };
 
 /**
@@ -53,62 +41,43 @@ exports.getQuestionsByAuthor = function(req, res, next) {
     return res.send();
   }
 
-  Question.find({author: req.params.id}).exec(function(err, collection) {
-    if (err) {
-      return next(err);
-    }
-    return res.send(collection);
-  });
+  Question.find({author: req.params.id}).then(questions => res.send(questions))
+  .catch(err => next(err));
 };
 
 /**
  * Return array of questions with the given tag
  */
-exports.getQuestionsByTag = function(req, res) {
-  Question.find({status: 1, tags: req.params.tag}).exec(function(err, collection) {
-    if (err) {
-      return;
-    }
-    res.send(collection);
-    return collection;
-  });
+exports.getQuestionsByTag = function(req, res, next) {
+  Question.find({status: 1, tags: req.params.tag}).then(questions => res.send(questions))
+  .catch(err => next(err));
 };
 
 /**
  * Return a question by its id
  */
 exports.getQuestionById = function(req, res, next) {
-  Question.findOne({_id: req.params.id}).exec(function(err, question) {
-    if (err) {
-      return next(err);
-    }
+  Question.findOne({_id: req.params.id}).then(function (question) {
     if (!question) {
-      return next(new Error('QUESTION_DOES_NOT_EXIST'));
+      throw new Error('QUESTION_DOES_NOT_EXIST');
     }
-    // If the user is not an admin and the question is not published: not authorized
     if (question.status === 0 && !(req.user && req.user.hasRole('admin'))) {
       res.status(403);
-      return res.send({reason: 'NOT_AUTHORIZED'});
+      throw new Error('NOT_AUTHORIZED');
     }
-    question.populateQuestion().then(function() {
-      return res.send(question);
-    });
-  });
+    return Promise.resolve(question);
+  }).then(question => question.populateQuestion())
+  .then(question => res.send(question))
+  .catch(err => next(err));
 };
 
 /**
  * Return a random question
  */
 exports.getRandomQuestion = function(req, res, next) {
-  Question.random(function(err, question) {
-    if (err) {
-      return next(err);
-    }
-    question.populateQuestion().then(function() {
-      return res.send(question);
-    });
-    return question;
-  });
+  Question.random().then(question => question.populateQuestion())
+    .then(question => res.send(question))
+    .catch(err => next(err));
 };
 
 /**
@@ -116,12 +85,10 @@ exports.getRandomQuestion = function(req, res, next) {
  */
 exports.getUnansweredRandomQuestion = function(req, res, next) {
   var i;
-  if (!req.isAuthenticated()) {
-    Question.random(function(err, question) {
-      question.populateQuestion().then(function() {
-        return res.send(question);
-      });
-    });
+  if (!req.isAuthenticated()) { // If not authenticated, 
+    Question.random().then(question => question.populateQuestion())
+    .then(question => res.send(question))
+    .catch(err => next(err));
   } else {
     // We get already answered questions
     var answeredQuestions = [];
@@ -129,27 +96,18 @@ exports.getUnansweredRandomQuestion = function(req, res, next) {
       answeredQuestions.push(req.user.answers[i].question);
     }
     // We look for a published question not in the collection of answered questions
-    Question.find({status: 1}).where('_id').nin(answeredQuestions).exec(function(err, collection) {
-      if (err) {
-        return next(err);
+    Question.find({status: 1}).where('_id').nin(answeredQuestions).then(function (questions) {
+      if (questions.length === 0) { // If all questions have been answered we return a random one
+        return Question.random();
+      } else {
+        // We return a random question from this collection
+        var rand = Math.floor(Math.random() * questions.length);
+        var question = questions[rand];
+        return question;
       }
-      if (collection.length === 0) { // If all questions have been answered we return a random one
-        return Question.random(function(err, question) {
-          if (err) {
-            return next(err);
-          }
-          question.populateQuestion().then(function() {
-            return res.send(question);
-          });
-        });
-      }
-      // We return a random question from this collection
-      var rand = Math.floor(Math.random() * collection.length);
-      var question = collection[rand];
-      question.populateQuestion().then(function() {
-        return res.send(question);
-      });
-    });
+    }).then(question => question.populateQuestion())
+    .then(question => res.send(question))
+    .catch(err => next(err));
   }
 };
 
@@ -162,29 +120,20 @@ exports.createQuestion = function(req, res, next) {
   questionData.author = req.user;
 
   // Create question
-  Question.create(questionData, function(err, question) {
-    if (err) {
-      // Return 400 code with the error
-      return next(err);
-    }
-    // If no error, return the question
-    question.populateQuestion().then(function() {
-      return res.send(question);
-    });
-  });
+  Question.create(questionData).then(question => question.populateQuestion())
+  .then(question => res.send(question))
+  .catch(err => next(err));
 };
 
 /**
  * Update a question
  */
 exports.updateQuestion = function(req, res, next) {
-
-  var updatedQuestion = req.body;
-  Question.findOne({_id: req.params.id}).exec(function(err, question) {
+  Question.findOne({_id: req.params.id}).then(function(question) {
     if (!question) {
-      // If an error occur, return error 400 with the error
-      return next(err);
+      throw new Error('QUESTION_DOES_NOT_EXIST');
     }
+    var updatedQuestion = req.body;
     question.title = updatedQuestion.title;
     question.description = updatedQuestion.description;
     question.text = updatedQuestion.text;
@@ -192,50 +141,37 @@ exports.updateQuestion = function(req, res, next) {
     question.answers[1].text = updatedQuestion.answers[1].text;
     question.tags = updatedQuestion.tags;
     question.status = !!updatedQuestion.status ? updatedQuestion.status : 0;
-    question.save(function(err) {
-      if (err) {
-        return next(err);
-      }
-      // Send and return the user
-      question.populateQuestion().then(function() {
-        return res.send(question);
-      });
-      return question;
-    });
-  });
+    return question.save();
+  }).then(question => question.populateQuestion())
+  .then(question => res.send(question))
+  .catch(err => next(err));
 };
 
 /**
  * Delete a question
  */
 exports.deleteQuestion = function(req, res, next) {
-  Question.remove({_id: req.params.id}, function(err) {
-    if (err) {
-      return next(err);
-    }
+  Question.remove({_id: req.params.id}).then(function() {
+     return User.find({});
+  }).then(function(users) {
     // On supprime les références à la question supprimée dans les réponses utilisateurs
     // On ne s'occupe pas des réponses anonymes : elles sont automatiquement purgées
-    User.find({}).exec(function(err, users) {
-      var i;
-      var j;
-      var userModified;
-      if (err) {
-        return next(err);
-      }
-      for (i = 0; i < users.length; i++) {
-        for (j = users[i].answers.length - 1; j >= 0; j--) {
-          if (users[i].answers[j].question.equals(req.params.id)) {
-            users[i].answers.splice(j, 1);
-            userModified = true;
-          }
-        }
-        if (userModified) {
-          users[i].save();
+    var i;
+    var j;
+    var userModified;
+    for (i = 0; i < users.length; i++) {
+      for (j = users[i].answers.length - 1; j >= 0; j--) {
+        if (users[i].answers[j].question.equals(req.params.id)) {
+          users[i].answers.splice(j, 1);
+          userModified = true;
         }
       }
-      return res.send(req.params.id);
-    });
-  });
+      if (userModified) {
+        users[i].save();
+      }
+    }
+    res.send(req.params.id);
+  }).catch(err => next(err));
 };
 
 /**
@@ -251,77 +187,49 @@ exports.answerQuestion = function(req, res, next) {
     return next(new Error('WRONG_ANSWER_NUMBER'));
   }
 
-  // Let's get the question we want and update it and the user
-  Question.findOne({_id: questionId, status: 1}).exec(function(err, question) {
-    // Is no question is found, send a 400
-    if (err) {
-      return next(err);
+  Question.findOne({_id: questionId, status: 1}).then(function(question) {
+    if (!question) { // Trying to answer a non existing question
+      throw new Error('QUESTION_DOES_NOT_EXIST');
     }
-    if (!question) {
-      return next(new Error('QUESTION_DOES_NOT_EXIST'));
-    }
-
-    question.hasBeenAnswered(req.user, ip).then(function(hasBeenAnswered) {
-      var reason;
-      if (hasBeenAnswered) { // If the user has already answered the question, send a 400
+    question.hasBeenAnswered(req.user, ip).then(function(hasBeenAnswered) { // Has the question been answered ?
+      if (hasBeenAnswered) { // Yes ! Throw an error
         if (req.isAuthenticated()) {
-          reason = 'QUESTION_ALREADY_ANSWERED';
+          throw new Error('QUESTION_ALREADY_ANSWERED');
         } else {
-          reason = 'QUESTION_ALREADY_ANSWERED_ANONYMOUS';
+          throw new Error('QUESTION_ALREADY_ANSWERED_ANONYMOUS');
         }
-        return next(new Error(reason));
-      } else {
-        if (req.isAuthenticated()) { // Authenticated mode, push the new answer to user answers list
-          // If the user has no answer object yet (it should not happen, but let's try not to take any risk)
-          if (!req.user.answers) {
-            req.user.answers = [];
+      }  
+      // No ! Update the User or the IpAnswer table
+      if (req.isAuthenticated()) { // Authenticated mode
+        // First push the new answer to the user.answers field
+        if (!req.user.answers) {
+          req.user.answers = [];
+        }
+        req.user.answers.push({
+          question: questionId,
+          answer: answerNumber
+        });
+        // And save !
+        return req.user.save();
+      } else { // Anonymous mode
+        // Try to get the ipAnswer entry for the user
+        return IpAnswer.findOne({ip: ip}).then(function(ipAnswer) {
+          if (!ipAnswer) {
+            throw new Error('UNKNOWN_ERROR');
           }
-          req.user.answers.push({
+          ipAnswer.answers.push({
             question: questionId,
             answer: answerNumber
           });
-
-          // Save the user
-          req.user.save(function(err) {
-            if (err) {
-              return next(err);
-            }
-          });
-
-        } else { // Anonymous mode
-
-          IpAnswer.findOne({ip: ip}, function(err, ipAnswers) {
-            if (err || !ipAnswers) {
-              if (err) {
-                return next(err);
-              } else {
-                return next(new Error('UNKNOWN_ERROR'));
-              }
-            }
-            ipAnswers.answers.push({
-              question: questionId,
-              answer: answerNumber
-            });
-            ipAnswers.save(function(err) {
-              if (err) {
-                return next(err);
-              }
-            });
-          });
-        }
-
-        // Increase the vote number and save the question
-        question.answers[answerNumber].votes = question.answers[answerNumber].votes + 1;
-        question.save(function(err) {
-          if (err) {
-            return next(err);
-          }
-          question.populateQuestion().then(function() {
-            return res.send(question);
-          });
-        });
+          return ipAnswer.save();
+        }).catch(err => next(err));
       }
-    });
+    }).then(function() { // Update the question
+      question.answers[answerNumber].votes = question.answers[answerNumber].votes + 1;
+      return question.save();
+    }).then(question => question.populateQuestion())
+    .then(question => res.send(question))
+    .catch(err => next(err));
   });
 };
 
@@ -331,34 +239,24 @@ exports.answerQuestion = function(req, res, next) {
 exports.upvoteQuestion = function(req, res, next) {
   var i;
   var questionId = req.params.id;
-  Question.findOne({_id: questionId, status: 1}).exec(function(err, question) {
-    if (err) {
-      return next(err);
-    }
+  
+  Question.findOne({_id: questionId, status: 1}).then(function(question) {
     if (!question) {
-      return next('QUESTION_DOES_NOT_EXIST');
+      throw new Error('QUESTION_DOES_NOT_EXIST');
     }
     for (i = 0; i < req.user.upvotes.length; i++) {
       if (req.user.upvotes[i].equals(questionId)) {
-        return next(new Error('QUESTION_ALREADY_UPVOTED'));
+        throw new Error('QUESTION_ALREADY_UPVOTED');
       }
     }
     req.user.upvotes.push(question._id);
-    // Save the user
-    req.user.save(function(err) {
-      if (err) {
-        return next(err);
-      }
-      question.upvotes = question.upvotes + 1;
-      question.save(function(err) {
-        if (err) {
-          return next(err);
-        }
-        // Send and return the question
-        question.populateQuestion().then(function() {
-          return res.send(question);
-        });
-      });
-    });
-  });
+    var saveUser = req.user.save();
+    question.upvotes = question.upvotes + 1;
+    var saveQuestion = question.save();
+    return Promise.all([saveQuestion, saveUser]);
+  }).then(function (results) {
+    var question = results[0];
+    return question.populateQuestion();
+  }).then(question => res.send(question))
+  .catch(err => next(err));
 };

@@ -1,5 +1,4 @@
 var encrypt = require('../utils/encryption');
-var Deffered = require('promised-io/promise').Deferred;
 var validator = require('validator');
 var User;
 
@@ -42,21 +41,13 @@ exports.methods = {
   },
   populateUser: function() {
     var user = this;
-    var q = new Deffered();
     if (!User) {
       User = require('mongoose').model('User');
     }
-    User.populate(user, [{
+    return User.populate(user, [{
       path: 'answers.question',
       model: 'Question'
-    }], function(err) {
-      if (err) {
-        q.reject();
-      } else {
-        q.resolve(user);
-      }
-    });
-    return q.promise;
+    }]);
   }
 };
 

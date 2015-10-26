@@ -53,7 +53,6 @@ exports.facebookAuthenticateCallback = function(req, res, next) {
   })(req, res, next);
 };
 
-
 /**
  * Twitter authentication
  */
@@ -111,7 +110,6 @@ exports.googleAuthenticateCallback = function(req, res, next) {
     });
   })(req, res, next);
 };
-
 
 /**
  * Return 403 error if not authenticated

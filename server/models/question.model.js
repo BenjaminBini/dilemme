@@ -68,8 +68,7 @@ exports.methods = {
       Question = mongoose.model('Question');
     }
     var question = this;
-    var q = new Deferred();
-    Question.populate(question, [{
+    return Question.populate(question, [{
       path: 'comments.author',
       select: 'username answers',
       model: 'User'
@@ -77,14 +76,7 @@ exports.methods = {
       path: 'author',
       select: 'username',
       model: 'User'
-    }], function(err) {
-      if (err) {
-        q.reject();
-      } else {
-        q.resolve(question);
-      }
-    });
-    return q.promise;
+    }]);
   }
 };
 
@@ -92,13 +84,16 @@ exports.methods = {
  * Get a random question
  */
 exports.statics = {
-  random: function(callback) {
-    this.count({status: 1}, function(err, count) {
-      if (err) {
-        return callback(err);
-      }
+  random: function() {
+    if (!Question) {
+      Question = mongoose.model('Question');
+    }
+    var p = Question.count({status: 1}).then(function(count) {
       var rand = Math.floor(Math.random() * count);
-      this.findOne({status: 1}).skip(rand).exec(callback);
-    }.bind(this));
+      return Question.findOne({status: 1}).skip(rand);
+    }).catch(function(err) {
+      return Promise.reject(err);
+    });
+    return p;
   }
 };
