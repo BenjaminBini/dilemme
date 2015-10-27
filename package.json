@@ -9,6 +9,7 @@
   "author": "Benjamin Bini",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^2.10.2",
     "body-parser": "^1.14.1",
     "connect-mongodb-session": "^1.0.5",
     "dotenv": "^1.2.0",

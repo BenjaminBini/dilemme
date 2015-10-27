@@ -1,5 +1,6 @@
 var nodemailer = require('nodemailer');
 var templates = require('../utils/mail-templates');
+var Promise = require('bluebird');
 
 exports.sendRequestNewPasswordMail = function(language, to, token) {
   var subject = templates.newPasswordRequest.subject[language];

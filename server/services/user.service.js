@@ -5,32 +5,28 @@ var User = require('mongoose').model('User');
 var encrypt = require('../utils/encryption');
 var mailer = require('../utils/mailer');
 var validator = require('validator');
+var Promise = require('bluebird');
 
 /**
  * Return array of all users
  */
 exports.getUsers = function(req, res, next) {
-  User.find({}).exec(function(err, collection) {
-    if (err) {
-      return next(err);
-    }
-    res.send(collection);
-    return collection;
-  });
+  User.find({}).then(users => res.send(users))
+  .catch(err => next(err));
 };
 
 /**
  * Return the user with the given id
  */
 exports.getUserById = function(req, res, next) {
-  User.findOne({_id: req.params.id}).exec(function(err, user) {
-    if (err) {
-      return next(err);
+  User.findOne({_id: req.params.id}).then(function(user) {
+    if (!user) {
+      throw new Error('USER_DOES_NOT_EXIST');
     }
-    user.populateUser().then(function() {
-      res.send(user);
-    });
-  });
+    return user;
+  }).then(user => user.populateUser())
+  .then(user => res.send(user))
+  .catch(err => next(err));
 };
 
 /**
@@ -64,32 +60,29 @@ exports.createUser = function(req, res, next) {
   }
 
   // Create user
-  User.create(userData, function(err, user) {
-    if (err) {
-      // If the error is E11000, the reason is a duplicate username or email
-      var reason = err.message;
-      if (reason.indexOf('E11000') > -1) {
-        if (reason.indexOf('username') > -1) {
-          reason = 'USERNAME_ALREADY_EXISTS';
-        } else if (reason.indexOf('email') > -1) {
-          reason = 'EMAIL_ALREADY_EXISTS';
+  User.create(userData).then(function(user) {
+    // Log the user (promisify the passport function)
+    return new Promise(function(resolve, reject) {
+      req.logIn(user, function(err) {
+        if (err) {
+          reject(err);
+        } else {
+          // Empty session values
+          req.session.googleId = req.session.twitterId = req.session.facebookId = undefined;
+          resolve(user);
         }
-      }
-      return next(new Error(reason));
-    }
-    // If no error, login the user
-    req.logIn(user, function(err) {
-      // If login fail
-      if (err) {
-        return next(err);
-      }
-
-      // Empty session values
-      req.session.googleId = req.session.twitterId = req.session.facebookId = undefined;
-
-      // Send and return the user
-      return res.send(user);
+      });
     });
+  }).then(user => res.send(user), function(err) { // TODO : put this in a catch function when possible when "create"
+    var reason = err.message;
+    if (reason.indexOf('E11000') > -1) {
+      if (reason.indexOf('username') > -1) {
+        reason = 'USERNAME_ALREADY_EXISTS';
+      } else if (reason.indexOf('email') > -1) {
+        reason = 'EMAIL_ALREADY_EXISTS';
+      }
+    }
+    return next(new Error(reason));
   });
 };
 

@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 var Question = mongoose.model('Question');
 var User = mongoose.model('User');
 var IpAnswer = mongoose.model('IpAnswer');
+var Promise = require('bluebird');
 
 /**
  * Return array of all questions
@@ -57,7 +58,7 @@ exports.getQuestionsByTag = function(req, res, next) {
  * Return a question by its id
  */
 exports.getQuestionById = function(req, res, next) {
-  Question.findOne({_id: req.params.id}).then(function (question) {
+  Question.findOne({_id: req.params.id}).then(function(question) {
     if (!question) {
       throw new Error('QUESTION_DOES_NOT_EXIST');
     }
@@ -85,7 +86,7 @@ exports.getRandomQuestion = function(req, res, next) {
  */
 exports.getUnansweredRandomQuestion = function(req, res, next) {
   var i;
-  if (!req.isAuthenticated()) { // If not authenticated, 
+  if (!req.isAuthenticated()) { // If not authenticated
     Question.random().then(question => question.populateQuestion())
     .then(question => res.send(question))
     .catch(err => next(err));
@@ -96,7 +97,7 @@ exports.getUnansweredRandomQuestion = function(req, res, next) {
       answeredQuestions.push(req.user.answers[i].question);
     }
     // We look for a published question not in the collection of answered questions
-    Question.find({status: 1}).where('_id').nin(answeredQuestions).then(function (questions) {
+    Question.find({status: 1}).where('_id').nin(answeredQuestions).then(function(questions) {
       if (questions.length === 0) { // If all questions have been answered we return a random one
         return Question.random();
       } else {
@@ -152,7 +153,7 @@ exports.updateQuestion = function(req, res, next) {
  */
 exports.deleteQuestion = function(req, res, next) {
   Question.remove({_id: req.params.id}).then(function() {
-     return User.find({});
+    return User.find({});
   }).then(function(users) {
     // On supprime les références à la question supprimée dans les réponses utilisateurs
     // On ne s'occupe pas des réponses anonymes : elles sont automatiquement purgées
@@ -198,7 +199,7 @@ exports.answerQuestion = function(req, res, next) {
         } else {
           throw new Error('QUESTION_ALREADY_ANSWERED_ANONYMOUS');
         }
-      }  
+      }
       // No ! Update the User or the IpAnswer table
       if (req.isAuthenticated()) { // Authenticated mode
         // First push the new answer to the user.answers field
@@ -230,7 +231,7 @@ exports.answerQuestion = function(req, res, next) {
     }).then(question => question.populateQuestion())
     .then(question => res.send(question))
     .catch(err => next(err));
-  });
+  }).catch(err => next(err));
 };
 
 /**
@@ -239,7 +240,7 @@ exports.answerQuestion = function(req, res, next) {
 exports.upvoteQuestion = function(req, res, next) {
   var i;
   var questionId = req.params.id;
-  
+
   Question.findOne({_id: questionId, status: 1}).then(function(question) {
     if (!question) {
       throw new Error('QUESTION_DOES_NOT_EXIST');
@@ -254,7 +255,7 @@ exports.upvoteQuestion = function(req, res, next) {
     question.upvotes = question.upvotes + 1;
     var saveQuestion = question.save();
     return Promise.all([saveQuestion, saveUser]);
-  }).then(function (results) {
+  }).then(function(results) {
     var question = results[0];
     return question.populateQuestion();
   }).then(question => res.send(question))

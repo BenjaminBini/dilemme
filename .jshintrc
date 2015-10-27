@@ -19,6 +19,7 @@
   "trailing" : false,
   "smarttabs": true,
   "white"    : false,
+  "predef": [ "-Promise" ],
   "globals"   : {
     "$"                    : false,
     "angular"              : false,

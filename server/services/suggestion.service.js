@@ -12,29 +12,21 @@ exports.getSuggestions = function(req, res, next) {
     path: 'author',
     select: 'username',
     model: 'User'
-  }]).exec(function(err, collection) {
-    if (err) {
-      return next(err);
-    }
-    return res.send(collection);
-  });
+  }]).then(suggestions => res.send(suggestions))
+  .catch(err => next(err));
 };
 
 /**
  * Return a suggestion by its id
  */
 exports.getSuggestionById = function(req, res, next) {
-  Suggestion.findOne({_id: req.params.id}).exec(function(err, suggestion) {
-    if (err) {
-      return next(err);
-    }
+  Suggestion.findOne({_id: req.params.id}).then(function(suggestion) {
     if (!suggestion) {
-      return next(new Error('SUGGESTION_DOES_NOT_EXIST'));
+      throw new Error('SUGGESTION_DOES_NOT_EXIST');
     }
-    suggestion.populateSuggestion().then(function() {
-      return res.send(suggestion);
-    });
-  });
+    return suggestion;
+  }).then(suggestion => res.send(suggestion))
+  .catch(err => next(err));
 };
 
 /**
@@ -45,14 +37,10 @@ exports.createSuggestion = function(req, res, next) {
   var suggestionData = req.body;
   suggestionData.author = req.user;
 
-  // Create question
-  Suggestion.create(suggestionData, function(err, suggestion) {
-    if (err) {
-      return next(err);
-    }
-    // If no error, return the question
-    return res.send(suggestion);
-  });
+  // Create suggestion
+  Suggestion.create(suggestionData)
+  .then(suggestion => res.send(suggestion))
+  .catch(err => next(err));
 };
 
 /**
@@ -65,12 +53,9 @@ exports.getSuggestionsByUser = function(req, res, next) {
     return res.send();
   }
 
-  Suggestion.find({author: req.params.id}).exec(function(err, collection) {
-    if (err) {
-      return next(err);
-    }
-    return res.send(collection);
-  });
+  Suggestion.find({author: req.params.id})
+  .then(suggestions => res.send(suggestions))
+  .catch(err => next(err));
 };
 
 /**
@@ -109,31 +94,24 @@ exports.validateSuggestion = function(req, res, next) {
     }
   }];
 
-  Suggestion.findOne({_id: suggestion._id}, function(err, savedSuggestion) {
+  Suggestion.findOne({_id: suggestion._id})
+  .then(function(savedSuggestion) {
     suggestion.author = savedSuggestion.author;
-    Question.create(suggestion, function(err, question) {
-      if (!question || err) {
-        if (err) {
-          return next(err);
-        }
-      }
-      Suggestion.remove({_id: suggestion._id}, function(err) {
-        if (err) {
-          return next(err);
-        }
-      });
-    });
-  });
+    return Question.create(suggestion);
+  }).then(function(question) {
+    if (!question) {
+      throw new Error();
+    }
+  }).then(function() {
+    res.send();
+  }).catch(err => next(err));
 };
 
 /**
  * Delete a suggestion
  */
 exports.deleteSuggestion = function(req, res, next) {
-  Suggestion.remove({_id: req.params.id}, function(err) {
-    if (err) {
-      return next(err);
-    }
+  Suggestion.remove({_id: req.params.id}).then(function() {
     return res.send(req.params.id);
-  });
+  }).catch(err => next(err));
 };
