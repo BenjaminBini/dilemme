@@ -27,7 +27,7 @@ var commentSchema = new mongoose.Schema({
 /**
  * Question schema
  */
-exports.schema = mongoose.Schema({
+exports.schema = new mongoose.Schema({
   title: {
     en: {
       type: String
