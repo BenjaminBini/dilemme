@@ -2,7 +2,7 @@ var expect = require('chai').expect;
 var should = require('chai').should();
 var questionSchema = require('../../../server/schemas/question.schema');
 var Question = require('mongoose').model('Question', questionSchema.schema);
-  
+
 require('../../utils/db.utils')();
 
 var question = {
@@ -27,7 +27,7 @@ var question = {
   status: 1
 };
 
-describe('Question: model', function() {
+describe('Model: Question', function() {
   it('should create a new Question', function() {
     return Question.create(question).should.be.fulfilled.then(function(newQuestion) {
       newQuestion.text.en.should.equal('Would you rather');

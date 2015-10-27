@@ -64,4 +64,24 @@ describe('Model: User', function() {
     expect(jsonUser.twitterId).not.to.exist;
     expect(jsonUser.googleId).not.to.exist;
   });
+  it('should authenticate user if password is good', function() {
+    return User.findOne({username: 'joe'}).then(function(user) {
+      user.authenticate('joe').should.equal(true);
+    });
+  });
+  it('should not authenticate user if password is wrong', function() {
+    return User.findOne({username: 'joe'}).then(function(user) {
+      user.authenticate('jeoe').should.equal(false);
+    });
+  });
+  it('should confirm that the user "joe" is an admin', function() {
+    return User.findOne({username: 'joe'}).then(function(user) {
+      user.hasRole('admin').should.equal(true);
+    });
+  });
+  it('should confirm that the user "ben" is not an admin', function() {
+    return User.findOne({username: 'ben'}).then(function(user) {
+      user.hasRole('admin').should.equal(false);
+    });
+  });
 });

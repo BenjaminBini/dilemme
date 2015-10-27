@@ -2,7 +2,7 @@ var expect = require('chai').expect;
 var should = require('chai').should();
 var suggestionSchema = require('../../../server/schemas/suggestion.schema');
 var Suggestion = require('mongoose').model('Suggestion', suggestionSchema.schema);
-  
+
 require('../../utils/db.utils')();
 
 var suggestion = {
@@ -17,7 +17,7 @@ var suggestion = {
   tags: ['food', 'preferences', 'family']
 };
 
-describe('Suggestion: model', function() {
+describe('Model: Suggestion', function() {
   it('should create a new Suggestion', function(done) {
     return Suggestion.create(suggestion, function(err, newSuggestion) {
       expect(err).not.to.exist;
