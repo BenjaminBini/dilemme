@@ -47,16 +47,13 @@ exports.schema = new mongoose.Schema({
     ref: 'Comment'
   }],
   facebookId: {
-    type: String,
-    unique: true
+    type: String
   },
   twitterId: {
-    type: String,
-    unique: true
+    type: String
   },
   googleId: {
-    type: String,
-    unique: true
+    type: String
   },
   resetPasswordToken: String,
   resetPasswordExpire: Date
