@@ -11,6 +11,8 @@
   "dependencies": {
     "bluebird": "^2.10.2",
     "body-parser": "^1.14.1",
+    "chai": "^3.4.0",
+    "chai-as-promised": "^5.1.0",
     "connect-mongodb-session": "^1.0.5",
     "dotenv": "^1.2.0",
     "express": "^4.13.3",
@@ -47,10 +49,10 @@
     "jscs": "^2.1.1",
     "jshint": "^2.8.0",
     "jshint-stylish": "^2.0.1",
-    "karma": "^0.12.31",
-    "karma-chai-plugins": "^0.2.4",
+    "karma": "^0.13.14",
+    "karma-chai-plugins": "^0.6.0",
     "karma-chrome-launcher": "^0.1.7",
-    "karma-mocha": "^0.1.10",
-    "mocha": "^2.1.0"
+    "karma-mocha": "^0.2.0",
+    "mocha": "^2.3.3"
   }
 }
