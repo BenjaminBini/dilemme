@@ -6,15 +6,16 @@ var userData = require('../../server/data/user.data');
 var suggestionData = require('../../server/data/suggestion.data');
 var questionData = require('../../server/data/question.data');
 require('dotenv').load();
-var chai = require("chai");
-var chaiAsPromised = require("chai-as-promised");
+var chai = require('chai');
+var chaiAsPromised = require('chai-as-promised');
+var Promise = require('bluebird');
 
 module.exports = function() {
   process.env.NODE_ENV = 'test';
-  
+
   beforeEach(function(done) {
     chai.use(chaiAsPromised);
-  
+
     function clearDB() {
       for (var i in mongoose.connection.collections) {
         mongoose.connection.collections[i].remove(function() {});
@@ -51,7 +52,7 @@ module.exports = function() {
     } else {
       return initDB(done);
     }
-    
+
   });
 
   after(function(done) {

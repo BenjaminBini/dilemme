@@ -29,6 +29,7 @@
     "inject"               : false,
     "afterEach"            : false,
     "beforeEach"           : false,
+    "after"                : false,
     "confirm"              : false,
     "context"              : false,
     "describe"             : false,

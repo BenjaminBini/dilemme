@@ -1,8 +1,7 @@
 var expect = require('chai').expect;
-var should = require('chai').should();
 var userSchema = require('../../../server/schemas/user.schema');
 var User = require('mongoose').model('User', userSchema.schema);
-  
+
 require('../../utils/db.utils')();
 
 describe('Model: User', function() {
@@ -33,7 +32,7 @@ describe('Model: User', function() {
       email: 'yoGRANMA@myplace.com',
       salt: 'salty',
       hashedPassword: 'passwordy'
-    }
+    };
     return User.create(user).should.be.fulfilled.then(newUser => User.create(user2)).should.be.rejected;
   });
   it('should not create a new User with an existing email', function() {
@@ -48,7 +47,7 @@ describe('Model: User', function() {
       email: 'yomama@myplace.com',
       salt: 'salty',
       hashedPassword: 'passwordy'
-    }
+    };
     return User.create(user).should.be.fulfilled.then(newUser => User.create(user2)).should.be.rejected;
   });
   it('should remove password, salt, reset token and providers ID when serializing to JSON', function() {

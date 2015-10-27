@@ -16,6 +16,7 @@ Environment variables have to be set in a ".env" file at the root of the project
 * `NODE_ENV`: "development" or "production"
 * `ROOT_PATH`: root URL (for example : http://dilemme.io, or http://localhost:3131) WITHOUT trailing slash but WITH leading "http://"
 * `MONGO_URI`: database URI, with user and password if required
+* `MONGO_TEST_URI`: test database URI, with user and password if required
 * `GMAIL_USER`: GMail user for sending mail
 * `GMAIL_PASSWORD`: GMail password for sending mail
 * `FB_ID`: Facebook app ID, used for Facebook authentication (create an app on [Facebook developper website](https://developers.facebook.com/))
