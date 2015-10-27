@@ -25,6 +25,7 @@ exports.methods = {
     }
     delete user.facebookId;
     delete user.twitterId;
+    delete user.googleId;
     return user;
   },
   /**
