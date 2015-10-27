@@ -6,12 +6,10 @@ var suggestionModel = require('../models/suggestion.model.js');
  */
 exports.schema = new mongoose.Schema({
   title: {
-    type: String,
-    required: '{PATH} is required'
+    type: String
   },
   description: {
-    type: String,
-    required: '{PATH} is required'
+    type: String
   },
   text: {
     type: String,
