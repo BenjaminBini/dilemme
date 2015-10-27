@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var Promise = require('bluebird');
 var Suggestion;
 
 /**
@@ -6,36 +7,32 @@ var Suggestion;
  */
 exports.createDefaultEntries = function() {
   if (!Suggestion) {
-    Suggestion = mongoose.model('User');
+    Suggestion = mongoose.model('Suggestion');
   }
-  Suggestion.find({}).exec(function(err, collection) {
-    if (err) {
-      return;
-    }
+  Suggestion.find({}).then(function(collection) {
     if (collection.length === 0) {
-      Suggestion.create({
+      var createSuggestions = [Suggestion.create({
         text: 'Would you rather',
         answers: [{
-          text: 'eat beef',
-          votes: 10
+          text: 'eat beef'
         }, {
           text: 'eat chicken'
         }],
         published: new Date('1/1/2015'),
         tags: ['food', 'preferences']
-      });
-      Suggestion.create({
+      }), Suggestion.create({
         text: 'Do you prefer',
         answers: [{
           text: 'green'
         }, {
-          text: 'blue',
-          votes: 2
+          text: 'blue'
         }],
         published: new Date('1/1/2015'),
         tags: ['color']
-      });
+      })];
+      return Promise.all(createSuggestions);
+    } else {
+      return Promise.resolve();
     }
-    console.log('Suggestions collection has ' + collection.length + ' entries');
   });
 };

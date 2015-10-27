@@ -1,4 +1,6 @@
 var mongoose = require('mongoose');
+var Promise = require('bluebird');
+
 var Question;
 
 /**
@@ -8,77 +10,74 @@ exports.createDefaultEntries = function() {
   if (!Question) {
     Question = mongoose.model('Question');
   }
-  Question.find({}).exec(function(err, collection) {
-    if (!Question) {
-      Question = mongoose.model('Question');
-    }
-    if (err) {
-      return;
-    }
+  return Question.find({}).then(function (collection) {
     if (collection.length === 0) {
-      Question.create({
-        text: {
-          en: 'Would you rather',
-          fr: 'Préférez-vous'
-        },
-        answers: [{
+      var saveQuestions = [
+        Question.create({
           text: {
-            en: 'eat beef',
-            fr: 'manger du boeuf'
+            en: 'Would you rather',
+            fr: 'Préférez-vous'
           },
-          votes: 10
-        }, {
+          answers: [{
+            text: {
+              en: 'eat beef',
+              fr: 'manger du boeuf'
+            },
+            votes: 10
+          }, {
+            text: {
+              en: 'eat chicken',
+              fr: 'manger du poulet'
+            }
+          }],
+          published: new Date('1/1/2015'),
+          tags: ['food', 'preferences'],
+          status: 1
+        }), Question.create({
           text: {
-            en: 'eat chicken',
-            fr: 'manger du poulet'
-          }
-        }],
-        published: new Date('1/1/2015'),
-        tags: ['food', 'preferences'],
-        status: 1
-      });
-      Question.create({
-        text: {
-          en: 'Do you prefer',
-          fr: 'Préférez-vous'
-        },
-        answers: [{
-          text: {
-            en: 'green',
-            fr: 'vert'
-          }
-        }, {
-          text: {
-            en: 'blue',
-            fr: 'bleu'
+            en: 'Do you prefer',
+            fr: 'Préférez-vous'
           },
-          votes: 2
-        }],
-        published: new Date('1/1/2015'),
-        tags: ['color'],
-        status: 1
-      });
-      Question.create({
-        text: {
-          en: 'Would you rather',
-          fr: 'Préférez-vous'
-        },
-        answers: [{
+          answers: [{
+            text: {
+              en: 'green',
+              fr: 'vert'
+            }
+          }, {
+            text: {
+              en: 'blue',
+              fr: 'bleu'
+            },
+            votes: 2
+          }],
+          published: new Date('1/1/2015'),
+          tags: ['color'],
+          status: 1
+        }), Question.create({
           text: {
-            en: 'go to Italy',
-            fr: 'aller en Italie'
+            en: 'Would you rather',
+            fr: 'Préférez-vous'
           },
-          votes: 10
-        }, {
-          text: {
-            en: 'go to France',
-            fr: 'aller en France'
-          },
-          votes: 15
-        }],
-        published: new Date('1/1/2015')
-      });
+          answers: [{
+            text: {
+              en: 'go to Italy',
+              fr: 'aller en Italie'
+            },
+            votes: 10
+          }, {
+            text: {
+              en: 'go to France',
+              fr: 'aller en France'
+            },
+            votes: 15
+          }],
+          published: new Date('1/1/2015')
+        })
+      ];
+      return Promise.all(saveQuestions);
+    } else {
+      return Promise.resolve();
     }
-    console.log('Questions collection has ' + collection.length + ' entries');
   });
 };
+  
