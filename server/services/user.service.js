@@ -232,36 +232,34 @@ exports.resetPassword = function(req, res, next) {
     return next(new Error('INVALID_TOKEN'));
   }
   User.findOne({resetPasswordToken: token}).then(function(user) {
-    if (user && Date.now() < user.resetPasswordExpire) {
-      user.salt = encrypt.createSalt();
-      user.hashedPassword = encrypt.hashPassword(user.salt, newPassword);
-      user.resetPasswordToken = undefined;
-      user.resetPasswordExpire = undefined;
-      // Validate data (just in case)
-      var validationErrorMessage = User.validate(user);
-      if (validationErrorMessage) {
-        return next(new Error(validationErrorMessage));
-      }
-
-      // Save the user
-      user.save().then(function() {
-        req.password = newPassword;
-        req.email = user.email;
-        // Login the user
-        req.logIn(user, function(err) {
-          // If login fail, continue the middleware chain
-          if (err) {
-            return next(err);
-          }
-
-          // Send and return the user
-          user.populateUser().then(function() {
-            res.send(user);
-          });
-        });
-      });
-    } else {
-      return next(new Error('INVALID_TOKEN'));
+    if (!user || Date.now() >= user.resetPasswordExpire) {
+      throw new Error('INVALID_TOKEN');
     }
-  });
+    user.salt = encrypt.createSalt();
+    user.hashedPassword = encrypt.hashPassword(user.salt, newPassword);
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+    // Validate data (just in case)
+    var validationErrorMessage = User.validate(user);
+    if (validationErrorMessage) {
+      throw new Error(validationErrorMessage);
+    }
+
+    // Save the user
+    return user.save();
+  }).then(function(user) {
+    req.password = newPassword;
+    req.email = user.email;
+    
+    return new Promise(function(resolve, reject) {
+      req.logIn(user, function(err) {
+        if (err) {
+          reject(err);
+        }
+        resolve(user);
+      });
+    })
+  }).then(user => user.populateUser())
+  .then(user => res.send(user))
+  .catch(err => next(err));
 };
