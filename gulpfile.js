@@ -11,6 +11,7 @@ var jade = require('gulp-jade');
 var nodemon = require('gulp-nodemon');
 var jshint = require('gulp-jshint');
 var jscs = require('gulp-jscs');
+var mocha = require('gulp-mocha');
 var noop = function() {};
 var stylish = require('gulp-jscs-stylish');
 
@@ -86,6 +87,11 @@ var TO_LINT_SRC = ['./public/app/**/*.js',
                    './server.js',
                    './server/**/*.js',
                   '!./public/**/bootstrap-tagsinput.js'];
+
+/**
+ * Server testing sources
+ */
+var SERVER_TEST_SRC = ['./test/server.test.js'];
 
 /**
  * Set default task to build
@@ -219,3 +225,10 @@ gulp.task('lint', function() {
     .pipe(stylish.combineWithHintResults())
     .pipe(jshint.reporter('jshint-stylish'));
 });
+
+gulp.task('test-server', function() {
+  gulp.src(SERVER_TEST_SRC)
+    .pipe(mocha());
+});
+
+gulp.task('test', ['test-server']);
