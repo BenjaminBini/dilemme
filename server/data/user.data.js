@@ -12,7 +12,7 @@ exports.createDefaultEntries = function() {
     User = mongoose.model('User');
   }
 
-  return User.find({}).then(function (collection) {
+  return User.find({}).then(function(collection) {
     if (collection.length === 0) {
       var salt;
       var hash;

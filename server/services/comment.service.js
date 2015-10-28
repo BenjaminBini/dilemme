@@ -2,6 +2,7 @@
  * Comments controller
  */
 var mongoose = require('mongoose');
+var Promise = require('bluebird');
 var Question = mongoose.model('Question');
 
 /**
@@ -13,24 +14,21 @@ exports.commentQuestion = function(req, res, next) {
   if (comment.text && comment.text.length > 1000) {
     return next(new Error('TOO_LONG_COMMENT'));
   }
-  Question.findOne({_id: questionId}).exec(function(err, question) {
-    if (!question) {
-      return next(err);
-    }
-    if (!question.comments) {
-      question.comments = [];
-    }
-    comment.author = req.user._id;
-    question.comments.push(comment);
-    question.save(function(err) {
-      if (err) {
-        return next(err);
+  Question.findOne({_id: questionId})
+    .then(function(question) {
+      if (!question) {
+        throw new Error('QUESTION_DOES_NOT_EXIST');
       }
-      question.populateQuestion().then(function() {
-        return res.send(question);
-      });
-    });
-  });
+      if (!question.comments) {
+        question.comments = [];
+      }
+      comment.author = req.user._id;
+      question.comments.push(comment);
+      return question.save();
+    })
+    .then(question => question.populateQuestion())
+    .then(question => res.send(question))
+    .catch(err => next(err));
 };
 
 /**
@@ -39,27 +37,21 @@ exports.commentQuestion = function(req, res, next) {
 exports.deleteComment = function(req, res, next) {
   var questionId = req.params.id;
   var commentId = req.params.commentId;
-  Question.findOne({_id: questionId}).exec(function(err, question) {
-    if (err) {
-      return;
-    }
-    if (!question) {
-      return next(new Error('QUESTION_DOES_NOT_EXIST'));
-    }
-    var comment = question.comments.id(commentId);
-    if (!comment) {
-      return next(new Error('COMMENT_DOES_NOT_EXIST'));
-    }
-    comment.remove();
-    question.save(function(err) {
-      if (err) {
-        return next(err);
+  Question.findOne({_id: questionId})
+    .then(function(question) {
+      if (!question) {
+        throw new Error('QUESTION_DOES_NOT_EXIST');
       }
-      question.populateQuestion().then(function() {
-        return res.send(question);
-      });
-    });
-  });
+      var comment = question.comments.id(commentId);
+      if (!comment) {
+        throw new Error('COMMENT_DOES_NOT_EXIST');
+      }
+      comment.remove();
+      return question.save();
+    })
+    .then(question => question.populateQuestion())
+    .then(question => res.send(question))
+    .catch(err => next(err));
 };
 
 /**
@@ -69,36 +61,35 @@ exports.upvoteComment = function(req, res, next) {
   var questionId = req.params.id;
   var commentId = req.params.commentId;
   var i;
-  Question.findOne({_id: questionId}).exec(function(err, question) {
-    if (err) {
-      return;
-    }
-    if (!question) {
-      return next(new Error('QUESTION_DOES_NOT_EXIST'));
-    }
-    var comment = question.comments.id(commentId);
-    if (!comment) {
-      return next(new Error('COMMENT_DOES_NOT_EXIST'));
-    }
-    for (i = 0; i < req.user.commentUpvotes.length; i++) {
-      if (req.user.commentUpvotes[i].equals(commentId)) {
-        return next(new Error('COMMENT_ALREADY_UPVOTED'));
+
+  Question.findOne({_id: questionId})
+    .then(function(question) {
+      if (!question) {
+        throw new  Error('QUESTION_DOES_NOT_EXIST');
       }
-    }
-    req.user.commentUpvotes.push(commentId);
-    req.user.save(function(err) {
-      if (err) {
-        return next(err);
+      var comment = question.comments.id(commentId);
+      if (!comment) {
+        throw new  Error('COMMENT_DOES_NOT_EXIST');
+      }
+      for (i = 0; i < req.user.commentUpvotes.length; i++) {
+        if (req.user.commentUpvotes[i].equals(commentId)) {
+          throw new Error('COMMENT_ALREADY_UPVOTED');
+        }
       }
       comment.upvotes = comment.upvotes + 1;
-      question.save(function(err) {
-        if (err) {
-          return next(err);
-        }
-        question.populateQuestion().then(function() {
-          return res.send(question);
-        });
-      });
-    });
-  });
+      req.user.commentUpvotes.push(commentId);
+
+      var saveQuestion = question.save();
+      var saveUser = req.user.save();
+      return Promise.all([saveQuestion, saveUser]);
+    })
+    .then(function(saveResults) {
+      if (!saveResults || saveResults.length !== 2) {
+        throw new Error('UNKNOWN_ERROR');
+      }
+      return saveResults[0];
+    })
+    .then(question => question.populateQuestion())
+    .then(question => res.send(question))
+    .catch(err => next(err));
 };

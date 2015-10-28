@@ -11,22 +11,25 @@ var Promise = require('bluebird');
  * Return array of all users
  */
 exports.getUsers = function(req, res, next) {
-  User.find({}).then(users => res.send(users))
-  .catch(err => next(err));
+  User.find({})
+    .then(users => res.send(users))
+    .catch(err => next(err));
 };
 
 /**
  * Return the user with the given id
  */
 exports.getUserById = function(req, res, next) {
-  User.findOne({_id: req.params.id}).then(function(user) {
-    if (!user) {
-      throw new Error('USER_DOES_NOT_EXIST');
-    }
-    return user;
-  }).then(user => user.populateUser())
-  .then(user => res.send(user))
-  .catch(err => next(err));
+  User.findOne({_id: req.params.id})
+    .then(function(user) {
+      if (!user) {
+        throw new Error('USER_DOES_NOT_EXIST');
+      }
+      return user;
+    })
+    .then(user => user.populateUser())
+    .then(user => res.send(user))
+    .catch(err => next(err));
 };
 
 /**
@@ -60,30 +63,32 @@ exports.createUser = function(req, res, next) {
   }
 
   // Create user
-  User.create(userData).then(function(user) {
-    // Log the user (promisify the passport function)
-    return new Promise(function(resolve, reject) {
-      req.logIn(user, function(err) {
-        if (err) {
-          reject(err);
-        } else {
-          // Empty session values
-          req.session.googleId = req.session.twitterId = req.session.facebookId = undefined;
-          resolve(user);
-        }
+  User.create(userData)
+    .then(function(user) {
+      // Log the user (promisify the passport function)
+      return new Promise(function(resolve, reject) {
+        req.logIn(user, function(err) {
+          if (err) {
+            reject(err);
+          } else {
+            // Empty session values
+            req.session.googleId = req.session.twitterId = req.session.facebookId = undefined;
+            resolve(user);
+          }
+        });
       });
-    });
-  }).then(user => res.send(user), function(err) { // TODO : put this in a catch function when possible when "create"
-    var reason = err.message;
-    if (reason.indexOf('E11000') > -1) {
-      if (reason.indexOf('username') > -1) {
-        reason = 'USERNAME_ALREADY_EXISTS';
-      } else if (reason.indexOf('email') > -1) {
-        reason = 'EMAIL_ALREADY_EXISTS';
+    })
+    .then(user => res.send(user), function(err) { // TODO : put this in a catch function when possible when "create"
+      var reason = err.message;
+      if (reason.indexOf('E11000') > -1) {
+        if (reason.indexOf('username') > -1) {
+          reason = 'USERNAME_ALREADY_EXISTS';
+        } else if (reason.indexOf('email') > -1) {
+          reason = 'EMAIL_ALREADY_EXISTS';
+        }
       }
-    }
-    return next(new Error(reason));
-  });
+      return next(new Error(reason));
+    });
 };
 
 /**
@@ -106,48 +111,41 @@ exports.updateUser = function(req, res, next) {
   }
 
   // Get the user we have to modify
-  User.findOne({_id: req.params.id}).exec(function(err, user) {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      return next(new Error('USER_DOES_NOT_EXIST'));
-    }
-    user.username = userUpdates.username;
-    user.email = userUpdates.email;
-    // If needed, generate new hashed password
-    if (userUpdates.password && userUpdates.password.length > 0) {
-      user.salt = encrypt.createSalt();
-      user.hashedPassword = encrypt.hashPassword(user.salt, userUpdates.password);
-    }
-    // If the modified user is the logged in user, let's reset it
-    if (req.user._id == req.params.id) { // jshint ignore:line
-      req.user = user;
-    }
-    // Save the user
-    user.save(function(err) {
-      if (err) {
-        var reason = err.message;
-        // If the error is E11000, the reason is a duplicate username or email
-        if (err.toString().indexOf('username') > -1) {
-          reason = 'USERNAME_ALREADY_EXISTS';
-        } else if (err.toString().indexOf('email') > -1) {
-          reason = 'EMAIL_ALREADY_EXISTS';
-        }
-        // If an error occure, return error 400 with the error
-        return next(new Error(reason));
+  User.findOne({_id: req.params.id})
+    .then(function(user) {
+      if (!user) {
+        throw new Error('USER_DOES_NOT_EXIST');
       }
-      // Send and return the user
-      user.populateUser().then(function() {
-        res.send(user);
-        return user;
-      });
+      user.username = userUpdates.username;
+      user.email = userUpdates.email;
+      // If needed, generate new hashed password
+      if (userUpdates.password && userUpdates.password.length > 0) {
+        user.salt = encrypt.createSalt();
+        user.hashedPassword = encrypt.hashPassword(user.salt, userUpdates.password);
+      }
+      // If the modified user is the logged in user, let's reset it
+      if (req.user._id == req.params.id) { // jshint ignore:line
+        req.user = user;
+      }
+      return user.save();
+    })
+    .then(user => user.populateUser())
+    .then(user => res.send(user))
+    .catch(function(err) {
+      var reason = err.message;
+      // If the error is E11000, the reason is a duplicate username or email
+      if (err.toString().indexOf('username') > -1) {
+        reason = 'USERNAME_ALREADY_EXISTS';
+      } else if (err.toString().indexOf('email') > -1) {
+        reason = 'EMAIL_ALREADY_EXISTS';
+      }
+      next(err);
     });
-  });
 };
 
 /**
  * Delete a user
+ * TODO : promisify this
  */
 exports.deleteUser = function(req, res, next) {
   User.remove({_id: req.params.id}, function(err) {
@@ -161,6 +159,7 @@ exports.deleteUser = function(req, res, next) {
 
 /**
   * Return user with his stats
+  * TODO : promisify this
   */
 exports.getUserStats = function(req, res, next) {
   // Check if the user is authorized (admin or current user)
@@ -181,17 +180,20 @@ exports.getUserStats = function(req, res, next) {
 
 /**
  * Return the list of users who answered a question
+ * TODO : catchify this
  */
 exports.getUsersByAnsweredQuestion = function(req, res, next) {
-  User.find({'answers.question': req.params.questionId}).then(function(collection) {
-    res.send(collection);
-  }, function(err) {
-    return next(err);
-  });
+  User.find({'answers.question': req.params.questionId})
+    .then(function(collection) {
+      res.send(collection);
+    }, function(err) {
+      return next(err);
+    });
 };
 
 /**
  * Send a mail to the user with a link to set a new password
+ * TODO : promsify this
  */
 exports.requestNewPassword = function(req, res) {
   // Try to find the concerned user
@@ -225,41 +227,46 @@ exports.requestNewPassword = function(req, res) {
   });
 };
 
+/**
+ * Reset the password of the user if he provides the right token
+ */
 exports.resetPassword = function(req, res, next) {
   var newPassword = req.body.newPassword;
   var token = req.body.token;
   if (token === undefined || token.length === 0 || !validator.isHexadecimal(token)) {
     return next(new Error('INVALID_TOKEN'));
   }
-  User.findOne({resetPasswordToken: token}).then(function(user) {
-    if (!user || Date.now() >= user.resetPasswordExpire) {
-      throw new Error('INVALID_TOKEN');
-    }
-    user.salt = encrypt.createSalt();
-    user.hashedPassword = encrypt.hashPassword(user.salt, newPassword);
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpire = undefined;
-    // Validate data (just in case)
-    var validationErrorMessage = User.validate(user);
-    if (validationErrorMessage) {
-      throw new Error(validationErrorMessage);
-    }
+  User.findOne({resetPasswordToken: token})
+    .then(function(user) {
+      if (!user || Date.now() >= user.resetPasswordExpire) {
+        throw new Error('INVALID_TOKEN');
+      }
+      user.salt = encrypt.createSalt();
+      user.hashedPassword = encrypt.hashPassword(user.salt, newPassword);
+      user.resetPasswordToken = undefined;
+      user.resetPasswordExpire = undefined;
+      // Validate data (just in case)
+      var validationErrorMessage = User.validate(user);
+      if (validationErrorMessage) {
+        throw new Error(validationErrorMessage);
+      }
 
-    // Save the user
-    return user.save();
-  }).then(function(user) {
-    req.password = newPassword;
-    req.email = user.email;
-    
-    return new Promise(function(resolve, reject) {
-      req.logIn(user, function(err) {
-        if (err) {
-          reject(err);
-        }
-        resolve(user);
+      // Save the user
+      return user.save();
+    })
+    .then(function(user) {
+      req.password = newPassword;
+      req.email = user.email;
+      return new Promise(function(resolve, reject) {
+        req.logIn(user, function(err) {
+          if (err) {
+            reject(err);
+          }
+          resolve(user);
+        });
       });
     })
-  }).then(user => user.populateUser())
-  .then(user => res.send(user))
-  .catch(err => next(err));
+    .then(user => user.populateUser())
+    .then(user => res.send(user))
+    .catch(err => next(err));
 };

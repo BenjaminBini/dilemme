@@ -8,25 +8,29 @@ var Question = require('mongoose').model('Question');
  * Return all suggestions
  */
 exports.getSuggestions = function(req, res, next) {
-  Suggestion.find({}).populate([{
-    path: 'author',
-    select: 'username',
-    model: 'User'
-  }]).then(suggestions => res.send(suggestions))
-  .catch(err => next(err));
+  Suggestion.find({})
+    .populate([{
+      path: 'author',
+      select: 'username',
+      model: 'User'
+    }])
+    .then(suggestions => res.send(suggestions))
+    .catch(err => next(err));
 };
 
 /**
  * Return a suggestion by its id
  */
 exports.getSuggestionById = function(req, res, next) {
-  Suggestion.findOne({_id: req.params.id}).then(function(suggestion) {
-    if (!suggestion) {
-      throw new Error('SUGGESTION_DOES_NOT_EXIST');
-    }
-    return suggestion;
-  }).then(suggestion => res.send(suggestion))
-  .catch(err => next(err));
+  Suggestion.findOne({_id: req.params.id})
+    .then(function(suggestion) {
+      if (!suggestion) {
+        throw new Error('SUGGESTION_DOES_NOT_EXIST');
+      }
+      return suggestion;
+    })
+    .then(suggestion => res.send(suggestion))
+    .catch(err => next(err));
 };
 
 /**
@@ -39,8 +43,8 @@ exports.createSuggestion = function(req, res, next) {
 
   // Create suggestion
   Suggestion.create(suggestionData)
-  .then(suggestion => res.send(suggestion))
-  .catch(err => next(err));
+    .then(suggestion => res.send(suggestion))
+    .catch(err => next(err));
 };
 
 /**
@@ -54,8 +58,8 @@ exports.getSuggestionsByUser = function(req, res, next) {
   }
 
   Suggestion.find({author: req.params.id})
-  .then(suggestions => res.send(suggestions))
-  .catch(err => next(err));
+    .then(suggestions => res.send(suggestions))
+    .catch(err => next(err));
 };
 
 /**
@@ -95,23 +99,28 @@ exports.validateSuggestion = function(req, res, next) {
   }];
 
   Suggestion.findOne({_id: suggestion._id})
-  .then(function(savedSuggestion) {
-    suggestion.author = savedSuggestion.author;
-    return Question.create(suggestion);
-  }).then(function(question) {
-    if (!question) {
-      throw new Error();
-    }
-  }).then(function() {
-    res.send();
-  }).catch(err => next(err));
+    .then(function(savedSuggestion) {
+      suggestion.author = savedSuggestion.author;
+      return Question.create(suggestion);
+    })
+    .then(function(question) {
+      if (!question) {
+        throw new Error();
+      }
+    })
+    .then(function() {
+      res.send();
+    })
+    .catch(err => next(err));
 };
 
 /**
  * Delete a suggestion
  */
 exports.deleteSuggestion = function(req, res, next) {
-  Suggestion.remove({_id: req.params.id}).then(function() {
-    return res.send(req.params.id);
-  }).catch(err => next(err));
+  Suggestion.remove({_id: req.params.id})
+    .then(function() {
+      return res.send(req.params.id);
+    })
+    .catch(err => next(err));
 };
