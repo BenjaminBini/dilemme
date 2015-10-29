@@ -5,10 +5,10 @@ var questionSchema = require('../../server/schemas/question.schema');
 var userData = require('../../server/data/user.data');
 var suggestionData = require('../../server/data/suggestion.data');
 var questionData = require('../../server/data/question.data');
-require('dotenv').load();
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 var Promise = require('bluebird');
+require('dotenv').load();
 
 module.exports = function() {
   process.env.NODE_ENV = 'test';
