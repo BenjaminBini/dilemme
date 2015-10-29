@@ -12,8 +12,12 @@ var nodemon = require('gulp-nodemon');
 var jshint = require('gulp-jshint');
 var jscs = require('gulp-jscs');
 var mocha = require('gulp-mocha');
-var noop = function() {};
 var stylish = require('gulp-jscs-stylish');
+var Promise = require('bluebird');
+var inquirer = require('inquirer');
+var restore = require('mongodb-restore');
+var noop = function() {};
+require('dotenv').load();
 
 /**
  * Project directories
@@ -97,14 +101,14 @@ var SERVER_TEST_SRC = ['./test/server.test.js'];
  * Set default task to build
  */
 gulp.task('default', function() {
-  gulp.start('build');
+  return gulp.start('build');
 });
 
 /**
  * Build client
  */
 gulp.task('build', function() {
-  gulp.start('build-client');
+  return gulp.start('build-client');
 });
 
 /**
@@ -128,7 +132,7 @@ gulp.task('build-client', ['clean-client-dist'], function() {
  * Build JS
  */
 gulp.task('build-client-js', function() {
-  gulp.src(JS_SRC)
+  return gulp.src(JS_SRC)
     .pipe(sourcemaps.init())
     .pipe(concat('dilemme.js'))
     .pipe(gulp.dest(JS_DIR))
@@ -151,7 +155,7 @@ gulp.task('build-client-stylus', function() {
  * Build CSS
  */
 gulp.task('build-client-css', ['build-client-stylus'], function() {
-  gulp.src(CSS_SRC)
+  return gulp.src(CSS_SRC)
     .pipe(sourcemaps.init())
     .pipe(autoprefixer())
     .pipe(concat('dilemme.css'))
@@ -195,7 +199,7 @@ gulp.task('watch-client', function() {
  * Launch application and watch server files for any change
  */
 gulp.task('watch-server', function() {
-  nodemon({
+  return nodemon({
     script: 'server.js',
     watch: './server'
   });
@@ -207,7 +211,7 @@ gulp.task('watch-server', function() {
  */
 gulp.task('debug', function() {
   gulp.start('watch-client');
-  nodemon({
+  return nodemon({
     script: 'server.js',
     nodeArgs: ['--debug=3132'],
     watch: './server'
@@ -218,7 +222,7 @@ gulp.task('debug', function() {
  * Lint sources (JSHint and JSCS)
  */
 gulp.task('lint', function() {
-  gulp.src(TO_LINT_SRC)
+  return gulp.src(TO_LINT_SRC)
     .pipe(jshint())
     .pipe(jscs())
     .on('error', noop)
@@ -226,9 +230,39 @@ gulp.task('lint', function() {
     .pipe(jshint.reporter('jshint-stylish'));
 });
 
+/**
+ * Lanch server code tests
+ */
 gulp.task('test-server', function() {
-  gulp.src(SERVER_TEST_SRC)
+  return gulp.src(SERVER_TEST_SRC)
     .pipe(mocha());
 });
 
+/**
+ * Launch tests
+ */
 gulp.task('test', ['test-server']);
+
+/**
+ * Put sample data in DB
+ */
+gulp.task('init-db', function() {
+  var ask = new Promise(function(resolve) {
+    return inquirer.prompt([{type: 'confirm', name: 'confirm', message: 'This will erase all the database and replace them with sample data, are you sure? (y/N)', default: false}], resolve);
+  });
+  return ask.then(function(confirm) {
+    return new Promise(function(resolve) {
+      if (confirm) {
+        restore({
+          uri: process.env.MONGO_URI,
+          root: __dirname + '/server/data/sample',
+          drop: true,
+          metadata: true,
+          callback: resolve
+        });
+      } else {
+        return;
+      }
+    });
+  });
+});
