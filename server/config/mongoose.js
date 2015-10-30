@@ -4,16 +4,14 @@
 var mongoose = require('mongoose');
 var Promise = require('bluebird');
 var userSchema = require('../schemas/user.schema');
-var userData = require('../data/user.data');
 var suggestionSchema = require('../schemas/suggestion.schema');
-var suggestionData = require('../data/suggestion.data');
 var ipAnswerSchema = require('../schemas/ip-answer.schema');
 var questionSchema = require('../schemas/question.schema');
-var questionData = require('../data/question.data');
+var restore = require('mongodb-restore');
 
 module.exports = function() {
   // Init schemas
-  mongoose.model('User', userSchema.schema);
+  var User = mongoose.model('User', userSchema.schema);
   mongoose.model('Suggestion', suggestionSchema.schema);
   mongoose.model('IpAnswer', ipAnswerSchema.schema);
   mongoose.model('Question', questionSchema.schema);
@@ -26,11 +24,20 @@ module.exports = function() {
   var db = mongoose.connection;
   db.on('error', console.error.bind(console, 'connection error...'));
   db.once('open', function callback() {
-    console.log('db opened');
+    console.log('Database opened');
 
-    // Create default data in the db
-    userData.createDefaultEntries();
-    suggestionData.createDefaultEntries();
-    questionData.createDefaultEntries();
+    // Create default data in the db if there is no user
+    User.count({}).then(function(count) {
+      if (count === 0) {
+        console.log('Populating database with sample data');
+        restore({
+          uri: process.env.MONGO_URI,
+          root: __dirname + '/../../server/data/sample',
+          drop: true,
+          dropCollections: true,
+          metadata: true
+        });
+      }
+    });
   });
 };
