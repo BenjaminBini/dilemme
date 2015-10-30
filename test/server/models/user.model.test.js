@@ -17,7 +17,7 @@ module.exports = function() {
         newUser.email.should.equal('yomama@myplace.com');
         newUser.salt.should.equal('salty');
         newUser.hashedPassword.should.equal('passwordy');
-      });
+      }).catch(err => console.log(err.actual));
     });
     it('should not create a new User with an existing username', function() {
       var user = {
@@ -32,7 +32,8 @@ module.exports = function() {
         salt: 'salty',
         hashedPassword: 'passwordy'
       };
-      return User.create(user).should.be.fulfilled.then(newUser => User.create(user2)).should.be.rejected;
+      return User.create(user).should.be.fulfilled
+        .then(newUser => User.create(user2)).should.be.rejected;
     });
     it('should not create a new User with an existing email', function() {
       var user = {
@@ -47,7 +48,8 @@ module.exports = function() {
         salt: 'salty',
         hashedPassword: 'passwordy'
       };
-      return User.create(user).should.be.fulfilled.then(newUser => User.create(user2)).should.be.rejected;
+      return User.create(user).should.be.fulfilled
+        .then(() => User.create(user2)).should.be.rejected;
     });
     it('should remove password, salt, reset token and providers ID when serializing to JSON', function() {
       var user = new User();
