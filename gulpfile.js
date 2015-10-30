@@ -14,6 +14,7 @@ var jscs = require('gulp-jscs');
 var mocha = require('gulp-mocha');
 var stylish = require('gulp-jscs-stylish');
 var Promise = require('bluebird');
+var istanbul = require('gulp-istanbul');
 var inquirer = require('inquirer');
 var restore = require('mongodb-restore');
 var noop = function() {};
@@ -233,15 +234,31 @@ gulp.task('lint', function() {
 /**
  * Lanch server code tests
  */
-gulp.task('test-server', function() {
+gulp.task('test-server', ['pre-test'], function() {
   return gulp.src(SERVER_TEST_SRC)
-    .pipe(mocha());
+    .pipe(mocha())
+    .pipe(istanbul.writeReports({
+        reporters: ['lcov', 'json', 'text', 'text-summary', 'html']
+      })
+    );
 });
 
 /**
  * Launch tests
  */
 gulp.task('test', ['test-server']);
+
+/**
+ * Pre-test task
+ */
+gulp.task('pre-test', function() {
+  return gulp.src(['server/**/*.js'])
+    // Covering files
+    .pipe(istanbul())
+    // Force `require` to return covered files
+    .pipe(istanbul.hookRequire());
+});
+
 
 /**
  * Put sample data in DB
