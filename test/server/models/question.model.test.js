@@ -1,7 +1,9 @@
 var expect = require('chai').expect;
 var should = require('chai').should();
 var questionSchema = require('../../../server/schemas/question.schema');
+var userSchema = require('../../../server/schemas/user.schema');
 var Question = require('mongoose').model('Question', questionSchema.schema);
+var User = require('mongoose').model('User', userSchema.schema);
 
 module.exports = function() {
   var question = {
@@ -29,6 +31,7 @@ module.exports = function() {
   describe('Model: Question', function() {
     it('should create a new Question', function() {
       return Question.create(question).should.be.fulfilled.then(function(newQuestion) {
+        expect(newQuestion).to.exist;
         newQuestion.text.en.should.equal('Would you rather');
         newQuestion.text.fr.should.equal('Préférez-vous');
         newQuestion.answers.length.should.equal(2);
@@ -41,5 +44,49 @@ module.exports = function() {
       delete question.text;
       return Question.create(question).should.be.rejected;
     });
+    it('should confirm that joe did not answered the question with the title "JoeDidNotAnswerIt"', function() {
+      return Question.findOne({'title.en': 'JoeDidNotAnswerIt'}).should.be.fulfilled
+        .then(function(question) {
+          expect(question).to.exist;
+          return User.findOne({username: 'joe'}).should.be.fulfilled
+            .then(user => user.populateUser())
+            .then(user => question.hasBeenAnswered(user)).should.be.fulfilled
+            .then(function(hasBeenAnswered) {
+              hasBeenAnswered.should.equal(false);
+            }).should.be.fulfilled;
+        });
+    });
+    it('should confirm that joe answered the question with the title "JoeAnsweredIt"', function() {
+      return Question.findOne({'title.en': 'JoeAnsweredIt'}).should.be.fulfilled
+        .then(function(question) {
+          expect(question).to.exist;
+          return User.findOne({username: 'joe'}).should.be.fulfilled
+            .then(user => user.populateUser()).should.be.fulfilled
+            .then(user => question.hasBeenAnswered(user)).should.be.fulfilled
+            .then(function(hasBeenAnswered) {
+              hasBeenAnswered.should.equal(true);
+            }).should.be.fulfilled;
+        });
+    });
+    it('should populate question with author name', function() {
+      return Question.findOne({'title.en': 'JoeCreatedIt'}).should.be.fulfilled
+        .then(question => question.populateQuestion()).should.be.fulfilled
+        .then(function(question) {
+          expect(question).to.exist;
+          question.author.username.should.equal('joe');
+        }).should.be.fulfilled;
+    });
+    it('should populate question with comments author names', function() {
+      return Question.findOne({'title.en': 'JoeCommentedIt'}).should.be.fulfilled
+        .then(question => question.populateQuestion()).should.be.fulfilled
+        .then(function(question) {
+          expect(question).to.exist;
+          question.comments.length.should.equal(1);
+          question.comments.map(  function (comment) {
+            comment.author.username.should.equal('joe');
+          });
+        }).should.be.fulfilled;
+    });
   });
+
 };
