@@ -8,7 +8,7 @@ Work in progress.
 
 # Install and run
 
-MongoDB is required and must be running on default port.
+MongoDB is required.
 
 Environment variables have to be set in a ".env" file at the root of the project (see `.env.sample` file) (I use [dotenv](https://github.com/motdotla/dotenv)).
 
@@ -32,9 +32,6 @@ $ npm install -g gulp
 $ npm install -g bower
 ```
 
-Default admin credentials are 'joe'/'joe'.
-
-
 Classic stuff to launch the application : 
 
 ```sh
@@ -43,8 +40,11 @@ $ bower install
 $ gulp build
 $ node server
 ```
+On the first start, sample data will be automatically pushed to the database.
 
 Then go to http://localhost:3131 and everything should be fine.
+
+Default admin credentials are 'joe'/'joe'.
 
 # Useful Gulp tasks
 
@@ -85,7 +85,24 @@ $ gulp watch
 
 ```sh
 $ gulp debug
-``
+```
 
 * Launch server.js with debug port set to 3132
 * Watch files like the `watch` task
+
+## Test
+
+```sh
+$ gulp test
+```
+
+* Launch tests (only some tests server side for now, work in progress)
+* Generate coverage report in `coverage` directory
+
+## Populate database with sample data
+
+```sh
+$ gulp init-db
+```
+
+* Delete everything in the database and populate it with sample data (from `server/data/sample` directory)
