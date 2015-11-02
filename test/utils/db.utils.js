@@ -13,6 +13,8 @@ module.exports = function() {
   process.env.NODE_ENV = 'test';
 
   beforeEach(function(done) {
+    // Remove mocha timeout    
+    this.timeout(0);
 
     // Use chaiAsPromised
     chai.use(chaiAsPromised);
@@ -39,7 +41,6 @@ module.exports = function() {
 
       // Create default data in the db
       return new Promise(function(resolve) {
-        this.timeout(0);
         restore({
           uri: process.env.MONGO_TEST_URI,
           root: __dirname + '/../../server/data/sample',
