@@ -10,5 +10,4 @@ before_script:
   - sleep 15
   - mongo dilemmeTest --eval 'db.addUser("dilemme", "dilemme);'
   - npm install -g gulp
-script:
-  - gulp test
+script: gulp test
