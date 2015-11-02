@@ -82,10 +82,19 @@ module.exports = function() {
         .then(function(question) {
           expect(question).to.exist;
           question.comments.length.should.equal(1);
-          question.comments.map(  function (comment) {
+          question.comments.map(function(comment) {
             comment.author.username.should.equal('joe');
           });
         }).should.be.fulfilled;
+    });
+    it('should return a random question', function() {
+      return Question.random().should.be.fulfilled;
+    });
+    it('should reject the promise if no question in the database', function() {
+      Question.remove({}).should.be.fulfilled
+        .then(function() {
+          return Question.random().should.not.be.fulfilled;
+        });
     });
   });
 
