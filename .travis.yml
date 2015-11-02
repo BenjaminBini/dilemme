@@ -4,11 +4,11 @@ node_js:
 services:
   - mongodb
 install:
+  - npm install -g npm@latest
   - npm install
   - npm install -g gulp
   - npm install -g bower
   - bower install
 before_script:
-  - sleep 15
   - mongo dilemmeTest --eval 'db.addUser("dilemme", "dilemme");'
 script: gulp test
