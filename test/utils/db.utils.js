@@ -39,6 +39,7 @@ module.exports = function() {
 
       // Create default data in the db
       return new Promise(function(resolve) {
+        console.log(process.env.MONGO_TEST_URI);
         restore({
           uri: process.env.MONGO_TEST_URI,
           root: __dirname + '/../../server/data/sample',
