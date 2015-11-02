@@ -10,5 +10,5 @@ install:
   - bower install
 before_script:
   - sleep 15
-  - mongo dilemmeTest --eval 'db.addUser("dilemme", "dilemme);'
+  - mongo dilemmeTest --eval 'db.addUser("dilemme", "dilemme");'
 script: gulp test
