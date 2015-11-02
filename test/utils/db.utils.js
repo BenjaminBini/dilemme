@@ -13,7 +13,7 @@ module.exports = function() {
   process.env.NODE_ENV = 'test';
 
   beforeEach(function(done) {
-    // Remove mocha timeout    
+    // Remove mocha timeout
     this.timeout(0);
 
     // Use chaiAsPromised
@@ -22,39 +22,33 @@ module.exports = function() {
     // Use bluebird promises
     mongoose.Promise = Promise;
 
+    // If not connected connect and then populate
     if (mongoose.connection.readyState === 0) {
       mongoose.connect(process.env.MONGO_TEST_URI, function(err) {
         if (err) {
           throw err;
         }
-        return initDB(done);
+        return populateDB(done);
       });
-    } else {
-      return initDB(done);
+    } else { // If connected, populate
+      return populateDB(done);
     }
 
-    function populateDB() {
+    function populateDB(done) {
       mongoose.model('User', userSchema.schema);
       mongoose.model('Suggestion', suggestionSchema.schema);
       mongoose.model('Question', questionSchema.schema);
       mongoose.model('IpAnswer', ipAnswerSchema.schema);
 
       // Create default data in the db
-      return new Promise(function(resolve) {
-        restore({
-          uri: process.env.MONGO_TEST_URI,
-          root: __dirname + '/../../server/data/sample',
-          drop: true,
-          dropCollections: true,
-          metadata: true,
-          callback: resolve
-        });
-
+      restore({
+        uri: process.env.MONGO_TEST_URI,
+        root: __dirname + '/../../server/data/sample',
+        drop: true,
+        dropCollections: true,
+        metadata: true,
+        callback: done
       });
-    }
-
-    function initDB(done) {
-      return populateDB().then(done);
     }
 
   });
