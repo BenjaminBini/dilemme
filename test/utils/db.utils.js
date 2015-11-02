@@ -53,7 +53,7 @@ module.exports = function() {
 
   });
 
-  after(function(done) {
+  afterEach(function(done) {
     mongoose.disconnect();
     done();
   });
