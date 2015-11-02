@@ -1,3 +1,5 @@
+'use strict';
+
 var Promise = require('bluebird');
 var mongoose = require('mongoose');
 var IpAnswer;
@@ -19,20 +21,18 @@ exports.methods = {
           return IpAnswer.create({
             ip: ip,
             answers: []
-          });
+          }).then(ipAnswer => [ipAnswer]);
         } else { // User already came recently on the website, we have his ipAnswers
           return ipAnswers;
         }
       }).then(function(ipAnswers) { // Let's see if the ipAnswers contains entries from this question
-        var answers = ipAnswers[0]. answers;
-        for (i = 0; i < answers.length; i++) {
-          if (answers[i].question.equals(self._id)) {
+        var answers = ipAnswers[0].answers;
+        for (let answer of answers) {
+          if (answer.question.equals(self._id)) {
             return Promise.resolve(true); // If yes the question has been answered
           }
-          return Promise.resolve(false); // If no, it has not
         }
-      }).catch(function() {
-        return Promise.resolve(true);
+        return Promise.resolve(false); // If no, it has not
       });
     } else { // Authenticated mode
       for (i = 0; i <  user.answers.length; i++) {
@@ -74,8 +74,6 @@ exports.statics = {
       }
       var rand = Math.floor(Math.random() * count);
       return Question.findOne({status: 1}).skip(rand);
-    }).catch(function(err) {
-      return Promise.reject(err);
-    });
+    }).catch(err => Promise.reject(err));
   }
 };

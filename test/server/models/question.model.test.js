@@ -44,6 +44,16 @@ module.exports = function() {
       delete question.text;
       return Question.create(question).should.be.rejected;
     });
+    it('should confirm that a new anonymous user did not answer a question', function() {
+      return Question.findOne({'title.en': 'JoeAnsweredIt'}).should.be.fulfilled
+        .then(question => question.hasBeenAnswered(undefined, 'test-ip')).should.be.fulfilled
+        .then(hasBeenAnswered => hasBeenAnswered.should.equal(false));
+    });
+    it('should confirm that a returning anonymous user answered the question "JoeCreatedIt"', function() {
+      return Question.findOne({'title.en': 'JoeCreatedIt'}).should.be.fulfilled
+        .then(question => question.hasBeenAnswered(undefined, 'ip-with-an-answer-for-joecreatedit')).should.be.fulfilled
+        .then(hasBeenAnswered => hasBeenAnswered.should.equal(true));
+    });
     it('should confirm that joe did not answered the question with the title "JoeDidNotAnswerIt"', function() {
       return Question.findOne({'title.en': 'JoeDidNotAnswerIt'}).should.be.fulfilled
         .then(function(question) {
@@ -92,9 +102,7 @@ module.exports = function() {
     });
     it('should reject the promise if no question in the database', function() {
       Question.remove({}).should.be.fulfilled
-        .then(function() {
-          return Question.random().should.not.be.fulfilled;
-        });
+        .then(Question.random().should.be.rejectedWith(Error, 'NO_QUESTION_IN_DB'));
     });
   });
 
