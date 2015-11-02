@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - 5.0
+services:
+  - mongodb
+install:
+  - bower install
+  - npm install
+before_script:
+  - sleep 15
+  - mongo dilemmeTest --eval 'db.addUser("dilemme", "dilemme);'
+  - npm install -g gulp
+script:
+  - gulp test
