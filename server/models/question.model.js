@@ -35,15 +35,12 @@ exports.methods = {
         return Promise.resolve(true);
       });
     } else { // Authenticated mode
-      if (user.answers.length === 0) {
-        return Promise.resolve(false);
-      }
       for (i = 0; i <  user.answers.length; i++) {
         if (user.answers[i].question._id.equals(self._id)) {
           return Promise.resolve(true);
         }
-        return Promise.resolve(false);
       }
+      return Promise.resolve(false);
     }
   },
   populateQuestion: function() {
@@ -72,6 +69,9 @@ exports.statics = {
       Question = mongoose.model('Question');
     }
     return Question.count({status: 1}).then(function(count) {
+      if (count === 0) {
+        throw new Error('NO_QUESTION_IN_DB');
+      }
       var rand = Math.floor(Math.random() * count);
       return Question.findOne({status: 1}).skip(rand);
     }).catch(function(err) {
