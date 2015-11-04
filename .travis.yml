@@ -1,6 +1,10 @@
 language: node_js
 node_js:
   - 5.0
+# whitelist
+branches:
+  only:
+    - travis-integration
 install:
   - npm install -g npm@latest
   - npm install
@@ -15,4 +19,5 @@ before_script:
   - sleep 15 #mongo may not be responded directly. See http://docs.travis-ci.com/user/database-setup/#MongoDB
   - mongo --version
   - mongo dilemmeTest --eval 'db.addUser("dilemme", "dilemme");'
-script: gulp test
+script: 
+  - gulp test
