@@ -1,6 +1,5 @@
 var encrypt = require('../utils/encryption');
 var validator = require('validator');
-var User;
 
 /**
  * User methods (instance methods)
@@ -41,10 +40,8 @@ exports.methods = {
     return this.roles.indexOf(role) > -1;
   },
   populateUser: function() {
+    var User = require('mongoose').model('User');
     var user = this;
-    if (!User) {
-      User = require('mongoose').model('User');
-    }
     return User.populate(user, [{
       path: 'answers.question',
       model: 'Question'

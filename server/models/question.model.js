@@ -2,17 +2,13 @@
 
 var Promise = require('bluebird');
 var mongoose = require('mongoose');
-var IpAnswer;
-var Question;
 
 /**
  * Question schema methods
  */
 exports.methods = {
   hasBeenAnswered: function(user, ip) {
-    if (!IpAnswer) {
-      IpAnswer = mongoose.model('IpAnswer');
-    }
+    var IpAnswer = mongoose.model('IpAnswer');
     var self = this;
     var i;
     if (!user) { // Anonymous mode
@@ -44,9 +40,7 @@ exports.methods = {
     }
   },
   populateQuestion: function() {
-    if (!Question) {
-      Question = mongoose.model('Question');
-    }
+    var Question = mongoose.model('Question');
     var question = this;
     return Question.populate(question, [{
       path: 'comments.author',
@@ -65,9 +59,7 @@ exports.methods = {
  */
 exports.statics = {
   random: function() {
-    if (!Question) {
-      Question = mongoose.model('Question');
-    }
+    var Question = mongoose.model('Question');
     return Question.count({status: 1}).then(function(count) {
       if (count === 0) {
         throw new Error('NO_QUESTION_IN_DB');
