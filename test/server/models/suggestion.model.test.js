@@ -17,16 +17,27 @@ module.exports = function() {
   };
 
   describe('Model: Suggestion', function() {
-    it('should create a new Suggestion', function(done) {
-      return Suggestion.create(suggestion, function(err, newSuggestion) {
-        expect(err).not.to.exist;
-        expect(newSuggestion).to.exist;
-        newSuggestion.text.should.equal('Would you rather');
-        newSuggestion.answers.length.should.equal(2);
-        newSuggestion.answers[1].text.should.equal('eat your papa');
-        newSuggestion.tags.length.should.equal(3);
-        return done();
-      });
+    it('should create a new Suggestion', function() {
+      return Suggestion.create(suggestion).should.be.fulfilled
+        .then(function(newSuggestion) {
+          expect(newSuggestion).to.exist;
+          newSuggestion.text.should.equal('Would you rather');
+          newSuggestion.answers.length.should.equal(2);
+          newSuggestion.answers[1].text.should.equal('eat your papa');
+          newSuggestion.tags.length.should.equal(3);
+        });
+    });
+    it('should populate the suggestion with its author', function() {
+      return Suggestion.findOne({title: 'BenSuggestedIt'}).should.be.fulfilled
+        .then(function(suggestion) {
+          expect(suggestion.author.username).not.to.exist;
+          return suggestion;
+        })
+        .then(suggestion => suggestion.populateSuggestion()).should.be.fulfilled
+        .then(function(suggestion) {
+          expect(suggestion).to.exist;
+          suggestion.author.username.should.equal('ben');
+        });
     });
   });
 };
