@@ -1,4 +1,6 @@
-exports.newPasswordRequest = {
+'use strict';
+
+module.exports.newPasswordRequest = {
   subject: {
     fr: 'Dilemme - Demande de nouveau mot de passe',
     en: 'Dilemma - New password request',

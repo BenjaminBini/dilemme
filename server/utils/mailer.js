@@ -1,15 +1,22 @@
+'use strict';
+
 var nodemailer = require('nodemailer');
 var templates = require('../utils/mail-templates');
 var Promise = require('bluebird');
 
-exports.sendRequestNewPasswordMail = function(language, to, token) {
+/**
+ * Export mail sending function
+ */
+module.exports.sendRequestNewPasswordMail = sendRequestNewPasswordMail;
+
+function sendRequestNewPasswordMail(language, to, token) {
   var subject = templates.newPasswordRequest.subject[language];
   var text = templates.newPasswordRequest.body[language];
   text = text.replace('{{URL}}', process.env.ROOT_PATH + '/forgot-password/reset/' + token);
-  return sendMail('Dilemme <benjamin@dilemme.io>', to, subject, text);
-};
+  return _sendMail('Dilemme <benjamin@dilemme.io>', to, subject, text);
+}
 
-function sendMail(from, to, subject, body) {
+function _sendMail(from, to, subject, body) {
   var mailOptions = {
     from: from,
     to: to,
