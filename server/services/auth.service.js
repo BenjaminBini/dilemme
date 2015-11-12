@@ -10,11 +10,13 @@ var passport = require('passport');
  */
 module.exports = {
   authenticate: authenticate,
-  facebookAuthenticate: facebookAuthenticate,
+  facebookAuthenticate: passport.authenticate('facebook', {scope: ['email']}),
   facebookAuthenticateCallback: facebookAuthenticateCallback,
-  twitterAuthenticate: twitterAuthenticate,
+  twitterAuthenticate: passport.authenticate('twitter'),
   twitterAuthenticateCallback: twitterAuthenticateCallback,
-  googleAuthenticate: googleAuthenticate,
+  googleAuthenticate: passport.authenticate('google', {
+    scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/plus.profile.emails.read']
+  }),
   googleAuthenticateCallback: googleAuthenticateCallback,
   requiresApiLogin: requiresApiLogin,
   requiresRole: requiresRole
@@ -42,12 +44,6 @@ function authenticate(req, res, next) {
   auth(req, res, next);
 }
 
-/**
- * Facebook authentication
- */
-function facebookAuthenticate() {
-  return passport.authenticate('facebook', {scope: ['email']});
-}
 
 /**
  * Facebook authentication callback
@@ -73,13 +69,6 @@ function facebookAuthenticateCallback(req, res, next) {
 }
 
 /**
- * Twitter authentication
- */
-function twitterAuthenticate() {
-  return passport.authenticate('twitter');
-}
-
-/**
  * Twitter authentication callback
  */
 function twitterAuthenticateCallback(req, res, next) {
@@ -100,15 +89,6 @@ function twitterAuthenticateCallback(req, res, next) {
       res.redirect('/');
     });
   })(req, res, next);
-}
-
-/**
- * Twitter authentication
- */
-function googleAuthenticate() {
-  return passport.authenticate('google', {
-    scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/plus.profile.emails.read']
-  });
 }
 
 /**
