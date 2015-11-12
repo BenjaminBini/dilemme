@@ -64,9 +64,7 @@ var JS_SRC = ['./public/vendors/jquery/dist/jquery.min.js',
 /**
  * CSS Sources
  */
-var CSS_SRC = ['./public/vendors/bootstrap/dist/css/bootstrap.css',
-                './public/vendors/flat-ui/dist/css/flat-ui.css',
-                './public/css/socicon.css',
+var CSS_SRC = ['./public/css/socicon.css',
                 './public/vendors/ngDialog/css/ngDialog.css',
                 './public/vendors/ngDialog/css/ngDialog-theme-default.css',
                 './public/vendors/angular-ui-select/dist/select.css',
