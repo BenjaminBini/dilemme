@@ -1,8 +1,8 @@
 @media (max-width: 991px) {
-  .question .answers .separation {
+  .dilemme .question .answers .separation {
     line-height: inherit;
   }
-  .desktop-only.desktop-only {
+  .dilemme .desktop-only.desktop-only {
     display: none !important;
   }
 }

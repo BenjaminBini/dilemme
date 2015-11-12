@@ -6,8 +6,8 @@
   font-style: normal;
   text-transform: initial;
 }
-[class^="socicon-"],
-[class*=" socicon-"] {
+.dilemme [class^="socicon-"],
+.dilemme [class*=" socicon-"] {
   font-family: 'socicon';
   speak: none;
   font-style: normal;
@@ -17,23 +17,23 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.socicon-connect {
+.dilemme .socicon-connect {
   font-family: 'socicon';
   padding: 6px;
   display: inline-block;
 }
-.socicon-connect.socicon-facebook {
+.dilemme .socicon-connect.socicon-facebook {
   background: #3b5998;
 }
-.socicon-connect.socicon-twitter {
+.dilemme .socicon-connect.socicon-twitter {
   background: #4099ff;
   margin-left: 5px;
 }
-.socicon-connect.socicon-google {
+.dilemme .socicon-connect.socicon-google {
   background: #dd4b39;
   margin-left: 5px;
 }
-.socicon-share {
+.dilemme .socicon-share {
   position: relative;
   top: 1px;
   font-family: 'socicon';
@@ -45,15 +45,15 @@
   padding: 5px;
   border-radius: 50%;
 }
-.socicon-share:empty {
+.dilemme .socicon-share:empty {
   width: 1em;
 }
-.socicon-twitter:before {
+.dilemme .socicon-twitter:before {
   content: "a";
 }
-.socicon-facebook:before {
+.dilemme .socicon-facebook:before {
   content: "b";
 }
-.socicon-google:before {
+.dilemme .socicon-google:before {
   content: "c";
 }
