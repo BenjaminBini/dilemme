@@ -7,6 +7,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var rename = require('gulp-rename');
 var sourcemaps = require('gulp-sourcemaps');
 var stylus = require('gulp-stylus');
+var uncss = require('gulp-uncss');
 var jade = require('gulp-jade');
 var nodemon = require('gulp-nodemon');
 var jshint = require('gulp-jshint');
@@ -79,7 +80,7 @@ var CSS_SRC = ['./public/css/socicon.css',
  * Views sources
  */
 var VIEW_SRC = ['./public/app/**/*.jade'];
-
+var DIRECTIVE_VIEW_SRC = ['./public/app/directives/**/*.jade'];
 /**
  * Stylus sources
  */
@@ -154,9 +155,14 @@ gulp.task('build-client-stylus', function() {
 
 /**
  * Build CSS
+ * TODO : manager build-client-views in a better way
  */
-gulp.task('build-client-css', ['build-client-stylus'], function() {
+gulp.task('build-client-css', ['build-client-stylus', 'build-client-views'], function() {
   return gulp.src(CSS_SRC)
+    .pipe(uncss({
+      html: [VIEW_DIR + '/**/*.html', DIRECTIVES_DIR + '/**/*.html'],
+      ignore: ['animate', /\.dilemme.*/, /\.question.*/, /\.odometer.*/, /footer.*/, /.*toast.*/,  /.*\.ngdialog.*/]
+    }))
     .pipe(sourcemaps.init())
     .pipe(autoprefixer())
     .pipe(concat('dilemme.css'))
@@ -174,7 +180,7 @@ gulp.task('build-client-views', function() {
   gulp.src(VIEW_SRC)
     .pipe(jade())
     .pipe(gulp.dest(VIEW_DIR));
-  gulp.src(['./public/app/directives/**/*.jade'])
+  gulp.src(DIRECTIVE_VIEW_SRC)
     .pipe(jade())
     .pipe(gulp.dest(DIRECTIVES_DIR));
 });
