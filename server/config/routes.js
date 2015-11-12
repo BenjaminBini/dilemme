@@ -1,4 +1,6 @@
 /*jslint unparam: true*/
+'use strict';
+
 /**
  * Routes configuration
  */
@@ -10,7 +12,9 @@ var comments = require('../services/comment.service');
 var path = require('path');
 var rootPath = path.normalize(__dirname + '/../../');
 
-module.exports = function(app) {
+module.exports = configureRoutes;
+
+function configureRoutes(app) {
   // REST API
   // Users
   app.get('/api/users', auth.requiresRole('admin'), users.getUsers);
@@ -101,4 +105,4 @@ module.exports = function(app) {
       reason: err.message
     });
   });
-};
+}

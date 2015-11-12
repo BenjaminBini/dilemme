@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Express global configuration
  */
@@ -10,8 +12,15 @@ var passport = require('passport');
 var path = require('path');
 var rootPath = path.normalize(__dirname + '/../../');
 
-module.exports = function(app) {
+/**
+ * Export Express configuration
+ */
+module.exports = configureExpress;
 
+/**
+ * Configure express
+ */
+function configureExpress(app) {
   // Parsers
   app.use(bodyParser.urlencoded({extended: true}));
   app.use(bodyParser.json());
@@ -46,5 +55,4 @@ module.exports = function(app) {
 
   // Logger
   app.use(logger('dev'));
-};
-
+}

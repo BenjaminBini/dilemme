@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Passport configuration
  */
@@ -11,7 +13,15 @@ var TwitterStrategy = require('passport-twitter').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var User = mongoose.model('User');
 
-module.exports = function() {
+/**
+ * Export Passport configuration
+ */
+module.exports = configurePassport;
+
+/**
+ * Configure Passport
+ */
+function configurePassport() {
 
   /**
    * Serialize the  a user (just save its id)
@@ -81,6 +91,29 @@ module.exports = function() {
     }, facebookStrategyCallback)
   );
 
+  /**
+   * Twitter Strategy
+   * To know the workflow, read the comment in the Facebook Strategy section
+   */
+  passport.use(new TwitterStrategy({
+      consumerKey: process.env.TWITTER_ID,
+      consumerSecret: process.env.TWITTER_SECRET,
+      callbackURL: process.env.ROOT_PATH + '/auth/twitter/callback',
+      passReqToCallback: true
+    }, twitterAuthenticationCallback)
+  );
+
+  /**
+   * Google Strategy
+   */
+  passport.use(new GoogleStrategy({
+      clientID: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
+      callbackURL: process.env.ROOT_PATH + '/auth/google/callback',
+      passReqToCallback: true
+    }, googleAuthenticationCallback)
+  );
+
   function facebookStrategyCallback(req, accessToken, refreshToken, profile, done) {
     User.findOne({facebookId: profile.id}).then(function(user) {
       if (!user) { // No user : let's see if we can create one
@@ -118,18 +151,6 @@ module.exports = function() {
     });
   }
 
-  /**
-   * Twitter Strategy
-   * To know the workflow, read the comment in the Facebook Strategy section
-   */
-  passport.use(new TwitterStrategy({
-      consumerKey: process.env.TWITTER_ID,
-      consumerSecret: process.env.TWITTER_SECRET,
-      callbackURL: process.env.ROOT_PATH + '/auth/twitter/callback',
-      passReqToCallback: true
-    }, twitterAuthenticationCallback)
-  );
-
   function twitterAuthenticationCallback(req, token, tokenSecret, profile, done) {
     User.findOne({twitterId: profile.id}).then(function(user) {
       if (!user) { // No user : let's see if we can create one
@@ -166,17 +187,6 @@ module.exports = function() {
       }
     });
   }
-
-  /**
-   * Google Strategy
-   */
-  passport.use(new GoogleStrategy({
-      clientID: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET,
-      callbackURL: process.env.ROOT_PATH + '/auth/google/callback',
-      passReqToCallback: true
-    }, googleAuthenticationCallback)
-  );
 
   function googleAuthenticationCallback(req, token, tokenSecret, profile, done) {
     User.findOne({googleId: profile.id}).then(function(user) {
@@ -229,4 +239,4 @@ module.exports = function() {
     }
   }
 
-};
+}

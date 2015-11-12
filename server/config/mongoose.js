@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Mongoose configuration
  */
@@ -9,7 +11,15 @@ var ipAnswerSchema = require('../schemas/ip-answer.schema');
 var questionSchema = require('../schemas/question.schema');
 var restore = require('mongodb-restore');
 
-module.exports = function() {
+/**
+ * Export Mongoose configuration
+ */
+module.exports = configureMongoose;
+
+/**
+ * Configure Mongoose
+ */
+function configureMongoose() {
   // Init schemas
   var User = mongoose.model('User', userSchema.schema);
   mongoose.model('Suggestion', suggestionSchema.schema);
@@ -40,4 +50,4 @@ module.exports = function() {
       }
     });
   });
-};
+}
