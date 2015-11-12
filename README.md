@@ -1,6 +1,8 @@
-![Build Status](https://codeship.com/projects/fe21adf0-1f10-0133-8b98-7a1057e16cf4/status?branch=master) ![Dependencies status](https://david-dm.org/benjaminbini/dilemme.svg) ![Dev dependencies status](https://david-dm.org/benjaminbini/dilemme/dev-status.svg)
+![Build Status](https://codeship.com/projects/fe21adf0-1f10-0133-8b98-7a1057e16cf4/status?branch=master) 
 
 ![Travis CI build status](https://img.shields.io/travis/BenjaminBini/dilemme.svg)
+![Dependencies status](https://david-dm.org/benjaminbini/dilemme.svg)
+![Dev dependencies status](https://david-dm.org/benjaminbini/dilemme/dev-status.svg)
 
 # Dilemme website
 
