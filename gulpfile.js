@@ -28,6 +28,7 @@ var DIST_DIR = './public/dist'; // Where the build goes
 var JS_DIR = DIST_DIR + '/js'; // Where JS goes
 var CSS_DIR = DIST_DIR + '/css'; // Where CSS goes
 var VIEW_DIR = DIST_DIR + '/views'; // Where views go
+var FONT_DIR = DIST_DIR + '/fonts'; // Where views go
 var DIRECTIVES_DIR = DIST_DIR + '/directives-views'; // Where directives go
 var COMPILED_STYLUS_DIR = './public/css/'; // And where compiled Stylus files go
 
@@ -65,7 +66,9 @@ var JS_SRC = ['./public/vendors/jquery/dist/jquery.min.js',
 /**
  * CSS Sources
  */
-var CSS_SRC = ['./public/css/socicon.css',
+var CSS_SRC = ['./public/vendors/bootstrap/dist/css/bootstrap.css',
+                './public/vendors/flat-ui/dist/css/flat-ui.css',
+                './public/css/socicon.css',
                 './public/vendors/ngDialog/css/ngDialog.css',
                 './public/vendors/ngDialog/css/ngDialog-theme-default.css',
                 './public/vendors/angular-ui-select/dist/select.css',
@@ -81,18 +84,24 @@ var CSS_SRC = ['./public/css/socicon.css',
  */
 var VIEW_SRC = ['./public/app/**/*.jade'];
 var DIRECTIVE_VIEW_SRC = ['./public/app/directives/**/*.jade'];
+
 /**
  * Stylus sources
  */
 var STYLUS_SRC = ['./public/styles/*.styl'];
 
 /**
+ * Font sources
+ */
+var FONT_SRC = ['./public/fonts/**'];
+
+/**
  * Sources to lint
  */
 var TO_LINT_SRC = ['./public/app/**/*.js',
-                   './server.js',
-                   './server/**/*.js',
-                  '!./public/**/bootstrap-tagsinput.js'];
+                    './server.js',
+                    './server/**/*.js',
+                    '!./public/**/bootstrap-tagsinput.js'];
 
 /**
  * Server testing sources
@@ -128,6 +137,10 @@ gulp.task('build-client', ['clean-client-dist'], function() {
   gulp.start('build-client-js');
   gulp.start('build-client-css');
   gulp.start('build-client-views');
+
+  // Copy font-dir
+  gulp.src(FONT_SRC)
+    .pipe(gulp.dest(FONT_DIR));
 });
 
 /**
@@ -161,10 +174,10 @@ gulp.task('build-client-css', ['build-client-stylus', 'build-client-views'], fun
   return gulp.src(CSS_SRC)
     .pipe(uncss({
       html: [VIEW_DIR + '/**/*.html', DIRECTIVES_DIR + '/**/*.html'],
-      ignore: ['animate', /\.dilemme.*/, /\.question.*/, /\.odometer.*/, /footer.*/, /.*toast.*/,  /.*\.ngdialog.*/]
+      ignore: ['animate', /\.dilemme.*/, /\.question.*/, /\.odometer.*/, /footer.*/, /.*toast.*/,  /.*\.ngdialog.*/, /.*navbar.*/, /.*glyphicon.*/, /.*text-center.*/]
     }))
-    .pipe(sourcemaps.init())
     .pipe(autoprefixer())
+    .pipe(sourcemaps.init())
     .pipe(concat('dilemme.css'))
     .pipe(gulp.dest(CSS_DIR))
     .pipe(minify())
