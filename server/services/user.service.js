@@ -1,5 +1,7 @@
+'use strict';
+
 /**
- * User service
+ * Users service
  */
 var User = require('mongoose').model('User');
 var encrypt = require('../utils/encryption');
@@ -8,18 +10,33 @@ var validator = require('validator');
 var Promise = require('bluebird');
 
 /**
+ * Module interface
+ */
+module.exports = {
+  getUsers: getUsers,
+  getUserById: getUserById,
+  getUsersByAnsweredQuestion: getUsersByAnsweredQuestion,
+  createUser: createUser,
+  updateUser: updateUser,
+  deleteUser: deleteUser,
+  getUserStats: getUserStats,
+  requestNewPassword: requestNewPassword,
+  resetPassword: resetPassword
+};
+
+/**
  * Return array of all users
  */
-exports.getUsers = function(req, res, next) {
+function getUsers(req, res, next) {
   User.find({})
     .then(users => res.send(users))
     .catch(err => next(err));
-};
+}
 
 /**
  * Return the user with the given id
  */
-exports.getUserById = function(req, res, next) {
+function getUserById(req, res, next) {
   User.findOne({_id: req.params.id})
     .then(function(user) {
       if (!user) {
@@ -30,12 +47,25 @@ exports.getUserById = function(req, res, next) {
     .then(user => user.populateUser())
     .then(user => res.send(user))
     .catch(err => next(err));
-};
+}
+
+/**
+ * Return the list of users who answered a question
+ * TODO : catchify this
+ */
+function getUsersByAnsweredQuestion(req, res, next) {
+  User.find({'answers.question': req.params.questionId})
+    .then(function(collection) {
+      res.send(collection);
+    }, function(err) {
+      return next(err);
+    });
+}
 
 /**
  * Create a new user
  */
-exports.createUser = function(req, res, next) {
+function createUser(req, res, next) {
   // Get the user data from the request
   var userData = req.body;
 
@@ -89,12 +119,12 @@ exports.createUser = function(req, res, next) {
       }
       return next(new Error(reason));
     });
-};
+}
 
 /**
  * Update a user
  */
-exports.updateUser = function(req, res, next) {
+function updateUser(req, res, next) {
   // Get the user data from the request
   var userUpdates = req.body;
 
@@ -141,13 +171,13 @@ exports.updateUser = function(req, res, next) {
       }
       next(err);
     });
-};
+}
 
 /**
  * Delete a user
  * TODO : promisify this
  */
-exports.deleteUser = function(req, res, next) {
+function deleteUser(req, res, next) {
   User.remove({_id: req.params.id}, function(err) {
     if (err) {
       return next(err);
@@ -155,13 +185,13 @@ exports.deleteUser = function(req, res, next) {
     res.send(req.params.id);
     return req.params.id;
   });
-};
+}
 
 /**
   * Return user with his stats
   * TODO : promisify this
   */
-exports.getUserStats = function(req, res, next) {
+function getUserStats(req, res, next) {
   // Check if the user is authorized (admin or current user)
   //
   if (req.user._id != req.params.id && !req.user.hasRole('admin')) { // jshint ignore:line
@@ -176,26 +206,13 @@ exports.getUserStats = function(req, res, next) {
       res.send(user.toJSON({virtuals: true}));
     });
   });
-};
-
-/**
- * Return the list of users who answered a question
- * TODO : catchify this
- */
-exports.getUsersByAnsweredQuestion = function(req, res, next) {
-  User.find({'answers.question': req.params.questionId})
-    .then(function(collection) {
-      res.send(collection);
-    }, function(err) {
-      return next(err);
-    });
-};
+}
 
 /**
  * Send a mail to the user with a link to set a new password
  * TODO : promsify this
  */
-exports.requestNewPassword = function(req, res) {
+function requestNewPassword(req, res) {
   // Try to find the concerned user
   var username = req.params.username;
   var criteria = validator.isEmail(username) ? {email: username} : {username: username};
@@ -225,12 +242,12 @@ exports.requestNewPassword = function(req, res) {
       });
     }
   });
-};
+}
 
 /**
  * Reset the password of the user if he provides the right token
  */
-exports.resetPassword = function(req, res, next) {
+function resetPassword(req, res, next) {
   var newPassword = req.body.newPassword;
   var token = req.body.token;
   if (token === undefined || token.length === 0 || !validator.isHexadecimal(token)) {
@@ -269,4 +286,4 @@ exports.resetPassword = function(req, res, next) {
     .then(user => user.populateUser())
     .then(user => res.send(user))
     .catch(err => next(err));
-};
+}

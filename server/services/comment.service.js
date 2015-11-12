@@ -1,14 +1,25 @@
+'use strict';
+
 /**
- * Comments controller
+ * Comments service
  */
 var mongoose = require('mongoose');
 var Promise = require('bluebird');
 var Question = mongoose.model('Question');
 
 /**
+ * Module interface
+ */
+module.exports = {
+  commentQuestion: commentQuestion,
+  deleteComment: deleteComment,
+  upvoteComment: upvoteComment
+};
+
+/**
  * Add a comment to a question
  */
-exports.commentQuestion = function(req, res, next) {
+function commentQuestion(req, res, next) {
   var questionId = req.params.id;
   var comment = req.body;
   if (comment.text && comment.text.length > 1000) {
@@ -29,12 +40,12 @@ exports.commentQuestion = function(req, res, next) {
     .then(question => question.populateQuestion())
     .then(question => res.send(question))
     .catch(err => next(err));
-};
+}
 
 /**
  * Delete a comment
  */
-exports.deleteComment = function(req, res, next) {
+function deleteComment(req, res, next) {
   var questionId = req.params.id;
   var commentId = req.params.commentId;
   Question.findOne({_id: questionId})
@@ -52,12 +63,12 @@ exports.deleteComment = function(req, res, next) {
     .then(question => question.populateQuestion())
     .then(question => res.send(question))
     .catch(err => next(err));
-};
+}
 
 /**
  * Upvote a comment
  */
-exports.upvoteComment = function(req, res, next) {
+function upvoteComment(req, res, next) {
   var questionId = req.params.id;
   var commentId = req.params.commentId;
   var i;
@@ -92,4 +103,4 @@ exports.upvoteComment = function(req, res, next) {
     .then(question => question.populateQuestion())
     .then(question => res.send(question))
     .catch(err => next(err));
-};
+}

@@ -1,44 +1,65 @@
+'use strict';
+
 /**
- * Questions controller
+ * Questions service
  */
 var requestIp = require('request-ip');
 var mongoose = require('mongoose');
+var Promise = require('bluebird');
 var Question = mongoose.model('Question');
 var User = mongoose.model('User');
 var IpAnswer = mongoose.model('IpAnswer');
-var Promise = require('bluebird');
+
+/**
+ * Module interface
+ */
+module.exports = {
+  getQuestions: getQuestions,
+  getPublishedQuestions: getPublishedQuestions,
+  count: count,
+  getQuestionsByAuthor: getQuestionsByAuthor,
+  getQuestionsByTag: getQuestionsByTag,
+  getQuestionById: getQuestionById,
+  getRandomQuestion: getRandomQuestion,
+  getUnansweredRandomQuestion: getUnansweredRandomQuestion,
+  createQuestion: createQuestion,
+  updateQuestion: updateQuestion,
+  deleteQuestion: deleteQuestion,
+  answerQuestion: answerQuestion,
+  upvoteQuestion: upvoteQuestion
+};
 
 /**
  * Return array of all questions
  */
-exports.getQuestions = function(req, res, next) {
+function getQuestions(req, res, next) {
   Question.find({})
     .then(questions => res.send(questions))
     .catch(err => next(err));
-};
+}
 
 /**
  * Return array of published questions
  */
-exports.getPublishedQuestions = function(req, res, next) {
+function getPublishedQuestions(req, res, next) {
   Question.find({status: 1})
     .then(questions => res.send(questions))
     .catch(err => next(err));
-};
+}
 
 /**
  * Count number of questions
  */
-exports.count = function(req, res, next) {
+function count(req, res, next) {
   Question.count({})
     .then(count => res.send({count: count}))
     .catch(err => next(err));
-};
+}
 
 /**
  * Return array of questions with the given author
  */
-exports.getQuestionsByAuthor = function(req, res, next) {
+function getQuestionsByAuthor(req, res, next) {
   // Check if the user is authorized (admin or current user)
   if (req.user._id != req.params.id && !req.user.hasRole('admin')) { // jshint ignore:line
     res.status(403);
@@ -48,21 +69,21 @@ exports.getQuestionsByAuthor = function(req, res, next) {
   Question.find({author: req.params.id})
     .then(questions => res.send(questions))
     .catch(err => next(err));
-};
+}
 
 /**
  * Return array of questions with the given tag
  */
-exports.getQuestionsByTag = function(req, res, next) {
+function getQuestionsByTag(req, res, next) {
   Question.find({status: 1, tags: req.params.tag})
     .then(questions => res.send(questions))
     .catch(err => next(err));
-};
+}
 
 /**
  * Return a question by its id
  */
-exports.getQuestionById = function(req, res, next) {
+function getQuestionById(req, res, next) {
   Question.findOne({_id: req.params.id})
     .then(function(question) {
       if (!question) {
@@ -77,21 +98,21 @@ exports.getQuestionById = function(req, res, next) {
     .then(question => question.populateQuestion())
     .then(question => res.send(question))
     .catch(err => next(err));
-};
+}
 
 /**
  * Return a random question
  */
-exports.getRandomQuestion = function(req, res, next) {
+function getRandomQuestion(req, res, next) {
   Question.random().then(question => question.populateQuestion())
     .then(question => res.send(question))
     .catch(err => next(err));
-};
+}
 
 /**
  * Return a random question unanswered by the user
  */
-exports.getUnansweredRandomQuestion = function(req, res, next) {
+function getUnansweredRandomQuestion(req, res, next) {
   var i;
   if (!req.isAuthenticated()) { // If not authenticated
     Question.random()
@@ -120,12 +141,12 @@ exports.getUnansweredRandomQuestion = function(req, res, next) {
       .then(question => res.send(question))
       .catch(err => next(err));
   }
-};
+}
 
 /**
  * Create a new question
  */
-exports.createQuestion = function(req, res, next) {
+function createQuestion(req, res, next) {
   // Get the question data from the request
   var questionData = req.body;
   questionData.author = req.user;
@@ -135,12 +156,12 @@ exports.createQuestion = function(req, res, next) {
     .then(question => question.populateQuestion())
     .then(question => res.send(question))
     .catch(err => next(err));
-};
+}
 
 /**
  * Update a question
  */
-exports.updateQuestion = function(req, res, next) {
+function updateQuestion(req, res, next) {
   Question.findOne({_id: req.params.id})
     .then(function(question) {
       if (!question) {
@@ -159,12 +180,12 @@ exports.updateQuestion = function(req, res, next) {
     .then(question => question.populateQuestion())
     .then(question => res.send(question))
     .catch(err => next(err));
-};
+}
 
 /**
  * Delete a question
  */
-exports.deleteQuestion = function(req, res, next) {
+function deleteQuestion(req, res, next) {
   Question.remove({_id: req.params.id})
     .then(function() {
       return User.find({});
@@ -189,12 +210,12 @@ exports.deleteQuestion = function(req, res, next) {
       res.send(req.params.id);
     })
     .catch(err => next(err));
-};
+}
 
 /**
  * Answer a question
  */
-exports.answerQuestion = function(req, res, next) {
+function answerQuestion(req, res, next) {
   var questionId = req.params.id;
   var answerNumber = parseInt(req.params.answer, 10);
   var ip = requestIp.getClientIp(req);
@@ -253,12 +274,12 @@ exports.answerQuestion = function(req, res, next) {
         .catch(err => next(err));
     })
     .catch(err => next(err));
-};
+}
 
 /**
  * Upvote a question
  */
-exports.upvoteQuestion = function(req, res, next) {
+function upvoteQuestion(req, res, next) {
   var i;
   var questionId = req.params.id;
 
@@ -284,4 +305,4 @@ exports.upvoteQuestion = function(req, res, next) {
     })
     .then(question => res.send(question))
     .catch(err => next(err));
-};
+}

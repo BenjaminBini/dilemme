@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Suggestions service
  */
@@ -5,9 +7,21 @@ var Suggestion = require('mongoose').model('Suggestion');
 var Question = require('mongoose').model('Question');
 
 /**
+ * Module interface
+ */
+module.exports = {
+  getSuggestions: getSuggestions,
+  getSuggestionById: getSuggestionById,
+  getSuggestionsByUser: getSuggestionsByUser,
+  createSuggestion: createSuggestion,
+  deleteSuggestion: deleteSuggestion,
+  validateSuggestion: validateSuggestion
+};
+
+/**
  * Return all suggestions
  */
-exports.getSuggestions = function(req, res, next) {
+function getSuggestions(req, res, next) {
   Suggestion.find({})
     .populate([{
       path: 'author',
@@ -16,12 +30,12 @@ exports.getSuggestions = function(req, res, next) {
     }])
     .then(suggestions => res.send(suggestions))
     .catch(err => next(err));
-};
+}
 
 /**
  * Return a suggestion by its id
  */
-exports.getSuggestionById = function(req, res, next) {
+function getSuggestionById(req, res, next) {
   Suggestion.findOne({_id: req.params.id})
     .then(function(suggestion) {
       if (!suggestion) {
@@ -31,26 +45,12 @@ exports.getSuggestionById = function(req, res, next) {
     })
     .then(suggestion => res.send(suggestion))
     .catch(err => next(err));
-};
-
-/**
- * Create a new suggestion
- */
-exports.createSuggestion = function(req, res, next) {
-  // Get the suggestion data from the request
-  var suggestionData = req.body;
-  suggestionData.author = req.user;
-
-  // Create suggestion
-  Suggestion.create(suggestionData)
-    .then(suggestion => res.send(suggestion))
-    .catch(err => next(err));
-};
+}
 
 /**
  * Return the suggestions of a particular user
  */
-exports.getSuggestionsByUser = function(req, res, next) {
+function getSuggestionsByUser(req, res, next) {
   // Check if the user is authorized (admin or current user)
   if (req.user._id != req.params.id && !req.user.hasRole('admin')) { // jshint ignore:line
     res.status(403);
@@ -60,12 +60,37 @@ exports.getSuggestionsByUser = function(req, res, next) {
   Suggestion.find({author: req.params.id})
     .then(suggestions => res.send(suggestions))
     .catch(err => next(err));
-};
+}
+
+/**
+ * Create a new suggestion
+ */
+function createSuggestion(req, res, next) {
+  // Get the suggestion data from the request
+  var suggestionData = req.body;
+  suggestionData.author = req.user;
+
+  // Create suggestion
+  Suggestion.create(suggestionData)
+    .then(suggestion => res.send(suggestion))
+    .catch(err => next(err));
+}
+
+/**
+ * Delete a suggestion
+ */
+function deleteSuggestion(req, res, next) {
+  Suggestion.remove({_id: req.params.id})
+    .then(function() {
+      return res.send(req.params.id);
+    })
+    .catch(err => next(err));
+}
 
 /**
  * Validate a suggestion and publish the question
  */
-exports.validateSuggestion = function(req, res, next) {
+function validateSuggestion(req, res, next) {
   var suggestion = req.body;
   if (!suggestion) {
     return next(new Error('SUGGESTION_DOES_NOT_EXIST'));
@@ -112,15 +137,4 @@ exports.validateSuggestion = function(req, res, next) {
       res.send();
     })
     .catch(err => next(err));
-};
-
-/**
- * Delete a suggestion
- */
-exports.deleteSuggestion = function(req, res, next) {
-  Suggestion.remove({_id: req.params.id})
-    .then(function() {
-      return res.send(req.params.id);
-    })
-    .catch(err => next(err));
-};
+}

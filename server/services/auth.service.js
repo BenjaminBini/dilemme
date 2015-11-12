@@ -1,12 +1,29 @@
+'use strict';
+
 /**
- * Auth configuration
+ * Authentication service
  */
 var passport = require('passport');
 
 /**
+ * Module interface
+ */
+module.exports = {
+  authenticate: authenticate,
+  facebookAuthenticate: facebookAuthenticate,
+  facebookAuthenticateCallback: facebookAuthenticateCallback,
+  twitterAuthenticate: twitterAuthenticate,
+  twitterAuthenticateCallback: twitterAuthenticateCallback,
+  googleAuthenticate: googleAuthenticate,
+  googleAuthenticateCallback: googleAuthenticateCallback,
+  requiresApiLogin: requiresApiLogin,
+  requiresRole: requiresRole
+};
+
+/**
  * Authenticate a user with passport (local strategy)
  */
-exports.authenticate =  function(req, res, next) {
+function authenticate(req, res, next) {
   req.body.email = req.body.email.toLowerCase();
   var auth = passport.authenticate('local', function(err, user) {
     if (err) {
@@ -23,17 +40,19 @@ exports.authenticate =  function(req, res, next) {
     });
   });
   auth(req, res, next);
-};
+}
 
 /**
  * Facebook authentication
  */
-exports.facebookAuthenticate = passport.authenticate('facebook', {scope: ['email']});
+function facebookAuthenticate() {
+  return passport.authenticate('facebook', {scope: ['email']});
+}
 
 /**
  * Facebook authentication callback
  */
-exports.facebookAuthenticateCallback = function(req, res, next) {
+function facebookAuthenticateCallback(req, res, next) {
   passport.authenticate('facebook', function(err, user) {
     var username = req.session.profileName;
     var email = !!req.session.profileMail ? req.session.profileMail : '';
@@ -51,17 +70,19 @@ exports.facebookAuthenticateCallback = function(req, res, next) {
       res.redirect('/');
     });
   })(req, res, next);
-};
+}
 
 /**
  * Twitter authentication
  */
-exports.twitterAuthenticate = passport.authenticate('twitter');
+function twitterAuthenticate() {
+  return passport.authenticate('twitter');
+}
 
 /**
  * Twitter authentication callback
  */
-exports.twitterAuthenticateCallback = function(req, res, next) {
+function twitterAuthenticateCallback(req, res, next) {
   passport.authenticate('twitter', function(err, user) {
     var username = req.session.profileName;
     var email = !!req.session.profileMail ? req.session.profileMail : '';
@@ -79,19 +100,21 @@ exports.twitterAuthenticateCallback = function(req, res, next) {
       res.redirect('/');
     });
   })(req, res, next);
-};
+}
 
 /**
  * Twitter authentication
  */
-exports.googleAuthenticate = passport.authenticate('google', {
-  scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/plus.profile.emails.read']
-});
+function googleAuthenticate() {
+  return passport.authenticate('google', {
+    scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/plus.profile.emails.read']
+  });
+}
 
 /**
  * Twitter authentication callback
  */
-exports.googleAuthenticateCallback = function(req, res, next) {
+function googleAuthenticateCallback(req, res, next) {
   passport.authenticate('google', function(err, user) {
     var username = req.session.profileName;
     var email = !!req.session.profileMail ? req.session.profileMail : '';
@@ -109,12 +132,12 @@ exports.googleAuthenticateCallback = function(req, res, next) {
       res.redirect('/');
     });
   })(req, res, next);
-};
+}
 
 /**
  * Return 403 error if not authenticated
  */
-exports.requiresApiLogin = function(req, res, next) {
+function requiresApiLogin(req, res, next) {
   if (!req.isAuthenticated()) {
     res.status(403);
     res.send({
@@ -123,12 +146,12 @@ exports.requiresApiLogin = function(req, res, next) {
   } else {
     next();
   }
-};
+}
 
 /**
  * Return 403 error if the user does not have the given role
  */
-exports.requiresRole = function(role) {
+function requiresRole(role) {
   return function(req, res, next) {
     if (!req.isAuthenticated() || req.user.roles.indexOf(role) === -1) {
       res.status(403);
@@ -139,4 +162,4 @@ exports.requiresRole = function(role) {
       next();
     }
   };
-};
+}
