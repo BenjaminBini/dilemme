@@ -1,3 +1,5 @@
+'use strict';
+
 var mongoose = require('mongoose');
 var userModel = require('../models/user.model.js');
 
