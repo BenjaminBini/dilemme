@@ -65,6 +65,23 @@ module.exports = function() {
       expect(jsonUser.twitterId).not.to.exist;
       expect(jsonUser.googleId).not.to.exist;
     });
+    it('should add "hasTwitter", "addFacebook" and "hasGoogle" to the serialized user if the user is connected with these providers', function() {
+      var user = new User();
+      user.facebookId = 'fb';
+      user.twitterId = 'twitter';
+      user.googleId = 'google';
+      var jsonUser = user.toJSON();
+      expect(jsonUser.hasFacebook).to.exist;
+      expect(jsonUser.hasTwitter).to.exist;
+      expect(jsonUser.hasGoogle).to.exist;
+    });
+    it('should not add "hasTwitter", "addFacebook" and "hasGoogle" to the serialized user if the user is not connected with these providers', function() {
+      var user = new User();
+      var jsonUser = user.toJSON();
+      expect(jsonUser.hasFacebook).not.to.exist;
+      expect(jsonUser.hasTwitter).not.to.exist;
+      expect(jsonUser.hasGoogle).not.to.exist;
+    });
     it('should authenticate user if password is good', function() {
       return User.findOne({username: 'joe'}).then(function(user) {
         user.authenticate('joe').should.equal(true);
