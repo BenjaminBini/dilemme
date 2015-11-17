@@ -1,8 +1,8 @@
-![Build Status](https://codeship.com/projects/fe21adf0-1f10-0133-8b98-7a1057e16cf4/status?branch=master) 
-
 ![Travis CI build status](https://img.shields.io/travis/BenjaminBini/dilemme.svg)
 ![Dependencies status](https://david-dm.org/benjaminbini/dilemme.svg)
 ![Dev dependencies status](https://david-dm.org/benjaminbini/dilemme/dev-status.svg)
+
+![Build Status](https://codeship.com/projects/fe21adf0-1f10-0133-8b98-7a1057e16cf4/status?branch=master) 
 
 # Dilemme website
 
@@ -26,7 +26,7 @@ Environment variables have to be set in a ".env" file at the root of the project
 * `FB_ID`: Facebook app ID, used for Facebook authentication (create an app on [Facebook developper website](https://developers.facebook.com/))
 * `FB_SECRET`: Facebook app secret
 * `TWITTER_ID`: Twitter app ID, used for Twitter authentication (create an app on [Twitter developper website](https://apps.twitter.com/))
-* `TWITTER_SECRET`: Twitter app secret*
+* `TWITTER_SECRET`: Twitter app secret
 * `GOOGLE_ID`: Google app client ID, used for Google authentication (create an app and a client for the app on [Google developper console](https://console.developers.google.com/) and enable Google+ API access)
 * `GOOGLE_SECRET`: Google app client secret
 
