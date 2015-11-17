@@ -88,11 +88,13 @@ function populateQuestion() {
  */
 function random() {
   var Question = mongoose.model('Question');
-  return Question.count({status: 1}).then(function(count) {
-    if (count === 0) {
-      throw new Error('NO_QUESTION_IN_DB');
-    }
-    var rand = Math.floor(Math.random() * count);
-    return Question.findOne({status: 1}).skip(rand);
-  }).catch(err => Promise.reject(err));
+  return Question.count({status: 1})
+    .then(function(count) {
+      if (count === 0) {
+        throw new Error('NO_QUESTION_IN_DB');
+      }
+      var rand = Math.floor(Math.random() * count);
+      return Question.findOne({status: 1}).skip(rand);
+    })
+    .catch(err => Promise.reject(err));
 }
