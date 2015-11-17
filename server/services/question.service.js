@@ -230,7 +230,7 @@ function answerQuestion(req, res, next) {
       if (!question) { // Trying to answer a non existing question
         throw new Error('QUESTION_DOES_NOT_EXIST');
       }
-      question.hasBeenAnswered(req.user, ip)
+      return question.hasBeenAnswered(req.user, ip)
         .then(function(hasBeenAnswered) { // Has the question been answered ?
           if (hasBeenAnswered) { // Yes ! Throw an error
             if (req.isAuthenticated()) {
