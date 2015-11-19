@@ -2,6 +2,7 @@
 
 var encrypt = require('../utils/encryption');
 var validator = require('validator');
+var Promise = require('bluebird');
 
 /**
  * User instance methods
@@ -18,6 +19,13 @@ exports.methods = {
  */
 exports.statics = {
   validate: validate
+};
+
+/**
+ * User virtual fields
+ */
+exports.virtuals = {
+  getStats: getStats
 };
 
 /**
@@ -91,6 +99,71 @@ function validate(user) {
     }
   });
 }
+
+/**
+ * Return the stats of the user
+ */
+function getStats() {
+  var answers = this.answers;
+  var stats = {};
+  var i;
+  var j;
+  var k;
+
+  // Answered questions
+  stats.answered = answers.length;
+
+  // Color stats
+  var redAnswers = 0;
+  var blueAnswers = 0;
+  for (i = 0; i < answers.length; i++) {
+    if (answers[i].answer === 0) {
+      redAnswers++;
+    } else {
+      blueAnswers++;
+    }
   }
-  return err;
+  stats.color = {
+    red: redAnswers,
+    blue: blueAnswers
+  };
+
+  // Agreement with majority
+  var agree = 0;
+  var userAnswer;
+  for (i = 0; i < answers.length; i++) {
+    userAnswer = answers[i].answer;
+    if (answers[i].question.answers[userAnswer].votes >= answers[i].question.answers[1 - userAnswer].votes) {
+      agree = agree + 1;
+    }
+  }
+  stats.agree = agree;
+
+  // Tags stats
+  stats.tags = [];
+  var tags;
+  var tag;
+  var tagExists;
+  for (i = 0; i < answers.length; i++) {
+    tags = answers[i].question.tags;
+    for (j = 0; j < tags.length; j++) {
+      tag = tags[j];
+      tagExists = false;
+      for (k = 0; k < stats.tags.length; k++) {
+        if (stats.tags[k].name === tag) {
+          stats.tags[k].count++;
+          tagExists = true;
+          break;
+        }
+      }
+      if (!tagExists) {
+        stats.tags.push({
+          name: tag,
+          count: 1
+        });
+      }
+    }
+  }
+
+  return stats;
 }
