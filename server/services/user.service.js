@@ -86,14 +86,10 @@ function createUser(req, res, next) {
   if (req.session.googleId) {
     userData.googleId = req.session.googleId;
   }
-  // Validate data
-  var validationErrorMessage = User.validate(userData);
-  if (validationErrorMessage) {
-    return next(new Error(validationErrorMessage));
-  }
 
   // Create user
-  User.create(userData)
+  User.validate(userData)
+    .then(userData => User.create(userData))
     .then(function(user) {
       // Log the user (promisify the passport function)
       return new Promise(function(resolve, reject) {
@@ -108,7 +104,8 @@ function createUser(req, res, next) {
         });
       });
     })
-    .then(user => res.send(user), function(err) { // TODO : put this in a catch function when possible when "create"
+    .then(user => res.send(user))
+    .catch(function(err) {
       var reason = err.message;
       if (reason.indexOf('E11000') > -1) {
         if (reason.indexOf('username') > -1) {
