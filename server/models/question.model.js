@@ -29,17 +29,6 @@ function hasBeenAnswered(user, ip) {
   }
 }
 
-function _hasBeenAnsweredByUser(user) {
-  var i;
-  var question = this;
-  for (i = 0; i <  user.answers.length; i++) {
-    if (user.answers[i].question._id.equals(question._id)) {
-      return Promise.resolve(true);
-    }
-  }
-  return Promise.resolve(false);
-}
-
 function _hasBeenAnswerByIp(ip) {
   var question = this;
   var IpAnswer = mongoose.model('IpAnswer');
@@ -64,6 +53,17 @@ function _hasBeenAnswerByIp(ip) {
       }
       return Promise.resolve(false); // If no, it has not
     });
+}
+
+function _hasBeenAnsweredByUser(user) {
+  var i;
+  var question = this;
+  for (i = 0; i <  user.answers.length; i++) {
+    if (user.answers[i].question._id.equals(question._id)) {
+      return Promise.resolve(true);
+    }
+  }
+  return Promise.resolve(false);
 }
 
 /**
