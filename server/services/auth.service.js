@@ -44,7 +44,6 @@ function authenticate(req, res, next) {
   auth(req, res, next);
 }
 
-
 /**
  * Facebook authentication callback
  */
