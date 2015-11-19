@@ -59,7 +59,7 @@ module.exports = function() {
         .then(function(question) {
           expect(question).to.exist;
           return User.findOne({username: 'joe'}).should.be.fulfilled
-            .then(user => user.populateUser())
+            .then(user => user.populateUser()).should.be.fulfilled
             .then(user => question.hasBeenAnswered(user)).should.be.fulfilled
             .then(function(hasBeenAnswered) {
               hasBeenAnswered.should.equal(false);

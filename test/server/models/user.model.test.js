@@ -1,5 +1,6 @@
 var expect = require('chai').expect;
 var userSchema = require('../../../server/schemas/user.schema');
+var Promise = require('bluebird');
 var User = require('mongoose').model('User', userSchema.schema);
 
 module.exports = function() {
@@ -11,13 +12,15 @@ module.exports = function() {
         salt: 'salty',
         hashedPassword: 'passwordy'
       };
-      return User.create(user).should.be.fulfilled.then(function(newUser) {
-        expect(newUser).to.exist;
-        newUser.username.should.equal('pic_or_didnt_happen');
-        newUser.email.should.equal('yomama@myplace.com');
-        newUser.salt.should.equal('salty');
-        newUser.hashedPassword.should.equal('passwordy');
-      }).catch(err => console.log(err.actual));
+      return User.create(user).should.be.fulfilled
+        .then(function(newUser) {
+          expect(newUser).to.exist;
+          newUser.username.should.equal('pic_or_didnt_happen');
+          newUser.email.should.equal('yomama@myplace.com');
+          newUser.salt.should.equal('salty');
+          newUser.hashedPassword.should.equal('passwordy');
+        })
+        .catch(err => console.log(err.actual));
     });
     it('should not create a new User with an existing username', function() {
       var user = {
@@ -83,24 +86,86 @@ module.exports = function() {
       expect(jsonUser.hasGoogle).not.to.exist;
     });
     it('should authenticate user if password is good', function() {
-      return User.findOne({username: 'joe'}).then(function(user) {
-        user.authenticate('joe').should.equal(true);
-      });
+      return User.findOne({username: 'joe'}).should.be.fulfilled
+        .then(function(user) {
+          user.authenticate('joe').should.equal(true);
+        });
     });
     it('should not authenticate user if password is wrong', function() {
-      return User.findOne({username: 'joe'}).then(function(user) {
-        user.authenticate('jeoe').should.equal(false);
-      });
+      return User.findOne({username: 'joe'}).should.be.fulfilled
+        .then(function(user) {
+          user.authenticate('jeoe').should.equal(false);
+        });
     });
     it('should confirm that the user "joe" is an admin', function() {
-      return User.findOne({username: 'joe'}).then(function(user) {
-        user.hasRole('admin').should.equal(true);
-      });
+      return User.findOne({username: 'joe'}).should.be.fulfilled
+        .then(function(user) {
+          user.hasRole('admin').should.equal(true);
+        });
     });
     it('should confirm that the user "ben" is not an admin', function() {
-      return User.findOne({username: 'ben'}).then(function(user) {
-        user.hasRole('admin').should.equal(false);
-      });
+      return User.findOne({username: 'ben'}).should.be.fulfilled
+        .then(function(user) {
+          user.hasRole('admin').should.equal(false);
+        });
+    });
+    it('should validate user data if everything is ok', function() {
+      var user = {
+        username: 'PIC_OR_DIDNT_HAPPEN',
+        email: 'yomama@myplace.com',
+        salt: 'salty',
+        hashedPassword: 'passwordy'
+      };
+      return User.validate(user).should.be.fulfilled;
+    });
+    it('should not validate user data if the username is an email address', function() {
+      var user = {
+        username: 'yomama@myplace.com',
+        email: 'yomama@myplace.com',
+        salt: 'salty',
+        hashedPassword: 'passwordy'
+      };
+      return User.validate(user).should.be.rejectedWith(Error, 'USERNAME_IS_EMAIL');
+    });
+    it('should not validate user data if the email address is not valid', function() {
+      var user = {
+        username: 'PM_ME_YOUR_TESTS',
+        email: 'lolilol',
+        salt: 'salty',
+        hashedPassword: 'passwordy'
+      };
+      return User.validate(user).should.be.rejectedWith(Error, 'EMAIL_NOT_VALID');
+    });
+    it('should not validate user data if the email address is too long', function() {
+      var user = {
+        username: 'PM_ME_YOUR_TESTS',
+        email: 'lolilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilololilol',
+        salt: 'salty',
+        hashedPassword: 'passwordy'
+      };
+      return User.validate(user).should.be.rejectedWith(Error, 'EMAIL_TOO_LONG');
+    });
+    it('should not validate user data if the username is too long', function() {
+      var user = {
+        username: 'yomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomama@ayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomamayomam.com',
+        email: 'swag@lolilol.com',
+        salt: 'salty',
+        hashedPassword: 'passwordy'
+      };
+      return User.validate(user).should.be.rejectedWith(Error, 'USERNAME_TOO_LONG');
+    });
+    it('should return correct stats for user "joe"', function() {
+      return User.findOne({username: 'joe'}).should.be.fulfilled
+        .then(user => user.populateUser())
+        .then(function(user) {
+          var stats = user.stats;
+          expect(stats.answered).to.equal(2);
+          expect(stats.color.red).to.equal(1);
+          expect(stats.color.blue).to.equal(1);
+          expect(stats.agree).to.equal(1);
+          expect(stats.tags[0].name).to.equal('color');
+          return new Promise.resolve();
+        });
     });
   });
 };
