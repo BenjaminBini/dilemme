@@ -70,18 +70,27 @@ function populateUser() {
 }
 
 /**
- * User statics methods
+ * Validate data for a user
  */
 function validate(user) {
-  var err;
-  if (validator.isEmail(user.username)) {
-    err = 'Username must not be an email address';
-  } else if (!validator.isEmail(user.email)) {
-    err = 'Email address is not valid';
-  } else if (!validator.isLength(user.email, 1, 150)) {
-    err = 'Email address it too long';
-  } else if (!validator.isLength(user.username, 1, 70)) {
-    err = 'Username is too long';
+  return new Promise(function(resolve, reject) {
+    var reason;
+    if (validator.isEmail(user.username)) {
+      reason = 'USERNAME_IS_EMAIL';
+    } else if (!validator.isLength(user.email, 1, 150)) {
+      reason = 'EMAIL_TOO_LONG';
+    } else if (!validator.isEmail(user.email)) {
+      reason = 'EMAIL_NOT_VALID';
+    } else if (!validator.isLength(user.username, 1, 70)) {
+      reason = 'USERNAME_TOO_LONG';
+    }
+    if (reason === undefined) {
+      resolve(user);
+    }  else {
+      reject(new Error(reason));
+    }
+  });
+}
   }
   return err;
 }
