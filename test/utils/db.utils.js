@@ -12,18 +12,25 @@ require('dotenv').load();
 module.exports = function() {
   process.env.NODE_ENV = 'test';
 
+  // Init mongoose schemas
+  mongoose.model('User', userSchema.schema);
+  mongoose.model('Suggestion', suggestionSchema.schema);
+  mongoose.model('Question', questionSchema.schema);
+  mongoose.model('IpAnswer', ipAnswerSchema.schema);
+
+  // Init 'should'
+  chai.should();
+
+  // Use chaiAsPromised
+  chai.use(chaiAsPromised);
+
+  // Use bluebird promises
+  mongoose.Promise = Promise;
+
+  // Before each test hook
   beforeEach(function(done) {
     // Remove mocha timeout
     this.timeout(0);
-
-    // Use chaiAsPromised
-    chai.use(chaiAsPromised);
-
-    // Init 'should'
-    chai.should();
-
-    // Use bluebird promises
-    mongoose.Promise = Promise;
 
     // If not connected connect and then populate
     if (mongoose.connection.readyState === 0) {
@@ -38,11 +45,6 @@ module.exports = function() {
     }
 
     function populateDB(done) {
-      mongoose.model('User', userSchema.schema);
-      mongoose.model('Suggestion', suggestionSchema.schema);
-      mongoose.model('Question', questionSchema.schema);
-      mongoose.model('IpAnswer', ipAnswerSchema.schema);
-
       // Create default data in the db
       restore({
         uri: process.env.MONGO_TEST_URI,
