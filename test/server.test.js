@@ -4,6 +4,11 @@
 require('./utils/db.utils')();
 
 /**
+ * Test Encryption util
+ */
+require('./server/utils/encryption.test.js')();
+
+/**
  * Test User model
  */
 require('./server/models/user.model.test.js')();
