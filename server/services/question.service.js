@@ -186,7 +186,7 @@ function answerQuestion(questionId, answerNumber, isAuthenticated, user, ip) {
     return Promise.reject(new Error('WRONG_ANSWER_NUMBER'));
   }
 
-  Question.findOne({_id: questionId, status: 1})
+  return Question.findOne({_id: questionId, status: 1})
     .then(function(question) {
       if (!question) { // Trying to answer a non existing question
         throw new Error('QUESTION_DOES_NOT_EXIST');
