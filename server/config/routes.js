@@ -4,10 +4,10 @@
 /**
  * Routes configuration
  */
-var auth = require('../controllers/auth.controller');
+var auth = require('../controllers/authentication.controller');
 var users = require('../controllers/user.controller');
 var suggestions = require('../controllers/suggestion.controller');
-var questions = require('../services/question.controller');
+var questions = require('../controllers/question.controller');
 var comments = require('../controllers/comment.controller');
 var path = require('path');
 var rootPath = path.normalize(__dirname + '/../../');
