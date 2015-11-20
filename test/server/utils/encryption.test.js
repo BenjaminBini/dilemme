@@ -1,5 +1,5 @@
 var expect = require('chai').expect;
-var encryption = require('../../../server/utils/encryption.js');
+var encryption = require('../../../server/utils/encryption');
 
 module.exports = function() {
   describe('Utils: encryption', function() {
