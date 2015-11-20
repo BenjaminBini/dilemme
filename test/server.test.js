@@ -22,3 +22,9 @@ require('./server/models/question.model.test.js')();
  * Test Suggestion model
  */
 require('./server/models/suggestion.model.test.js')();
+
+/**
+ * Test Suggestion service
+ */
+require('./server/services/suggestion.service.test.js')();
+
