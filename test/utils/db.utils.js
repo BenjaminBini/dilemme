@@ -19,6 +19,9 @@ module.exports = function() {
     // Use chaiAsPromised
     chai.use(chaiAsPromised);
 
+    // Init 'should'
+    chai.should();
+
     // Use bluebird promises
     mongoose.Promise = Promise;
 
