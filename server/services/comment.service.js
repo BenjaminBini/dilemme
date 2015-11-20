@@ -19,13 +19,11 @@ module.exports = {
 /**
  * Add a comment to a question
  */
-function commentQuestion(req, res, next) {
-  var questionId = req.params.id;
-  var comment = req.body;
+function commentQuestion(questionId, comment, authorId) {
   if (comment.text && comment.text.length > 1000) {
-    return next(new Error('TOO_LONG_COMMENT'));
+    return Promise.reject(new Error('TOO_LONG_COMMENT'));
   }
-  Question.findOne({_id: questionId})
+  return Question.findOne({_id: questionId})
     .then(function(question) {
       if (!question) {
         throw new Error('QUESTION_DOES_NOT_EXIST');
@@ -33,22 +31,18 @@ function commentQuestion(req, res, next) {
       if (!question.comments) {
         question.comments = [];
       }
-      comment.author = req.user._id;
+      comment.author = authorId;
       question.comments.push(comment);
       return question.save();
     })
-    .then(question => question.populateQuestion())
-    .then(question => res.send(question))
-    .catch(err => next(err));
+    .then(question => question.populateQuestion());
 }
 
 /**
  * Delete a comment
  */
-function deleteComment(req, res, next) {
-  var questionId = req.params.id;
-  var commentId = req.params.commentId;
-  Question.findOne({_id: questionId})
+function deleteComment(questionId, commentId) {
+  return Question.findOne({_id: questionId})
     .then(function(question) {
       if (!question) {
         throw new Error('QUESTION_DOES_NOT_EXIST');
@@ -60,20 +54,15 @@ function deleteComment(req, res, next) {
       comment.remove();
       return question.save();
     })
-    .then(question => question.populateQuestion())
-    .then(question => res.send(question))
-    .catch(err => next(err));
+    .then(question => question.populateQuestion());
 }
 
 /**
  * Upvote a comment
  */
-function upvoteComment(req, res, next) {
-  var questionId = req.params.id;
-  var commentId = req.params.commentId;
+function upvoteComment(questionId, commentId, user) {
   var i;
-
-  Question.findOne({_id: questionId})
+  return Question.findOne({_id: questionId})
     .then(function(question) {
       if (!question) {
         throw new  Error('QUESTION_DOES_NOT_EXIST');
@@ -82,16 +71,16 @@ function upvoteComment(req, res, next) {
       if (!comment) {
         throw new  Error('COMMENT_DOES_NOT_EXIST');
       }
-      for (i = 0; i < req.user.commentUpvotes.length; i++) {
-        if (req.user.commentUpvotes[i].equals(commentId)) {
+      for (i = 0; i < user.commentUpvotes.length; i++) {
+        if (user.commentUpvotes[i].equals(commentId)) {
           throw new Error('COMMENT_ALREADY_UPVOTED');
         }
       }
       comment.upvotes = comment.upvotes + 1;
-      req.user.commentUpvotes.push(commentId);
+      user.commentUpvotes.push(commentId);
 
       var saveQuestion = question.save();
-      var saveUser = req.user.save();
+      var saveUser = user.save();
       return Promise.all([saveQuestion, saveUser]);
     })
     .then(function(saveResults) {
@@ -100,7 +89,5 @@ function upvoteComment(req, res, next) {
       }
       return saveResults[0];
     })
-    .then(question => question.populateQuestion())
-    .then(question => res.send(question))
-    .catch(err => next(err));
+    .then(question => question.populateQuestion());
 }

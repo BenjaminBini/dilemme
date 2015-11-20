@@ -5,6 +5,7 @@
  */
 var Suggestion = require('mongoose').model('Suggestion');
 var Question = require('mongoose').model('Question');
+var Promise = require('bluebird');
 
 /**
  * Module interface
@@ -21,79 +22,63 @@ module.exports = {
 /**
  * Return all suggestions
  */
-function getSuggestions(req, res, next) {
-  Suggestion.find({})
+function getSuggestions() {
+  return Suggestion.find({})
     .populate([{
       path: 'author',
       select: 'username',
       model: 'User'
-    }])
-    .then(suggestions => res.send(suggestions))
-    .catch(err => next(err));
+    }]);
 }
 
 /**
  * Return a suggestion by its id
  */
-function getSuggestionById(req, res, next) {
-  Suggestion.findOne({_id: req.params.id})
+function getSuggestionById(suggestionId) {
+  return Suggestion.findOne({_id: suggestionId})
+    .populate([{
+      path: 'author',
+      select: 'username',
+      model: 'User'
+    }])
     .then(function(suggestion) {
       if (!suggestion) {
         throw new Error('SUGGESTION_DOES_NOT_EXIST');
       }
       return suggestion;
-    })
-    .then(suggestion => res.send(suggestion))
-    .catch(err => next(err));
+    });
 }
 
 /**
  * Return the suggestions of a particular user
  */
-function getSuggestionsByUser(req, res, next) {
-  // Check if the user is authorized (admin or current user)
-  if (req.user._id != req.params.id && !req.user.hasRole('admin')) { // jshint ignore:line
-    res.status(403);
-    return res.send();
-  }
-
-  Suggestion.find({author: req.params.id})
-    .then(suggestions => res.send(suggestions))
-    .catch(err => next(err));
+function getSuggestionsByUser(userId) {
+  return Suggestion.find({author: userId});
 }
 
 /**
  * Create a new suggestion
  */
-function createSuggestion(req, res, next) {
-  // Get the suggestion data from the request
-  var suggestionData = req.body;
-  suggestionData.author = req.user;
+function createSuggestion(suggestionData, user) {
+  suggestionData.author = user;
 
   // Create suggestion
-  Suggestion.create(suggestionData)
-    .then(suggestion => res.send(suggestion))
-    .catch(err => next(err));
+  return Suggestion.create(suggestionData);
 }
 
 /**
  * Delete a suggestion
  */
-function deleteSuggestion(req, res, next) {
-  Suggestion.remove({_id: req.params.id})
-    .then(function() {
-      return res.send(req.params.id);
-    })
-    .catch(err => next(err));
+function deleteSuggestion(suggestionId) {
+  return Suggestion.remove({_id: suggestionId});
 }
 
 /**
- * Validate a suggestion and publish the question
+ * Validate a suggestion
  */
-function validateSuggestion(req, res, next) {
-  var suggestion = req.body;
+function validateSuggestion(suggestion) {
   if (!suggestion) {
-    return next(new Error('SUGGESTION_DOES_NOT_EXIST'));
+    return Promise.reject(new Error('SUGGESTION_DOES_NOT_EXIST'));
   }
 
   suggestion.date = Date.now;
@@ -123,18 +108,16 @@ function validateSuggestion(req, res, next) {
     }
   }];
 
-  Suggestion.findOne({_id: suggestion._id})
+  return Suggestion.findOne({_id: suggestion._id})
     .then(function(savedSuggestion) {
       suggestion.author = savedSuggestion.author;
+      deleteSuggestion(savedSuggestion.id).exec();
       return Question.create(suggestion);
     })
     .then(function(question) {
       if (!question) {
         throw new Error();
       }
-    })
-    .then(function() {
-      res.send();
-    })
-    .catch(err => next(err));
+      return question;
+    });
 }

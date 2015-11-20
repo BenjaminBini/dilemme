@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Authentication service
+ * Authentication controller
  */
 var passport = require('passport');
 
