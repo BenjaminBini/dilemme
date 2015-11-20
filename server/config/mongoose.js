@@ -21,7 +21,7 @@ module.exports = configureMongoose;
  */
 function configureMongoose() {
   // Init schemas
-  var User = mongoose.model('User', userSchema.schema);
+  mongoose.model('User', userSchema.schema);
   mongoose.model('Suggestion', suggestionSchema.schema);
   mongoose.model('IpAnswer', ipAnswerSchema.schema);
   mongoose.model('Question', questionSchema.schema);
@@ -37,6 +37,7 @@ function configureMongoose() {
     console.log('Database opened');
 
     // Create default data in the db if there is no user
+    var User = mongoose.model('User');
     User.count({}).then(function(count) {
       if (count === 0) {
         console.log('Populating database with sample data');
