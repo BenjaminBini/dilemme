@@ -81,22 +81,24 @@ function validateSuggestion(suggestion) {
     return Promise.reject(new Error('SUGGESTION_DOES_NOT_EXIST'));
   }
 
-  suggestion.date = Date.now;
+  var question = new Question();
+
+  question.date = Date.now;
 
   // Set the i18n data for the question
-  suggestion.title = {
+  question.title = {
     en: suggestion.title,
     fr: suggestion.title
   };
-  suggestion.description = {
+  question.description = {
     en: suggestion.description,
     fr: suggestion.description
   };
-  suggestion.text = {
+  question.text = {
     en: suggestion.text,
     fr: suggestion.text
   };
-  suggestion.answers = [{
+  question.answers = [{
     text: {
       en: suggestion.answers[0].text,
       fr: suggestion.answers[0].text
@@ -110,14 +112,9 @@ function validateSuggestion(suggestion) {
 
   return Suggestion.findOne({_id: suggestion._id})
     .then(function(savedSuggestion) {
-      suggestion.author = savedSuggestion.author;
+      question.author = savedSuggestion.author;
       deleteSuggestion(savedSuggestion.id).exec();
-      return Question.create(suggestion);
+      return Question.create(question);
     })
-    .then(function(question) {
-      if (!question) {
-        throw new Error();
-      }
-      return question;
-    });
+    .then(question => question.populateQuestion());
 }
