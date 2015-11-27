@@ -6,6 +6,7 @@
 var expect = require('chai').expect;
 var suggestionService = require('../../../server/services/suggestion.service');
 var User = require('mongoose').model('User');
+var Suggestion = require('mongoose').model('Suggestion');
 
 module.exports = function() {
   describe('Service: Suggestion', function() {
@@ -63,12 +64,54 @@ module.exports = function() {
             suggestion.title.should.equal('leoSuggestionTitle');
           });
       });
+      it('should not create a new suggestion with missing text', function() {
+        var suggestionData = {
+          title: 'leoSuggestionTitle',
+          answers: [{text: 'answer1'}, {text: 'answer2'}]
+        };
+        var userId;
+        return User.findOne({username: 'leo'}).should.be.fulfilled
+          .then(function(user) {
+            userId = user.id;
+            expect(user).to.exist;
+            return suggestionService.createSuggestion(suggestionData, user);
+          })
+          .should.be.rejected;
+      });
     });
     describe('#deleteSuggestion', function() {
-
+      it('should delete a suggestion', function() {
+        return Suggestion.findOne({_id: '563cd9d56a95e75834450c4c'})
+            .should.be.fulfilled
+            .then(suggestion => suggestionService.deleteSuggestion(suggestion._id))
+            .should.be.fulfilled;
+      });
     });
     describe('#validateSuggestion', function() {
-
+      it('should create a question with the suggestion data', function() {
+        return Suggestion.findOne({title: 'BenSuggestedIt'})
+          .should.be.fulfilled
+          .then(suggestion => suggestionService.validateSuggestion(suggestion))
+          .should.be.fulfilled
+          .then(function(question) {
+            question.text.fr.should.equal('BenSuggestedIt');
+            question.text.en.should.equal('BenSuggestedIt');
+          })
+          .should.be.fulfilled;
+      });
+      it('should not validate a non existing suggestion', function() {
+        return suggestionService.validateSuggestion(undefined)
+          .should.be.rejectedWith('SUGGESTION_DOES_NOT_EXIST');
+      });
+      it('should not validate a suggestion with missing data', function() {
+        return Suggestion.findOne({title: 'BenSuggestedIt'})
+          .should.be.fulfilled
+          .then(function(suggestion) {
+            suggestion.text = undefined;
+            return suggestionService.validateSuggestion(suggestion);
+          })
+          .should.be.rejected;
+      });
     });
   });
 };
