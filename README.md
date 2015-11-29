@@ -17,7 +17,9 @@ MongoDB is required.
 
 Environment variables have to be set in a ".env" file at the root of the project (see `.env.sample` file) (I use [dotenv](https://github.com/motdotla/dotenv)).
 
+
 7 environment variables are required :
+
 * `NODE_ENV`: "development" or "production"
 * `ROOT_PATH`: root URL (for example : http://dilemme.io, or http://localhost:3131) WITHOUT trailing slash but WITH leading "http://"
 * `MONGO_URI`: database URI, with user and password if required
