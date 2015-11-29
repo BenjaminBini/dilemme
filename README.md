@@ -1,4 +1,5 @@
 ![Travis CI build status](https://img.shields.io/travis/BenjaminBini/dilemme.svg)
+[![Codacy Badge](https://api.codacy.com/project/badge/grade/1e5df5cd42d64c61ac11d2a152f7fa83)](https://www.codacy.com/app/benjamin_6/dilemme)
 ![Dependencies status](https://david-dm.org/benjaminbini/dilemme.svg)
 ![Dev dependencies status](https://david-dm.org/benjaminbini/dilemme/dev-status.svg)
 
