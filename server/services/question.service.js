@@ -131,7 +131,7 @@ function createQuestion(questionData, author) {
  * Update a question
  */
 function updateQuestion(questionId, questionData) {
-  Question.findOne({_id: questionId})
+  return Question.findOne({_id: questionId})
     .then(function(question) {
       if (!question) {
         throw new Error('QUESTION_DOES_NOT_EXIST');
@@ -152,7 +152,7 @@ function updateQuestion(questionId, questionData) {
  * Delete a question
  */
 function deleteQuestion(questionId) {
-  Question.remove({_id: questionId})
+  return Question.remove({_id: questionId})
     .then(function() {
       return User.find({});
     })
@@ -240,7 +240,7 @@ function answerQuestion(questionId, answerNumber, isAuthenticated, user, ip) {
 function upvoteQuestion(questionId, user) {
   var i;
 
-  Question.findOne({_id: questionId, status: 1})
+  return Question.findOne({_id: questionId, status: 1})
     .then(function(question) {
       if (!question) {
         throw new Error('QUESTION_DOES_NOT_EXIST');
