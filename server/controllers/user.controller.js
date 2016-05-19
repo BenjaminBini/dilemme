@@ -113,7 +113,6 @@ function deleteUser(req, res, next) {
 
 /**
   * Return user with his stats
-  * TODO : promisify this
   */
 function getUserStats(req, res, next) {
   var userId = req.params.id;
@@ -122,7 +121,7 @@ function getUserStats(req, res, next) {
     res.status(403);
     return res.end();
   }
-  userService.getUsersStats(userId)
+  userService.getUserStats(userId)
     .then(user => res.send(user))
     .catch(err => next(err));
 }
