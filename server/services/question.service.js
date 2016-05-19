@@ -39,7 +39,7 @@ function getQuestions() {
  * Return array of published questions
  */
 function getPublishedQuestions() {
-  Question.find({status: 1});
+  return Question.find({status: 1});
 }
 
 /**
