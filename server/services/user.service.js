@@ -88,12 +88,10 @@ function getUsersByAnsweredQuestion(questionId) {
 function createUser(userData, facebookId, twitterId, googleId) {
   // Encrypt password
   userData.salt = encrypt.createSalt();
-  if (facebookId || twitterId || googleId) { // If registration from social network
+  if (!userData.password) { // If registration from social network, random password
     userData.password = encrypt.createToken();
   }
-  if (userData.password) {
-    userData.hashedPassword = encrypt.hashPassword(userData.salt, userData.password);
-  }
+  userData.hashedPassword = encrypt.hashPassword(userData.salt, userData.password);
   if (facebookId) {
     userData.facebookId = facebookId;
   }
