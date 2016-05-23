@@ -28,3 +28,9 @@ require('./server/models/suggestion.model.test.js')();
  */
 require('./server/services/suggestion.service.test.js')();
 
+/**
+ * Test User service
+ */
+require('./server/services/user.service.test.js')();
+
+
