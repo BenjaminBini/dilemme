@@ -175,8 +175,8 @@ module.exports = function() {
     });
     describe('Virtuals', function() {
       describe('#getStats', function() {
-        it('should return correct stats for user "joe"', function() {
-          return User.findOne({username: 'joe'}).should.be.fulfilled
+        it('should return correct stats', function() {
+          return User.findOne({username: 'joe'})
             .then(user => user.populateUser())
             .then(function(user) {
               var stats = user.stats;
@@ -186,7 +186,6 @@ module.exports = function() {
               expect(stats.agree).to.equal(1);
               expect(stats.tags[0].name).to.equal('preference');
               expect(stats.tags[0].count).to.equal(2);
-              return new Promise.resolve();
             });
         });
       });
