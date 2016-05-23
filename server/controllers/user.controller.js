@@ -16,7 +16,7 @@ module.exports = {
   createUser: createUser,
   updateUser: updateUser,
   deleteUser: deleteUser,
-  getUserStats: getUserStats,
+  getUserWithStats: getUserWithStats,
   requestNewPassword: requestNewPassword,
   resetPassword: resetPassword
 };

@@ -19,7 +19,7 @@ module.exports = {
   createUser: createUser,
   updateUser: updateUser,
   deleteUser: deleteUser,
-  getUserStats: getUserStats,
+  getUserWithStats: getUserWithStats,
   requestNewPassword: requestNewPassword,
   resetPassword: resetPassword
 };
@@ -132,7 +132,7 @@ function deleteUser(userId) {
 /**
   * Return user with his stats
   */
-function getUserStats(userId) {
+function getUserWithStats(userId) {
   return User.findOne({_id: userId})
     .then(user => user.populateUser())
     .then(user => user.toJSON({virtuals: true}));
