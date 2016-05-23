@@ -120,6 +120,13 @@ function createUser(userData, facebookId, twitterId, googleId) {
 
 /**
  * Update a user
+ *
+ * @param  {Object}  updatedUser Containing the following properties
+ *                                * username
+ *                                * email
+ *                                * password (optional)
+ * @param  {Integer} userId      ID of the user to update
+ * @return {Promise}             Promise containing the updated user
  */
 function updateUser(updatedUser, userId) {
   return User.validate(updatedUser)
