@@ -114,7 +114,7 @@ function deleteUser(req, res, next) {
 /**
   * Return user with his stats
   */
-function getUserStats(req, res, next) {
+function getUserWithStats(req, res, next) {
   var userId = req.params.id;
   // Check if the user is authorized (admin or current user)
   if (req.user._id != req.params.id && !req.user.hasRole('admin')) { // jshint ignore:line
