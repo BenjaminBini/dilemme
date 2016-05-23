@@ -94,7 +94,7 @@ function validate(user) {
     }
     if (reason === undefined) {
       resolve(user);
-    }  else {
+    } else {
       reject(new Error(reason));
     }
   });
