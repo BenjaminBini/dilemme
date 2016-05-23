@@ -12,7 +12,8 @@ module.exports = function() {
   describe('Service: Suggestion', function() {
     describe('#getSuggestions', function() {
       it('should return all suggestions', function() {
-        return suggestionService.getSuggestions().should.be.fulfilled
+        return suggestionService.getSuggestions()
+          .should.be.fulfilled
           .then(function(suggestions) {
             suggestions.length.should.be.above(0);
           });
