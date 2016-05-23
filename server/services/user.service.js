@@ -110,7 +110,8 @@ function createUser(userData, facebookId, twitterId, googleId) {
       if (reason.indexOf('E11000') > -1) {
         if (reason.indexOf('username') > -1) {
           reason = 'USERNAME_ALREADY_EXISTS';
-        } else if (reason.indexOf('email') > -1) {
+        }
+        if (reason.indexOf('email') > -1) {
           reason = 'EMAIL_ALREADY_EXISTS';
         }
       }
