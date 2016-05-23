@@ -15,6 +15,8 @@ var Promise = require('bluebird');
 module.exports = {
   getUsers: getUsers,
   getUserById: getUserById,
+  getUserByUsername: getUserByUsername,
+  getUserByEmail: getUserByEmail,
   getUsersByAnsweredQuestion: getUsersByAnsweredQuestion,
   createUser: createUser,
   updateUser: updateUser,
@@ -36,6 +38,34 @@ function getUsers() {
  */
 function getUserById(userId) {
   return User.findOne({_id: userId})
+    .then(function(user) {
+      if (!user) {
+        throw new Error('USER_DOES_NOT_EXIST');
+      }
+      return user;
+    })
+    .then(user => user.populateUser());
+}
+
+/**
+ * Return the user with the given username address
+ */
+function getUserByUsername(username) {
+  return User.findOne({username: username})
+    .then(function(user) {
+      if (!user) {
+        throw new Error('USER_DOES_NOT_EXIST');
+      }
+      return user;
+    })
+    .then(user => user.populateUser());
+}
+
+/**
+ * Return the user with the given email address
+ */
+function getUserByEmail(email) {
+  return User.findOne({email: email})
     .then(function(user) {
       if (!user) {
         throw new Error('USER_DOES_NOT_EXIST');
