@@ -113,12 +113,15 @@ function updateUser(updatedUser, userId) {
     .catch(function(err) {
       var reason = err.message;
       // If the error is E11000, the reason is a duplicate username or email
-      if (err.toString().indexOf('username') > -1) {
-        reason = 'USERNAME_ALREADY_EXISTS';
-      } else if (err.toString().indexOf('email') > -1) {
-        reason = 'EMAIL_ALREADY_EXISTS';
+      if (reason.indexOf('E11000') > -1) {
+        if (reason.indexOf('username') > -1) {
+          reason = 'USERNAME_ALREADY_EXISTS';
+        }
+        if (reason.indexOf('email') > -1) {
+          reason = 'EMAIL_ALREADY_EXISTS';
+        }
       }
-      throw err;
+      throw new Error(reason);
     });
 }
 
