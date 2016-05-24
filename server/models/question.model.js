@@ -95,6 +95,5 @@ function random() {
       }
       var rand = Math.floor(Math.random() * count);
       return Question.findOne({status: 1}).skip(rand);
-    })
-    .catch(err => Promise.reject(err));
+    });
 }
