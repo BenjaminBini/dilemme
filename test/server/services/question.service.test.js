@@ -67,7 +67,6 @@ module.exports = function() {
     });
     describe('#getUnansweredRandomQuestion', function() {
       /*
-      
       it('should return a random unanswered question', function() {
         var userAnswers = [{
           question: '5632378d8d2528ac0b65edcb'
@@ -84,8 +83,8 @@ module.exports = function() {
           .then(questions => questions.map(
               question => expect(userAnswers).to.include(question._id))
             );
-        */
       });
+      */
     });
     describe('#createQuestion', function() {
 
