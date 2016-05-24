@@ -180,7 +180,7 @@ function getUserWithStats(userId) {
 /**
  * Send a mail to the user with a link to set a new password
  */
-function requestNewPassword(username, language) {
+function requestNewPassword(username, language, doNotSendMail) {
   // Try to find the concerned user
   var criteria = validator.isEmail(username) ? {email: username} : {username: username};
   // Create the token
@@ -195,7 +195,7 @@ function requestNewPassword(username, language) {
       return user.save();
     })
     .then(function(user) {
-      return mailer.sendRequestNewPasswordMail(language, user.email, token);
+      return mailer.sendRequestNewPasswordMail(language, user.email, token, doNotSendMail);
     });
 }
 
