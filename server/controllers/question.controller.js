@@ -106,13 +106,14 @@ function getRandomQuestion(req, res, next) {
  * Return a random question unanswered by the user
  */
 function getUnansweredRandomQuestion(req, res, next) {
-  var isAuthenticated = req.isAuthenticated();
   var userAnswers;
   if (isAuthenticated) {
     userAnswers = req.user.answers;
+  } else {
+    userAnswers = [];
   }
 
-  questionService.getUnansweredRandomQuestion(isAuthenticated, userAnswers)
+  questionService.getUnansweredRandomQuestion(userAnswers)
     .then(question => res.send(question))
     .catch(err => next(err));
 }

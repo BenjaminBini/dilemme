@@ -91,30 +91,26 @@ function getRandomQuestion() {
 /**
  * Return a random question unanswered by the user
  */
-function getUnansweredRandomQuestion(isAuthenticated, userAnswers) {
+function getUnansweredRandomQuestion(userAnswers) {
   var i;
-  if (!isAuthenticated) { // If not authenticated
-    return getRandomQuestion();
-  } else {
-    // We get already answered questions
-    var answeredQuestions = [];
-    for (i = 0; i < userAnswers.length; i++) {
-      answeredQuestions.push(userAnswers[i].question);
-    }
-    // We look for a published question not in the collection of answered questions
-    return Question.find({status: 1}).where('_id').nin(answeredQuestions)
-      .then(function(questions) {
-        if (questions.length === 0) { // If all questions have been answered we return a random one
-          return Question.random();
-        } else {
-          // We return a random question from this collection
-          var rand = Math.floor(Math.random() * questions.length);
-          var question = questions[rand];
-          return question;
-        }
-      })
-      .then(question => question.populateQuestion());
+  // We get already answered questions
+  var answeredQuestions = [];
+  for (i = 0; i < userAnswers.length; i++) { // TODO: lambda
+    answeredQuestions.push(userAnswers[i].question);
   }
+  // We look for a published question not in the collection of answered questions
+  return Question.find({status: 1}).where('_id').nin(answeredQuestions)
+    .then(function(questions) {
+      if (questions.length === 0) { // If all questions have been answered we return a random one
+        return getRandomQuestion();
+      } else {
+        // We return a random question from this collection
+        var rand = Math.floor(Math.random() * questions.length);
+        var question = questions[rand];
+        return question;
+      }
+    })
+    .then(question => question.populateQuestion());
 }
 
 /**
