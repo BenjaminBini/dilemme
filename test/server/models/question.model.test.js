@@ -112,7 +112,8 @@ module.exports = function() {
           return Question.random().should.be.fulfilled;
         });
         it('should reject the promise if no question in the database', function() {
-          return Question.remove({}).should.be.fulfilled
+          return Question.remove({})
+            .should.be.fulfilled
             .then(Question.random)
             .should.be.rejectedWith(Error, 'NO_QUESTION_IN_DB');
         });
