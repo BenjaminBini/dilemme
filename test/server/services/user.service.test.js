@@ -6,6 +6,7 @@
 var expect = require('chai').expect;
 var userService = require('../../../server/services/user.service');
 var User = require('mongoose').model('User');
+var encrypt = require('../../../server/utils/encryption');
 
 module.exports = function() {
   describe('Service: User', function() {
@@ -325,10 +326,76 @@ module.exports = function() {
         });
     });
     describe('#requestNewPassword', function() {
-
+      it('should send a mail and set a token when a user request a new password with his username', function() {
+        return userService.requestNewPassword('ben', 'en', true)
+          .should.be.fulfilled
+          .then(() => userService.getUserByUsername('ben'))
+          .then(user => user.resetPasswordToken.length.should.equal(48));
+      });
+      it('should send a mail and set a token when a user request a password with his email', function() {
+        return userService.requestNewPassword('ben@ben.ben', 'en', true)
+          .should.be.fulfilled
+          .then(() => userService.getUserByUsername('ben'))
+          .then(user => user.resetPasswordToken.length.should.equal(48));
+      });
+      it('should not send a mail if the username does not exist', function() {
+        return userService.requestNewPassword('bob', 'en', true)
+          .should.be.rejectedWith(Error, 'USER_DOES_NOT_EXIST');
+      });
     });
     describe('#resetPassword', function() {
+      it('should reset the password of the user', function() {
+        var token = encrypt.createToken();
+        var oldPassword;
+        return userService.getUserByUsername('ben')
+          .then(function(user) {
+            user.resetPasswordToken = token;
+            user.resetPasswordExpire = Date.now() + (1000 * 60 * 60 * 2);
+            oldPassword = user.hashedPassword;
+            return user.save();
+          })
+          .then(() => userService.resetPassword('newPassword', token))
+          .should.be.fulfilled
+          .then(user => user.hashedPassword.should.not.equal(oldPassword));
+      });
+      it('should not reset the password if the token is wrong', function() {
+        var token = encrypt.createToken();
+        var otherToken = encrypt.createToken();
+        return userService.getUserByUsername('ben')
+          .then(function(user) {
+            user.resetPasswordToken = token;
+            user.resetPasswordExpire = Date.now() + (1000 * 60 * 60 * 2);
+            return user.save();
+          })
+          .then(() => userService.resetPassword('newPassword', otherToken))
+          .should.be.rejectedWith(Error, 'INVALID_TOKEN');
+      });
+      it('should not reset the password if the token is not valid', function() {
+        var token = encrypt.createToken();
+        var otherToken = 'invalid_token';
+        return userService.getUserByUsername('ben')
+          .then(function(user) {
+            user.resetPasswordToken = token;
+            user.resetPasswordExpire = Date.now() + (1000 * 60 * 60 * 2);
+            return user.save();
+          })
+          .then(() => userService.resetPassword('newPassword', otherToken))
+          .should.be.rejectedWith(Error, 'INVALID_TOKEN');
+      });
+      it('should not reset the password if the token is outdated', function() {
+        var token = encrypt.createToken();
+        return userService.getUserByUsername('ben')
+          .then(function(user) {
+            user.resetPasswordToken = token;
+            user.resetPasswordExpire = Date.now();
+            return user.save();
+          })
+          .then(() => userService.resetPassword('newPassword', token))
+          .should.be.rejectedWith(Error, 'INVALID_TOKEN');
+      });
+      it('should not reset the password if the password does not exist', function() {
 
+      });
     });
   });
 };
