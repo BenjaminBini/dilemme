@@ -219,7 +219,7 @@ function answerQuestion(questionId, answerNumber, isAuthenticated, user, ip) {
           }
         })
         .then(function() { // Update the question
-          question.answers[answerNumber].votes = question.answers[answerNumber].votes + 1;
+          question.answers[answerNumber].votes += 1;
           return question.save();
         })
         .then(question => question.populateQuestion());
