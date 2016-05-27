@@ -107,7 +107,7 @@ function getRandomQuestion(req, res, next) {
  */
 function getUnansweredRandomQuestion(req, res, next) {
   var userAnswers;
-  if (isAuthenticated) {
+  if (req.isAuthenticated()) {
     userAnswers = req.user.answers;
   } else {
     userAnswers = [];
