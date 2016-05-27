@@ -223,6 +223,25 @@ module.exports = function() {
       });
     });
     describe('#answerQuestion', function() {
+      it('should answer the question correctly when an authenticated user answers', function() {
+        var questionId;
+        var answerNumber = 0;
+        var isAuthenticated = true;
+        var user;
+        var previousAnswerVotesCount;
+        return questionService.getQuestionById('56323445a65ccd98297256d5')
+          .then(function(question) {
+            questionId = question._id;
+            previousAnswerVotesCount = question.answers[answerNumber].votes;
+          })
+          .then(() => userService.getUserById('56323445a65ccd98297256ca'))
+          .then(ben => { user = ben; })
+          .then(() => questionService.answerQuestion(questionId, answerNumber, isAuthenticated, user))
+          .should.be.fulfilled
+          .then(function(question) {
+            question.answers[answerNumber].votes.should.equal(previousAnswerVotesCount + 1);
+          });
+      });
     });
     describe('#upvoteQuestion', function() {
     });
