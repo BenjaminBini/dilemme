@@ -148,17 +148,15 @@ function updateQuestion(questionId, questionData) {
  */
 function deleteQuestion(questionId) {
   return Question.remove({_id: questionId})
-    .then(function() {
-      return User.find({});
-    })
+    .then(() => User.find({}))
     .then(function(users) {
       // On supprime les références à la question supprimée dans les réponses utilisateurs
       // On ne s'occupe pas des réponses anonymes : elles sont automatiquement purgées
-      var i;
-      var j;
       var userModified;
-      for (i = 0; i < users.length; i++) {
-        for (j = users[i].answers.length - 1; j >= 0; j--) {
+      for (let i = 0; i < users.length; i++) {
+        userModified = false;
+        for (let j = users[i].answers.length - 1; j >= 0; j--) {
+          console.log(users[i].answers[j].question);
           if (users[i].answers[j].question.equals(questionId)) {
             users[i].answers.splice(j, 1);
             userModified = true;
@@ -168,7 +166,6 @@ function deleteQuestion(questionId) {
           users[i].save();
         }
       }
-      return questionId;
     });
 }
 
