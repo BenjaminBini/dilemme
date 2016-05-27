@@ -118,7 +118,6 @@ function getUnansweredRandomQuestion(userAnswers) {
  */
 function createQuestion(questionData, author) {
   questionData.author = author;
-
   return Question.create(questionData)
     .then(question => question.populateQuestion());
 }
