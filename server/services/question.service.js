@@ -156,7 +156,6 @@ function deleteQuestion(questionId) {
       for (let i = 0; i < users.length; i++) {
         userModified = false;
         for (let j = users[i].answers.length - 1; j >= 0; j--) {
-          console.log(users[i].answers[j].question);
           if (users[i].answers[j].question.equals(questionId)) {
             users[i].answers.splice(j, 1);
             userModified = true;
