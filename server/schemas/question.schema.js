@@ -95,6 +95,13 @@ exports.schema = new mongoose.Schema({
 });
 
 /**
+ * Question schema answers validation
+ */
+exports.schema.path('answers').validate(function(answers) {
+  return answers.length === 2;
+}, 'A question needs to have precisely 2 answers');
+
+/**
  * Question schema instance methods
  */
 exports.schema.methods = questionModel.methods;
