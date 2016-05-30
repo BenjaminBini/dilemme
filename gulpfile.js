@@ -15,6 +15,7 @@ var mocha = require('gulp-mocha');
 var stylish = require('gulp-jscs-stylish');
 var Promise = require('bluebird');
 var istanbul = require('gulp-istanbul');
+var codacy = require('gulp-codacy');
 var inquirer = require('inquirer');
 var restore = require('mongodb-restore');
 var noop = function() {};
@@ -260,6 +261,16 @@ gulp.task('pre-test', function() {
     .pipe(istanbul.hookRequire());
 });
 
+/**
+ * Send coverage data to Codacy
+ */
+gulp.task('codacy', function() {
+  return gulp.src(['coverage/lcov.info'])
+    .pipe(codacy({
+      token: process.env.CODACY_SECRET
+    })
+  );
+});
 
 /**
  * Put sample data in DB

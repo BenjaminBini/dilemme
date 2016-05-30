@@ -32,6 +32,7 @@ Environment variables have to be set in a ".env" file at the root of the project
 * `TWITTER_SECRET`: Twitter app secret
 * `GOOGLE_ID`: Google app client ID, used for Google authentication (create an app and a client for the app on [Google developper console](https://console.developers.google.com/) and enable Google+ API access)
 * `GOOGLE_SECRET`: Google app client secret
+* `CODACY_SECRET`: [Codacy](https://www.codacy.com/) token, used to send test coverage data to Codacy with Gulp ```codacy``` task
 
 You must have [gulp](http://gulpjs.com/) and [bower](http://bower.io/) installed too.
 ```sh
