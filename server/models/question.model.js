@@ -33,18 +33,10 @@ function _hasBeenAnswerByIp(ip) {
   var question = this;
   var IpAnswer = mongoose.model('IpAnswer');
   return IpAnswer.find({ip: ip})
-    .then(function(ipAnswers) { // Let's see if we recorder answers from this ip address
-      if (ipAnswers.length === 0) { // New user, let's save and initialize IpAnswer entry
-        return IpAnswer.create({
-          ip: ip,
-          answers: []
-        })
-        .then(ipAnswer => [ipAnswer]);
-      } else { // User already came recently on the website, we have his ipAnswers
-        return ipAnswers;
-      }
-    })
     .then(function(ipAnswers) { // Let's see if the ipAnswers contains entries from this question
+      if (ipAnswers.length == 0) { // New user
+        return Promise.resolve(false);
+      }
       var answers = ipAnswers[0].answers;
       for (let answer of answers) {
         if (answer.question.equals(question._id)) {
@@ -58,12 +50,15 @@ function _hasBeenAnswerByIp(ip) {
 function _hasBeenAnsweredByUser(user) {
   var i;
   var question = this;
-  for (i = 0; i <  user.answers.length; i++) {
-    if (user.answers[i].question._id.equals(question._id)) {
-      return Promise.resolve(true);
-    }
-  }
-  return Promise.resolve(false);
+  return user.populateUser()
+    .then(function(user) {
+      for (i = 0; i < user.answers.length; i++) {
+        if (user.answers[i].question._id.equals(question._id)) {
+          return Promise.resolve(true);
+        }
+      }
+      return Promise.resolve(false);
+    });
 }
 
 /**

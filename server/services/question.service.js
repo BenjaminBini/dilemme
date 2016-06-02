@@ -205,16 +205,24 @@ function answerQuestion(questionId, answerNumber, isAuthenticated, user, ip) {
             return user.save();
           } else { // Anonymous mode
             // Try to get the ipAnswer entry for the user
-            return IpAnswer.findOne({ip: ip}).then(function(ipAnswer) {
-              if (!ipAnswer) {
-                throw new Error('UNKNOWN_ERROR');
-              }
-              ipAnswer.answers.push({
-                question: questionId,
-                answer: answerNumber
+            return IpAnswer.findOne({ip: ip})
+              .then(function(ipAnswer) {
+                console.log(ipAnswer);
+                if (!ipAnswer) { // If no ipAnswer entry exists, we create a new one
+                  return IpAnswer.create({
+                    ip: ip,
+                    answers: [{
+                      question: questionId,
+                      answer: answerNumber
+                    }]
+                  });
+                }
+                ipAnswer.answers.push({
+                  question: questionId,
+                  answer: answerNumber
+                });
+                return ipAnswer.save();
               });
-              return ipAnswer.save();
-            });
           }
         })
         .then(function() { // Update the question
@@ -229,14 +237,12 @@ function answerQuestion(questionId, answerNumber, isAuthenticated, user, ip) {
  * Upvote a question
  */
 function upvoteQuestion(questionId, user) {
-  var i;
-
   return Question.findOne({_id: questionId, status: 1})
     .then(function(question) {
       if (!question) {
         throw new Error('QUESTION_DOES_NOT_EXIST');
       }
-      for (i = 0; i < user.upvotes.length; i++) {
+      for (let i = 0; i < user.upvotes.length; i++) {
         if (user.upvotes[i].equals(questionId)) {
           throw new Error('QUESTION_ALREADY_UPVOTED');
         }
