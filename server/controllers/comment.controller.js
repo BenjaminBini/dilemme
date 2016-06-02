@@ -19,7 +19,7 @@ module.exports = {
  */
 function commentQuestion(req, res, next) {
   var questionId = req.params.id;
-  var comment = req.body;
+  var comment = req.body.text;
   var authorId = req.user._id;
   commentService.commentQuestion(questionId, comment, authorId)
     .then(question => res.send(question))

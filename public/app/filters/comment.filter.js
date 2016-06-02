@@ -1,4 +1,4 @@
-angular.module('app').filter('authorCssClass', function() {
+function authorCssClass() {
   return function(comment, question) {
     var i;
     if (!comment.author || !comment.author.answers) {
@@ -14,4 +14,7 @@ angular.module('app').filter('authorCssClass', function() {
       }
     }
   };
-});
+}
+
+authorCssClass.$infject = [];
+angular.module('app').filter('authorCssClass', authorCssClass);

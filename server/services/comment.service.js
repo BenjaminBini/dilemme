@@ -20,10 +20,10 @@ module.exports = {
  * Add a comment to a question
  */
 function commentQuestion(questionId, comment, authorId) {
-  if (comment.text && comment.text.length > 1000) {
+  if (comment && comment.length > 1000) {
     return Promise.reject(new Error('TOO_LONG_COMMENT'));
   }
-  return Question.findOne({_id: questionId})
+  return Question.findOne({_id: questionId, status: 1})
     .then(function(question) {
       if (!question) {
         throw new Error('QUESTION_DOES_NOT_EXIST');
@@ -31,8 +31,10 @@ function commentQuestion(questionId, comment, authorId) {
       if (!question.comments) {
         question.comments = [];
       }
-      comment.author = authorId;
-      question.comments.push(comment);
+      question.comments.push({
+        text: comment,
+        author: authorId
+      });
       return question.save();
     })
     .then(question => question.populateQuestion());
@@ -62,7 +64,7 @@ function deleteComment(questionId, commentId) {
  */
 function upvoteComment(questionId, commentId, user) {
   var i;
-  return Question.findOne({_id: questionId})
+  return Question.findOne({_id: questionId, status: 1})
     .then(function(question) {
       if (!question) {
         throw new  Error('QUESTION_DOES_NOT_EXIST');
