@@ -242,8 +242,76 @@ module.exports = function() {
             question.answers[answerNumber].votes.should.equal(previousAnswerVotesCount + 1);
           });
       });
+      it('should answer the question correctly when an unauthenticated user answers', function() {
+        var questionId;
+        var answerNumber = 0;
+        var isAuthenticated = false;
+        var ip = '::1';
+        var previousAnswerVotesCount;
+        return questionService.getQuestionById('56323445a65ccd98297256d5')
+          .then(function(question) {
+            questionId = question._id;
+            previousAnswerVotesCount = question.answers[answerNumber].votes;
+          })
+          .then(() => questionService.answerQuestion(questionId, answerNumber, isAuthenticated, undefined, ip))
+          .should.be.fulfilled
+          .then(function(question) {
+            question.answers[answerNumber].votes.should.equal(previousAnswerVotesCount + 1);
+          });
+      });
+      it('should not answer the question if answerNumber is not 0 or 1', function() {
+        return questionService.answerQuestion('56323445a65ccd98297256d5', 3, false)
+          .should.be.rejectedWith(Error, 'WRONG_ANSWER_NUMBER');
+      });
+      it('should not answer the question if its id does not exist', function() {
+        return questionService.answerQuestion('56323445a65ccd98297256d6', 1, false)
+          .should.be.rejectedWith(Error, 'QUESTION_DOES_NOT_EXIST');
+      });
+      it('should not answer the question if the authenticated user has already answered it', function() {
+        var user;
+        return userService.getUserById('56323445a65ccd98297256ca')
+          .then(ben => { user = ben; })
+          .then(() => questionService.answerQuestion('56323445a65ccd98297256d5', 1, true, user))
+          .should.be.fulfilled
+          .then(() => questionService.answerQuestion('56323445a65ccd98297256d5', 1, true, user))
+          .should.be.rejectedWith('QUESTION_ALREADY_ANSWERED');
+      });
+      it('should not answer the question if the anonymous user has already answered it', function() {
+        var ip = '::1';
+        return questionService.answerQuestion('56323445a65ccd98297256d5', 0, false, undefined, ip)
+          .should.be.fulfilled
+          .then(() => questionService.answerQuestion('56323445a65ccd98297256d5', 0, false, undefined, ip))
+          .should.be.rejectedWith(Error, 'QUESTION_ALREADY_ANSWERED_ANONYMOUS');
+      });
     });
     describe('#upvoteQuestion', function() {
+      it('should upvote the question', function() {
+        var question;
+        var previousUpvoteCount;
+        return questionService.getQuestionById('56323445a65ccd98297256d5')
+          .then(function(upvotedQuestion) {
+            question = upvotedQuestion;
+            previousUpvoteCount = question.upvotes;
+          })
+          .then(() => userService.getUserByUsername('ben'))
+          .then(user => questionService.upvoteQuestion(question._id, user))
+          .should.be.fulfilled
+          .then(question => question.upvotes.should.equal(previousUpvoteCount + 1));
+      });
+      it('should not upvote the question if its id does not exist', function() {
+        return userService.getUserByUsername('ben')
+          .then(user => questionService.upvoteQuestion('56323445a65ccd98297256d6', user))
+          .should.be.rejectedWith(Error, 'QUESTION_DOES_NOT_EXIST');
+      });
+      it('should not upvote the question if the user has already answered it', function() {
+        var user;
+        return userService.getUserByUsername('leo')
+          .then(leo => { user = leo; })
+          .then(() => questionService.upvoteQuestion('56323445a65ccd98297256d5', user))
+          .should.be.fulfilled
+          .then(() => questionService.upvoteQuestion('56323445a65ccd98297256d5', user))
+          .should.be.rejectedWith(Error, 'QUESTION_ALREADY_UPVOTED');
+      });
     });
   });
 };

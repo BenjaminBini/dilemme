@@ -31,9 +31,14 @@ require('./server/services/suggestion.service.test.js')();
 /**
  * Test User service
  */
-//require('./server/services/user.service.test.js')();
+require('./server/services/user.service.test.js')();
 
 /**
  * Test Question service
  */
 require('./server/services/question.service.test.js')();
+
+/**
+ * Test Comment service
+ */
+require('./server/services/comment.service.test.js')();
