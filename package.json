@@ -58,7 +58,7 @@
     "karma-chai-plugins": "^0.6.0",
     "karma-chrome-launcher": "^0.2.1",
     "karma-mocha": "^1.1.1",
-    "mocha": "^2.3.3",
+    "mocha": "^3.0.0",
     "mongodb-restore": "^1.4.2"
   }
 }
