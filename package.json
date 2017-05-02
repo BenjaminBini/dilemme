@@ -56,7 +56,7 @@
     "jshint-stylish": "^2.0.1",
     "karma": "^1.0.0",
     "karma-chai-plugins": "^0.6.0",
-    "karma-chrome-launcher": "^0.2.1",
+    "karma-chrome-launcher": "^2.1.0",
     "karma-mocha": "^1.1.1",
     "mocha": "^2.3.3",
     "mongodb-restore": "^1.4.2"
