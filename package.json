@@ -16,7 +16,7 @@
     "express": "^4.13.3",
     "express-session": "^1.11.3",
     "jade": "^1.11.0",
-    "mongoose": "^4.2.5",
+    "mongoose": "^4.10.0",
     "morgan": "^1.6.1",
     "nodemailer": "^2.5.0",
     "nodemailer-stub-transport": "^1.0.0",
