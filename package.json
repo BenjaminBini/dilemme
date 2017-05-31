@@ -30,7 +30,7 @@
     "validator": "^5.4.0"
   },
   "devDependencies": {
-    "chai": "^3.4.0",
+    "chai": "^4.0.1",
     "chai-as-promised": "^5.1.0",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.1.0",
